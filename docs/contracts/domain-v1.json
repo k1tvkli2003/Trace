@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://trace.local/contracts/domain-v1.json",
   "title": "Trace domain v1 — partial Stage 7 source contract",
-  "description": "Only SourceDocument is specified in this first tracer. No other Stage 7 entities, persistence or generated types are claimed.",
+  "description": "SourceDocument, SourcePage and PageVisionCacheKey only. No other Stage 7 entities, persistence or generated types are claimed.",
   "$defs": {
     "SourceDocument": {
       "type": "object",
@@ -25,6 +25,41 @@
           "minLength": 1,
           "description": "Known: pdf, markdown, text, image. Future/unsupported tokens round-trip, but do not become processable."
         }
+      },
+      "additionalProperties": true
+    },
+    "SourcePage": {
+      "type": "object",
+      "required": ["id", "documentId", "version", "pageNumber", "pixelHash", "renderProfile", "thumbnailPath", "visionStatus"],
+      "properties": {
+        "id": {"type": "string", "pattern": "\\S"},
+        "documentId": {"type": "string", "pattern": "\\S"},
+        "version": {"type": "integer", "minimum": 1},
+        "pageNumber": {"type": "integer", "minimum": 1},
+        "pixelHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "renderProfile": {"type": "string", "pattern": "\\S"},
+        "thumbnailPath": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:\\u0000])[^/]+(?:/[^/]+)*$",
+          "description": "Relative thumbnail path; importer must still resolve symlinks safely."
+        },
+        "visionStatus": {
+          "type": "string",
+          "pattern": "\\S",
+          "description": "Known: not_started, pending, complete, failed. Unknown nonempty tokens round-trip as unsupported."
+        }
+      },
+      "additionalProperties": true
+    },
+    "PageVisionCacheKey": {
+      "type": "object",
+      "required": ["sourceHash", "pageNumber", "renderProfile", "visionModelProfile", "promptVersion"],
+      "properties": {
+        "sourceHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "pageNumber": {"type": "integer", "minimum": 1},
+        "renderProfile": {"type": "string", "pattern": "\\S"},
+        "visionModelProfile": {"type": "string", "pattern": "\\S"},
+        "promptVersion": {"type": "string", "pattern": "\\S"}
       },
       "additionalProperties": true
     }
