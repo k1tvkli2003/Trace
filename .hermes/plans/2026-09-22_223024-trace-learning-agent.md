@@ -475,6 +475,8 @@ Note می‌تواند به highlight، block، figure یا lesson block وصل 
 
 **Acceptance:** جهت UI غیرآیکون پس از نقد و preview به‌صورت خودکار انتخاب و به runtime artifact تبدیل شود؛ آیکون منتخب در Android، Windows و Web/PWA با آزمون build و بازبینی اندازه‌های کوچک ثابت شود. preview mock است، نه runtime proof.
 
+**یادداشت اجرای 2026-09-23:** ۲۴ recipe، دو HTML mock متمایز و چهار screenshot مرورگر در `docs/design/` ساخته شد؛ Chrome headless عرض 320/375/768/1440، جهت فارسی، icon loading و drawer را تست کرد و یک overflow موبایل اصلاح شد. Evidence Atelier فقط جهت موقت منتخب است. چون دستور جدید کاربر استفاده از مدل تصویریِ دیگر را منع کرده، previewها imagegen نیستند؛ این gate و تبدیل به Flutter runtime هنوز **کامل نشده‌اند**. تعارض را با مدل دیگری دور نزن؛ طراحی/قراردادهای مستقل را پیش ببر و پیش از rollout UI وسیع تکلیف شرط imagegen را با کاربر روشن کن.
+
 ### Stage 6 — design tokens و responsive contract
 
 **Objective:** tokenهای رنگ، type، spacing، radius، elevation، motion، RTL و platform density.

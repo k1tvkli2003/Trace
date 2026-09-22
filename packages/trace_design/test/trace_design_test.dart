@@ -1,12 +1,16 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:trace_design/trace_design.dart';
-
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  test('licensed Inter and Vazirmatn are bundled for offline use', () async {
+    for (final asset in [
+      'packages/trace_design/fonts/Inter-Variable.ttf',
+      'packages/trace_design/fonts/Vazirmatn-Variable.ttf',
+    ]) {
+      final data = await rootBundle.load(asset);
+      expect(data.lengthInBytes, greaterThan(0));
+    }
   });
 }

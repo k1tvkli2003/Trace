@@ -1,39 +1,8 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Trace typography
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+- English UI: bundled **Inter**. User requested modern minimal font, not exact Codex typeface.
+- Persian teaching/chat: bundled **Vazirmatn** with explicit RTL direction.
+- UI numbers: `TraceTypography.displayDigits` converts Persian (`۰`–`۹`) and Arabic-Indic (`٠`–`٩`) digits to ASCII `0`–`9` at the display boundary. Render text through `TraceText.english` or `TraceText.persian`; apply the same policy to future rich text, date/counter widgets, inputs, accessibility labels and export views. Never mutate original source bytes, citation quotes, hashes or review events merely to display a number.
+- Both TTFs are included in the package for offline Android, Windows and Web; their SIL OFL 1.1 notices live in `licenses/`. Inter from Google Fonts `ofl/inter`; Vazirmatn from an installed, license-bearing local copy.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Current status: typography tracer and tests only. `TraceText` handles plain strings; full Lesson AST, mixed-script rich spans and arbitrary third-party widgets are not implemented yet. No claim that all future numbers are already covered.

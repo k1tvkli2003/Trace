@@ -5,7 +5,11 @@ import 'package:trace_flutter/main.dart';
 void main() {
   testWidgets('development scaffold launches', (tester) async {
     await tester.pumpWidget(const MainApp());
-    expect(find.byType(MaterialApp), findsOneWidget);
+    final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(
+      app.theme?.textTheme.bodyMedium?.fontFamily,
+      'packages/trace_design/Inter',
+    );
     expect(find.text('Hello World!'), findsOneWidget);
   });
 }

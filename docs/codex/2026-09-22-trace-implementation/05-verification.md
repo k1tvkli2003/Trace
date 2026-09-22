@@ -20,6 +20,8 @@
 | Stage 4 scratch package resolution/analyze/test | `flutter pub add` exact pins, `flutter analyze`, `flutter test` in `trace_dependency_spike` | passed earlier; not production tests | `docs/architecture/dependency-decisions.md` |
 | Stage 4 isolated builds | `flutter build web`, `flutter build apk --debug` with Android desugaring, separate core `flutter build windows` | passed compile only | On-disk scratch `index.html` 1,578 bytes, APK 186,282,059 bytes, core EXE 91,648 bytes; verified 2026-09-23. Web PDFium WASM 5,231,809 bytes. |
 | Stage 4 full Windows plugin set | `flutter build windows` in `trace_dependency_spike` | blocked on host | Missing `atlbase.h`/`atlstr.h` from Build Tools ATL component; not a core Windows failure |
+| Stage 5 browser design mock | `python tool/capture_design_mocks.py` | passed bounded mock checks | Isolated Chrome CDP captured 4 desktop/phone PNGs; checked icon, Persian RTL, bundled Inter/Vazirmatn load, ASCII numerals, overflow at 320/375/768/1440, mobile drawer open/close. Not imagegen nor Flutter proof. |
+| Typography tracer | `flutter test && flutter analyze` in `trace_design` and app; `flutter build web`, `flutter build windows`, `flutter build apk --debug` in app | passed bounded slice | Two OFL font assets bundled; display-digit mapping and Persian RTL widget tested; Inter app theme test; Web FontManifest has both fonts; platform builds pass. No PDF/lesson renderer exists yet. |
 | Work-doc structure | `validate_task_docs.py` | passed | `OK` 2026-09-23 |
 
 ## Not Run
@@ -27,6 +29,7 @@
 - Production signing/install upgrades and real learning workflows; absent implementation and user-owned release facts.
 - Browser Use CLI CDP endpoint failed; fallback real Chrome headless screenshot passed.
 - Stage 4 scratch dependencies were not invoked at runtime: no Web Drift DB persistence, PDF render fidelity, real picker, secure-storage session flow or actual notification scheduling proven.
+- Stage 5 visual previews came from HTML/CSS in Chrome, not a separate imagegen model. No authorized own-model imagegen output; no 200% text or screen-reader audit, visual-model inspection, Flutter implementation or native parity.
 
 ## Known Issues
 - Android licenses incomplete; development `com.example.trace_flutter` must never ship as release ID.

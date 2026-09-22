@@ -14,5 +14,7 @@
 | 2026-09-22 | StudyHub-Web remains untouched | Separate user project, reference only | Accepted |
 | 2026-09-22 | No alternative worker/model selected | User-only model preference; exact subagent-driven-development skill unavailable | Current execution constraint |
 | 2026-09-23 | Stage 4 candidate set selected; defer optional ATL-bound Windows plugins behind adapters | Isolated spike passed Web/Android/core-Windows builds; combined Windows plugins fail missing ATL; runtime storage/render/notification not yet proved | Conditional discovery gate; see `dependency-decisions.md` |
+| 2026-09-23 | Stage 5 provisional Evidence Atelier direction, NOT approved Flutter UI | 24 raw recipes and two code-native/browser-rendered mocks; own-model-only restriction blocks the plan's different-model imagegen requirement; no PDF or medical source used | `docs/design/opinion-ledger.md`; `docs/design/interaction-map.md` |
+| 2026-09-23 | Typography: Inter English, Vazirmatn Persian, visible digits ASCII `0-9` | User clarified modern minimal English font, not exact Codex reproduction; OFL assets bundled; display normalization leaves source bytes untouched | `packages/trace_design/`; `docs/design/responsive-contract.md` |
 
 Development-only generated `com.example` IDs must not be treated as release identifiers. No Supabase project, production credentials, or authorized gateway endpoint has been selected.

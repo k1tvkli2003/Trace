@@ -5,7 +5,7 @@
 - Owner: Hermes (single model)
 
 ## Current State
-Stages 1–3 closed with bounded evidence. Stage 4 dependency discovery conditionally accepted: isolated Web/Android and core Windows sample builds passed; optional Windows notification and secure-storage plugins fail on missing ATL headers and must use a verified remedy/adapter at feature integration. `Trace` is final product/repo name; icon installed. Flutter starter app still only shows `Hello World!`. Domain `LibraryRepository` and injected `LibraryViewModel` tested with fake repository; no persistence or real library UI. Stage 5 onward and all learning pipeline features remain.
+Stages 1–3 closed with bounded evidence. Stage 4 dependency discovery conditionally accepted: isolated Web/Android and core Windows sample builds passed; optional Windows notification and secure-storage plugins fail on missing ATL headers and must use a verified remedy/adapter at feature integration. Stage 5 exploration has 24 raw recipes, two browser-rendered mock directions and a provisional Evidence Atelier choice; imagegen-specific gate and Flutter UI remain open under own-model-only restriction. A bounded typography tracer bundles Inter/Vazirmatn under OFL, maps visible Persian/Arabic-Indic digits to ASCII, and passes Flutter tests/analyze plus Web/Windows/Android builds; no lesson renderer or broad UI exists. `Trace` is final product/repo name; icon installed. Flutter starter app still only shows `Hello World!`. Domain `LibraryRepository` and injected `LibraryViewModel` tested with fake repository; no persistence or real library UI.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -21,6 +21,7 @@ Stages 1–3 closed with bounded evidence. Stage 4 dependency discovery conditio
 ## Blockers
 - Android licenses incomplete; local SDK administrator must review/accept before release evidence. Debug build/install worked.
 - Windows optional plugins: host MSVC lacks ATL; install documented `Microsoft.VisualStudio.Component.VC.ATL` only with appropriate system authority, or prove replacement adapters before feature integration. This does not block independent Stage 5 design.
+- Stage 5 plan asks for imagegen mock previews; newer own-model-only rule forbids a different image model. Four screenshots are Chrome-rendered code-native mockups, explicitly not imagegen; visual Flutter rollout still gated.
 - Supabase project, authorized gateway route/credentials, production identity, signing, PWA origin and PDFium redistribution notices/fidelity remain open gates for later stages; never invent them.
 
 ## Done
@@ -32,5 +33,5 @@ Stages 1–3 closed with bounded evidence. Stage 4 dependency discovery conditio
 - Stage 4 candidate/license/platform matrix documented; independent core Windows, combined Web and Android scratch builds passed; combined Windows blocked on ATL and explicitly deferred.
 
 ## Remaining
-- Stage 5–30 product work and integrated release gate. Stage 4 accepted only as dependency discovery/compile spike; Windows optional plugin and runtime capability proofs remain gated. Stage 3 only proves contract injection, not concrete persistence or real library UI.
+- Stage 5 visual/imagegen gate and Stages 6–30 product implementation/release gate. Stage 4 accepted only as dependency discovery/compile spike; Windows optional plugin and runtime capability proofs remain gated. Stage 3 only proves contract injection, not concrete persistence or real library UI.
 - PWA offline/install/storage, auth/sync, Vision and Persian lesson flow not implemented or verified.

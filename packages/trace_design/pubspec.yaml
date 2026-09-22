@@ -24,6 +24,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-Variable.ttf
+    - family: Vazirmatn
+      fonts:
+        - asset: fonts/Vazirmatn-Variable.ttf
 
   # To add assets to your package, add an assets section, like this:
   # assets:
