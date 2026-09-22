@@ -20,6 +20,7 @@
 - Stage 5 draft: two browser-rendered design directions, mobile/desktop PNGs, concept ledger, interaction map and responsive contract. Imagegen requirement and Flutter execution still open.
 
 - Typography tracer: bundled OFL Inter/Vazirmatn and display-only ASCII numeral mapping; `trace_design` and app tests/analyze plus Web/Windows/Android builds passed. Still only starter app UI, not finished lesson/font coverage.
+- Stage 7 first independent tracer: `SourceDocument` round-trip, strict SHA-256/path/metadata validation and unknown-format preservation; RED→GREEN domain tests and JSON Schema validation passed. No import or persistence implied.
 
 ## Next
-- Resolve the Stage 5 imagegen-versus-own-model conflict without invoking a different model; do not call HTML screenshots imagegen previews. Continue independent domain/product contracts while broad visual UI remains gated. Do not integrate ATL-bound plugins or claim Web DB persistence before dedicated feature gates.
+- Resolve the Stage 5 imagegen-versus-own-model conflict without invoking a different model; do not call HTML screenshots imagegen previews. Complete Stage 7 remaining canonical entities and cross-language schema/codegen contract independently. Do not integrate ATL-bound plugins or claim Web DB persistence before dedicated feature gates.

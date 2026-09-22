@@ -22,6 +22,8 @@
 | Stage 4 full Windows plugin set | `flutter build windows` in `trace_dependency_spike` | blocked on host | Missing `atlbase.h`/`atlstr.h` from Build Tools ATL component; not a core Windows failure |
 | Stage 5 browser design mock | `python tool/capture_design_mocks.py` | passed bounded mock checks | Isolated Chrome CDP captured 4 desktop/phone PNGs; checked icon, Persian RTL, bundled Inter/Vazirmatn load, ASCII numerals, overflow at 320/375/768/1440, mobile drawer open/close. Not imagegen nor Flutter proof. |
 | Typography tracer | `flutter test && flutter analyze` in `trace_design` and app; `flutter build web`, `flutter build windows`, `flutter build apk --debug` in app | passed bounded slice | Two OFL font assets bundled; display-digit mapping and Persian RTL widget tested; Inter app theme test; Web FontManifest has both fonts; platform builds pass. No PDF/lesson renderer exists yet. |
+| Stage 7 source tracer | `dart format lib test/source_document_test.dart && dart test test/source_document_test.dart && dart test && dart analyze` in `trace_domain` | passed | 5 SourceDocument behavior tests; 6 total domain tests; no analyzer issues. RED observed for missing type, malformed SHA-256, traversal path, invalid metadata. |
+| Partial canonical schema | `jsonschema.Draft202012Validator.check_schema` and sample validation of `docs/contracts/domain-v1.json` | passed partial | 1 valid source document accepted; 6 invalid hash/path/size examples rejected. Schema is not yet complete domain v1 and not code-generated. |
 | Work-doc structure | `validate_task_docs.py` | passed | `OK` 2026-09-23 |
 
 ## Not Run
@@ -30,6 +32,7 @@
 - Browser Use CLI CDP endpoint failed; fallback real Chrome headless screenshot passed.
 - Stage 4 scratch dependencies were not invoked at runtime: no Web Drift DB persistence, PDF render fidelity, real picker, secure-storage session flow or actual notification scheduling proven.
 - Stage 5 visual previews came from HTML/CSS in Chrome, not a separate imagegen model. No authorized own-model imagegen output; no 200% text or screen-reader audit, visual-model inspection, Flutter implementation or native parity.
+- Stage 7 other entities, actual source hashing/import, filesystem symlink containment, Drift persistence, migrations and generated cross-language types not implemented or tested.
 
 ## Known Issues
 - Android licenses incomplete; development `com.example.trace_flutter` must never ship as release ID.

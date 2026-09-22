@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace.local/contracts/domain-v1.json",
+  "title": "Trace domain v1 — partial Stage 7 source contract",
+  "description": "Only SourceDocument is specified in this first tracer. No other Stage 7 entities, persistence or generated types are claimed.",
+  "$defs": {
+    "SourceDocument": {
+      "type": "object",
+      "required": ["id", "libraryId", "version", "sourceHash", "relativePath", "mimeType", "byteSize", "importVersion", "format"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "libraryId": {"type": "string", "minLength": 1},
+        "version": {"type": "integer", "minimum": 1},
+        "sourceHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "relativePath": {
+          "type": "string",
+          "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:\\u0000])[^/]+(?:/[^/]+)*$",
+          "description": "Slash-separated relative path, no empty/dot/dot-dot segments, colon, backslash or NUL. Filesystem symlink/realpath checks belong at import boundary."
+        },
+        "mimeType": {"type": "string", "minLength": 1},
+        "byteSize": {"type": "integer", "minimum": 0},
+        "importVersion": {"type": "integer", "minimum": 1},
+        "format": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Known: pdf, markdown, text, image. Future/unsupported tokens round-trip, but do not become processable."
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
