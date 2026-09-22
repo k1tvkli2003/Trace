@@ -13,5 +13,6 @@
 | 2026-09-22 | No OCR; PDF transcription via page-image Vision only; no client-held provider key | User constraints | Accepted |
 | 2026-09-22 | StudyHub-Web remains untouched | Separate user project, reference only | Accepted |
 | 2026-09-22 | No alternative worker/model selected | User-only model preference; exact subagent-driven-development skill unavailable | Current execution constraint |
+| 2026-09-23 | Stage 4 candidate set selected; defer optional ATL-bound Windows plugins behind adapters | Isolated spike passed Web/Android/core-Windows builds; combined Windows plugins fail missing ATL; runtime storage/render/notification not yet proved | Conditional discovery gate; see `dependency-decisions.md` |
 
 Development-only generated `com.example` IDs must not be treated as release identifiers. No Supabase project, production credentials, or authorized gateway endpoint has been selected.

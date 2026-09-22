@@ -9,7 +9,7 @@
 | 1 baseline | done | version/doctor/Git/target matrix; Android license warning explicit |
 | 2 skeleton | done | Flutter app + three packages + analyze, tests, builds, Android/Windows/Web starter smoke |
 | 3 architecture | done | domain repository contract; injected ViewModel; fake ready/error tests; dependency direction static review |
-| 4 dependencies | planned | platform/license spike before choosing Drift, PDF renderer, storage, notifications, state management |
+| 4 dependencies | conditional gate | candidate/license/platform matrix; isolated Web/Android/core-Windows builds pass; optional Windows plugins need ATL or adapter; real storage/PDF/notification proof remains at feature stages |
 | 5–6 design | planned | final icon chosen by user; non-icon UI direction delegated autonomously; no further user approval gate |
 | 7–30 vertical slice and release QA | planned | see main plan |
 
