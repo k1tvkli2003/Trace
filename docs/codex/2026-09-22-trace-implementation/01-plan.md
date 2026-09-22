@@ -1,0 +1,23 @@
+# Execution plan
+
+## Approach
+پلن اصلی ۳۰ مرحله ای مبنا است: [Trace plan](../../../.hermes/plans/2026-09-22_223024-trace-learning-agent.md). هر مرحله پس از test/runtime evidence بسته می شود. جهت Stage 5 با شواهد تصویری و بررسی خودکار انتخاب می‌شود؛ فقط آیکون به انتخاب کاربر نیاز داشت و انتخاب شده است.
+
+## Steps
+| Step | Status | Notes |
+|---|---|---|
+| 1 baseline | done | version/doctor/Git/target matrix; Android license warning explicit |
+| 2 skeleton | done | Flutter app + three packages + analyze, tests, builds, Android/Windows/Web starter smoke |
+| 3 architecture | done | domain repository contract; injected ViewModel; fake ready/error tests; dependency direction static review |
+| 4 dependencies | planned | platform/license spike before choosing Drift, PDF renderer, storage, notifications, state management |
+| 5–6 design | planned | final icon chosen by user; non-icon UI direction delegated autonomously; no further user approval gate |
+| 7–30 vertical slice and release QA | planned | see main plan |
+
+## Interfaces and Artifacts
+`apps/trace_flutter`, `packages/trace_domain`, `packages/trace_data`, `packages/trace_design`, `services`, `supabase`, `docs`.
+
+## Risks
+Android SDK licenses; design approval; provider Vision capability and credentials; no release identity. Do not silently select substitute models or providers.
+
+## Acceptance Checks
+`flutter doctor -v`, generated folders limited to three targets, `flutter analyze`, package resolution, launch/build on supported host; every future gate requires its own tests.

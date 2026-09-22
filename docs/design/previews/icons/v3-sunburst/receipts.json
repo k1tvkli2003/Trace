@@ -1,0 +1,65 @@
+[
+  {
+    "name": "01_aporia",
+    "prompt": "Use case: logo-brand. Design one original, world-class abstract app icon for Trace, a personal thinking agent. The mark must feel philosophical, enigmatic, intelligent and memorable, not depict the product category. Composition: all visual mass belongs INSIDE AN IMAGINARY CIRCULAR FOOTPRINT at center of square; no actual circle, ring, disc, circular border, halo or medallion. Asymmetry is allowed and welcome when optically balanced. A distinctive figure-ground discovery that reveals another idea in its negative space. Very small number of broad elements, strong decisive silhouette readable at 32 px. Flat graphic with bespoke geometry, graphic-designer-level restraint, generous margin. Deep near-black charcoal background; primarily luminous warm ivory, optionally one tightly controlled sea-glass or ochre accent. No gradients, glow, 3D, shadow, texture, micro-detail, letters or wordmarks. Absolutely no book, page, lightbulb, brain, eye, compass, arrow, map, magnifier, target, planet, fingerprint, infinity sign, standard tech startup glyph or literal illustration. Render ONLY the finished symbol on a square background, no UI, no text, no caption, no watermark. Concept: Aporia: a single irregular carved opening between three abstract substantial forms, each curved enough to sit within the imaginary circular footprint; the missing center reads as a subtle unanswered question without rendering a question mark. Tension and curiosity, dramatic but sparse.",
+    "result": {
+      "endpoint": "http://127.0.0.1:20128/v1/images/generations",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "action": "generate",
+      "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\icons\\v3-sunburst\\01_aporia.webp",
+      "bytes": 699856,
+      "sha256": "08e7164d43c3b37f4622f8c001f24eb555c20334ea252153be93fb775232c942",
+      "requested_size": "1024x1024",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_format": "webp",
+      "actual_format": "webp",
+      "elapsed_seconds": 26.892
+    },
+    "error": null
+  },
+  {
+    "name": "02_afterimage",
+    "prompt": "Use case: logo-brand. Design one original, world-class abstract app icon for Trace, a personal thinking agent. The mark must feel philosophical, enigmatic, intelligent and memorable, not depict the product category. Composition: all visual mass belongs INSIDE AN IMAGINARY CIRCULAR FOOTPRINT at center of square; no actual circle, ring, disc, circular border, halo or medallion. Asymmetry is allowed and welcome when optically balanced. A distinctive figure-ground discovery that reveals another idea in its negative space. Very small number of broad elements, strong decisive silhouette readable at 32 px. Flat graphic with bespoke geometry, graphic-designer-level restraint, generous margin. Deep near-black charcoal background; primarily luminous warm ivory, optionally one tightly controlled sea-glass or ochre accent. No gradients, glow, 3D, shadow, texture, micro-detail, letters or wordmarks. Absolutely no book, page, lightbulb, brain, eye, compass, arrow, map, magnifier, target, planet, fingerprint, infinity sign, standard tech startup glyph or literal illustration. Render ONLY the finished symbol on a square background, no UI, no text, no caption, no watermark. Concept: Afterimage: two near-overlapping offset solid shapes, one warm ivory, one muted sea-glass, intersect so a small asymmetric negative-space void is left where the first shape used to be. Time leaving a trace, not a lens or letter. Only two or three masses.",
+    "result": {
+      "endpoint": "http://127.0.0.1:20128/v1/images/generations",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "action": "generate",
+      "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\icons\\v3-sunburst\\02_afterimage.webp",
+      "bytes": 649202,
+      "sha256": "746c6d176abd415b681bc9feef879e7192138d03aef88882c114ec520fb4e819",
+      "requested_size": "1024x1024",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_format": "webp",
+      "actual_format": "webp",
+      "elapsed_seconds": 24.263
+    },
+    "error": null
+  },
+  {
+    "name": "03_liminal",
+    "prompt": "Use case: logo-brand. Design one original, world-class abstract app icon for Trace, a personal thinking agent. The mark must feel philosophical, enigmatic, intelligent and memorable, not depict the product category. Composition: all visual mass belongs INSIDE AN IMAGINARY CIRCULAR FOOTPRINT at center of square; no actual circle, ring, disc, circular border, halo or medallion. Asymmetry is allowed and welcome when optically balanced. A distinctive figure-ground discovery that reveals another idea in its negative space. Very small number of broad elements, strong decisive silhouette readable at 32 px. Flat graphic with bespoke geometry, graphic-designer-level restraint, generous margin. Deep near-black charcoal background; primarily luminous warm ivory, optionally one tightly controlled sea-glass or ochre accent. No gradients, glow, 3D, shadow, texture, micro-detail, letters or wordmarks. Absolutely no book, page, lightbulb, brain, eye, compass, arrow, map, magnifier, target, planet, fingerprint, infinity sign, standard tech startup glyph or literal illustration. Render ONLY the finished symbol on a square background, no UI, no text, no caption, no watermark. Concept: Liminal: one bold sculpted shape with a meaningful interruption; an inward fold of empty space appears to cross a threshold and become positive space. Deliberately off-axis, visually gathered into imaginary round perimeter without any literal ring.",
+    "result": {
+      "endpoint": "http://127.0.0.1:20128/v1/images/generations",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "action": "generate",
+      "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\icons\\v3-sunburst\\03_liminal.webp",
+      "bytes": 658342,
+      "sha256": "47be44dd433816d568b05ef244f2841b29a305458b01289332b2c200f4b20353",
+      "requested_size": "1024x1024",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_format": "webp",
+      "actual_format": "webp",
+      "elapsed_seconds": 29.489
+    },
+    "error": null
+  }
+]

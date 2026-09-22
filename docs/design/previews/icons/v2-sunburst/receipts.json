@@ -1,0 +1,44 @@
+[
+  {
+    "name": "01_veil",
+    "prompt": "Use case: logo-brand. Asset type: square app-icon concept for Trace, a personal thinking and discovery tool. A radically conceptual philosophical symbol about how evidence of something absent becomes visible. Original designed mark, not illustration. Minimal vector-like geometry, a single bold silhouette plus intentional negative space. EXACT mirror symmetry about the vertical center axis, balanced optical weight around the horizontal center. Flat warm off-white mark on almost-black graphite field, with at most one muted jade accent. Centered, thick forms, excellent legibility at 32px. Pure 2D, sharp contours, large safe margins. No typography, lettering, monogram, numbers, book, paper, pages, graduation cap, bulb, brain, face, eye, arrow, map route, pin, magnifier, target, compass, atom, infinity sign, app mockup, border, gradients, shadows, bevel, glow, texture, tiny details, decorative dots, or watermark. Concept: ALETHEIA / UNVEILING: two opposing carved stone-like dark masses mirrored across a narrow central axis; their inner voids together reveal a small suspended luminous symmetric void that could exist only through their absence. Solid, iconic, not a literal curtain or eye. One confident continuous contour per side.",
+    "result": {
+      "endpoint": "http://127.0.0.1:20128/v1/images/generations",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "action": "generate",
+      "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\icons\\v2-sunburst\\01_veil.webp",
+      "bytes": 678918,
+      "sha256": "2d1e97f30223640d5b3872d761eb7cc35163b525f79022e90acd368ec291f2fd",
+      "requested_size": "1024x1024",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_format": "webp",
+      "actual_format": "webp",
+      "elapsed_seconds": 28.016
+    },
+    "error": null
+  },
+  {
+    "name": "02_threshold",
+    "prompt": "Use case: logo-brand. Asset type: square app-icon concept for Trace, a personal thinking and discovery tool. A radically conceptual philosophical symbol about how evidence of something absent becomes visible. Original designed mark, not illustration. Minimal vector-like geometry, a single bold silhouette plus intentional negative space. EXACT mirror symmetry about the vertical center axis, balanced optical weight around the horizontal center. Flat warm off-white mark on almost-black graphite field, with at most one muted jade accent. Centered, thick forms, excellent legibility at 32px. Pure 2D, sharp contours, large safe margins. No typography, lettering, monogram, numbers, book, paper, pages, graduation cap, bulb, brain, face, eye, arrow, map route, pin, magnifier, target, compass, atom, infinity sign, app mockup, border, gradients, shadows, bevel, glow, texture, tiny details, decorative dots, or watermark. Concept: THE THRESHOLD: one single monumental hourglass-like aperture cut from a solid square-ish mass; two wide mirrored wings separate at middle, the central opening is the meaning. Not a letter, gate, portal illustration, or pause icon; intellectual tension between what is known and unknown.",
+    "result": {
+      "endpoint": "http://127.0.0.1:20128/v1/images/generations",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "action": "generate",
+      "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\icons\\v2-sunburst\\02_threshold.webp",
+      "bytes": 650894,
+      "sha256": "d36bc37765b93c51a16cdf89eb943582b8c5ed7ac185b596c268fb1cba2f4cbd",
+      "requested_size": "1024x1024",
+      "actual_dimensions": [
+        1254,
+        1254
+      ],
+      "requested_format": "webp",
+      "actual_format": "webp",
+      "elapsed_seconds": 28.455
+    },
+    "error": null
+  }
+]

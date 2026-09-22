@@ -1,0 +1,17 @@
+# Architecture decisions
+
+| Date | Decision | Reason | Status |
+|---|---|---|---|
+| 2026-09-22 | Product and repo name `Trace`; development slug `trace` | User selected final name; signing/publisher still unassigned | Accepted |
+| 2026-09-22 | Flutter 3.44.0 stable, Dart 3.12.0 on this host | Verified via `flutter --version`; CI pin pending | Development baseline |
+| 2026-09-22 | Only Android, Windows and Web platform folders | Explicit product scope | Accepted |
+| 2026-09-22 | MVVM; domain contracts owned by `trace_domain`, implemented by `trace_data`, consumed by Flutter ViewModels; Views never call storage/AI directly | Flutter architecture guide and fake-repository tracer test | Stage 3 seam implemented; concrete persistence pending |
+| 2026-09-22 | UI direction autonomously chosen with preview/runtime QA; final app icon selected | User delegated other design decisions | Accepted |
+| 2026-09-22 | Selected icon is `assets/brand/trace-icon-selected.webp` (SHA-256 `08e7164d43c3b37f4622f8c001f24eb555c20334ea252153be93fb775232c942`); Android, Windows and Web variants generated from this unchanged source by `tool/generate_icons.py` | User supplied and selected exact image; no further image generation required | Accepted |
+| 2026-09-22 | English-only product chrome; Persian chat and lesson content with RTL islands | Explicit language contract | Accepted |
+| 2026-09-22 | Local-first Drift plus mandatory private Supabase Auth/Postgres/Storage and RLS | User's cross-device sync requirement | Accepted |
+| 2026-09-22 | No OCR; PDF transcription via page-image Vision only; no client-held provider key | User constraints | Accepted |
+| 2026-09-22 | StudyHub-Web remains untouched | Separate user project, reference only | Accepted |
+| 2026-09-22 | No alternative worker/model selected | User-only model preference; exact subagent-driven-development skill unavailable | Current execution constraint |
+
+Development-only generated `com.example` IDs must not be treated as release identifiers. No Supabase project, production credentials, or authorized gateway endpoint has been selected.
