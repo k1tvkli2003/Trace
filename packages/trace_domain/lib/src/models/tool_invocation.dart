@@ -55,7 +55,8 @@ final class ToolInvocation {
       throw const FormatException('mutationId must be null or nonempty text');
     }
     final timestamp = text('createdAt');
-    if (!timestamp.endsWith('Z') || DateTime.tryParse(timestamp)?.isUtc != true) {
+    if (!timestamp.endsWith('Z') ||
+        DateTime.tryParse(timestamp)?.isUtc != true) {
       throw const FormatException('createdAt must be UTC ISO-8601');
     }
     final result = json['resultJson'];

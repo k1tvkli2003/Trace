@@ -23,15 +23,23 @@ void main() {
   });
 
   test('SyncOperation snapshots nested oplog payload', () {
-    final payload = <String, Object?>{'fields': <String, Object?>{'tags': <String>['stable']}};
+    final payload = <String, Object?>{
+      'fields': <String, Object?>{
+        'tags': <String>['stable'],
+      },
+    };
     final operation = SyncOperation.fromJson({...fixture, 'payload': payload});
     (payload['fields'] as Map<String, Object?>)['tags'] = ['changed'];
     expect(
-      ((operation.payload['fields'] as Map<String, Object?>)['tags'] as List).single,
+      ((operation.payload['fields'] as Map<String, Object?>)['tags'] as List)
+          .single,
       'stable',
     );
     expect(
-      () => ((operation.payload['fields'] as Map<String, Object?>)['tags'] as List).add('changed'),
+      () =>
+          ((operation.payload['fields'] as Map<String, Object?>)['tags']
+                  as List)
+              .add('changed'),
       throwsUnsupportedError,
     );
   });

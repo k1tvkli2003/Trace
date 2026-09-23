@@ -71,7 +71,7 @@ final class ChatThread {
       throw const FormatException('version must be a positive integer');
     }
     final contentHash = requiredText('contentHash');
-    if (!RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(contentHash)) {
+    if (!RegExp(r'^[0-9a-f]{64}$').hasMatch(contentHash)) {
       throw const FormatException('contentHash must be a SHA-256 hex string');
     }
     final libraryId = requiredText('libraryId');
@@ -107,17 +107,17 @@ final class ChatThread {
   }
 
   Map<String, Object?> toJson() => {
-        'id': id,
-        'version': version,
-        'contentHash': contentHash,
-        'libraryId': libraryId,
-        'targetNodeId': targetNodeId,
-        'targetSliceId': targetSliceId,
-        'title': title,
-        'status': rawStatus,
-        'createdAt': rawCreatedAt,
-        'updatedAt': rawUpdatedAt,
-      };
+    'id': id,
+    'version': version,
+    'contentHash': contentHash,
+    'libraryId': libraryId,
+    'targetNodeId': targetNodeId,
+    'targetSliceId': targetSliceId,
+    'title': title,
+    'status': rawStatus,
+    'createdAt': rawCreatedAt,
+    'updatedAt': rawUpdatedAt,
+  };
 }
 
 DateTime _utc(Object? value, String field) {
@@ -125,7 +125,7 @@ DateTime _utc(Object? value, String field) {
     throw FormatException('$field must be an ISO-8601 string');
   }
   final parsed = DateTime.tryParse(value);
-  if (parsed == null || !parsed.isUtc) {
+  if (parsed == null || !value.endsWith('Z') || !parsed.isUtc) {
     throw FormatException('$field must be UTC');
   }
   return parsed;

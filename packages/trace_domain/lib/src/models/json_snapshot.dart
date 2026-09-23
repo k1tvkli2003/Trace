@@ -4,7 +4,9 @@ Map<String, Object?> snapshotJsonObject(Object? value, String field) {
   if (value is! Map<String, Object?>) {
     throw FormatException('$field must be a JSON object');
   }
-  return Map.unmodifiable(value.map((key, item) => MapEntry(key, _freeze(item))));
+  return Map.unmodifiable(
+    value.map((key, item) => MapEntry(key, _freeze(item))),
+  );
 }
 
 Object? _freeze(Object? value) {

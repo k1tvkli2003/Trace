@@ -85,7 +85,9 @@ final class LearnerState {
     }
     final rawStatus = text('status');
     if (rawStatus.toLowerCase() == 'review_due') {
-      throw const FormatException('review_due is a projection, not persisted state');
+      throw const FormatException(
+        'review_due is a projection, not persisted state',
+      );
     }
     final status = LearnerStateStatus.values
         .where((candidate) => candidate.wireName == rawStatus)

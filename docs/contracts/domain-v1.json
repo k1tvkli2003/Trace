@@ -254,7 +254,7 @@
         "contentHash": {"$ref": "#/$defs/sha256"},
         "targetType": {"$ref": "#/$defs/id"},
         "targetId": {"$ref": "#/$defs/id"},
-        "dueAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."},
+        "dueAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix required by domain parser."},
         "intervalDays": {"type": "integer", "minimum": 0},
         "ease": {"type": "number", "minimum": 1},
         "lapses": {"type": "integer", "minimum": 0},
@@ -294,7 +294,7 @@
         "figureIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
         "modelProfile": {"$ref": "#/$defs/id"},
         "promptVersion": {"$ref": "#/$defs/id"},
-        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+        "createdAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix required by domain parser."}
       },
       "additionalProperties": true
     },
@@ -326,8 +326,8 @@
         "targetSliceId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
         "title": {"$ref": "#/$defs/id"},
         "status": {"$ref": "#/$defs/id", "description": "Known: active, archived. Unknown tokens are unsupported."},
-        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."},
-        "updatedAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix and not before createdAt."}
+        "createdAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix required by domain parser."},
+        "updatedAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix and not before createdAt."}
       },
       "additionalProperties": true
     },
@@ -343,7 +343,7 @@
         "body": {"$ref": "#/$defs/id"},
         "sourceCitationIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
         "toolInvocationId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
-        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+        "createdAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix required by domain parser."}
       },
       "additionalProperties": true
     },
@@ -360,7 +360,7 @@
         "idempotencyKey": {"$ref": "#/$defs/id"},
         "mutationId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
         "resultJson": {"anyOf": [{"type": "null"}, {"type": "object"}]},
-        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+        "createdAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix required by domain parser."}
       },
       "additionalProperties": true
     },
@@ -378,7 +378,7 @@
         "localVersion": {"type": "integer", "minimum": 0},
         "syncState": {"$ref": "#/$defs/id", "description": "Known: pending, in_flight, synced, failed, tombstone. Unknown tokens are unsupported."},
         "retryCount": {"type": "integer", "minimum": 0},
-        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+        "createdAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix required by domain parser."}
       },
       "additionalProperties": true
     },
@@ -399,9 +399,9 @@
         "latencyMs": {"type": "integer", "minimum": 0},
         "retryCount": {"type": "integer", "minimum": 0},
         "outcome": {"$ref": "#/$defs/id", "description": "Known: succeeded, failed, cancelled, cache_hit. Unknown tokens are unsupported."},
-        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+        "createdAt": {"type": "string", "format": "date-time", "pattern": "Z$", "description": "UTC Z suffix required by domain parser."}
       },
-      "additionalProperties": true,
+      "additionalProperties": false,
       "description": "Metadata-only ledger; raw source payloads and credentials are forbidden."
     },
     "PageVisionCacheKey": {

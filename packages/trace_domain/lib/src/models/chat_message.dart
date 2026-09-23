@@ -60,22 +60,29 @@ final class ChatMessage {
       throw const FormatException('version must be a positive integer');
     }
     final contentHash = text('contentHash');
-    if (!RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(contentHash)) {
+    if (!RegExp(r'^[0-9a-f]{64}$').hasMatch(contentHash)) {
       throw const FormatException('contentHash must be a SHA-256 hex string');
     }
     final rawRole = text('role');
     final rawCitations = json['sourceCitationIds'];
-    if (rawCitations is! List || rawCitations.any((value) => value is! String || value.trim().isEmpty)) {
-      throw const FormatException('sourceCitationIds must be an array of non-empty strings');
+    if (rawCitations is! List ||
+        rawCitations.any((value) => value is! String || value.trim().isEmpty)) {
+      throw const FormatException(
+        'sourceCitationIds must be an array of non-empty strings',
+      );
     }
     final citationIds = rawCitations.cast<String>().toList(growable: false);
     if (citationIds.toSet().length != citationIds.length) {
-      throw const FormatException('sourceCitationIds must not contain duplicates');
+      throw const FormatException(
+        'sourceCitationIds must not contain duplicates',
+      );
     }
     final toolInvocationId = json['toolInvocationId'];
     if (toolInvocationId != null &&
         (toolInvocationId is! String || toolInvocationId.trim().isEmpty)) {
-      throw const FormatException('toolInvocationId must be null or a non-empty string');
+      throw const FormatException(
+        'toolInvocationId must be null or a non-empty string',
+      );
     }
 
     final rawCreatedAt = text('createdAt');
@@ -95,16 +102,16 @@ final class ChatMessage {
   }
 
   Map<String, Object?> toJson() => {
-        'id': id,
-        'version': version,
-        'contentHash': contentHash,
-        'threadId': threadId,
-        'role': rawRole,
-        'body': body,
-        'sourceCitationIds': sourceCitationIds.toList(),
-        'toolInvocationId': toolInvocationId,
-        'createdAt': rawCreatedAt,
-      };
+    'id': id,
+    'version': version,
+    'contentHash': contentHash,
+    'threadId': threadId,
+    'role': rawRole,
+    'body': body,
+    'sourceCitationIds': sourceCitationIds.toList(),
+    'toolInvocationId': toolInvocationId,
+    'createdAt': rawCreatedAt,
+  };
 }
 
 DateTime _messageUtc(Object? value, String field) {
@@ -112,7 +119,7 @@ DateTime _messageUtc(Object? value, String field) {
     throw FormatException('$field must be an ISO-8601 string');
   }
   final parsed = DateTime.tryParse(value);
-  if (parsed == null || !parsed.isUtc) {
+  if (parsed == null || !value.endsWith('Z') || !parsed.isUtc) {
     throw FormatException('$field must be UTC');
   }
   return parsed;

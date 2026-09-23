@@ -114,14 +114,36 @@ void main() {
       'sliceId': 'slice-1',
       'language': 'fa',
       'blocks': [
-        {'id': 'figure', 'type': 'figure', 'figureId': 'untrusted-figure', 'sourceCitationIds': ['citation-1']},
-        {'id': 'explanation', 'type': 'figure_explanation', 'figureId': 'untrusted-figure', 'text': 'شرح شکل.', 'sourceCitationIds': ['citation-1']},
+        {
+          'id': 'figure',
+          'type': 'figure',
+          'figureId': 'untrusted-figure',
+          'sourceCitationIds': ['citation-1'],
+        },
+        {
+          'id': 'explanation',
+          'type': 'figure_explanation',
+          'figureId': 'untrusted-figure',
+          'text': 'شرح شکل.',
+          'sourceCitationIds': ['citation-1'],
+        },
       ],
     };
-    final payload = {...fixture, 'lessonAstJson': figureJson, 'figureIds': ['untrusted-figure']};
-    final pending = FigureAsset.fromJson({...approvedFigure.toJson(), 'reviewStatus': 'pending'});
+    final payload = {
+      ...fixture,
+      'lessonAstJson': figureJson,
+      'figureIds': ['untrusted-figure'],
+    };
+    final pending = FigureAsset.fromJson({
+      ...approvedFigure.toJson(),
+      'reviewStatus': 'pending',
+    });
     expect(
-      () => LessonArtifact.fromJson(payload, verifiedCitations: [citation], verifiedFigures: [pending]),
+      () => LessonArtifact.fromJson(
+        payload,
+        verifiedCitations: [citation],
+        verifiedFigures: [pending],
+      ),
       throwsFormatException,
     );
     expect(

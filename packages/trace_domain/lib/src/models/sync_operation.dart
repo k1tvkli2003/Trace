@@ -10,9 +10,9 @@ enum SyncMutationType {
   final String wireName;
 
   static SyncMutationType fromWire(String value) => values.firstWhere(
-        (candidate) => candidate.wireName == value,
-        orElse: () => SyncMutationType.unsupported,
-      );
+    (candidate) => candidate.wireName == value,
+    orElse: () => SyncMutationType.unsupported,
+  );
 }
 
 enum SyncState {
@@ -27,9 +27,9 @@ enum SyncState {
   final String wireName;
 
   static SyncState fromWire(String value) => values.firstWhere(
-        (candidate) => candidate.wireName == value,
-        orElse: () => SyncState.unsupported,
-      );
+    (candidate) => candidate.wireName == value,
+    orElse: () => SyncState.unsupported,
+  );
 }
 
 /// Local-first mutation queued for idempotent server replay.
@@ -76,9 +76,12 @@ final class SyncOperation {
     final version = json['version'];
     final localVersion = json['localVersion'];
     final retryCount = json['retryCount'];
-    if (version is! int || version < 1 ||
-        localVersion is! int || localVersion < 0 ||
-        retryCount is! int || retryCount < 0) {
+    if (version is! int ||
+        version < 1 ||
+        localVersion is! int ||
+        localVersion < 0 ||
+        retryCount is! int ||
+        retryCount < 0) {
       throw const FormatException('invalid sync version or retry numbers');
     }
     final contentHash = text('contentHash');
@@ -87,7 +90,8 @@ final class SyncOperation {
     }
     final payload = snapshotJsonObject(json['payload'], 'payload');
     final createdAt = text('createdAt');
-    if (!createdAt.endsWith('Z') || DateTime.tryParse(createdAt)?.isUtc != true) {
+    if (!createdAt.endsWith('Z') ||
+        DateTime.tryParse(createdAt)?.isUtc != true) {
       throw const FormatException('createdAt must be UTC ISO-8601');
     }
     final rawMutationType = text('mutationType');
@@ -110,16 +114,16 @@ final class SyncOperation {
   }
 
   Map<String, Object?> toJson() => {
-        'operationId': operationId,
-        'version': version,
-        'contentHash': contentHash,
-        'entityType': entityType,
-        'entityId': entityId,
-        'mutationType': rawMutationType,
-        'payload': payload,
-        'localVersion': localVersion,
-        'syncState': rawSyncState,
-        'retryCount': retryCount,
-        'createdAt': createdAt,
-      };
+    'operationId': operationId,
+    'version': version,
+    'contentHash': contentHash,
+    'entityType': entityType,
+    'entityId': entityId,
+    'mutationType': rawMutationType,
+    'payload': payload,
+    'localVersion': localVersion,
+    'syncState': rawSyncState,
+    'retryCount': retryCount,
+    'createdAt': createdAt,
+  };
 }

@@ -50,14 +50,51 @@ void main() {
     );
   });
 
-  test('chat models reject duplicate citations and invalid lifecycle order', () {
+  test('chat timestamps require explicit UTC Z, not an offset', () {
     expect(
-      () => ChatMessage.fromJson({...messageJson, 'sourceCitationIds': ['citation-1', 'citation-1']}),
+      () => ChatThread.fromJson({
+        ...threadJson,
+        'createdAt': '2026-09-23T14:00:00+03:30',
+      }),
       throwsFormatException,
     );
     expect(
-      () => ChatThread.fromJson({...threadJson, 'updatedAt': '2026-09-23T10:29:00Z'}),
+      () => ChatMessage.fromJson({
+        ...messageJson,
+        'createdAt': '2026-09-23T14:05:00+03:30',
+      }),
       throwsFormatException,
     );
   });
+
+  test('chat models reject uppercase hashes', () {
+    expect(
+      () => ChatThread.fromJson({...threadJson, 'contentHash': 'A' * 64}),
+      throwsFormatException,
+    );
+    expect(
+      () => ChatMessage.fromJson({...messageJson, 'contentHash': 'B' * 64}),
+      throwsFormatException,
+    );
+  });
+
+  test(
+    'chat models reject duplicate citations and invalid lifecycle order',
+    () {
+      expect(
+        () => ChatMessage.fromJson({
+          ...messageJson,
+          'sourceCitationIds': ['citation-1', 'citation-1'],
+        }),
+        throwsFormatException,
+      );
+      expect(
+        () => ChatThread.fromJson({
+          ...threadJson,
+          'updatedAt': '2026-09-23T10:29:00Z',
+        }),
+        throwsFormatException,
+      );
+    },
+  );
 }

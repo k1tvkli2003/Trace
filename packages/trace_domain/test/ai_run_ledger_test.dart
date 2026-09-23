@@ -25,10 +25,23 @@ void main() {
     expect(run.toJson(), fixture);
   });
 
-  test('AiRunLedger preserves unsupported outcome without treating it as success', () {
-    final run = AiRunLedger.fromJson({...fixture, 'outcome': 'future'});
-    expect(run.outcome, AiRunOutcome.unsupported);
-    expect(run.toJson()['outcome'], 'future');
+  test(
+    'AiRunLedger preserves unsupported outcome without treating it as success',
+    () {
+      final run = AiRunLedger.fromJson({...fixture, 'outcome': 'future'});
+      expect(run.outcome, AiRunOutcome.unsupported);
+      expect(run.toJson()['outcome'], 'future');
+    },
+  );
+
+  test('AiRunLedger rejects unexpected secret or raw source fields', () {
+    for (final key in ['apiKey', 'rawSourceText']) {
+      expect(
+        () => AiRunLedger.fromJson({...fixture, key: 'private-content'}),
+        throwsFormatException,
+        reason: key,
+      );
+    }
   });
 
   test('AiRunLedger rejects duplicate input hashes', () {
@@ -42,7 +55,13 @@ void main() {
   });
 
   test('AiRunLedger rejects negative token, latency, and cost metadata', () {
-    for (final key in ['inputTokens', 'outputTokens', 'latencyMs', 'retryCount', 'costMicros']) {
+    for (final key in [
+      'inputTokens',
+      'outputTokens',
+      'latencyMs',
+      'retryCount',
+      'costMicros',
+    ]) {
       expect(
         () => AiRunLedger.fromJson({...fixture, key: -1}),
         throwsFormatException,

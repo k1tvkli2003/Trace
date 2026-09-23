@@ -21,20 +21,31 @@ void main() {
     expect(invocation.toJson(), fixture);
   });
 
-  test('ToolInvocation snapshots nested args and exposes immutable evidence', () {
-    final args = <String, Object?>{'scope': <String, Object?>{'ids': <String>['slice-1']}};
-    final input = {...fixture, 'argsJson': args};
-    final invocation = ToolInvocation.fromJson(input);
-    (args['scope'] as Map<String, Object?>)['ids'] = ['forged'];
-    expect(
-      ((invocation.argsJson['scope'] as Map<String, Object?>)['ids'] as List).single,
-      'slice-1',
-    );
-    expect(
-      () => ((invocation.argsJson['scope'] as Map<String, Object?>)['ids'] as List).add('forged'),
-      throwsUnsupportedError,
-    );
-  });
+  test(
+    'ToolInvocation snapshots nested args and exposes immutable evidence',
+    () {
+      final args = <String, Object?>{
+        'scope': <String, Object?>{
+          'ids': <String>['slice-1'],
+        },
+      };
+      final input = {...fixture, 'argsJson': args};
+      final invocation = ToolInvocation.fromJson(input);
+      (args['scope'] as Map<String, Object?>)['ids'] = ['forged'];
+      expect(
+        ((invocation.argsJson['scope'] as Map<String, Object?>)['ids'] as List)
+            .single,
+        'slice-1',
+      );
+      expect(
+        () =>
+            ((invocation.argsJson['scope'] as Map<String, Object?>)['ids']
+                    as List)
+                .add('forged'),
+        throwsUnsupportedError,
+      );
+    },
+  );
 
   test('ToolInvocation keeps a read-only invocation without mutation ID', () {
     final json = {...fixture, 'mutationId': null, 'resultJson': null};
