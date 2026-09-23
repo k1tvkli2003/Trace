@@ -2645,6 +2645,913 @@ class SourceCitationsCompanion extends UpdateCompanion<SourceCitation> {
   }
 }
 
+class $FigureAssetsTable extends FigureAssets
+    with TableInfo<$FigureAssetsTable, FigureAsset> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FigureAssetsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _assetHashMeta = const VerificationMeta(
+    'assetHash',
+  );
+  @override
+  late final GeneratedColumn<String> assetHash = GeneratedColumn<String>(
+    'asset_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sourceHashMeta = const VerificationMeta(
+    'sourceHash',
+  );
+  @override
+  late final GeneratedColumn<String> sourceHash = GeneratedColumn<String>(
+    'source_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pagePixelHashMeta = const VerificationMeta(
+    'pagePixelHash',
+  );
+  @override
+  late final GeneratedColumn<String> pagePixelHash = GeneratedColumn<String>(
+    'page_pixel_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pageIdMeta = const VerificationMeta('pageId');
+  @override
+  late final GeneratedColumn<String> pageId = GeneratedColumn<String>(
+    'page_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES source_pages (id)',
+    ),
+  );
+  static const VerificationMeta _bboxXMeta = const VerificationMeta('bboxX');
+  @override
+  late final GeneratedColumn<double> bboxX = GeneratedColumn<double>(
+    'bbox_x',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bboxYMeta = const VerificationMeta('bboxY');
+  @override
+  late final GeneratedColumn<double> bboxY = GeneratedColumn<double>(
+    'bbox_y',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bboxWidthMeta = const VerificationMeta(
+    'bboxWidth',
+  );
+  @override
+  late final GeneratedColumn<double> bboxWidth = GeneratedColumn<double>(
+    'bbox_width',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bboxHeightMeta = const VerificationMeta(
+    'bboxHeight',
+  );
+  @override
+  late final GeneratedColumn<double> bboxHeight = GeneratedColumn<double>(
+    'bbox_height',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _widthPxMeta = const VerificationMeta(
+    'widthPx',
+  );
+  @override
+  late final GeneratedColumn<int> widthPx = GeneratedColumn<int>(
+    'width_px',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _heightPxMeta = const VerificationMeta(
+    'heightPx',
+  );
+  @override
+  late final GeneratedColumn<int> heightPx = GeneratedColumn<int>(
+    'height_px',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _captionMeta = const VerificationMeta(
+    'caption',
+  );
+  @override
+  late final GeneratedColumn<String> caption = GeneratedColumn<String>(
+    'caption',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _altTextMeta = const VerificationMeta(
+    'altText',
+  );
+  @override
+  late final GeneratedColumn<String> altText = GeneratedColumn<String>(
+    'alt_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reviewStatusMeta = const VerificationMeta(
+    'reviewStatus',
+  );
+  @override
+  late final GeneratedColumn<String> reviewStatus = GeneratedColumn<String>(
+    'review_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cropBytesMeta = const VerificationMeta(
+    'cropBytes',
+  );
+  @override
+  late final GeneratedColumn<Uint8List> cropBytes = GeneratedColumn<Uint8List>(
+    'crop_bytes',
+    aliasedName,
+    false,
+    type: DriftSqlType.blob,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    assetHash,
+    sourceHash,
+    pagePixelHash,
+    pageId,
+    bboxX,
+    bboxY,
+    bboxWidth,
+    bboxHeight,
+    widthPx,
+    heightPx,
+    caption,
+    altText,
+    reviewStatus,
+    cropBytes,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'figure_assets';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FigureAsset> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_versionMeta);
+    }
+    if (data.containsKey('asset_hash')) {
+      context.handle(
+        _assetHashMeta,
+        assetHash.isAcceptableOrUnknown(data['asset_hash']!, _assetHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_assetHashMeta);
+    }
+    if (data.containsKey('source_hash')) {
+      context.handle(
+        _sourceHashMeta,
+        sourceHash.isAcceptableOrUnknown(data['source_hash']!, _sourceHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceHashMeta);
+    }
+    if (data.containsKey('page_pixel_hash')) {
+      context.handle(
+        _pagePixelHashMeta,
+        pagePixelHash.isAcceptableOrUnknown(
+          data['page_pixel_hash']!,
+          _pagePixelHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_pagePixelHashMeta);
+    }
+    if (data.containsKey('page_id')) {
+      context.handle(
+        _pageIdMeta,
+        pageId.isAcceptableOrUnknown(data['page_id']!, _pageIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pageIdMeta);
+    }
+    if (data.containsKey('bbox_x')) {
+      context.handle(
+        _bboxXMeta,
+        bboxX.isAcceptableOrUnknown(data['bbox_x']!, _bboxXMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bboxXMeta);
+    }
+    if (data.containsKey('bbox_y')) {
+      context.handle(
+        _bboxYMeta,
+        bboxY.isAcceptableOrUnknown(data['bbox_y']!, _bboxYMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bboxYMeta);
+    }
+    if (data.containsKey('bbox_width')) {
+      context.handle(
+        _bboxWidthMeta,
+        bboxWidth.isAcceptableOrUnknown(data['bbox_width']!, _bboxWidthMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bboxWidthMeta);
+    }
+    if (data.containsKey('bbox_height')) {
+      context.handle(
+        _bboxHeightMeta,
+        bboxHeight.isAcceptableOrUnknown(data['bbox_height']!, _bboxHeightMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bboxHeightMeta);
+    }
+    if (data.containsKey('width_px')) {
+      context.handle(
+        _widthPxMeta,
+        widthPx.isAcceptableOrUnknown(data['width_px']!, _widthPxMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_widthPxMeta);
+    }
+    if (data.containsKey('height_px')) {
+      context.handle(
+        _heightPxMeta,
+        heightPx.isAcceptableOrUnknown(data['height_px']!, _heightPxMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_heightPxMeta);
+    }
+    if (data.containsKey('caption')) {
+      context.handle(
+        _captionMeta,
+        caption.isAcceptableOrUnknown(data['caption']!, _captionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_captionMeta);
+    }
+    if (data.containsKey('alt_text')) {
+      context.handle(
+        _altTextMeta,
+        altText.isAcceptableOrUnknown(data['alt_text']!, _altTextMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_altTextMeta);
+    }
+    if (data.containsKey('review_status')) {
+      context.handle(
+        _reviewStatusMeta,
+        reviewStatus.isAcceptableOrUnknown(
+          data['review_status']!,
+          _reviewStatusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_reviewStatusMeta);
+    }
+    if (data.containsKey('crop_bytes')) {
+      context.handle(
+        _cropBytesMeta,
+        cropBytes.isAcceptableOrUnknown(data['crop_bytes']!, _cropBytesMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cropBytesMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FigureAsset map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FigureAsset(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      assetHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}asset_hash'],
+      )!,
+      sourceHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_hash'],
+      )!,
+      pagePixelHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}page_pixel_hash'],
+      )!,
+      pageId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}page_id'],
+      )!,
+      bboxX: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_x'],
+      )!,
+      bboxY: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_y'],
+      )!,
+      bboxWidth: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_width'],
+      )!,
+      bboxHeight: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_height'],
+      )!,
+      widthPx: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}width_px'],
+      )!,
+      heightPx: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}height_px'],
+      )!,
+      caption: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}caption'],
+      )!,
+      altText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}alt_text'],
+      )!,
+      reviewStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}review_status'],
+      )!,
+      cropBytes: attachedDatabase.typeMapping.read(
+        DriftSqlType.blob,
+        data['${effectivePrefix}crop_bytes'],
+      )!,
+    );
+  }
+
+  @override
+  $FigureAssetsTable createAlias(String alias) {
+    return $FigureAssetsTable(attachedDatabase, alias);
+  }
+}
+
+class FigureAsset extends DataClass implements Insertable<FigureAsset> {
+  final String id;
+  final int version;
+  final String assetHash;
+  final String sourceHash;
+  final String pagePixelHash;
+  final String pageId;
+  final double bboxX;
+  final double bboxY;
+  final double bboxWidth;
+  final double bboxHeight;
+  final int widthPx;
+  final int heightPx;
+  final String caption;
+  final String altText;
+  final String reviewStatus;
+  final Uint8List cropBytes;
+  const FigureAsset({
+    required this.id,
+    required this.version,
+    required this.assetHash,
+    required this.sourceHash,
+    required this.pagePixelHash,
+    required this.pageId,
+    required this.bboxX,
+    required this.bboxY,
+    required this.bboxWidth,
+    required this.bboxHeight,
+    required this.widthPx,
+    required this.heightPx,
+    required this.caption,
+    required this.altText,
+    required this.reviewStatus,
+    required this.cropBytes,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['asset_hash'] = Variable<String>(assetHash);
+    map['source_hash'] = Variable<String>(sourceHash);
+    map['page_pixel_hash'] = Variable<String>(pagePixelHash);
+    map['page_id'] = Variable<String>(pageId);
+    map['bbox_x'] = Variable<double>(bboxX);
+    map['bbox_y'] = Variable<double>(bboxY);
+    map['bbox_width'] = Variable<double>(bboxWidth);
+    map['bbox_height'] = Variable<double>(bboxHeight);
+    map['width_px'] = Variable<int>(widthPx);
+    map['height_px'] = Variable<int>(heightPx);
+    map['caption'] = Variable<String>(caption);
+    map['alt_text'] = Variable<String>(altText);
+    map['review_status'] = Variable<String>(reviewStatus);
+    map['crop_bytes'] = Variable<Uint8List>(cropBytes);
+    return map;
+  }
+
+  FigureAssetsCompanion toCompanion(bool nullToAbsent) {
+    return FigureAssetsCompanion(
+      id: Value(id),
+      version: Value(version),
+      assetHash: Value(assetHash),
+      sourceHash: Value(sourceHash),
+      pagePixelHash: Value(pagePixelHash),
+      pageId: Value(pageId),
+      bboxX: Value(bboxX),
+      bboxY: Value(bboxY),
+      bboxWidth: Value(bboxWidth),
+      bboxHeight: Value(bboxHeight),
+      widthPx: Value(widthPx),
+      heightPx: Value(heightPx),
+      caption: Value(caption),
+      altText: Value(altText),
+      reviewStatus: Value(reviewStatus),
+      cropBytes: Value(cropBytes),
+    );
+  }
+
+  factory FigureAsset.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FigureAsset(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      assetHash: serializer.fromJson<String>(json['assetHash']),
+      sourceHash: serializer.fromJson<String>(json['sourceHash']),
+      pagePixelHash: serializer.fromJson<String>(json['pagePixelHash']),
+      pageId: serializer.fromJson<String>(json['pageId']),
+      bboxX: serializer.fromJson<double>(json['bboxX']),
+      bboxY: serializer.fromJson<double>(json['bboxY']),
+      bboxWidth: serializer.fromJson<double>(json['bboxWidth']),
+      bboxHeight: serializer.fromJson<double>(json['bboxHeight']),
+      widthPx: serializer.fromJson<int>(json['widthPx']),
+      heightPx: serializer.fromJson<int>(json['heightPx']),
+      caption: serializer.fromJson<String>(json['caption']),
+      altText: serializer.fromJson<String>(json['altText']),
+      reviewStatus: serializer.fromJson<String>(json['reviewStatus']),
+      cropBytes: serializer.fromJson<Uint8List>(json['cropBytes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'assetHash': serializer.toJson<String>(assetHash),
+      'sourceHash': serializer.toJson<String>(sourceHash),
+      'pagePixelHash': serializer.toJson<String>(pagePixelHash),
+      'pageId': serializer.toJson<String>(pageId),
+      'bboxX': serializer.toJson<double>(bboxX),
+      'bboxY': serializer.toJson<double>(bboxY),
+      'bboxWidth': serializer.toJson<double>(bboxWidth),
+      'bboxHeight': serializer.toJson<double>(bboxHeight),
+      'widthPx': serializer.toJson<int>(widthPx),
+      'heightPx': serializer.toJson<int>(heightPx),
+      'caption': serializer.toJson<String>(caption),
+      'altText': serializer.toJson<String>(altText),
+      'reviewStatus': serializer.toJson<String>(reviewStatus),
+      'cropBytes': serializer.toJson<Uint8List>(cropBytes),
+    };
+  }
+
+  FigureAsset copyWith({
+    String? id,
+    int? version,
+    String? assetHash,
+    String? sourceHash,
+    String? pagePixelHash,
+    String? pageId,
+    double? bboxX,
+    double? bboxY,
+    double? bboxWidth,
+    double? bboxHeight,
+    int? widthPx,
+    int? heightPx,
+    String? caption,
+    String? altText,
+    String? reviewStatus,
+    Uint8List? cropBytes,
+  }) => FigureAsset(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    assetHash: assetHash ?? this.assetHash,
+    sourceHash: sourceHash ?? this.sourceHash,
+    pagePixelHash: pagePixelHash ?? this.pagePixelHash,
+    pageId: pageId ?? this.pageId,
+    bboxX: bboxX ?? this.bboxX,
+    bboxY: bboxY ?? this.bboxY,
+    bboxWidth: bboxWidth ?? this.bboxWidth,
+    bboxHeight: bboxHeight ?? this.bboxHeight,
+    widthPx: widthPx ?? this.widthPx,
+    heightPx: heightPx ?? this.heightPx,
+    caption: caption ?? this.caption,
+    altText: altText ?? this.altText,
+    reviewStatus: reviewStatus ?? this.reviewStatus,
+    cropBytes: cropBytes ?? this.cropBytes,
+  );
+  FigureAsset copyWithCompanion(FigureAssetsCompanion data) {
+    return FigureAsset(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      assetHash: data.assetHash.present ? data.assetHash.value : this.assetHash,
+      sourceHash: data.sourceHash.present
+          ? data.sourceHash.value
+          : this.sourceHash,
+      pagePixelHash: data.pagePixelHash.present
+          ? data.pagePixelHash.value
+          : this.pagePixelHash,
+      pageId: data.pageId.present ? data.pageId.value : this.pageId,
+      bboxX: data.bboxX.present ? data.bboxX.value : this.bboxX,
+      bboxY: data.bboxY.present ? data.bboxY.value : this.bboxY,
+      bboxWidth: data.bboxWidth.present ? data.bboxWidth.value : this.bboxWidth,
+      bboxHeight: data.bboxHeight.present
+          ? data.bboxHeight.value
+          : this.bboxHeight,
+      widthPx: data.widthPx.present ? data.widthPx.value : this.widthPx,
+      heightPx: data.heightPx.present ? data.heightPx.value : this.heightPx,
+      caption: data.caption.present ? data.caption.value : this.caption,
+      altText: data.altText.present ? data.altText.value : this.altText,
+      reviewStatus: data.reviewStatus.present
+          ? data.reviewStatus.value
+          : this.reviewStatus,
+      cropBytes: data.cropBytes.present ? data.cropBytes.value : this.cropBytes,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FigureAsset(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('assetHash: $assetHash, ')
+          ..write('sourceHash: $sourceHash, ')
+          ..write('pagePixelHash: $pagePixelHash, ')
+          ..write('pageId: $pageId, ')
+          ..write('bboxX: $bboxX, ')
+          ..write('bboxY: $bboxY, ')
+          ..write('bboxWidth: $bboxWidth, ')
+          ..write('bboxHeight: $bboxHeight, ')
+          ..write('widthPx: $widthPx, ')
+          ..write('heightPx: $heightPx, ')
+          ..write('caption: $caption, ')
+          ..write('altText: $altText, ')
+          ..write('reviewStatus: $reviewStatus, ')
+          ..write('cropBytes: $cropBytes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    version,
+    assetHash,
+    sourceHash,
+    pagePixelHash,
+    pageId,
+    bboxX,
+    bboxY,
+    bboxWidth,
+    bboxHeight,
+    widthPx,
+    heightPx,
+    caption,
+    altText,
+    reviewStatus,
+    $driftBlobEquality.hash(cropBytes),
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FigureAsset &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.assetHash == this.assetHash &&
+          other.sourceHash == this.sourceHash &&
+          other.pagePixelHash == this.pagePixelHash &&
+          other.pageId == this.pageId &&
+          other.bboxX == this.bboxX &&
+          other.bboxY == this.bboxY &&
+          other.bboxWidth == this.bboxWidth &&
+          other.bboxHeight == this.bboxHeight &&
+          other.widthPx == this.widthPx &&
+          other.heightPx == this.heightPx &&
+          other.caption == this.caption &&
+          other.altText == this.altText &&
+          other.reviewStatus == this.reviewStatus &&
+          $driftBlobEquality.equals(other.cropBytes, this.cropBytes));
+}
+
+class FigureAssetsCompanion extends UpdateCompanion<FigureAsset> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> assetHash;
+  final Value<String> sourceHash;
+  final Value<String> pagePixelHash;
+  final Value<String> pageId;
+  final Value<double> bboxX;
+  final Value<double> bboxY;
+  final Value<double> bboxWidth;
+  final Value<double> bboxHeight;
+  final Value<int> widthPx;
+  final Value<int> heightPx;
+  final Value<String> caption;
+  final Value<String> altText;
+  final Value<String> reviewStatus;
+  final Value<Uint8List> cropBytes;
+  final Value<int> rowid;
+  const FigureAssetsCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.assetHash = const Value.absent(),
+    this.sourceHash = const Value.absent(),
+    this.pagePixelHash = const Value.absent(),
+    this.pageId = const Value.absent(),
+    this.bboxX = const Value.absent(),
+    this.bboxY = const Value.absent(),
+    this.bboxWidth = const Value.absent(),
+    this.bboxHeight = const Value.absent(),
+    this.widthPx = const Value.absent(),
+    this.heightPx = const Value.absent(),
+    this.caption = const Value.absent(),
+    this.altText = const Value.absent(),
+    this.reviewStatus = const Value.absent(),
+    this.cropBytes = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FigureAssetsCompanion.insert({
+    required String id,
+    required int version,
+    required String assetHash,
+    required String sourceHash,
+    required String pagePixelHash,
+    required String pageId,
+    required double bboxX,
+    required double bboxY,
+    required double bboxWidth,
+    required double bboxHeight,
+    required int widthPx,
+    required int heightPx,
+    required String caption,
+    required String altText,
+    required String reviewStatus,
+    required Uint8List cropBytes,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       version = Value(version),
+       assetHash = Value(assetHash),
+       sourceHash = Value(sourceHash),
+       pagePixelHash = Value(pagePixelHash),
+       pageId = Value(pageId),
+       bboxX = Value(bboxX),
+       bboxY = Value(bboxY),
+       bboxWidth = Value(bboxWidth),
+       bboxHeight = Value(bboxHeight),
+       widthPx = Value(widthPx),
+       heightPx = Value(heightPx),
+       caption = Value(caption),
+       altText = Value(altText),
+       reviewStatus = Value(reviewStatus),
+       cropBytes = Value(cropBytes);
+  static Insertable<FigureAsset> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? assetHash,
+    Expression<String>? sourceHash,
+    Expression<String>? pagePixelHash,
+    Expression<String>? pageId,
+    Expression<double>? bboxX,
+    Expression<double>? bboxY,
+    Expression<double>? bboxWidth,
+    Expression<double>? bboxHeight,
+    Expression<int>? widthPx,
+    Expression<int>? heightPx,
+    Expression<String>? caption,
+    Expression<String>? altText,
+    Expression<String>? reviewStatus,
+    Expression<Uint8List>? cropBytes,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (assetHash != null) 'asset_hash': assetHash,
+      if (sourceHash != null) 'source_hash': sourceHash,
+      if (pagePixelHash != null) 'page_pixel_hash': pagePixelHash,
+      if (pageId != null) 'page_id': pageId,
+      if (bboxX != null) 'bbox_x': bboxX,
+      if (bboxY != null) 'bbox_y': bboxY,
+      if (bboxWidth != null) 'bbox_width': bboxWidth,
+      if (bboxHeight != null) 'bbox_height': bboxHeight,
+      if (widthPx != null) 'width_px': widthPx,
+      if (heightPx != null) 'height_px': heightPx,
+      if (caption != null) 'caption': caption,
+      if (altText != null) 'alt_text': altText,
+      if (reviewStatus != null) 'review_status': reviewStatus,
+      if (cropBytes != null) 'crop_bytes': cropBytes,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FigureAssetsCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? assetHash,
+    Value<String>? sourceHash,
+    Value<String>? pagePixelHash,
+    Value<String>? pageId,
+    Value<double>? bboxX,
+    Value<double>? bboxY,
+    Value<double>? bboxWidth,
+    Value<double>? bboxHeight,
+    Value<int>? widthPx,
+    Value<int>? heightPx,
+    Value<String>? caption,
+    Value<String>? altText,
+    Value<String>? reviewStatus,
+    Value<Uint8List>? cropBytes,
+    Value<int>? rowid,
+  }) {
+    return FigureAssetsCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      assetHash: assetHash ?? this.assetHash,
+      sourceHash: sourceHash ?? this.sourceHash,
+      pagePixelHash: pagePixelHash ?? this.pagePixelHash,
+      pageId: pageId ?? this.pageId,
+      bboxX: bboxX ?? this.bboxX,
+      bboxY: bboxY ?? this.bboxY,
+      bboxWidth: bboxWidth ?? this.bboxWidth,
+      bboxHeight: bboxHeight ?? this.bboxHeight,
+      widthPx: widthPx ?? this.widthPx,
+      heightPx: heightPx ?? this.heightPx,
+      caption: caption ?? this.caption,
+      altText: altText ?? this.altText,
+      reviewStatus: reviewStatus ?? this.reviewStatus,
+      cropBytes: cropBytes ?? this.cropBytes,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (assetHash.present) {
+      map['asset_hash'] = Variable<String>(assetHash.value);
+    }
+    if (sourceHash.present) {
+      map['source_hash'] = Variable<String>(sourceHash.value);
+    }
+    if (pagePixelHash.present) {
+      map['page_pixel_hash'] = Variable<String>(pagePixelHash.value);
+    }
+    if (pageId.present) {
+      map['page_id'] = Variable<String>(pageId.value);
+    }
+    if (bboxX.present) {
+      map['bbox_x'] = Variable<double>(bboxX.value);
+    }
+    if (bboxY.present) {
+      map['bbox_y'] = Variable<double>(bboxY.value);
+    }
+    if (bboxWidth.present) {
+      map['bbox_width'] = Variable<double>(bboxWidth.value);
+    }
+    if (bboxHeight.present) {
+      map['bbox_height'] = Variable<double>(bboxHeight.value);
+    }
+    if (widthPx.present) {
+      map['width_px'] = Variable<int>(widthPx.value);
+    }
+    if (heightPx.present) {
+      map['height_px'] = Variable<int>(heightPx.value);
+    }
+    if (caption.present) {
+      map['caption'] = Variable<String>(caption.value);
+    }
+    if (altText.present) {
+      map['alt_text'] = Variable<String>(altText.value);
+    }
+    if (reviewStatus.present) {
+      map['review_status'] = Variable<String>(reviewStatus.value);
+    }
+    if (cropBytes.present) {
+      map['crop_bytes'] = Variable<Uint8List>(cropBytes.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FigureAssetsCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('assetHash: $assetHash, ')
+          ..write('sourceHash: $sourceHash, ')
+          ..write('pagePixelHash: $pagePixelHash, ')
+          ..write('pageId: $pageId, ')
+          ..write('bboxX: $bboxX, ')
+          ..write('bboxY: $bboxY, ')
+          ..write('bboxWidth: $bboxWidth, ')
+          ..write('bboxHeight: $bboxHeight, ')
+          ..write('widthPx: $widthPx, ')
+          ..write('heightPx: $heightPx, ')
+          ..write('caption: $caption, ')
+          ..write('altText: $altText, ')
+          ..write('reviewStatus: $reviewStatus, ')
+          ..write('cropBytes: $cropBytes, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
@@ -2655,6 +3562,7 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
   late final $SourceCitationsTable sourceCitations = $SourceCitationsTable(
     this,
   );
+  late final $FigureAssetsTable figureAssets = $FigureAssetsTable(this);
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
@@ -2677,6 +3585,7 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     sourcePages,
     sourceBlocks,
     sourceCitations,
+    figureAssets,
     sourceVersionUnique,
     sourcePageDocumentPageVersionProfileUnique,
     sourceBlockPageVersionOrderUnique,
@@ -3599,6 +4508,24 @@ final class $$SourcePagesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$FigureAssetsTable, List<FigureAsset>>
+  _figureAssetsRefsTable(_$TraceDatabase db) => MultiTypedResultKey.fromTable(
+    db.figureAssets,
+    aliasName: 'source_pages__id__figure_assets__page_id',
+  );
+
+  $$FigureAssetsTableProcessedTableManager get figureAssetsRefs {
+    final manager = $$FigureAssetsTableTableManager(
+      $_db,
+      $_db.figureAssets,
+    ).filter((f) => f.pageId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_figureAssetsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SourcePagesTableFilterComposer
@@ -3709,6 +4636,31 @@ class $$SourcePagesTableFilterComposer
           }) => $$SourceCitationsTableFilterComposer(
             $db: $db,
             $table: $db.sourceCitations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> figureAssetsRefs(
+    Expression<bool> Function($$FigureAssetsTableFilterComposer f) f,
+  ) {
+    final $$FigureAssetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.figureAssets,
+      getReferencedColumn: (t) => t.pageId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FigureAssetsTableFilterComposer(
+            $db: $db,
+            $table: $db.figureAssets,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -3897,6 +4849,31 @@ class $$SourcePagesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> figureAssetsRefs<T extends Object>(
+    Expression<T> Function($$FigureAssetsTableAnnotationComposer a) f,
+  ) {
+    final $$FigureAssetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.figureAssets,
+      getReferencedColumn: (t) => t.pageId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FigureAssetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.figureAssets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SourcePagesTableTableManager
@@ -3916,6 +4893,7 @@ class $$SourcePagesTableTableManager
             bool documentId,
             bool sourceBlocksRefs,
             bool sourceCitationsRefs,
+            bool figureAssetsRefs,
           })
         > {
   $$SourcePagesTableTableManager(_$TraceDatabase db, $SourcePagesTable table)
@@ -3986,12 +4964,14 @@ class $$SourcePagesTableTableManager
                 documentId = false,
                 sourceBlocksRefs = false,
                 sourceCitationsRefs = false,
+                figureAssetsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (sourceBlocksRefs) db.sourceBlocks,
                     if (sourceCitationsRefs) db.sourceCitations,
+                    if (figureAssetsRefs) db.figureAssets,
                   ],
                   addJoins:
                       <
@@ -4071,6 +5051,27 @@ class $$SourcePagesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (figureAssetsRefs)
+                        await $_getPrefetchedData<
+                          SourcePage,
+                          $SourcePagesTable,
+                          FigureAsset
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SourcePagesTableReferences
+                              ._figureAssetsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SourcePagesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).figureAssetsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.pageId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -4095,6 +5096,7 @@ typedef $$SourcePagesTableProcessedTableManager =
         bool documentId,
         bool sourceBlocksRefs,
         bool sourceCitationsRefs,
+        bool figureAssetsRefs,
       })
     >;
 typedef $$SourceBlocksTableCreateCompanionBuilder =
@@ -5287,6 +6289,540 @@ typedef $$SourceCitationsTableProcessedTableManager =
       SourceCitation,
       PrefetchHooks Function({bool sourceBlockId, bool pageId})
     >;
+typedef $$FigureAssetsTableCreateCompanionBuilder =
+    FigureAssetsCompanion Function({
+      required String id,
+      required int version,
+      required String assetHash,
+      required String sourceHash,
+      required String pagePixelHash,
+      required String pageId,
+      required double bboxX,
+      required double bboxY,
+      required double bboxWidth,
+      required double bboxHeight,
+      required int widthPx,
+      required int heightPx,
+      required String caption,
+      required String altText,
+      required String reviewStatus,
+      required Uint8List cropBytes,
+      Value<int> rowid,
+    });
+typedef $$FigureAssetsTableUpdateCompanionBuilder =
+    FigureAssetsCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> assetHash,
+      Value<String> sourceHash,
+      Value<String> pagePixelHash,
+      Value<String> pageId,
+      Value<double> bboxX,
+      Value<double> bboxY,
+      Value<double> bboxWidth,
+      Value<double> bboxHeight,
+      Value<int> widthPx,
+      Value<int> heightPx,
+      Value<String> caption,
+      Value<String> altText,
+      Value<String> reviewStatus,
+      Value<Uint8List> cropBytes,
+      Value<int> rowid,
+    });
+
+final class $$FigureAssetsTableReferences
+    extends BaseReferences<_$TraceDatabase, $FigureAssetsTable, FigureAsset> {
+  $$FigureAssetsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SourcePagesTable _pageIdTable(_$TraceDatabase db) =>
+      db.sourcePages.createAlias('figure_assets__page_id__source_pages__id');
+
+  $$SourcePagesTableProcessedTableManager get pageId {
+    final $_column = $_itemColumn<String>('page_id')!;
+
+    final manager = $$SourcePagesTableTableManager(
+      $_db,
+      $_db.sourcePages,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_pageIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$FigureAssetsTableFilterComposer
+    extends Composer<_$TraceDatabase, $FigureAssetsTable> {
+  $$FigureAssetsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get assetHash => $composableBuilder(
+    column: $table.assetHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceHash => $composableBuilder(
+    column: $table.sourceHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pagePixelHash => $composableBuilder(
+    column: $table.pagePixelHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxX => $composableBuilder(
+    column: $table.bboxX,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxY => $composableBuilder(
+    column: $table.bboxY,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxWidth => $composableBuilder(
+    column: $table.bboxWidth,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxHeight => $composableBuilder(
+    column: $table.bboxHeight,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get widthPx => $composableBuilder(
+    column: $table.widthPx,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get heightPx => $composableBuilder(
+    column: $table.heightPx,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get caption => $composableBuilder(
+    column: $table.caption,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get altText => $composableBuilder(
+    column: $table.altText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reviewStatus => $composableBuilder(
+    column: $table.reviewStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<Uint8List> get cropBytes => $composableBuilder(
+    column: $table.cropBytes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SourcePagesTableFilterComposer get pageId {
+    final $$SourcePagesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableFilterComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$FigureAssetsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $FigureAssetsTable> {
+  $$FigureAssetsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get assetHash => $composableBuilder(
+    column: $table.assetHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceHash => $composableBuilder(
+    column: $table.sourceHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pagePixelHash => $composableBuilder(
+    column: $table.pagePixelHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxX => $composableBuilder(
+    column: $table.bboxX,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxY => $composableBuilder(
+    column: $table.bboxY,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxWidth => $composableBuilder(
+    column: $table.bboxWidth,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxHeight => $composableBuilder(
+    column: $table.bboxHeight,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get widthPx => $composableBuilder(
+    column: $table.widthPx,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get heightPx => $composableBuilder(
+    column: $table.heightPx,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get caption => $composableBuilder(
+    column: $table.caption,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get altText => $composableBuilder(
+    column: $table.altText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reviewStatus => $composableBuilder(
+    column: $table.reviewStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<Uint8List> get cropBytes => $composableBuilder(
+    column: $table.cropBytes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SourcePagesTableOrderingComposer get pageId {
+    final $$SourcePagesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$FigureAssetsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $FigureAssetsTable> {
+  $$FigureAssetsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get assetHash =>
+      $composableBuilder(column: $table.assetHash, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceHash => $composableBuilder(
+    column: $table.sourceHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get pagePixelHash => $composableBuilder(
+    column: $table.pagePixelHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get bboxX =>
+      $composableBuilder(column: $table.bboxX, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxY =>
+      $composableBuilder(column: $table.bboxY, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxWidth =>
+      $composableBuilder(column: $table.bboxWidth, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxHeight => $composableBuilder(
+    column: $table.bboxHeight,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get widthPx =>
+      $composableBuilder(column: $table.widthPx, builder: (column) => column);
+
+  GeneratedColumn<int> get heightPx =>
+      $composableBuilder(column: $table.heightPx, builder: (column) => column);
+
+  GeneratedColumn<String> get caption =>
+      $composableBuilder(column: $table.caption, builder: (column) => column);
+
+  GeneratedColumn<String> get altText =>
+      $composableBuilder(column: $table.altText, builder: (column) => column);
+
+  GeneratedColumn<String> get reviewStatus => $composableBuilder(
+    column: $table.reviewStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<Uint8List> get cropBytes =>
+      $composableBuilder(column: $table.cropBytes, builder: (column) => column);
+
+  $$SourcePagesTableAnnotationComposer get pageId {
+    final $$SourcePagesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$FigureAssetsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $FigureAssetsTable,
+          FigureAsset,
+          $$FigureAssetsTableFilterComposer,
+          $$FigureAssetsTableOrderingComposer,
+          $$FigureAssetsTableAnnotationComposer,
+          $$FigureAssetsTableCreateCompanionBuilder,
+          $$FigureAssetsTableUpdateCompanionBuilder,
+          (FigureAsset, $$FigureAssetsTableReferences),
+          FigureAsset,
+          PrefetchHooks Function({bool pageId})
+        > {
+  $$FigureAssetsTableTableManager(_$TraceDatabase db, $FigureAssetsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FigureAssetsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FigureAssetsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FigureAssetsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> assetHash = const Value.absent(),
+                Value<String> sourceHash = const Value.absent(),
+                Value<String> pagePixelHash = const Value.absent(),
+                Value<String> pageId = const Value.absent(),
+                Value<double> bboxX = const Value.absent(),
+                Value<double> bboxY = const Value.absent(),
+                Value<double> bboxWidth = const Value.absent(),
+                Value<double> bboxHeight = const Value.absent(),
+                Value<int> widthPx = const Value.absent(),
+                Value<int> heightPx = const Value.absent(),
+                Value<String> caption = const Value.absent(),
+                Value<String> altText = const Value.absent(),
+                Value<String> reviewStatus = const Value.absent(),
+                Value<Uint8List> cropBytes = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => FigureAssetsCompanion(
+                id: id,
+                version: version,
+                assetHash: assetHash,
+                sourceHash: sourceHash,
+                pagePixelHash: pagePixelHash,
+                pageId: pageId,
+                bboxX: bboxX,
+                bboxY: bboxY,
+                bboxWidth: bboxWidth,
+                bboxHeight: bboxHeight,
+                widthPx: widthPx,
+                heightPx: heightPx,
+                caption: caption,
+                altText: altText,
+                reviewStatus: reviewStatus,
+                cropBytes: cropBytes,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required int version,
+                required String assetHash,
+                required String sourceHash,
+                required String pagePixelHash,
+                required String pageId,
+                required double bboxX,
+                required double bboxY,
+                required double bboxWidth,
+                required double bboxHeight,
+                required int widthPx,
+                required int heightPx,
+                required String caption,
+                required String altText,
+                required String reviewStatus,
+                required Uint8List cropBytes,
+                Value<int> rowid = const Value.absent(),
+              }) => FigureAssetsCompanion.insert(
+                id: id,
+                version: version,
+                assetHash: assetHash,
+                sourceHash: sourceHash,
+                pagePixelHash: pagePixelHash,
+                pageId: pageId,
+                bboxX: bboxX,
+                bboxY: bboxY,
+                bboxWidth: bboxWidth,
+                bboxHeight: bboxHeight,
+                widthPx: widthPx,
+                heightPx: heightPx,
+                caption: caption,
+                altText: altText,
+                reviewStatus: reviewStatus,
+                cropBytes: cropBytes,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$FigureAssetsTable, FigureAsset>(table),
+                  $$FigureAssetsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({pageId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (pageId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.pageId,
+                                referencedTable: $$FigureAssetsTableReferences
+                                    ._pageIdTable(db),
+                                referencedColumn: $$FigureAssetsTableReferences
+                                    ._pageIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$FigureAssetsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $FigureAssetsTable,
+      FigureAsset,
+      $$FigureAssetsTableFilterComposer,
+      $$FigureAssetsTableOrderingComposer,
+      $$FigureAssetsTableAnnotationComposer,
+      $$FigureAssetsTableCreateCompanionBuilder,
+      $$FigureAssetsTableUpdateCompanionBuilder,
+      (FigureAsset, $$FigureAssetsTableReferences),
+      FigureAsset,
+      PrefetchHooks Function({bool pageId})
+    >;
 
 class $TraceDatabaseManager {
   final _$TraceDatabase _db;
@@ -5301,4 +6837,6 @@ class $TraceDatabaseManager {
       $$SourceBlocksTableTableManager(_db, _db.sourceBlocks);
   $$SourceCitationsTableTableManager get sourceCitations =>
       $$SourceCitationsTableTableManager(_db, _db.sourceCitations);
+  $$FigureAssetsTableTableManager get figureAssets =>
+      $$FigureAssetsTableTableManager(_db, _db.figureAssets);
 }

@@ -89,6 +89,28 @@ class SourceCitations extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+class FigureAssets extends Table {
+  TextColumn get id => text()();
+  IntColumn get version => integer()();
+  TextColumn get assetHash => text()();
+  TextColumn get sourceHash => text()();
+  TextColumn get pagePixelHash => text()();
+  TextColumn get pageId => text().references(SourcePages, #id)();
+  RealColumn get bboxX => real()();
+  RealColumn get bboxY => real()();
+  RealColumn get bboxWidth => real()();
+  RealColumn get bboxHeight => real()();
+  IntColumn get widthPx => integer()();
+  IntColumn get heightPx => integer()();
+  TextColumn get caption => text()();
+  TextColumn get altText => text()();
+  TextColumn get reviewStatus => text()();
+  BlobColumn get cropBytes => blob()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     LibraryEntries,
@@ -96,13 +118,14 @@ class SourceCitations extends Table {
     SourcePages,
     SourceBlocks,
     SourceCitations,
+    FigureAssets,
   ],
 )
 class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -130,6 +153,7 @@ class TraceDatabase extends _$TraceDatabase {
         await m.createTable(sourceBlocks);
         await m.createTable(sourceCitations);
       }
+      if (from < 5) await m.createTable(figureAssets);
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
   );
