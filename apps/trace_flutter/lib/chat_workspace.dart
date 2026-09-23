@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trace_design/trace_design.dart';
 import 'package:trace_domain/trace_domain.dart';
 
 /// Chat-first shell. No generated message or AI request exists in this phase.
@@ -32,10 +33,10 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
   final _scaffold = GlobalKey<ScaffoldState>();
   final _draft = TextEditingController();
   bool _showEvidenceRail = false;
-  static const _ink = Color(0xff202b2b);
-  static const _surface = Color(0xfffaf9f4);
-  static const _muted = Color(0xff606d69);
-  static const _accent = Color(0xff2f6b60);
+  static const _ink = TraceColors.ink;
+  static const _surface = TraceColors.canvas;
+  static const _muted = TraceColors.muted;
+  static const _accent = TraceColors.accent;
 
   @override
   void dispose() {
@@ -150,7 +151,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         AnimatedContainer(
-                          duration: const Duration(milliseconds: 180),
+                          duration: TraceMotion.quick,
                           width: 3,
                           height: 28,
                           decoration: BoxDecoration(
@@ -630,8 +631,8 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, limits) {
-      final compact = limits.maxWidth < 700;
-      final sourceRailFits = limits.maxWidth >= 1180;
+      final compact = TraceGeometry.isCompact(limits.maxWidth);
+      final sourceRailFits = TraceGeometry.canShowEvidenceRail(limits.maxWidth);
       final title = widget.selectedId == null
           ? 'New conversation'
           : widget.entries
@@ -646,7 +647,11 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
         body: SafeArea(
           child: Row(
             children: [
-              if (!compact) SizedBox(width: 264, child: _navigation()),
+              if (!compact)
+                SizedBox(
+                  width: TraceGeometry.navigationWidth,
+                  child: _navigation(),
+                ),
               Expanded(
                 child: Column(
                   children: [
@@ -719,7 +724,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                   _showEvidenceRail &&
                   widget.selectedId != null)
                 SizedBox(
-                  width: (limits.maxWidth * 0.28).clamp(270.0, 360.0),
+                  width: TraceGeometry.evidenceWidth(limits.maxWidth),
                   child: _evidenceRail(),
                 ),
             ],

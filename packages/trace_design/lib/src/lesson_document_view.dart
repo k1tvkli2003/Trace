@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:trace_domain/trace_domain.dart';
 
-import '../trace_design.dart' show TraceTypography;
+import 'typography.dart';
 
 /// Intent only. Caller owns authorization and durable local mutation.
 enum LessonStudyAction { studied, notLearned, later, mastered, skipped }

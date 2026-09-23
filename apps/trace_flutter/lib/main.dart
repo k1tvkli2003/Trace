@@ -445,18 +445,7 @@ class _MainAppState extends State<MainApp> {
       title: 'Trace',
       navigatorKey: _navigator,
       scaffoldMessengerKey: _messenger,
-      theme: ThemeData(
-        useMaterial3: true,
-        fontFamily: TraceTypography.english.fontFamily,
-        scaffoldBackgroundColor: const Color(0xffedeae2),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xff264349),
-          surface: const Color(0xfff9f7f1),
-        ),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontFamily: 'packages/trace_design/Inter'),
-        ),
-      ),
+      theme: TraceTheme.light(),
       home: Scaffold(
         body: FutureBuilder<List<LibraryEntrySummary>>(
           future: _entries,
