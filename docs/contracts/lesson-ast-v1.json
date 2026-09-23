@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace.local/contracts/lesson-ast-v1.json",
+  "title": "Trace lesson AST v1 — flat, source-bound draft",
+  "description": "Server validates authorized citation IDs and source fidelity separately. Not raw HTML; no client renderer enabled yet.",
+  "type": "object",
+  "required": ["schemaVersion", "sliceId", "language", "blocks"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {"const": "lesson-ast-v1"},
+    "sliceId": {"type": "string", "minLength": 1, "maxLength": 512},
+    "language": {"const": "fa"},
+    "blocks": {
+      "type": "array", "minItems": 1, "maxItems": 48,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "type", "sourceCitationIds"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 512},
+          "type": {"enum": ["paragraph", "definition_box", "mechanism_box", "tip_box", "warning_box", "comparison_table", "formula_box", "example_box", "figure", "figure_explanation", "key_takeaway", "recall_prompt"]},
+          "text": {"type": "string", "minLength": 1, "maxLength": 3000},
+          "sourceCitationIds": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "figureId": {"type": "string", "minLength": 1, "maxLength": 512}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"type": {"const": "figure"}}},
+            "then": {"required": ["figureId"], "not": {"required": ["text"]}},
+            "else": {"required": ["text"]}
+          },
+          {
+            "if": {"properties": {"type": {"const": "figure_explanation"}}},
+            "then": {"required": ["figureId"]}
+          }
+        ]
+      }
+    }
+  }
+}
