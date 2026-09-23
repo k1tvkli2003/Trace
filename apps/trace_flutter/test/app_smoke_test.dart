@@ -21,7 +21,7 @@ void main() {
       'packages/trace_design/Inter',
     );
     await tester.pumpAndSettle();
-    expect(find.text('Your library is empty'), findsOneWidget);
+    expect(find.text('What are we learning today?'), findsOneWidget);
     await tester.tap(find.text('New collection'));
     await tester.pumpAndSettle();
     await tester.enterText(
@@ -30,7 +30,7 @@ void main() {
     );
     await tester.tap(find.text('Create collection'));
     await tester.pumpAndSettle();
-    expect(find.text('Immunology'), findsOneWidget);
+    expect(find.text('Immunology'), findsWidgets);
     expect(
       (await LocalLibraryRepository(database).listEntries()).single.title,
       'Immunology',
@@ -53,10 +53,14 @@ void main() {
     );
     await tester.pumpWidget(MainApp(database: database));
     await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Open navigation'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Small screen book'));
     await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Open sources'));
+    await tester.pumpAndSettle();
     expect(find.text('Import text'), findsOneWidget);
-    await tester.tap(find.text('Back to library'));
+    await tester.tap(find.byTooltip('Close sources'));
     await tester.pumpAndSettle();
     expect(find.text('Small screen book'), findsOneWidget);
   });
@@ -83,11 +87,18 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('PDF library'));
       await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Open sources'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Import PDF'));
       await tester.pump();
       expect(find.text('Importing PDF…'), findsOneWidget);
       expect(
-        tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed,
+        tester.widget<OutlinedButton>(
+          find.ancestor(
+            of: find.text('Importing PDF…'),
+            matching: find.byType(OutlinedButton),
+          ),
+        ).onPressed,
         isNull,
       );
       expect(pickerCalls, 1);
@@ -114,6 +125,8 @@ void main() {
       );
       await tester.pumpAndSettle();
       await tester.tap(find.text('PDF library'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Open sources'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Import PDF'));
       await tester.pumpAndSettle();
@@ -151,6 +164,8 @@ void main() {
     );
     await tester.pumpAndSettle();
     await tester.tap(find.text('Book'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Open sources'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Import text'));
     await tester.pumpAndSettle();

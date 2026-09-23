@@ -10,6 +10,7 @@ import 'local_connection.dart';
 import 'text_picker.dart';
 import 'pdf_picker.dart';
 import 'source_reading_page.dart';
+import 'chat_workspace.dart';
 
 export 'text_picker.dart' show PickedTextSource;
 export 'pdf_picker.dart' show PickedPdfSource;
@@ -42,6 +43,7 @@ class _MainAppState extends State<MainApp> {
   Future<List<SourceDocument>>? _selectedSources;
   bool _ownsDatabase = false;
   bool _pdfImporting = false;
+  StateSetter? _panelRefresh;
   String? _selectedId;
 
   @override
@@ -94,12 +96,13 @@ class _MainAppState extends State<MainApp> {
       if (!mounted || title == null || title.trim().isEmpty) {
         return;
       }
-      await _library.putEntry(
-        LibraryEntrySummary(id: const Uuid().v4(), title: title.trim()),
-      );
+      final id = const Uuid().v4();
+      await _library.putEntry(LibraryEntrySummary(id: id, title: title.trim()));
       if (mounted) {
         setState(() {
           _entries = _library.listEntries();
+          _selectedId = id;
+          _selectedSources = _sources.listForLibrary(id);
         });
       }
     } catch (_) {
@@ -135,6 +138,7 @@ class _MainAppState extends State<MainApp> {
         setState(() {
           _selectedSources = _sources.listForLibrary(libraryId);
         });
+        _panelRefresh?.call(() {});
       }
     } catch (error) {
       if (mounted) {
@@ -167,6 +171,7 @@ class _MainAppState extends State<MainApp> {
         setState(() {
           _selectedSources = _sources.listForLibrary(libraryId);
         });
+        _panelRefresh?.call(() {});
       }
     } catch (error) {
       if (mounted) {
@@ -287,6 +292,65 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  Future<void> _showSources() async {
+    if (_selectedId == null || !mounted) return;
+    try {
+      await showDialog<void>(
+        context: _navigator.currentContext!,
+        builder: (context) => Dialog(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 760,
+              maxHeight: MediaQuery.sizeOf(context).height * .86,
+            ),
+            child: SizedBox(
+              width: MediaQuery.sizeOf(context).width - 32,
+              height: MediaQuery.sizeOf(context).height * .8,
+              child: StatefulBuilder(
+                builder: (context, refresh) {
+                  _panelRefresh = refresh;
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                          20,
+                          8,
+                          8,
+                          4,
+                        ),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                'Sources',
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              icon: const Icon(Icons.close),
+                              tooltip: 'Close sources',
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(child: _sourcePanel()),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+    } finally {
+      _panelRefresh = null;
+    }
+  }
+
   Widget _sourcePanel({bool narrow = false}) {
     if (_selectedId == null) {
       return const Center(child: Text('Choose a collection'));
@@ -309,12 +373,9 @@ class _MainAppState extends State<MainApp> {
           children: [
             if (narrow)
               TextButton.icon(
-                onPressed: () => setState(() {
-                  _selectedId = null;
-                  _selectedSources = null;
-                }),
+                onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.arrow_back),
-                label: const Text('Back to library'),
+                label: const Text('Back to chat'),
               ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -370,7 +431,6 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    const ink = Color(0xff1b2429);
     return MaterialApp(
       title: 'Trace',
       navigatorKey: _navigator,
@@ -388,23 +448,6 @@ class _MainAppState extends State<MainApp> {
         ),
       ),
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: ink,
-          foregroundColor: const Color(0xfff8f3e8),
-          title: const Text(
-            'TRACE',
-            style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 2),
-          ),
-          actions: [
-            TextButton.icon(
-              onPressed: _createCollection,
-              icon: const Icon(Icons.add),
-              label: const Text('New collection'),
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
-            ),
-            const SizedBox(width: 16),
-          ],
-        ),
         body: FutureBuilder<List<LibraryEntrySummary>>(
           future: _entries,
           builder: (context, snapshot) {
@@ -415,9 +458,8 @@ class _MainAppState extends State<MainApp> {
                   children: [
                     const Text('Library unavailable'),
                     TextButton(
-                      onPressed: () => setState(() {
-                        _entries = _library.listEntries();
-                      }),
+                      onPressed: () =>
+                          setState(() => _entries = _library.listEntries()),
                       child: const Text('Retry'),
                     ),
                   ],
@@ -427,54 +469,23 @@ class _MainAppState extends State<MainApp> {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
-            final entries = snapshot.data!;
-            if (entries.isEmpty) {
-              return const Center(child: Text('Your library is empty'));
-            }
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                final narrow = constraints.maxWidth < 700;
-                final list = ListView(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(22, 26, 22, 12),
-                      child: Text(
-                        'YOUR LIBRARY',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 2,
-                          color: Color(0xff9a5230),
-                        ),
-                      ),
-                    ),
-                    for (final entry in entries)
-                      ListTile(
-                        title: Text(entry.title),
-                        selected: _selectedId == entry.id,
-                        onTap: () => _selectCollection(entry.id),
-                      ),
-                  ],
-                );
-                if (narrow) {
-                  return _selectedId == null
-                      ? list
-                      : _sourcePanel(narrow: true);
+            return ChatWorkspace(
+              entries: snapshot.data!,
+              selectedId: _selectedId,
+              onSelect: (id) {
+                if (id == null) {
+                  setState(() {
+                    _selectedId = null;
+                    _selectedSources = null;
+                  });
+                } else {
+                  _selectCollection(id);
                 }
-                return Row(
-                  children: [
-                    SizedBox(
-                      width: 270,
-                      child: Material(
-                        color: const Color(0xffe2e7e1),
-                        child: list,
-                      ),
-                    ),
-                    const VerticalDivider(width: 1),
-                    Expanded(child: _sourcePanel()),
-                  ],
-                );
               },
+              onCreate: _createCollection,
+              onOpenSources: _showSources,
+              sourceFuture: _selectedSources,
+              onReadSource: _startReading,
             );
           },
         ),

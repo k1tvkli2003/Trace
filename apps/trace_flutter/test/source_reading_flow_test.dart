@@ -30,7 +30,13 @@ void main() {
       );
       await tester.pumpWidget(MainApp(database: database));
       await tester.pumpAndSettle();
+      if (width < 700) {
+        await tester.tap(find.byTooltip('Open navigation'));
+        await tester.pumpAndSettle();
+      }
       await tester.tap(find.text('My book'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Open sources'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Start reading'));
       await tester.pumpAndSettle();
