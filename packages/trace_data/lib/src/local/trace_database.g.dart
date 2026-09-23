@@ -725,14 +725,1947 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
   }
 }
 
+class $SourcePagesTable extends SourcePages
+    with TableInfo<$SourcePagesTable, SourcePage> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SourcePagesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _documentIdMeta = const VerificationMeta(
+    'documentId',
+  );
+  @override
+  late final GeneratedColumn<String> documentId = GeneratedColumn<String>(
+    'document_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES source_entries (id)',
+    ),
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _pageNumberMeta = const VerificationMeta(
+    'pageNumber',
+  );
+  @override
+  late final GeneratedColumn<int> pageNumber = GeneratedColumn<int>(
+    'page_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pixelHashMeta = const VerificationMeta(
+    'pixelHash',
+  );
+  @override
+  late final GeneratedColumn<String> pixelHash = GeneratedColumn<String>(
+    'pixel_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _renderProfileMeta = const VerificationMeta(
+    'renderProfile',
+  );
+  @override
+  late final GeneratedColumn<String> renderProfile = GeneratedColumn<String>(
+    'render_profile',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _thumbnailPathMeta = const VerificationMeta(
+    'thumbnailPath',
+  );
+  @override
+  late final GeneratedColumn<String> thumbnailPath = GeneratedColumn<String>(
+    'thumbnail_path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _visionStatusMeta = const VerificationMeta(
+    'visionStatus',
+  );
+  @override
+  late final GeneratedColumn<String> visionStatus = GeneratedColumn<String>(
+    'vision_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    documentId,
+    version,
+    pageNumber,
+    pixelHash,
+    renderProfile,
+    thumbnailPath,
+    visionStatus,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'source_pages';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SourcePage> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('document_id')) {
+      context.handle(
+        _documentIdMeta,
+        documentId.isAcceptableOrUnknown(data['document_id']!, _documentIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_documentIdMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    }
+    if (data.containsKey('page_number')) {
+      context.handle(
+        _pageNumberMeta,
+        pageNumber.isAcceptableOrUnknown(data['page_number']!, _pageNumberMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pageNumberMeta);
+    }
+    if (data.containsKey('pixel_hash')) {
+      context.handle(
+        _pixelHashMeta,
+        pixelHash.isAcceptableOrUnknown(data['pixel_hash']!, _pixelHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pixelHashMeta);
+    }
+    if (data.containsKey('render_profile')) {
+      context.handle(
+        _renderProfileMeta,
+        renderProfile.isAcceptableOrUnknown(
+          data['render_profile']!,
+          _renderProfileMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_renderProfileMeta);
+    }
+    if (data.containsKey('thumbnail_path')) {
+      context.handle(
+        _thumbnailPathMeta,
+        thumbnailPath.isAcceptableOrUnknown(
+          data['thumbnail_path']!,
+          _thumbnailPathMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_thumbnailPathMeta);
+    }
+    if (data.containsKey('vision_status')) {
+      context.handle(
+        _visionStatusMeta,
+        visionStatus.isAcceptableOrUnknown(
+          data['vision_status']!,
+          _visionStatusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_visionStatusMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SourcePage map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SourcePage(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      documentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}document_id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      pageNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}page_number'],
+      )!,
+      pixelHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pixel_hash'],
+      )!,
+      renderProfile: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}render_profile'],
+      )!,
+      thumbnailPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}thumbnail_path'],
+      )!,
+      visionStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vision_status'],
+      )!,
+    );
+  }
+
+  @override
+  $SourcePagesTable createAlias(String alias) {
+    return $SourcePagesTable(attachedDatabase, alias);
+  }
+}
+
+class SourcePage extends DataClass implements Insertable<SourcePage> {
+  final String id;
+  final String documentId;
+  final int version;
+  final int pageNumber;
+  final String pixelHash;
+  final String renderProfile;
+  final String thumbnailPath;
+  final String visionStatus;
+  const SourcePage({
+    required this.id,
+    required this.documentId,
+    required this.version,
+    required this.pageNumber,
+    required this.pixelHash,
+    required this.renderProfile,
+    required this.thumbnailPath,
+    required this.visionStatus,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['document_id'] = Variable<String>(documentId);
+    map['version'] = Variable<int>(version);
+    map['page_number'] = Variable<int>(pageNumber);
+    map['pixel_hash'] = Variable<String>(pixelHash);
+    map['render_profile'] = Variable<String>(renderProfile);
+    map['thumbnail_path'] = Variable<String>(thumbnailPath);
+    map['vision_status'] = Variable<String>(visionStatus);
+    return map;
+  }
+
+  SourcePagesCompanion toCompanion(bool nullToAbsent) {
+    return SourcePagesCompanion(
+      id: Value(id),
+      documentId: Value(documentId),
+      version: Value(version),
+      pageNumber: Value(pageNumber),
+      pixelHash: Value(pixelHash),
+      renderProfile: Value(renderProfile),
+      thumbnailPath: Value(thumbnailPath),
+      visionStatus: Value(visionStatus),
+    );
+  }
+
+  factory SourcePage.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SourcePage(
+      id: serializer.fromJson<String>(json['id']),
+      documentId: serializer.fromJson<String>(json['documentId']),
+      version: serializer.fromJson<int>(json['version']),
+      pageNumber: serializer.fromJson<int>(json['pageNumber']),
+      pixelHash: serializer.fromJson<String>(json['pixelHash']),
+      renderProfile: serializer.fromJson<String>(json['renderProfile']),
+      thumbnailPath: serializer.fromJson<String>(json['thumbnailPath']),
+      visionStatus: serializer.fromJson<String>(json['visionStatus']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'documentId': serializer.toJson<String>(documentId),
+      'version': serializer.toJson<int>(version),
+      'pageNumber': serializer.toJson<int>(pageNumber),
+      'pixelHash': serializer.toJson<String>(pixelHash),
+      'renderProfile': serializer.toJson<String>(renderProfile),
+      'thumbnailPath': serializer.toJson<String>(thumbnailPath),
+      'visionStatus': serializer.toJson<String>(visionStatus),
+    };
+  }
+
+  SourcePage copyWith({
+    String? id,
+    String? documentId,
+    int? version,
+    int? pageNumber,
+    String? pixelHash,
+    String? renderProfile,
+    String? thumbnailPath,
+    String? visionStatus,
+  }) => SourcePage(
+    id: id ?? this.id,
+    documentId: documentId ?? this.documentId,
+    version: version ?? this.version,
+    pageNumber: pageNumber ?? this.pageNumber,
+    pixelHash: pixelHash ?? this.pixelHash,
+    renderProfile: renderProfile ?? this.renderProfile,
+    thumbnailPath: thumbnailPath ?? this.thumbnailPath,
+    visionStatus: visionStatus ?? this.visionStatus,
+  );
+  SourcePage copyWithCompanion(SourcePagesCompanion data) {
+    return SourcePage(
+      id: data.id.present ? data.id.value : this.id,
+      documentId: data.documentId.present
+          ? data.documentId.value
+          : this.documentId,
+      version: data.version.present ? data.version.value : this.version,
+      pageNumber: data.pageNumber.present
+          ? data.pageNumber.value
+          : this.pageNumber,
+      pixelHash: data.pixelHash.present ? data.pixelHash.value : this.pixelHash,
+      renderProfile: data.renderProfile.present
+          ? data.renderProfile.value
+          : this.renderProfile,
+      thumbnailPath: data.thumbnailPath.present
+          ? data.thumbnailPath.value
+          : this.thumbnailPath,
+      visionStatus: data.visionStatus.present
+          ? data.visionStatus.value
+          : this.visionStatus,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourcePage(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('version: $version, ')
+          ..write('pageNumber: $pageNumber, ')
+          ..write('pixelHash: $pixelHash, ')
+          ..write('renderProfile: $renderProfile, ')
+          ..write('thumbnailPath: $thumbnailPath, ')
+          ..write('visionStatus: $visionStatus')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    documentId,
+    version,
+    pageNumber,
+    pixelHash,
+    renderProfile,
+    thumbnailPath,
+    visionStatus,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SourcePage &&
+          other.id == this.id &&
+          other.documentId == this.documentId &&
+          other.version == this.version &&
+          other.pageNumber == this.pageNumber &&
+          other.pixelHash == this.pixelHash &&
+          other.renderProfile == this.renderProfile &&
+          other.thumbnailPath == this.thumbnailPath &&
+          other.visionStatus == this.visionStatus);
+}
+
+class SourcePagesCompanion extends UpdateCompanion<SourcePage> {
+  final Value<String> id;
+  final Value<String> documentId;
+  final Value<int> version;
+  final Value<int> pageNumber;
+  final Value<String> pixelHash;
+  final Value<String> renderProfile;
+  final Value<String> thumbnailPath;
+  final Value<String> visionStatus;
+  final Value<int> rowid;
+  const SourcePagesCompanion({
+    this.id = const Value.absent(),
+    this.documentId = const Value.absent(),
+    this.version = const Value.absent(),
+    this.pageNumber = const Value.absent(),
+    this.pixelHash = const Value.absent(),
+    this.renderProfile = const Value.absent(),
+    this.thumbnailPath = const Value.absent(),
+    this.visionStatus = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SourcePagesCompanion.insert({
+    required String id,
+    required String documentId,
+    this.version = const Value.absent(),
+    required int pageNumber,
+    required String pixelHash,
+    required String renderProfile,
+    required String thumbnailPath,
+    required String visionStatus,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       documentId = Value(documentId),
+       pageNumber = Value(pageNumber),
+       pixelHash = Value(pixelHash),
+       renderProfile = Value(renderProfile),
+       thumbnailPath = Value(thumbnailPath),
+       visionStatus = Value(visionStatus);
+  static Insertable<SourcePage> custom({
+    Expression<String>? id,
+    Expression<String>? documentId,
+    Expression<int>? version,
+    Expression<int>? pageNumber,
+    Expression<String>? pixelHash,
+    Expression<String>? renderProfile,
+    Expression<String>? thumbnailPath,
+    Expression<String>? visionStatus,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (documentId != null) 'document_id': documentId,
+      if (version != null) 'version': version,
+      if (pageNumber != null) 'page_number': pageNumber,
+      if (pixelHash != null) 'pixel_hash': pixelHash,
+      if (renderProfile != null) 'render_profile': renderProfile,
+      if (thumbnailPath != null) 'thumbnail_path': thumbnailPath,
+      if (visionStatus != null) 'vision_status': visionStatus,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SourcePagesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? documentId,
+    Value<int>? version,
+    Value<int>? pageNumber,
+    Value<String>? pixelHash,
+    Value<String>? renderProfile,
+    Value<String>? thumbnailPath,
+    Value<String>? visionStatus,
+    Value<int>? rowid,
+  }) {
+    return SourcePagesCompanion(
+      id: id ?? this.id,
+      documentId: documentId ?? this.documentId,
+      version: version ?? this.version,
+      pageNumber: pageNumber ?? this.pageNumber,
+      pixelHash: pixelHash ?? this.pixelHash,
+      renderProfile: renderProfile ?? this.renderProfile,
+      thumbnailPath: thumbnailPath ?? this.thumbnailPath,
+      visionStatus: visionStatus ?? this.visionStatus,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (documentId.present) {
+      map['document_id'] = Variable<String>(documentId.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (pageNumber.present) {
+      map['page_number'] = Variable<int>(pageNumber.value);
+    }
+    if (pixelHash.present) {
+      map['pixel_hash'] = Variable<String>(pixelHash.value);
+    }
+    if (renderProfile.present) {
+      map['render_profile'] = Variable<String>(renderProfile.value);
+    }
+    if (thumbnailPath.present) {
+      map['thumbnail_path'] = Variable<String>(thumbnailPath.value);
+    }
+    if (visionStatus.present) {
+      map['vision_status'] = Variable<String>(visionStatus.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourcePagesCompanion(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('version: $version, ')
+          ..write('pageNumber: $pageNumber, ')
+          ..write('pixelHash: $pixelHash, ')
+          ..write('renderProfile: $renderProfile, ')
+          ..write('thumbnailPath: $thumbnailPath, ')
+          ..write('visionStatus: $visionStatus, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SourceBlocksTable extends SourceBlocks
+    with TableInfo<$SourceBlocksTable, SourceBlock> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SourceBlocksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _documentIdMeta = const VerificationMeta(
+    'documentId',
+  );
+  @override
+  late final GeneratedColumn<String> documentId = GeneratedColumn<String>(
+    'document_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES source_entries (id)',
+    ),
+  );
+  static const VerificationMeta _pageIdMeta = const VerificationMeta('pageId');
+  @override
+  late final GeneratedColumn<String> pageId = GeneratedColumn<String>(
+    'page_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES source_pages (id)',
+    ),
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _sourceHashMeta = const VerificationMeta(
+    'sourceHash',
+  );
+  @override
+  late final GeneratedColumn<String> sourceHash = GeneratedColumn<String>(
+    'source_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _orderMeta = const VerificationMeta('order');
+  @override
+  late final GeneratedColumn<int> order = GeneratedColumn<int>(
+    'order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _kindMeta = const VerificationMeta('kind');
+  @override
+  late final GeneratedColumn<String> kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rawTextMeta = const VerificationMeta(
+    'rawText',
+  );
+  @override
+  late final GeneratedColumn<String> rawText = GeneratedColumn<String>(
+    'raw_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _normalizedTextMeta = const VerificationMeta(
+    'normalizedText',
+  );
+  @override
+  late final GeneratedColumn<String> normalizedText = GeneratedColumn<String>(
+    'normalized_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bboxXMeta = const VerificationMeta('bboxX');
+  @override
+  late final GeneratedColumn<double> bboxX = GeneratedColumn<double>(
+    'bbox_x',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bboxYMeta = const VerificationMeta('bboxY');
+  @override
+  late final GeneratedColumn<double> bboxY = GeneratedColumn<double>(
+    'bbox_y',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bboxWidthMeta = const VerificationMeta(
+    'bboxWidth',
+  );
+  @override
+  late final GeneratedColumn<double> bboxWidth = GeneratedColumn<double>(
+    'bbox_width',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bboxHeightMeta = const VerificationMeta(
+    'bboxHeight',
+  );
+  @override
+  late final GeneratedColumn<double> bboxHeight = GeneratedColumn<double>(
+    'bbox_height',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    documentId,
+    pageId,
+    version,
+    sourceHash,
+    order,
+    kind,
+    rawText,
+    normalizedText,
+    bboxX,
+    bboxY,
+    bboxWidth,
+    bboxHeight,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'source_blocks';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SourceBlock> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('document_id')) {
+      context.handle(
+        _documentIdMeta,
+        documentId.isAcceptableOrUnknown(data['document_id']!, _documentIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_documentIdMeta);
+    }
+    if (data.containsKey('page_id')) {
+      context.handle(
+        _pageIdMeta,
+        pageId.isAcceptableOrUnknown(data['page_id']!, _pageIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pageIdMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    }
+    if (data.containsKey('source_hash')) {
+      context.handle(
+        _sourceHashMeta,
+        sourceHash.isAcceptableOrUnknown(data['source_hash']!, _sourceHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceHashMeta);
+    }
+    if (data.containsKey('order')) {
+      context.handle(
+        _orderMeta,
+        order.isAcceptableOrUnknown(data['order']!, _orderMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_orderMeta);
+    }
+    if (data.containsKey('kind')) {
+      context.handle(
+        _kindMeta,
+        kind.isAcceptableOrUnknown(data['kind']!, _kindMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_kindMeta);
+    }
+    if (data.containsKey('raw_text')) {
+      context.handle(
+        _rawTextMeta,
+        rawText.isAcceptableOrUnknown(data['raw_text']!, _rawTextMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rawTextMeta);
+    }
+    if (data.containsKey('normalized_text')) {
+      context.handle(
+        _normalizedTextMeta,
+        normalizedText.isAcceptableOrUnknown(
+          data['normalized_text']!,
+          _normalizedTextMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_normalizedTextMeta);
+    }
+    if (data.containsKey('bbox_x')) {
+      context.handle(
+        _bboxXMeta,
+        bboxX.isAcceptableOrUnknown(data['bbox_x']!, _bboxXMeta),
+      );
+    }
+    if (data.containsKey('bbox_y')) {
+      context.handle(
+        _bboxYMeta,
+        bboxY.isAcceptableOrUnknown(data['bbox_y']!, _bboxYMeta),
+      );
+    }
+    if (data.containsKey('bbox_width')) {
+      context.handle(
+        _bboxWidthMeta,
+        bboxWidth.isAcceptableOrUnknown(data['bbox_width']!, _bboxWidthMeta),
+      );
+    }
+    if (data.containsKey('bbox_height')) {
+      context.handle(
+        _bboxHeightMeta,
+        bboxHeight.isAcceptableOrUnknown(data['bbox_height']!, _bboxHeightMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SourceBlock map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SourceBlock(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      documentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}document_id'],
+      )!,
+      pageId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}page_id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      sourceHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_hash'],
+      )!,
+      order: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}order'],
+      )!,
+      kind: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}kind'],
+      )!,
+      rawText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}raw_text'],
+      )!,
+      normalizedText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}normalized_text'],
+      )!,
+      bboxX: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_x'],
+      ),
+      bboxY: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_y'],
+      ),
+      bboxWidth: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_width'],
+      ),
+      bboxHeight: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_height'],
+      ),
+    );
+  }
+
+  @override
+  $SourceBlocksTable createAlias(String alias) {
+    return $SourceBlocksTable(attachedDatabase, alias);
+  }
+}
+
+class SourceBlock extends DataClass implements Insertable<SourceBlock> {
+  final String id;
+  final String documentId;
+  final String pageId;
+  final int version;
+  final String sourceHash;
+  final int order;
+  final String kind;
+  final String rawText;
+  final String normalizedText;
+  final double? bboxX;
+  final double? bboxY;
+  final double? bboxWidth;
+  final double? bboxHeight;
+  const SourceBlock({
+    required this.id,
+    required this.documentId,
+    required this.pageId,
+    required this.version,
+    required this.sourceHash,
+    required this.order,
+    required this.kind,
+    required this.rawText,
+    required this.normalizedText,
+    this.bboxX,
+    this.bboxY,
+    this.bboxWidth,
+    this.bboxHeight,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['document_id'] = Variable<String>(documentId);
+    map['page_id'] = Variable<String>(pageId);
+    map['version'] = Variable<int>(version);
+    map['source_hash'] = Variable<String>(sourceHash);
+    map['order'] = Variable<int>(order);
+    map['kind'] = Variable<String>(kind);
+    map['raw_text'] = Variable<String>(rawText);
+    map['normalized_text'] = Variable<String>(normalizedText);
+    if (!nullToAbsent || bboxX != null) {
+      map['bbox_x'] = Variable<double>(bboxX);
+    }
+    if (!nullToAbsent || bboxY != null) {
+      map['bbox_y'] = Variable<double>(bboxY);
+    }
+    if (!nullToAbsent || bboxWidth != null) {
+      map['bbox_width'] = Variable<double>(bboxWidth);
+    }
+    if (!nullToAbsent || bboxHeight != null) {
+      map['bbox_height'] = Variable<double>(bboxHeight);
+    }
+    return map;
+  }
+
+  SourceBlocksCompanion toCompanion(bool nullToAbsent) {
+    return SourceBlocksCompanion(
+      id: Value(id),
+      documentId: Value(documentId),
+      pageId: Value(pageId),
+      version: Value(version),
+      sourceHash: Value(sourceHash),
+      order: Value(order),
+      kind: Value(kind),
+      rawText: Value(rawText),
+      normalizedText: Value(normalizedText),
+      bboxX: bboxX == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxX),
+      bboxY: bboxY == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxY),
+      bboxWidth: bboxWidth == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxWidth),
+      bboxHeight: bboxHeight == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxHeight),
+    );
+  }
+
+  factory SourceBlock.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SourceBlock(
+      id: serializer.fromJson<String>(json['id']),
+      documentId: serializer.fromJson<String>(json['documentId']),
+      pageId: serializer.fromJson<String>(json['pageId']),
+      version: serializer.fromJson<int>(json['version']),
+      sourceHash: serializer.fromJson<String>(json['sourceHash']),
+      order: serializer.fromJson<int>(json['order']),
+      kind: serializer.fromJson<String>(json['kind']),
+      rawText: serializer.fromJson<String>(json['rawText']),
+      normalizedText: serializer.fromJson<String>(json['normalizedText']),
+      bboxX: serializer.fromJson<double?>(json['bboxX']),
+      bboxY: serializer.fromJson<double?>(json['bboxY']),
+      bboxWidth: serializer.fromJson<double?>(json['bboxWidth']),
+      bboxHeight: serializer.fromJson<double?>(json['bboxHeight']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'documentId': serializer.toJson<String>(documentId),
+      'pageId': serializer.toJson<String>(pageId),
+      'version': serializer.toJson<int>(version),
+      'sourceHash': serializer.toJson<String>(sourceHash),
+      'order': serializer.toJson<int>(order),
+      'kind': serializer.toJson<String>(kind),
+      'rawText': serializer.toJson<String>(rawText),
+      'normalizedText': serializer.toJson<String>(normalizedText),
+      'bboxX': serializer.toJson<double?>(bboxX),
+      'bboxY': serializer.toJson<double?>(bboxY),
+      'bboxWidth': serializer.toJson<double?>(bboxWidth),
+      'bboxHeight': serializer.toJson<double?>(bboxHeight),
+    };
+  }
+
+  SourceBlock copyWith({
+    String? id,
+    String? documentId,
+    String? pageId,
+    int? version,
+    String? sourceHash,
+    int? order,
+    String? kind,
+    String? rawText,
+    String? normalizedText,
+    Value<double?> bboxX = const Value.absent(),
+    Value<double?> bboxY = const Value.absent(),
+    Value<double?> bboxWidth = const Value.absent(),
+    Value<double?> bboxHeight = const Value.absent(),
+  }) => SourceBlock(
+    id: id ?? this.id,
+    documentId: documentId ?? this.documentId,
+    pageId: pageId ?? this.pageId,
+    version: version ?? this.version,
+    sourceHash: sourceHash ?? this.sourceHash,
+    order: order ?? this.order,
+    kind: kind ?? this.kind,
+    rawText: rawText ?? this.rawText,
+    normalizedText: normalizedText ?? this.normalizedText,
+    bboxX: bboxX.present ? bboxX.value : this.bboxX,
+    bboxY: bboxY.present ? bboxY.value : this.bboxY,
+    bboxWidth: bboxWidth.present ? bboxWidth.value : this.bboxWidth,
+    bboxHeight: bboxHeight.present ? bboxHeight.value : this.bboxHeight,
+  );
+  SourceBlock copyWithCompanion(SourceBlocksCompanion data) {
+    return SourceBlock(
+      id: data.id.present ? data.id.value : this.id,
+      documentId: data.documentId.present
+          ? data.documentId.value
+          : this.documentId,
+      pageId: data.pageId.present ? data.pageId.value : this.pageId,
+      version: data.version.present ? data.version.value : this.version,
+      sourceHash: data.sourceHash.present
+          ? data.sourceHash.value
+          : this.sourceHash,
+      order: data.order.present ? data.order.value : this.order,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      rawText: data.rawText.present ? data.rawText.value : this.rawText,
+      normalizedText: data.normalizedText.present
+          ? data.normalizedText.value
+          : this.normalizedText,
+      bboxX: data.bboxX.present ? data.bboxX.value : this.bboxX,
+      bboxY: data.bboxY.present ? data.bboxY.value : this.bboxY,
+      bboxWidth: data.bboxWidth.present ? data.bboxWidth.value : this.bboxWidth,
+      bboxHeight: data.bboxHeight.present
+          ? data.bboxHeight.value
+          : this.bboxHeight,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourceBlock(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('pageId: $pageId, ')
+          ..write('version: $version, ')
+          ..write('sourceHash: $sourceHash, ')
+          ..write('order: $order, ')
+          ..write('kind: $kind, ')
+          ..write('rawText: $rawText, ')
+          ..write('normalizedText: $normalizedText, ')
+          ..write('bboxX: $bboxX, ')
+          ..write('bboxY: $bboxY, ')
+          ..write('bboxWidth: $bboxWidth, ')
+          ..write('bboxHeight: $bboxHeight')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    documentId,
+    pageId,
+    version,
+    sourceHash,
+    order,
+    kind,
+    rawText,
+    normalizedText,
+    bboxX,
+    bboxY,
+    bboxWidth,
+    bboxHeight,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SourceBlock &&
+          other.id == this.id &&
+          other.documentId == this.documentId &&
+          other.pageId == this.pageId &&
+          other.version == this.version &&
+          other.sourceHash == this.sourceHash &&
+          other.order == this.order &&
+          other.kind == this.kind &&
+          other.rawText == this.rawText &&
+          other.normalizedText == this.normalizedText &&
+          other.bboxX == this.bboxX &&
+          other.bboxY == this.bboxY &&
+          other.bboxWidth == this.bboxWidth &&
+          other.bboxHeight == this.bboxHeight);
+}
+
+class SourceBlocksCompanion extends UpdateCompanion<SourceBlock> {
+  final Value<String> id;
+  final Value<String> documentId;
+  final Value<String> pageId;
+  final Value<int> version;
+  final Value<String> sourceHash;
+  final Value<int> order;
+  final Value<String> kind;
+  final Value<String> rawText;
+  final Value<String> normalizedText;
+  final Value<double?> bboxX;
+  final Value<double?> bboxY;
+  final Value<double?> bboxWidth;
+  final Value<double?> bboxHeight;
+  final Value<int> rowid;
+  const SourceBlocksCompanion({
+    this.id = const Value.absent(),
+    this.documentId = const Value.absent(),
+    this.pageId = const Value.absent(),
+    this.version = const Value.absent(),
+    this.sourceHash = const Value.absent(),
+    this.order = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.rawText = const Value.absent(),
+    this.normalizedText = const Value.absent(),
+    this.bboxX = const Value.absent(),
+    this.bboxY = const Value.absent(),
+    this.bboxWidth = const Value.absent(),
+    this.bboxHeight = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SourceBlocksCompanion.insert({
+    required String id,
+    required String documentId,
+    required String pageId,
+    this.version = const Value.absent(),
+    required String sourceHash,
+    required int order,
+    required String kind,
+    required String rawText,
+    required String normalizedText,
+    this.bboxX = const Value.absent(),
+    this.bboxY = const Value.absent(),
+    this.bboxWidth = const Value.absent(),
+    this.bboxHeight = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       documentId = Value(documentId),
+       pageId = Value(pageId),
+       sourceHash = Value(sourceHash),
+       order = Value(order),
+       kind = Value(kind),
+       rawText = Value(rawText),
+       normalizedText = Value(normalizedText);
+  static Insertable<SourceBlock> custom({
+    Expression<String>? id,
+    Expression<String>? documentId,
+    Expression<String>? pageId,
+    Expression<int>? version,
+    Expression<String>? sourceHash,
+    Expression<int>? order,
+    Expression<String>? kind,
+    Expression<String>? rawText,
+    Expression<String>? normalizedText,
+    Expression<double>? bboxX,
+    Expression<double>? bboxY,
+    Expression<double>? bboxWidth,
+    Expression<double>? bboxHeight,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (documentId != null) 'document_id': documentId,
+      if (pageId != null) 'page_id': pageId,
+      if (version != null) 'version': version,
+      if (sourceHash != null) 'source_hash': sourceHash,
+      if (order != null) 'order': order,
+      if (kind != null) 'kind': kind,
+      if (rawText != null) 'raw_text': rawText,
+      if (normalizedText != null) 'normalized_text': normalizedText,
+      if (bboxX != null) 'bbox_x': bboxX,
+      if (bboxY != null) 'bbox_y': bboxY,
+      if (bboxWidth != null) 'bbox_width': bboxWidth,
+      if (bboxHeight != null) 'bbox_height': bboxHeight,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SourceBlocksCompanion copyWith({
+    Value<String>? id,
+    Value<String>? documentId,
+    Value<String>? pageId,
+    Value<int>? version,
+    Value<String>? sourceHash,
+    Value<int>? order,
+    Value<String>? kind,
+    Value<String>? rawText,
+    Value<String>? normalizedText,
+    Value<double?>? bboxX,
+    Value<double?>? bboxY,
+    Value<double?>? bboxWidth,
+    Value<double?>? bboxHeight,
+    Value<int>? rowid,
+  }) {
+    return SourceBlocksCompanion(
+      id: id ?? this.id,
+      documentId: documentId ?? this.documentId,
+      pageId: pageId ?? this.pageId,
+      version: version ?? this.version,
+      sourceHash: sourceHash ?? this.sourceHash,
+      order: order ?? this.order,
+      kind: kind ?? this.kind,
+      rawText: rawText ?? this.rawText,
+      normalizedText: normalizedText ?? this.normalizedText,
+      bboxX: bboxX ?? this.bboxX,
+      bboxY: bboxY ?? this.bboxY,
+      bboxWidth: bboxWidth ?? this.bboxWidth,
+      bboxHeight: bboxHeight ?? this.bboxHeight,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (documentId.present) {
+      map['document_id'] = Variable<String>(documentId.value);
+    }
+    if (pageId.present) {
+      map['page_id'] = Variable<String>(pageId.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (sourceHash.present) {
+      map['source_hash'] = Variable<String>(sourceHash.value);
+    }
+    if (order.present) {
+      map['order'] = Variable<int>(order.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(kind.value);
+    }
+    if (rawText.present) {
+      map['raw_text'] = Variable<String>(rawText.value);
+    }
+    if (normalizedText.present) {
+      map['normalized_text'] = Variable<String>(normalizedText.value);
+    }
+    if (bboxX.present) {
+      map['bbox_x'] = Variable<double>(bboxX.value);
+    }
+    if (bboxY.present) {
+      map['bbox_y'] = Variable<double>(bboxY.value);
+    }
+    if (bboxWidth.present) {
+      map['bbox_width'] = Variable<double>(bboxWidth.value);
+    }
+    if (bboxHeight.present) {
+      map['bbox_height'] = Variable<double>(bboxHeight.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourceBlocksCompanion(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('pageId: $pageId, ')
+          ..write('version: $version, ')
+          ..write('sourceHash: $sourceHash, ')
+          ..write('order: $order, ')
+          ..write('kind: $kind, ')
+          ..write('rawText: $rawText, ')
+          ..write('normalizedText: $normalizedText, ')
+          ..write('bboxX: $bboxX, ')
+          ..write('bboxY: $bboxY, ')
+          ..write('bboxWidth: $bboxWidth, ')
+          ..write('bboxHeight: $bboxHeight, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SourceCitationsTable extends SourceCitations
+    with TableInfo<$SourceCitationsTable, SourceCitation> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SourceCitationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sourceBlockIdMeta = const VerificationMeta(
+    'sourceBlockId',
+  );
+  @override
+  late final GeneratedColumn<String> sourceBlockId = GeneratedColumn<String>(
+    'source_block_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES source_blocks (id)',
+    ),
+  );
+  static const VerificationMeta _pageIdMeta = const VerificationMeta('pageId');
+  @override
+  late final GeneratedColumn<String> pageId = GeneratedColumn<String>(
+    'page_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES source_pages (id)',
+    ),
+  );
+  static const VerificationMeta _figureIdMeta = const VerificationMeta(
+    'figureId',
+  );
+  @override
+  late final GeneratedColumn<String> figureId = GeneratedColumn<String>(
+    'figure_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quoteMeta = const VerificationMeta('quote');
+  @override
+  late final GeneratedColumn<String> quote = GeneratedColumn<String>(
+    'quote',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _locatorMeta = const VerificationMeta(
+    'locator',
+  );
+  @override
+  late final GeneratedColumn<String> locator = GeneratedColumn<String>(
+    'locator',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _confidenceMeta = const VerificationMeta(
+    'confidence',
+  );
+  @override
+  late final GeneratedColumn<double> confidence = GeneratedColumn<double>(
+    'confidence',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _extractionVersionMeta = const VerificationMeta(
+    'extractionVersion',
+  );
+  @override
+  late final GeneratedColumn<String> extractionVersion =
+      GeneratedColumn<String>(
+        'extraction_version',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    contentHash,
+    sourceBlockId,
+    pageId,
+    figureId,
+    quote,
+    locator,
+    confidence,
+    extractionVersion,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'source_citations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SourceCitation> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('source_block_id')) {
+      context.handle(
+        _sourceBlockIdMeta,
+        sourceBlockId.isAcceptableOrUnknown(
+          data['source_block_id']!,
+          _sourceBlockIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceBlockIdMeta);
+    }
+    if (data.containsKey('page_id')) {
+      context.handle(
+        _pageIdMeta,
+        pageId.isAcceptableOrUnknown(data['page_id']!, _pageIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pageIdMeta);
+    }
+    if (data.containsKey('figure_id')) {
+      context.handle(
+        _figureIdMeta,
+        figureId.isAcceptableOrUnknown(data['figure_id']!, _figureIdMeta),
+      );
+    }
+    if (data.containsKey('quote')) {
+      context.handle(
+        _quoteMeta,
+        quote.isAcceptableOrUnknown(data['quote']!, _quoteMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quoteMeta);
+    }
+    if (data.containsKey('locator')) {
+      context.handle(
+        _locatorMeta,
+        locator.isAcceptableOrUnknown(data['locator']!, _locatorMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_locatorMeta);
+    }
+    if (data.containsKey('confidence')) {
+      context.handle(
+        _confidenceMeta,
+        confidence.isAcceptableOrUnknown(data['confidence']!, _confidenceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_confidenceMeta);
+    }
+    if (data.containsKey('extraction_version')) {
+      context.handle(
+        _extractionVersionMeta,
+        extractionVersion.isAcceptableOrUnknown(
+          data['extraction_version']!,
+          _extractionVersionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_extractionVersionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SourceCitation map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SourceCitation(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      sourceBlockId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_block_id'],
+      )!,
+      pageId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}page_id'],
+      )!,
+      figureId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}figure_id'],
+      ),
+      quote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}quote'],
+      )!,
+      locator: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}locator'],
+      )!,
+      confidence: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}confidence'],
+      )!,
+      extractionVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}extraction_version'],
+      )!,
+    );
+  }
+
+  @override
+  $SourceCitationsTable createAlias(String alias) {
+    return $SourceCitationsTable(attachedDatabase, alias);
+  }
+}
+
+class SourceCitation extends DataClass implements Insertable<SourceCitation> {
+  final String id;
+  final int version;
+  final String contentHash;
+  final String sourceBlockId;
+  final String pageId;
+  final String? figureId;
+  final String quote;
+  final String locator;
+  final double confidence;
+  final String extractionVersion;
+  const SourceCitation({
+    required this.id,
+    required this.version,
+    required this.contentHash,
+    required this.sourceBlockId,
+    required this.pageId,
+    this.figureId,
+    required this.quote,
+    required this.locator,
+    required this.confidence,
+    required this.extractionVersion,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['source_block_id'] = Variable<String>(sourceBlockId);
+    map['page_id'] = Variable<String>(pageId);
+    if (!nullToAbsent || figureId != null) {
+      map['figure_id'] = Variable<String>(figureId);
+    }
+    map['quote'] = Variable<String>(quote);
+    map['locator'] = Variable<String>(locator);
+    map['confidence'] = Variable<double>(confidence);
+    map['extraction_version'] = Variable<String>(extractionVersion);
+    return map;
+  }
+
+  SourceCitationsCompanion toCompanion(bool nullToAbsent) {
+    return SourceCitationsCompanion(
+      id: Value(id),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      sourceBlockId: Value(sourceBlockId),
+      pageId: Value(pageId),
+      figureId: figureId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(figureId),
+      quote: Value(quote),
+      locator: Value(locator),
+      confidence: Value(confidence),
+      extractionVersion: Value(extractionVersion),
+    );
+  }
+
+  factory SourceCitation.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SourceCitation(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      sourceBlockId: serializer.fromJson<String>(json['sourceBlockId']),
+      pageId: serializer.fromJson<String>(json['pageId']),
+      figureId: serializer.fromJson<String?>(json['figureId']),
+      quote: serializer.fromJson<String>(json['quote']),
+      locator: serializer.fromJson<String>(json['locator']),
+      confidence: serializer.fromJson<double>(json['confidence']),
+      extractionVersion: serializer.fromJson<String>(json['extractionVersion']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'sourceBlockId': serializer.toJson<String>(sourceBlockId),
+      'pageId': serializer.toJson<String>(pageId),
+      'figureId': serializer.toJson<String?>(figureId),
+      'quote': serializer.toJson<String>(quote),
+      'locator': serializer.toJson<String>(locator),
+      'confidence': serializer.toJson<double>(confidence),
+      'extractionVersion': serializer.toJson<String>(extractionVersion),
+    };
+  }
+
+  SourceCitation copyWith({
+    String? id,
+    int? version,
+    String? contentHash,
+    String? sourceBlockId,
+    String? pageId,
+    Value<String?> figureId = const Value.absent(),
+    String? quote,
+    String? locator,
+    double? confidence,
+    String? extractionVersion,
+  }) => SourceCitation(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    sourceBlockId: sourceBlockId ?? this.sourceBlockId,
+    pageId: pageId ?? this.pageId,
+    figureId: figureId.present ? figureId.value : this.figureId,
+    quote: quote ?? this.quote,
+    locator: locator ?? this.locator,
+    confidence: confidence ?? this.confidence,
+    extractionVersion: extractionVersion ?? this.extractionVersion,
+  );
+  SourceCitation copyWithCompanion(SourceCitationsCompanion data) {
+    return SourceCitation(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      sourceBlockId: data.sourceBlockId.present
+          ? data.sourceBlockId.value
+          : this.sourceBlockId,
+      pageId: data.pageId.present ? data.pageId.value : this.pageId,
+      figureId: data.figureId.present ? data.figureId.value : this.figureId,
+      quote: data.quote.present ? data.quote.value : this.quote,
+      locator: data.locator.present ? data.locator.value : this.locator,
+      confidence: data.confidence.present
+          ? data.confidence.value
+          : this.confidence,
+      extractionVersion: data.extractionVersion.present
+          ? data.extractionVersion.value
+          : this.extractionVersion,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourceCitation(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('sourceBlockId: $sourceBlockId, ')
+          ..write('pageId: $pageId, ')
+          ..write('figureId: $figureId, ')
+          ..write('quote: $quote, ')
+          ..write('locator: $locator, ')
+          ..write('confidence: $confidence, ')
+          ..write('extractionVersion: $extractionVersion')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    version,
+    contentHash,
+    sourceBlockId,
+    pageId,
+    figureId,
+    quote,
+    locator,
+    confidence,
+    extractionVersion,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SourceCitation &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.sourceBlockId == this.sourceBlockId &&
+          other.pageId == this.pageId &&
+          other.figureId == this.figureId &&
+          other.quote == this.quote &&
+          other.locator == this.locator &&
+          other.confidence == this.confidence &&
+          other.extractionVersion == this.extractionVersion);
+}
+
+class SourceCitationsCompanion extends UpdateCompanion<SourceCitation> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String> sourceBlockId;
+  final Value<String> pageId;
+  final Value<String?> figureId;
+  final Value<String> quote;
+  final Value<String> locator;
+  final Value<double> confidence;
+  final Value<String> extractionVersion;
+  final Value<int> rowid;
+  const SourceCitationsCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.sourceBlockId = const Value.absent(),
+    this.pageId = const Value.absent(),
+    this.figureId = const Value.absent(),
+    this.quote = const Value.absent(),
+    this.locator = const Value.absent(),
+    this.confidence = const Value.absent(),
+    this.extractionVersion = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SourceCitationsCompanion.insert({
+    required String id,
+    this.version = const Value.absent(),
+    required String contentHash,
+    required String sourceBlockId,
+    required String pageId,
+    this.figureId = const Value.absent(),
+    required String quote,
+    required String locator,
+    required double confidence,
+    required String extractionVersion,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       contentHash = Value(contentHash),
+       sourceBlockId = Value(sourceBlockId),
+       pageId = Value(pageId),
+       quote = Value(quote),
+       locator = Value(locator),
+       confidence = Value(confidence),
+       extractionVersion = Value(extractionVersion);
+  static Insertable<SourceCitation> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? sourceBlockId,
+    Expression<String>? pageId,
+    Expression<String>? figureId,
+    Expression<String>? quote,
+    Expression<String>? locator,
+    Expression<double>? confidence,
+    Expression<String>? extractionVersion,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (sourceBlockId != null) 'source_block_id': sourceBlockId,
+      if (pageId != null) 'page_id': pageId,
+      if (figureId != null) 'figure_id': figureId,
+      if (quote != null) 'quote': quote,
+      if (locator != null) 'locator': locator,
+      if (confidence != null) 'confidence': confidence,
+      if (extractionVersion != null) 'extraction_version': extractionVersion,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SourceCitationsCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String>? sourceBlockId,
+    Value<String>? pageId,
+    Value<String?>? figureId,
+    Value<String>? quote,
+    Value<String>? locator,
+    Value<double>? confidence,
+    Value<String>? extractionVersion,
+    Value<int>? rowid,
+  }) {
+    return SourceCitationsCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      sourceBlockId: sourceBlockId ?? this.sourceBlockId,
+      pageId: pageId ?? this.pageId,
+      figureId: figureId ?? this.figureId,
+      quote: quote ?? this.quote,
+      locator: locator ?? this.locator,
+      confidence: confidence ?? this.confidence,
+      extractionVersion: extractionVersion ?? this.extractionVersion,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (sourceBlockId.present) {
+      map['source_block_id'] = Variable<String>(sourceBlockId.value);
+    }
+    if (pageId.present) {
+      map['page_id'] = Variable<String>(pageId.value);
+    }
+    if (figureId.present) {
+      map['figure_id'] = Variable<String>(figureId.value);
+    }
+    if (quote.present) {
+      map['quote'] = Variable<String>(quote.value);
+    }
+    if (locator.present) {
+      map['locator'] = Variable<String>(locator.value);
+    }
+    if (confidence.present) {
+      map['confidence'] = Variable<double>(confidence.value);
+    }
+    if (extractionVersion.present) {
+      map['extraction_version'] = Variable<String>(extractionVersion.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourceCitationsCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('sourceBlockId: $sourceBlockId, ')
+          ..write('pageId: $pageId, ')
+          ..write('figureId: $figureId, ')
+          ..write('quote: $quote, ')
+          ..write('locator: $locator, ')
+          ..write('confidence: $confidence, ')
+          ..write('extractionVersion: $extractionVersion, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
   late final $LibraryEntriesTable libraryEntries = $LibraryEntriesTable(this);
   late final $SourceEntriesTable sourceEntries = $SourceEntriesTable(this);
+  late final $SourcePagesTable sourcePages = $SourcePagesTable(this);
+  late final $SourceBlocksTable sourceBlocks = $SourceBlocksTable(this);
+  late final $SourceCitationsTable sourceCitations = $SourceCitationsTable(
+    this,
+  );
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
+  );
+  late final Index sourcePageDocumentPageVersionProfileUnique = Index(
+    'source_page_document_page_version_profile_unique',
+    'CREATE UNIQUE INDEX source_page_document_page_version_profile_unique ON source_pages (document_id, page_number, version, render_profile)',
+  );
+  late final Index sourceBlockPageVersionOrderUnique = Index(
+    'source_block_page_version_order_unique',
+    'CREATE UNIQUE INDEX source_block_page_version_order_unique ON source_blocks (page_id, version, "order")',
   );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -741,7 +2674,12 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     libraryEntries,
     sourceEntries,
+    sourcePages,
+    sourceBlocks,
+    sourceCitations,
     sourceVersionUnique,
+    sourcePageDocumentPageVersionProfileUnique,
+    sourceBlockPageVersionOrderUnique,
   ];
 }
 
@@ -1044,6 +2982,42 @@ final class $$SourceEntriesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<$SourcePagesTable, List<SourcePage>>
+  _sourcePagesRefsTable(_$TraceDatabase db) => MultiTypedResultKey.fromTable(
+    db.sourcePages,
+    aliasName: 'source_entries__id__source_pages__document_id',
+  );
+
+  $$SourcePagesTableProcessedTableManager get sourcePagesRefs {
+    final manager = $$SourcePagesTableTableManager(
+      $_db,
+      $_db.sourcePages,
+    ).filter((f) => f.documentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_sourcePagesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SourceBlocksTable, List<SourceBlock>>
+  _sourceBlocksRefsTable(_$TraceDatabase db) => MultiTypedResultKey.fromTable(
+    db.sourceBlocks,
+    aliasName: 'source_entries__id__source_blocks__document_id',
+  );
+
+  $$SourceBlocksTableProcessedTableManager get sourceBlocksRefs {
+    final manager = $$SourceBlocksTableTableManager(
+      $_db,
+      $_db.sourceBlocks,
+    ).filter((f) => f.documentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_sourceBlocksRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SourceEntriesTableFilterComposer
@@ -1111,6 +3085,56 @@ class $$SourceEntriesTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> sourcePagesRefs(
+    Expression<bool> Function($$SourcePagesTableFilterComposer f) f,
+  ) {
+    final $$SourcePagesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.documentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableFilterComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> sourceBlocksRefs(
+    Expression<bool> Function($$SourceBlocksTableFilterComposer f) f,
+  ) {
+    final $$SourceBlocksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceBlocks,
+      getReferencedColumn: (t) => t.documentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceBlocksTableFilterComposer(
+            $db: $db,
+            $table: $db.sourceBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -1238,6 +3262,56 @@ class $$SourceEntriesTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> sourcePagesRefs<T extends Object>(
+    Expression<T> Function($$SourcePagesTableAnnotationComposer a) f,
+  ) {
+    final $$SourcePagesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.documentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> sourceBlocksRefs<T extends Object>(
+    Expression<T> Function($$SourceBlocksTableAnnotationComposer a) f,
+  ) {
+    final $$SourceBlocksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceBlocks,
+      getReferencedColumn: (t) => t.documentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceBlocksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourceBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SourceEntriesTableTableManager
@@ -1253,7 +3327,11 @@ class $$SourceEntriesTableTableManager
           $$SourceEntriesTableUpdateCompanionBuilder,
           (SourceEntry, $$SourceEntriesTableReferences),
           SourceEntry,
-          PrefetchHooks Function({bool libraryId})
+          PrefetchHooks Function({
+            bool libraryId,
+            bool sourcePagesRefs,
+            bool sourceBlocksRefs,
+          })
         > {
   $$SourceEntriesTableTableManager(
     _$TraceDatabase db,
@@ -1320,7 +3398,1820 @@ class $$SourceEntriesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({libraryId = false}) {
+          prefetchHooksCallback:
+              ({
+                libraryId = false,
+                sourcePagesRefs = false,
+                sourceBlocksRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (sourcePagesRefs) db.sourcePages,
+                    if (sourceBlocksRefs) db.sourceBlocks,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (libraryId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.libraryId,
+                                    referencedTable:
+                                        $$SourceEntriesTableReferences
+                                            ._libraryIdTable(db),
+                                    referencedColumn:
+                                        $$SourceEntriesTableReferences
+                                            ._libraryIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (sourcePagesRefs)
+                        await $_getPrefetchedData<
+                          SourceEntry,
+                          $SourceEntriesTable,
+                          SourcePage
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SourceEntriesTableReferences
+                              ._sourcePagesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SourceEntriesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).sourcePagesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.documentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (sourceBlocksRefs)
+                        await $_getPrefetchedData<
+                          SourceEntry,
+                          $SourceEntriesTable,
+                          SourceBlock
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SourceEntriesTableReferences
+                              ._sourceBlocksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SourceEntriesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).sourceBlocksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.documentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SourceEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $SourceEntriesTable,
+      SourceEntry,
+      $$SourceEntriesTableFilterComposer,
+      $$SourceEntriesTableOrderingComposer,
+      $$SourceEntriesTableAnnotationComposer,
+      $$SourceEntriesTableCreateCompanionBuilder,
+      $$SourceEntriesTableUpdateCompanionBuilder,
+      (SourceEntry, $$SourceEntriesTableReferences),
+      SourceEntry,
+      PrefetchHooks Function({
+        bool libraryId,
+        bool sourcePagesRefs,
+        bool sourceBlocksRefs,
+      })
+    >;
+typedef $$SourcePagesTableCreateCompanionBuilder =
+    SourcePagesCompanion Function({
+      required String id,
+      required String documentId,
+      Value<int> version,
+      required int pageNumber,
+      required String pixelHash,
+      required String renderProfile,
+      required String thumbnailPath,
+      required String visionStatus,
+      Value<int> rowid,
+    });
+typedef $$SourcePagesTableUpdateCompanionBuilder =
+    SourcePagesCompanion Function({
+      Value<String> id,
+      Value<String> documentId,
+      Value<int> version,
+      Value<int> pageNumber,
+      Value<String> pixelHash,
+      Value<String> renderProfile,
+      Value<String> thumbnailPath,
+      Value<String> visionStatus,
+      Value<int> rowid,
+    });
+
+final class $$SourcePagesTableReferences
+    extends BaseReferences<_$TraceDatabase, $SourcePagesTable, SourcePage> {
+  $$SourcePagesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SourceEntriesTable _documentIdTable(_$TraceDatabase db) => db
+      .sourceEntries
+      .createAlias('source_pages__document_id__source_entries__id');
+
+  $$SourceEntriesTableProcessedTableManager get documentId {
+    final $_column = $_itemColumn<String>('document_id')!;
+
+    final manager = $$SourceEntriesTableTableManager(
+      $_db,
+      $_db.sourceEntries,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_documentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$SourceBlocksTable, List<SourceBlock>>
+  _sourceBlocksRefsTable(_$TraceDatabase db) => MultiTypedResultKey.fromTable(
+    db.sourceBlocks,
+    aliasName: 'source_pages__id__source_blocks__page_id',
+  );
+
+  $$SourceBlocksTableProcessedTableManager get sourceBlocksRefs {
+    final manager = $$SourceBlocksTableTableManager(
+      $_db,
+      $_db.sourceBlocks,
+    ).filter((f) => f.pageId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_sourceBlocksRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SourceCitationsTable, List<SourceCitation>>
+  _sourceCitationsRefsTable(_$TraceDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.sourceCitations,
+        aliasName: 'source_pages__id__source_citations__page_id',
+      );
+
+  $$SourceCitationsTableProcessedTableManager get sourceCitationsRefs {
+    final manager = $$SourceCitationsTableTableManager(
+      $_db,
+      $_db.sourceCitations,
+    ).filter((f) => f.pageId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _sourceCitationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$SourcePagesTableFilterComposer
+    extends Composer<_$TraceDatabase, $SourcePagesTable> {
+  $$SourcePagesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pageNumber => $composableBuilder(
+    column: $table.pageNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pixelHash => $composableBuilder(
+    column: $table.pixelHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get renderProfile => $composableBuilder(
+    column: $table.renderProfile,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get thumbnailPath => $composableBuilder(
+    column: $table.thumbnailPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get visionStatus => $composableBuilder(
+    column: $table.visionStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SourceEntriesTableFilterComposer get documentId {
+    final $$SourceEntriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.sourceEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceEntriesTableFilterComposer(
+            $db: $db,
+            $table: $db.sourceEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> sourceBlocksRefs(
+    Expression<bool> Function($$SourceBlocksTableFilterComposer f) f,
+  ) {
+    final $$SourceBlocksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceBlocks,
+      getReferencedColumn: (t) => t.pageId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceBlocksTableFilterComposer(
+            $db: $db,
+            $table: $db.sourceBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> sourceCitationsRefs(
+    Expression<bool> Function($$SourceCitationsTableFilterComposer f) f,
+  ) {
+    final $$SourceCitationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceCitations,
+      getReferencedColumn: (t) => t.pageId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceCitationsTableFilterComposer(
+            $db: $db,
+            $table: $db.sourceCitations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SourcePagesTableOrderingComposer
+    extends Composer<_$TraceDatabase, $SourcePagesTable> {
+  $$SourcePagesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pageNumber => $composableBuilder(
+    column: $table.pageNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pixelHash => $composableBuilder(
+    column: $table.pixelHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get renderProfile => $composableBuilder(
+    column: $table.renderProfile,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get thumbnailPath => $composableBuilder(
+    column: $table.thumbnailPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get visionStatus => $composableBuilder(
+    column: $table.visionStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SourceEntriesTableOrderingComposer get documentId {
+    final $$SourceEntriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.sourceEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceEntriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sourceEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SourcePagesTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $SourcePagesTable> {
+  $$SourcePagesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<int> get pageNumber => $composableBuilder(
+    column: $table.pageNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get pixelHash =>
+      $composableBuilder(column: $table.pixelHash, builder: (column) => column);
+
+  GeneratedColumn<String> get renderProfile => $composableBuilder(
+    column: $table.renderProfile,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get thumbnailPath => $composableBuilder(
+    column: $table.thumbnailPath,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get visionStatus => $composableBuilder(
+    column: $table.visionStatus,
+    builder: (column) => column,
+  );
+
+  $$SourceEntriesTableAnnotationComposer get documentId {
+    final $$SourceEntriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.sourceEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceEntriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourceEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> sourceBlocksRefs<T extends Object>(
+    Expression<T> Function($$SourceBlocksTableAnnotationComposer a) f,
+  ) {
+    final $$SourceBlocksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceBlocks,
+      getReferencedColumn: (t) => t.pageId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceBlocksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourceBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> sourceCitationsRefs<T extends Object>(
+    Expression<T> Function($$SourceCitationsTableAnnotationComposer a) f,
+  ) {
+    final $$SourceCitationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceCitations,
+      getReferencedColumn: (t) => t.pageId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceCitationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourceCitations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SourcePagesTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $SourcePagesTable,
+          SourcePage,
+          $$SourcePagesTableFilterComposer,
+          $$SourcePagesTableOrderingComposer,
+          $$SourcePagesTableAnnotationComposer,
+          $$SourcePagesTableCreateCompanionBuilder,
+          $$SourcePagesTableUpdateCompanionBuilder,
+          (SourcePage, $$SourcePagesTableReferences),
+          SourcePage,
+          PrefetchHooks Function({
+            bool documentId,
+            bool sourceBlocksRefs,
+            bool sourceCitationsRefs,
+          })
+        > {
+  $$SourcePagesTableTableManager(_$TraceDatabase db, $SourcePagesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SourcePagesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SourcePagesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SourcePagesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> documentId = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<int> pageNumber = const Value.absent(),
+                Value<String> pixelHash = const Value.absent(),
+                Value<String> renderProfile = const Value.absent(),
+                Value<String> thumbnailPath = const Value.absent(),
+                Value<String> visionStatus = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SourcePagesCompanion(
+                id: id,
+                documentId: documentId,
+                version: version,
+                pageNumber: pageNumber,
+                pixelHash: pixelHash,
+                renderProfile: renderProfile,
+                thumbnailPath: thumbnailPath,
+                visionStatus: visionStatus,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String documentId,
+                Value<int> version = const Value.absent(),
+                required int pageNumber,
+                required String pixelHash,
+                required String renderProfile,
+                required String thumbnailPath,
+                required String visionStatus,
+                Value<int> rowid = const Value.absent(),
+              }) => SourcePagesCompanion.insert(
+                id: id,
+                documentId: documentId,
+                version: version,
+                pageNumber: pageNumber,
+                pixelHash: pixelHash,
+                renderProfile: renderProfile,
+                thumbnailPath: thumbnailPath,
+                visionStatus: visionStatus,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SourcePagesTable, SourcePage>(table),
+                  $$SourcePagesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                documentId = false,
+                sourceBlocksRefs = false,
+                sourceCitationsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (sourceBlocksRefs) db.sourceBlocks,
+                    if (sourceCitationsRefs) db.sourceCitations,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (documentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.documentId,
+                                    referencedTable:
+                                        $$SourcePagesTableReferences
+                                            ._documentIdTable(db),
+                                    referencedColumn:
+                                        $$SourcePagesTableReferences
+                                            ._documentIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (sourceBlocksRefs)
+                        await $_getPrefetchedData<
+                          SourcePage,
+                          $SourcePagesTable,
+                          SourceBlock
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SourcePagesTableReferences
+                              ._sourceBlocksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SourcePagesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).sourceBlocksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.pageId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (sourceCitationsRefs)
+                        await $_getPrefetchedData<
+                          SourcePage,
+                          $SourcePagesTable,
+                          SourceCitation
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SourcePagesTableReferences
+                              ._sourceCitationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SourcePagesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).sourceCitationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.pageId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SourcePagesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $SourcePagesTable,
+      SourcePage,
+      $$SourcePagesTableFilterComposer,
+      $$SourcePagesTableOrderingComposer,
+      $$SourcePagesTableAnnotationComposer,
+      $$SourcePagesTableCreateCompanionBuilder,
+      $$SourcePagesTableUpdateCompanionBuilder,
+      (SourcePage, $$SourcePagesTableReferences),
+      SourcePage,
+      PrefetchHooks Function({
+        bool documentId,
+        bool sourceBlocksRefs,
+        bool sourceCitationsRefs,
+      })
+    >;
+typedef $$SourceBlocksTableCreateCompanionBuilder =
+    SourceBlocksCompanion Function({
+      required String id,
+      required String documentId,
+      required String pageId,
+      Value<int> version,
+      required String sourceHash,
+      required int order,
+      required String kind,
+      required String rawText,
+      required String normalizedText,
+      Value<double?> bboxX,
+      Value<double?> bboxY,
+      Value<double?> bboxWidth,
+      Value<double?> bboxHeight,
+      Value<int> rowid,
+    });
+typedef $$SourceBlocksTableUpdateCompanionBuilder =
+    SourceBlocksCompanion Function({
+      Value<String> id,
+      Value<String> documentId,
+      Value<String> pageId,
+      Value<int> version,
+      Value<String> sourceHash,
+      Value<int> order,
+      Value<String> kind,
+      Value<String> rawText,
+      Value<String> normalizedText,
+      Value<double?> bboxX,
+      Value<double?> bboxY,
+      Value<double?> bboxWidth,
+      Value<double?> bboxHeight,
+      Value<int> rowid,
+    });
+
+final class $$SourceBlocksTableReferences
+    extends BaseReferences<_$TraceDatabase, $SourceBlocksTable, SourceBlock> {
+  $$SourceBlocksTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SourceEntriesTable _documentIdTable(_$TraceDatabase db) => db
+      .sourceEntries
+      .createAlias('source_blocks__document_id__source_entries__id');
+
+  $$SourceEntriesTableProcessedTableManager get documentId {
+    final $_column = $_itemColumn<String>('document_id')!;
+
+    final manager = $$SourceEntriesTableTableManager(
+      $_db,
+      $_db.sourceEntries,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_documentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SourcePagesTable _pageIdTable(_$TraceDatabase db) =>
+      db.sourcePages.createAlias('source_blocks__page_id__source_pages__id');
+
+  $$SourcePagesTableProcessedTableManager get pageId {
+    final $_column = $_itemColumn<String>('page_id')!;
+
+    final manager = $$SourcePagesTableTableManager(
+      $_db,
+      $_db.sourcePages,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_pageIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$SourceCitationsTable, List<SourceCitation>>
+  _sourceCitationsRefsTable(_$TraceDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.sourceCitations,
+        aliasName: 'source_blocks__id__source_citations__source_block_id',
+      );
+
+  $$SourceCitationsTableProcessedTableManager get sourceCitationsRefs {
+    final manager = $$SourceCitationsTableTableManager(
+      $_db,
+      $_db.sourceCitations,
+    ).filter((f) => f.sourceBlockId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _sourceCitationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$SourceBlocksTableFilterComposer
+    extends Composer<_$TraceDatabase, $SourceBlocksTable> {
+  $$SourceBlocksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceHash => $composableBuilder(
+    column: $table.sourceHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get rawText => $composableBuilder(
+    column: $table.rawText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get normalizedText => $composableBuilder(
+    column: $table.normalizedText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxX => $composableBuilder(
+    column: $table.bboxX,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxY => $composableBuilder(
+    column: $table.bboxY,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxWidth => $composableBuilder(
+    column: $table.bboxWidth,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxHeight => $composableBuilder(
+    column: $table.bboxHeight,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SourceEntriesTableFilterComposer get documentId {
+    final $$SourceEntriesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.sourceEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceEntriesTableFilterComposer(
+            $db: $db,
+            $table: $db.sourceEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SourcePagesTableFilterComposer get pageId {
+    final $$SourcePagesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableFilterComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> sourceCitationsRefs(
+    Expression<bool> Function($$SourceCitationsTableFilterComposer f) f,
+  ) {
+    final $$SourceCitationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceCitations,
+      getReferencedColumn: (t) => t.sourceBlockId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceCitationsTableFilterComposer(
+            $db: $db,
+            $table: $db.sourceCitations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SourceBlocksTableOrderingComposer
+    extends Composer<_$TraceDatabase, $SourceBlocksTable> {
+  $$SourceBlocksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceHash => $composableBuilder(
+    column: $table.sourceHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get kind => $composableBuilder(
+    column: $table.kind,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get rawText => $composableBuilder(
+    column: $table.rawText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get normalizedText => $composableBuilder(
+    column: $table.normalizedText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxX => $composableBuilder(
+    column: $table.bboxX,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxY => $composableBuilder(
+    column: $table.bboxY,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxWidth => $composableBuilder(
+    column: $table.bboxWidth,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxHeight => $composableBuilder(
+    column: $table.bboxHeight,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SourceEntriesTableOrderingComposer get documentId {
+    final $$SourceEntriesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.sourceEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceEntriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sourceEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SourcePagesTableOrderingComposer get pageId {
+    final $$SourcePagesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SourceBlocksTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $SourceBlocksTable> {
+  $$SourceBlocksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceHash => $composableBuilder(
+    column: $table.sourceHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get order =>
+      $composableBuilder(column: $table.order, builder: (column) => column);
+
+  GeneratedColumn<String> get kind =>
+      $composableBuilder(column: $table.kind, builder: (column) => column);
+
+  GeneratedColumn<String> get rawText =>
+      $composableBuilder(column: $table.rawText, builder: (column) => column);
+
+  GeneratedColumn<String> get normalizedText => $composableBuilder(
+    column: $table.normalizedText,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get bboxX =>
+      $composableBuilder(column: $table.bboxX, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxY =>
+      $composableBuilder(column: $table.bboxY, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxWidth =>
+      $composableBuilder(column: $table.bboxWidth, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxHeight => $composableBuilder(
+    column: $table.bboxHeight,
+    builder: (column) => column,
+  );
+
+  $$SourceEntriesTableAnnotationComposer get documentId {
+    final $$SourceEntriesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.sourceEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceEntriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourceEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SourcePagesTableAnnotationComposer get pageId {
+    final $$SourcePagesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> sourceCitationsRefs<T extends Object>(
+    Expression<T> Function($$SourceCitationsTableAnnotationComposer a) f,
+  ) {
+    final $$SourceCitationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sourceCitations,
+      getReferencedColumn: (t) => t.sourceBlockId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceCitationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourceCitations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SourceBlocksTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $SourceBlocksTable,
+          SourceBlock,
+          $$SourceBlocksTableFilterComposer,
+          $$SourceBlocksTableOrderingComposer,
+          $$SourceBlocksTableAnnotationComposer,
+          $$SourceBlocksTableCreateCompanionBuilder,
+          $$SourceBlocksTableUpdateCompanionBuilder,
+          (SourceBlock, $$SourceBlocksTableReferences),
+          SourceBlock,
+          PrefetchHooks Function({
+            bool documentId,
+            bool pageId,
+            bool sourceCitationsRefs,
+          })
+        > {
+  $$SourceBlocksTableTableManager(_$TraceDatabase db, $SourceBlocksTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SourceBlocksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SourceBlocksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SourceBlocksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> documentId = const Value.absent(),
+                Value<String> pageId = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> sourceHash = const Value.absent(),
+                Value<int> order = const Value.absent(),
+                Value<String> kind = const Value.absent(),
+                Value<String> rawText = const Value.absent(),
+                Value<String> normalizedText = const Value.absent(),
+                Value<double?> bboxX = const Value.absent(),
+                Value<double?> bboxY = const Value.absent(),
+                Value<double?> bboxWidth = const Value.absent(),
+                Value<double?> bboxHeight = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SourceBlocksCompanion(
+                id: id,
+                documentId: documentId,
+                pageId: pageId,
+                version: version,
+                sourceHash: sourceHash,
+                order: order,
+                kind: kind,
+                rawText: rawText,
+                normalizedText: normalizedText,
+                bboxX: bboxX,
+                bboxY: bboxY,
+                bboxWidth: bboxWidth,
+                bboxHeight: bboxHeight,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String documentId,
+                required String pageId,
+                Value<int> version = const Value.absent(),
+                required String sourceHash,
+                required int order,
+                required String kind,
+                required String rawText,
+                required String normalizedText,
+                Value<double?> bboxX = const Value.absent(),
+                Value<double?> bboxY = const Value.absent(),
+                Value<double?> bboxWidth = const Value.absent(),
+                Value<double?> bboxHeight = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SourceBlocksCompanion.insert(
+                id: id,
+                documentId: documentId,
+                pageId: pageId,
+                version: version,
+                sourceHash: sourceHash,
+                order: order,
+                kind: kind,
+                rawText: rawText,
+                normalizedText: normalizedText,
+                bboxX: bboxX,
+                bboxY: bboxY,
+                bboxWidth: bboxWidth,
+                bboxHeight: bboxHeight,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SourceBlocksTable, SourceBlock>(table),
+                  $$SourceBlocksTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                documentId = false,
+                pageId = false,
+                sourceCitationsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (sourceCitationsRefs) db.sourceCitations,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (documentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.documentId,
+                                    referencedTable:
+                                        $$SourceBlocksTableReferences
+                                            ._documentIdTable(db),
+                                    referencedColumn:
+                                        $$SourceBlocksTableReferences
+                                            ._documentIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (pageId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.pageId,
+                                    referencedTable:
+                                        $$SourceBlocksTableReferences
+                                            ._pageIdTable(db),
+                                    referencedColumn:
+                                        $$SourceBlocksTableReferences
+                                            ._pageIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (sourceCitationsRefs)
+                        await $_getPrefetchedData<
+                          SourceBlock,
+                          $SourceBlocksTable,
+                          SourceCitation
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SourceBlocksTableReferences
+                              ._sourceCitationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SourceBlocksTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).sourceCitationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.sourceBlockId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SourceBlocksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $SourceBlocksTable,
+      SourceBlock,
+      $$SourceBlocksTableFilterComposer,
+      $$SourceBlocksTableOrderingComposer,
+      $$SourceBlocksTableAnnotationComposer,
+      $$SourceBlocksTableCreateCompanionBuilder,
+      $$SourceBlocksTableUpdateCompanionBuilder,
+      (SourceBlock, $$SourceBlocksTableReferences),
+      SourceBlock,
+      PrefetchHooks Function({
+        bool documentId,
+        bool pageId,
+        bool sourceCitationsRefs,
+      })
+    >;
+typedef $$SourceCitationsTableCreateCompanionBuilder =
+    SourceCitationsCompanion Function({
+      required String id,
+      Value<int> version,
+      required String contentHash,
+      required String sourceBlockId,
+      required String pageId,
+      Value<String?> figureId,
+      required String quote,
+      required String locator,
+      required double confidence,
+      required String extractionVersion,
+      Value<int> rowid,
+    });
+typedef $$SourceCitationsTableUpdateCompanionBuilder =
+    SourceCitationsCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String> sourceBlockId,
+      Value<String> pageId,
+      Value<String?> figureId,
+      Value<String> quote,
+      Value<String> locator,
+      Value<double> confidence,
+      Value<String> extractionVersion,
+      Value<int> rowid,
+    });
+
+final class $$SourceCitationsTableReferences
+    extends
+        BaseReferences<_$TraceDatabase, $SourceCitationsTable, SourceCitation> {
+  $$SourceCitationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SourceBlocksTable _sourceBlockIdTable(_$TraceDatabase db) => db
+      .sourceBlocks
+      .createAlias('source_citations__source_block_id__source_blocks__id');
+
+  $$SourceBlocksTableProcessedTableManager get sourceBlockId {
+    final $_column = $_itemColumn<String>('source_block_id')!;
+
+    final manager = $$SourceBlocksTableTableManager(
+      $_db,
+      $_db.sourceBlocks,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_sourceBlockIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SourcePagesTable _pageIdTable(_$TraceDatabase db) =>
+      db.sourcePages.createAlias('source_citations__page_id__source_pages__id');
+
+  $$SourcePagesTableProcessedTableManager get pageId {
+    final $_column = $_itemColumn<String>('page_id')!;
+
+    final manager = $$SourcePagesTableTableManager(
+      $_db,
+      $_db.sourcePages,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_pageIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SourceCitationsTableFilterComposer
+    extends Composer<_$TraceDatabase, $SourceCitationsTable> {
+  $$SourceCitationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get figureId => $composableBuilder(
+    column: $table.figureId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get quote => $composableBuilder(
+    column: $table.quote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get locator => $composableBuilder(
+    column: $table.locator,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get confidence => $composableBuilder(
+    column: $table.confidence,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get extractionVersion => $composableBuilder(
+    column: $table.extractionVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SourceBlocksTableFilterComposer get sourceBlockId {
+    final $$SourceBlocksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sourceBlockId,
+      referencedTable: $db.sourceBlocks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceBlocksTableFilterComposer(
+            $db: $db,
+            $table: $db.sourceBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SourcePagesTableFilterComposer get pageId {
+    final $$SourcePagesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableFilterComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SourceCitationsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $SourceCitationsTable> {
+  $$SourceCitationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get figureId => $composableBuilder(
+    column: $table.figureId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get quote => $composableBuilder(
+    column: $table.quote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get locator => $composableBuilder(
+    column: $table.locator,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get confidence => $composableBuilder(
+    column: $table.confidence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get extractionVersion => $composableBuilder(
+    column: $table.extractionVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SourceBlocksTableOrderingComposer get sourceBlockId {
+    final $$SourceBlocksTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sourceBlockId,
+      referencedTable: $db.sourceBlocks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceBlocksTableOrderingComposer(
+            $db: $db,
+            $table: $db.sourceBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SourcePagesTableOrderingComposer get pageId {
+    final $$SourcePagesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SourceCitationsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $SourceCitationsTable> {
+  $$SourceCitationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get figureId =>
+      $composableBuilder(column: $table.figureId, builder: (column) => column);
+
+  GeneratedColumn<String> get quote =>
+      $composableBuilder(column: $table.quote, builder: (column) => column);
+
+  GeneratedColumn<String> get locator =>
+      $composableBuilder(column: $table.locator, builder: (column) => column);
+
+  GeneratedColumn<double> get confidence => $composableBuilder(
+    column: $table.confidence,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get extractionVersion => $composableBuilder(
+    column: $table.extractionVersion,
+    builder: (column) => column,
+  );
+
+  $$SourceBlocksTableAnnotationComposer get sourceBlockId {
+    final $$SourceBlocksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sourceBlockId,
+      referencedTable: $db.sourceBlocks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourceBlocksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourceBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SourcePagesTableAnnotationComposer get pageId {
+    final $$SourcePagesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.pageId,
+      referencedTable: $db.sourcePages,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SourcePagesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sourcePages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SourceCitationsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $SourceCitationsTable,
+          SourceCitation,
+          $$SourceCitationsTableFilterComposer,
+          $$SourceCitationsTableOrderingComposer,
+          $$SourceCitationsTableAnnotationComposer,
+          $$SourceCitationsTableCreateCompanionBuilder,
+          $$SourceCitationsTableUpdateCompanionBuilder,
+          (SourceCitation, $$SourceCitationsTableReferences),
+          SourceCitation,
+          PrefetchHooks Function({bool sourceBlockId, bool pageId})
+        > {
+  $$SourceCitationsTableTableManager(
+    _$TraceDatabase db,
+    $SourceCitationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SourceCitationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SourceCitationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SourceCitationsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> sourceBlockId = const Value.absent(),
+                Value<String> pageId = const Value.absent(),
+                Value<String?> figureId = const Value.absent(),
+                Value<String> quote = const Value.absent(),
+                Value<String> locator = const Value.absent(),
+                Value<double> confidence = const Value.absent(),
+                Value<String> extractionVersion = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SourceCitationsCompanion(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                sourceBlockId: sourceBlockId,
+                pageId: pageId,
+                figureId: figureId,
+                quote: quote,
+                locator: locator,
+                confidence: confidence,
+                extractionVersion: extractionVersion,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<int> version = const Value.absent(),
+                required String contentHash,
+                required String sourceBlockId,
+                required String pageId,
+                Value<String?> figureId = const Value.absent(),
+                required String quote,
+                required String locator,
+                required double confidence,
+                required String extractionVersion,
+                Value<int> rowid = const Value.absent(),
+              }) => SourceCitationsCompanion.insert(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                sourceBlockId: sourceBlockId,
+                pageId: pageId,
+                figureId: figureId,
+                quote: quote,
+                locator: locator,
+                confidence: confidence,
+                extractionVersion: extractionVersion,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SourceCitationsTable, SourceCitation>(table),
+                  $$SourceCitationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({sourceBlockId = false, pageId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -1340,16 +5231,33 @@ class $$SourceEntriesTableTableManager
                       dynamic
                     >
                   >(state) {
-                    if (libraryId) {
+                    if (sourceBlockId) {
                       state =
                           state.withJoin(
                                 currentTable: table,
-                                currentColumn: table.libraryId,
-                                referencedTable: $$SourceEntriesTableReferences
-                                    ._libraryIdTable(db),
-                                referencedColumn: $$SourceEntriesTableReferences
-                                    ._libraryIdTable(db)
-                                    .id,
+                                currentColumn: table.sourceBlockId,
+                                referencedTable:
+                                    $$SourceCitationsTableReferences
+                                        ._sourceBlockIdTable(db),
+                                referencedColumn:
+                                    $$SourceCitationsTableReferences
+                                        ._sourceBlockIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (pageId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.pageId,
+                                referencedTable:
+                                    $$SourceCitationsTableReferences
+                                        ._pageIdTable(db),
+                                referencedColumn:
+                                    $$SourceCitationsTableReferences
+                                        ._pageIdTable(db)
+                                        .id,
                               )
                               as T;
                     }
@@ -1365,19 +5273,19 @@ class $$SourceEntriesTableTableManager
       );
 }
 
-typedef $$SourceEntriesTableProcessedTableManager =
+typedef $$SourceCitationsTableProcessedTableManager =
     ProcessedTableManager<
       _$TraceDatabase,
-      $SourceEntriesTable,
-      SourceEntry,
-      $$SourceEntriesTableFilterComposer,
-      $$SourceEntriesTableOrderingComposer,
-      $$SourceEntriesTableAnnotationComposer,
-      $$SourceEntriesTableCreateCompanionBuilder,
-      $$SourceEntriesTableUpdateCompanionBuilder,
-      (SourceEntry, $$SourceEntriesTableReferences),
-      SourceEntry,
-      PrefetchHooks Function({bool libraryId})
+      $SourceCitationsTable,
+      SourceCitation,
+      $$SourceCitationsTableFilterComposer,
+      $$SourceCitationsTableOrderingComposer,
+      $$SourceCitationsTableAnnotationComposer,
+      $$SourceCitationsTableCreateCompanionBuilder,
+      $$SourceCitationsTableUpdateCompanionBuilder,
+      (SourceCitation, $$SourceCitationsTableReferences),
+      SourceCitation,
+      PrefetchHooks Function({bool sourceBlockId, bool pageId})
     >;
 
 class $TraceDatabaseManager {
@@ -1387,4 +5295,10 @@ class $TraceDatabaseManager {
       $$LibraryEntriesTableTableManager(_db, _db.libraryEntries);
   $$SourceEntriesTableTableManager get sourceEntries =>
       $$SourceEntriesTableTableManager(_db, _db.sourceEntries);
+  $$SourcePagesTableTableManager get sourcePages =>
+      $$SourcePagesTableTableManager(_db, _db.sourcePages);
+  $$SourceBlocksTableTableManager get sourceBlocks =>
+      $$SourceBlocksTableTableManager(_db, _db.sourceBlocks);
+  $$SourceCitationsTableTableManager get sourceCitations =>
+      $$SourceCitationsTableTableManager(_db, _db.sourceCitations);
 }
