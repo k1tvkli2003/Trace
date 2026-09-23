@@ -7549,6 +7549,799 @@ class ReviewEventsCompanion extends UpdateCompanion<ReviewEvent> {
   }
 }
 
+class $SyncOperationsTable extends SyncOperations
+    with TableInfo<$SyncOperationsTable, SyncOperation> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SyncOperationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncStateMeta = const VerificationMeta(
+    'syncState',
+  );
+  @override
+  late final GeneratedColumn<String> syncState = GeneratedColumn<String>(
+    'sync_state',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+    'payload_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    contentHash,
+    syncState,
+    createdAt,
+    payloadJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'sync_operations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SyncOperation> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_versionMeta);
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('sync_state')) {
+      context.handle(
+        _syncStateMeta,
+        syncState.isAcceptableOrUnknown(data['sync_state']!, _syncStateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_syncStateMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
+          _payloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SyncOperation map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SyncOperation(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      syncState: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sync_state'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      )!,
+    );
+  }
+
+  @override
+  $SyncOperationsTable createAlias(String alias) {
+    return $SyncOperationsTable(attachedDatabase, alias);
+  }
+}
+
+class SyncOperation extends DataClass implements Insertable<SyncOperation> {
+  final String id;
+  final int version;
+  final String contentHash;
+  final String syncState;
+  final String createdAt;
+  final String payloadJson;
+  const SyncOperation({
+    required this.id,
+    required this.version,
+    required this.contentHash,
+    required this.syncState,
+    required this.createdAt,
+    required this.payloadJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['sync_state'] = Variable<String>(syncState);
+    map['created_at'] = Variable<String>(createdAt);
+    map['payload_json'] = Variable<String>(payloadJson);
+    return map;
+  }
+
+  SyncOperationsCompanion toCompanion(bool nullToAbsent) {
+    return SyncOperationsCompanion(
+      id: Value(id),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      syncState: Value(syncState),
+      createdAt: Value(createdAt),
+      payloadJson: Value(payloadJson),
+    );
+  }
+
+  factory SyncOperation.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SyncOperation(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      syncState: serializer.fromJson<String>(json['syncState']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'syncState': serializer.toJson<String>(syncState),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+    };
+  }
+
+  SyncOperation copyWith({
+    String? id,
+    int? version,
+    String? contentHash,
+    String? syncState,
+    String? createdAt,
+    String? payloadJson,
+  }) => SyncOperation(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    syncState: syncState ?? this.syncState,
+    createdAt: createdAt ?? this.createdAt,
+    payloadJson: payloadJson ?? this.payloadJson,
+  );
+  SyncOperation copyWithCompanion(SyncOperationsCompanion data) {
+    return SyncOperation(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      syncState: data.syncState.present ? data.syncState.value : this.syncState,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SyncOperation(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('syncState: $syncState, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('payloadJson: $payloadJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, version, contentHash, syncState, createdAt, payloadJson);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SyncOperation &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.syncState == this.syncState &&
+          other.createdAt == this.createdAt &&
+          other.payloadJson == this.payloadJson);
+}
+
+class SyncOperationsCompanion extends UpdateCompanion<SyncOperation> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String> syncState;
+  final Value<String> createdAt;
+  final Value<String> payloadJson;
+  final Value<int> rowid;
+  const SyncOperationsCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.syncState = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SyncOperationsCompanion.insert({
+    required String id,
+    required int version,
+    required String contentHash,
+    required String syncState,
+    required String createdAt,
+    required String payloadJson,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       version = Value(version),
+       contentHash = Value(contentHash),
+       syncState = Value(syncState),
+       createdAt = Value(createdAt),
+       payloadJson = Value(payloadJson);
+  static Insertable<SyncOperation> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? syncState,
+    Expression<String>? createdAt,
+    Expression<String>? payloadJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (syncState != null) 'sync_state': syncState,
+      if (createdAt != null) 'created_at': createdAt,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SyncOperationsCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String>? syncState,
+    Value<String>? createdAt,
+    Value<String>? payloadJson,
+    Value<int>? rowid,
+  }) {
+    return SyncOperationsCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      syncState: syncState ?? this.syncState,
+      createdAt: createdAt ?? this.createdAt,
+      payloadJson: payloadJson ?? this.payloadJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (syncState.present) {
+      map['sync_state'] = Variable<String>(syncState.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SyncOperationsCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('syncState: $syncState, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AiRunLedgersTable extends AiRunLedgers
+    with TableInfo<$AiRunLedgersTable, AiRunLedger> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AiRunLedgersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+    'payload_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    contentHash,
+    createdAt,
+    payloadJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'ai_run_ledgers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AiRunLedger> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_versionMeta);
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
+          _payloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AiRunLedger map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AiRunLedger(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      )!,
+    );
+  }
+
+  @override
+  $AiRunLedgersTable createAlias(String alias) {
+    return $AiRunLedgersTable(attachedDatabase, alias);
+  }
+}
+
+class AiRunLedger extends DataClass implements Insertable<AiRunLedger> {
+  final String id;
+  final int version;
+  final String contentHash;
+  final String createdAt;
+  final String payloadJson;
+  const AiRunLedger({
+    required this.id,
+    required this.version,
+    required this.contentHash,
+    required this.createdAt,
+    required this.payloadJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['created_at'] = Variable<String>(createdAt);
+    map['payload_json'] = Variable<String>(payloadJson);
+    return map;
+  }
+
+  AiRunLedgersCompanion toCompanion(bool nullToAbsent) {
+    return AiRunLedgersCompanion(
+      id: Value(id),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      createdAt: Value(createdAt),
+      payloadJson: Value(payloadJson),
+    );
+  }
+
+  factory AiRunLedger.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AiRunLedger(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+    };
+  }
+
+  AiRunLedger copyWith({
+    String? id,
+    int? version,
+    String? contentHash,
+    String? createdAt,
+    String? payloadJson,
+  }) => AiRunLedger(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    createdAt: createdAt ?? this.createdAt,
+    payloadJson: payloadJson ?? this.payloadJson,
+  );
+  AiRunLedger copyWithCompanion(AiRunLedgersCompanion data) {
+    return AiRunLedger(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiRunLedger(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('payloadJson: $payloadJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, version, contentHash, createdAt, payloadJson);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AiRunLedger &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.createdAt == this.createdAt &&
+          other.payloadJson == this.payloadJson);
+}
+
+class AiRunLedgersCompanion extends UpdateCompanion<AiRunLedger> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String> createdAt;
+  final Value<String> payloadJson;
+  final Value<int> rowid;
+  const AiRunLedgersCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  AiRunLedgersCompanion.insert({
+    required String id,
+    required int version,
+    required String contentHash,
+    required String createdAt,
+    required String payloadJson,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       version = Value(version),
+       contentHash = Value(contentHash),
+       createdAt = Value(createdAt),
+       payloadJson = Value(payloadJson);
+  static Insertable<AiRunLedger> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? createdAt,
+    Expression<String>? payloadJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (createdAt != null) 'created_at': createdAt,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  AiRunLedgersCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String>? createdAt,
+    Value<String>? payloadJson,
+    Value<int>? rowid,
+  }) {
+    return AiRunLedgersCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      createdAt: createdAt ?? this.createdAt,
+      payloadJson: payloadJson ?? this.payloadJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiRunLedgersCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
@@ -7570,6 +8363,8 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
   late final $StudyNotesTable studyNotes = $StudyNotesTable(this);
   late final $ReviewItemsTable reviewItems = $ReviewItemsTable(this);
   late final $ReviewEventsTable reviewEvents = $ReviewEventsTable(this);
+  late final $SyncOperationsTable syncOperations = $SyncOperationsTable(this);
+  late final $AiRunLedgersTable aiRunLedgers = $AiRunLedgersTable(this);
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
@@ -7590,6 +8385,10 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     'review_item_state_due',
     'CREATE INDEX review_item_state_due ON review_items (state, due_at)',
   );
+  late final Index syncOperationsStateCreated = Index(
+    'sync_operations_state_created',
+    'CREATE INDEX sync_operations_state_created ON sync_operations (sync_state, created_at)',
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -7607,11 +8406,14 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     studyNotes,
     reviewItems,
     reviewEvents,
+    syncOperations,
+    aiRunLedgers,
     sourceVersionUnique,
     sourcePageDocumentPageVersionProfileUnique,
     sourceBlockPageVersionOrderUnique,
     lessonArtifactSliceVersionUnique,
     reviewItemStateDue,
+    syncOperationsStateCreated,
   ];
 }
 
@@ -13237,6 +14039,457 @@ typedef $$ReviewEventsTableProcessedTableManager =
       ReviewEvent,
       PrefetchHooks Function({bool reviewItemId})
     >;
+typedef $$SyncOperationsTableCreateCompanionBuilder =
+    SyncOperationsCompanion Function({
+      required String id,
+      required int version,
+      required String contentHash,
+      required String syncState,
+      required String createdAt,
+      required String payloadJson,
+      Value<int> rowid,
+    });
+typedef $$SyncOperationsTableUpdateCompanionBuilder =
+    SyncOperationsCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String> syncState,
+      Value<String> createdAt,
+      Value<String> payloadJson,
+      Value<int> rowid,
+    });
+
+class $$SyncOperationsTableFilterComposer
+    extends Composer<_$TraceDatabase, $SyncOperationsTable> {
+  $$SyncOperationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get syncState => $composableBuilder(
+    column: $table.syncState,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SyncOperationsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $SyncOperationsTable> {
+  $$SyncOperationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get syncState => $composableBuilder(
+    column: $table.syncState,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SyncOperationsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $SyncOperationsTable> {
+  $$SyncOperationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get syncState =>
+      $composableBuilder(column: $table.syncState, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
+}
+
+class $$SyncOperationsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $SyncOperationsTable,
+          SyncOperation,
+          $$SyncOperationsTableFilterComposer,
+          $$SyncOperationsTableOrderingComposer,
+          $$SyncOperationsTableAnnotationComposer,
+          $$SyncOperationsTableCreateCompanionBuilder,
+          $$SyncOperationsTableUpdateCompanionBuilder,
+          (
+            SyncOperation,
+            BaseReferences<
+              _$TraceDatabase,
+              $SyncOperationsTable,
+              SyncOperation
+            >,
+          ),
+          SyncOperation,
+          PrefetchHooks Function()
+        > {
+  $$SyncOperationsTableTableManager(
+    _$TraceDatabase db,
+    $SyncOperationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SyncOperationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SyncOperationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SyncOperationsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> syncState = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> payloadJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SyncOperationsCompanion(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                syncState: syncState,
+                createdAt: createdAt,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required int version,
+                required String contentHash,
+                required String syncState,
+                required String createdAt,
+                required String payloadJson,
+                Value<int> rowid = const Value.absent(),
+              }) => SyncOperationsCompanion.insert(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                syncState: syncState,
+                createdAt: createdAt,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$SyncOperationsTable, SyncOperation>(table),
+                  BaseReferences<
+                    _$TraceDatabase,
+                    $SyncOperationsTable,
+                    SyncOperation
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SyncOperationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $SyncOperationsTable,
+      SyncOperation,
+      $$SyncOperationsTableFilterComposer,
+      $$SyncOperationsTableOrderingComposer,
+      $$SyncOperationsTableAnnotationComposer,
+      $$SyncOperationsTableCreateCompanionBuilder,
+      $$SyncOperationsTableUpdateCompanionBuilder,
+      (
+        SyncOperation,
+        BaseReferences<_$TraceDatabase, $SyncOperationsTable, SyncOperation>,
+      ),
+      SyncOperation,
+      PrefetchHooks Function()
+    >;
+typedef $$AiRunLedgersTableCreateCompanionBuilder =
+    AiRunLedgersCompanion Function({
+      required String id,
+      required int version,
+      required String contentHash,
+      required String createdAt,
+      required String payloadJson,
+      Value<int> rowid,
+    });
+typedef $$AiRunLedgersTableUpdateCompanionBuilder =
+    AiRunLedgersCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String> createdAt,
+      Value<String> payloadJson,
+      Value<int> rowid,
+    });
+
+class $$AiRunLedgersTableFilterComposer
+    extends Composer<_$TraceDatabase, $AiRunLedgersTable> {
+  $$AiRunLedgersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$AiRunLedgersTableOrderingComposer
+    extends Composer<_$TraceDatabase, $AiRunLedgersTable> {
+  $$AiRunLedgersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AiRunLedgersTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $AiRunLedgersTable> {
+  $$AiRunLedgersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
+}
+
+class $$AiRunLedgersTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $AiRunLedgersTable,
+          AiRunLedger,
+          $$AiRunLedgersTableFilterComposer,
+          $$AiRunLedgersTableOrderingComposer,
+          $$AiRunLedgersTableAnnotationComposer,
+          $$AiRunLedgersTableCreateCompanionBuilder,
+          $$AiRunLedgersTableUpdateCompanionBuilder,
+          (
+            AiRunLedger,
+            BaseReferences<_$TraceDatabase, $AiRunLedgersTable, AiRunLedger>,
+          ),
+          AiRunLedger,
+          PrefetchHooks Function()
+        > {
+  $$AiRunLedgersTableTableManager(_$TraceDatabase db, $AiRunLedgersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AiRunLedgersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AiRunLedgersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AiRunLedgersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> payloadJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AiRunLedgersCompanion(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                createdAt: createdAt,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required int version,
+                required String contentHash,
+                required String createdAt,
+                required String payloadJson,
+                Value<int> rowid = const Value.absent(),
+              }) => AiRunLedgersCompanion.insert(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                createdAt: createdAt,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$AiRunLedgersTable, AiRunLedger>(table),
+                  BaseReferences<
+                    _$TraceDatabase,
+                    $AiRunLedgersTable,
+                    AiRunLedger
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AiRunLedgersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $AiRunLedgersTable,
+      AiRunLedger,
+      $$AiRunLedgersTableFilterComposer,
+      $$AiRunLedgersTableOrderingComposer,
+      $$AiRunLedgersTableAnnotationComposer,
+      $$AiRunLedgersTableCreateCompanionBuilder,
+      $$AiRunLedgersTableUpdateCompanionBuilder,
+      (
+        AiRunLedger,
+        BaseReferences<_$TraceDatabase, $AiRunLedgersTable, AiRunLedger>,
+      ),
+      AiRunLedger,
+      PrefetchHooks Function()
+    >;
 
 class $TraceDatabaseManager {
   final _$TraceDatabase _db;
@@ -13265,4 +14518,8 @@ class $TraceDatabaseManager {
       $$ReviewItemsTableTableManager(_db, _db.reviewItems);
   $$ReviewEventsTableTableManager get reviewEvents =>
       $$ReviewEventsTableTableManager(_db, _db.reviewEvents);
+  $$SyncOperationsTableTableManager get syncOperations =>
+      $$SyncOperationsTableTableManager(_db, _db.syncOperations);
+  $$AiRunLedgersTableTableManager get aiRunLedgers =>
+      $$AiRunLedgersTableTableManager(_db, _db.aiRunLedgers);
 }

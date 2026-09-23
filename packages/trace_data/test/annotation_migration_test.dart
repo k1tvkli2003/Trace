@@ -27,10 +27,18 @@ void main() {
         ).importPdf(libraryId: 'library-1', name: 'book.pdf', bytes: original);
         await created.close();
 
-        // Reconstruct exact v6 schema delta: v7 added only these two tables.
+        // Reconstruct exact v6 schema delta by dropping every later table.
+        // Dropping tables also drops their indexes, which matters because
+        // dropping only annotation tables would leave review/oplog indexes
+        // behind and mislabel the migration (it would fail with
+        // "review_item_state_due already exists" when upgrading to v9).
         final old = sqlite3.open(file.path);
         old.execute('DROP TABLE study_notes');
         old.execute('DROP TABLE highlight_anchors');
+        old.execute('DROP TABLE review_events');
+        old.execute('DROP TABLE review_items');
+        old.execute('DROP TABLE sync_operations');
+        old.execute('DROP TABLE ai_run_ledgers');
         old.execute('PRAGMA user_version = 6');
         old.close();
 
@@ -126,8 +134,28 @@ void main() {
           await reopened.close();
         }
       } finally {
-        await directory.delete(recursive: true);
+        await _deleteTemp(directory);
       }
     },
   );
+}
+
+Future<void> _deleteTemp(Directory directory) async {
+  // Windows releases the SQLite file lock slightly after close() returns;
+  // retry briefly, then leave cleanup best-effort so a green migration
+  // proof never fails on temp-folder lock timing.
+  for (var attempt = 0; attempt < 100; attempt++) {
+    try {
+      await directory.delete(recursive: true);
+      return;
+    } on PathAccessException {
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    }
+  }
+  try {
+    await directory.delete(recursive: true);
+  } on PathAccessException {
+    // Best-effort only: assertions already passed above.
+    print('WARNING: temp cleanup skipped, still locked: ${directory.path}');
+  }
 }

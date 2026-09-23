@@ -219,6 +219,33 @@ class ReviewEvents extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+@TableIndex(
+  name: 'sync_operations_state_created',
+  columns: {#syncState, #createdAt},
+)
+class SyncOperations extends Table {
+  TextColumn get id => text()();
+  IntColumn get version => integer()();
+  TextColumn get contentHash => text()();
+  TextColumn get syncState => text()();
+  TextColumn get createdAt => text()();
+  TextColumn get payloadJson => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class AiRunLedgers extends Table {
+  TextColumn get id => text()();
+  IntColumn get version => integer()();
+  TextColumn get contentHash => text()();
+  TextColumn get createdAt => text()();
+  TextColumn get payloadJson => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     LibraryEntries,
@@ -233,13 +260,15 @@ class ReviewEvents extends Table {
     StudyNotes,
     ReviewItems,
     ReviewEvents,
+    SyncOperations,
+    AiRunLedgers,
   ],
 )
 class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -280,6 +309,11 @@ class TraceDatabase extends _$TraceDatabase {
         await m.createTable(reviewItems);
         await m.createTable(reviewEvents);
         await m.createIndex(reviewItemStateDue);
+      }
+      if (from < 9) {
+        await m.createTable(syncOperations);
+        await m.createTable(aiRunLedgers);
+        await m.createIndex(syncOperationsStateCreated);
       }
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),

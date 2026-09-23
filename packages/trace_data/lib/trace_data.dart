@@ -14,6 +14,7 @@ export 'src/local/local_figure_asset_repository.dart';
 export 'src/local/local_lesson_repository.dart';
 export 'src/local/local_annotation_repository.dart';
 export 'src/local/local_review_repository.dart';
+export 'src/local/local_oplog_repository.dart';
 export 'src/local/trace_database.dart'
     hide
         SourcePage,
@@ -25,6 +26,8 @@ export 'src/local/trace_database.dart'
         HighlightAnchor,
         StudyNote,
         ReviewItem,
-        ReviewEvent;
+        ReviewEvent,
+        SyncOperation,
+        AiRunLedger;
 
 // TODO: Export any libraries intended for clients of this package.
