@@ -104,9 +104,11 @@ def run() -> None:
                 time.sleep(3)
                 if not evaluate(probe):
                     raise RuntimeError("Exact title lost after reload")
-                if os.environ.get('TRACE_SMOKE_IMPORT'):
-                    source = Path(profile) / 'chapter.md'
-                    source.write_text('# First chapter\nPersian source.\n', encoding='utf-8')
+                if os.environ.get('TRACE_SMOKE_IMPORT') or os.environ.get('TRACE_SMOKE_PDF'):
+                    pdf_mode = bool(os.environ.get('TRACE_SMOKE_PDF'))
+                    source = Path(__file__).resolve().parent.parent / 'apps/trace_flutter/test/fixtures/dummy.pdf' if pdf_mode else Path(profile) / 'chapter.md'
+                    if not pdf_mode:
+                        source.write_text('# First chapter\nPersian source.\n', encoding='utf-8')
                     for kind in ("mousePressed", "mouseReleased"):
                         call("Input.dispatchMouseEvent", {"type": kind, "x": 110, "y": 138, "button": "left", "clickCount": 1})
                     time.sleep(1)
@@ -114,7 +116,7 @@ def run() -> None:
                         import base64
                         Path(os.environ['TRACE_SMOKE_SCREENSHOT']).write_bytes(base64.b64decode(call('Page.captureScreenshot', {'format':'png'})['data']))
                     for kind in ("mousePressed", "mouseReleased"):
-                        call("Input.dispatchMouseEvent", {"type": kind, "x": 515, "y": 93, "button": "left", "clickCount": 1})
+                        call("Input.dispatchMouseEvent", {"type": kind, "x": 590 if pdf_mode else 438, "y": 93, "button": "left", "clickCount": 1})
                     call('Runtime.evaluate', {'expression': 'document.querySelectorAll("input[type=file]").length'})
                     if not chooser_events:
                         for _ in range(20):
@@ -126,14 +128,15 @@ def run() -> None:
                         raise RuntimeError('Real file picker did not open')
                     call('DOM.setFileInputFiles', {'files': [str(source)], 'backendNodeId': chooser_events[-1]['backendNodeId']})
                     time.sleep(2)
-                    source_probe = probe.replace('Trace browser persistence', 'First chapter')
+                    expected = '%PDF-1.4' if pdf_mode else 'First chapter'
+                    source_probe = probe.replace('Trace browser persistence', expected)
                     if not evaluate(source_probe):
-                        raise RuntimeError('Picked Markdown bytes not stored in SQLite')
+                        raise RuntimeError(f'Picked {source.suffix} bytes not stored in SQLite')
                     call('Page.reload', {'ignoreCache': True})
                     time.sleep(3)
                     if not evaluate(source_probe):
-                        raise RuntimeError('Picked Markdown original lost on reload')
-                    print('PASS: native Chrome chooser imported Markdown and original survived reload')
+                        raise RuntimeError(f'Picked {source.suffix} original lost on reload')
+                    print(f'PASS: native Chrome chooser imported {source.suffix} and original survived reload')
                 print("PASS: exact collection persisted in IndexedDB across Chrome reload")
         finally:
             proc.terminate()

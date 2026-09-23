@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:drift/native.dart';
@@ -58,6 +60,77 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Small screen book'), findsOneWidget);
   });
+
+  testWidgets(
+    'second PDF tap cannot open a second picker while first is pending',
+    (tester) async {
+      final database = TraceDatabase(NativeDatabase.memory());
+      addTearDown(database.close);
+      await LocalLibraryRepository(
+        database,
+      ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'PDF library'));
+      final pending = Completer<PickedPdfSource?>();
+      var pickerCalls = 0;
+      await tester.pumpWidget(
+        MainApp(
+          database: database,
+          pickPdf: () {
+            pickerCalls++;
+            return pending.future;
+          },
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('PDF library'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Import PDF'));
+      await tester.pump();
+      expect(find.text('Importing PDF…'), findsOneWidget);
+      expect(
+        tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed,
+        isNull,
+      );
+      expect(pickerCalls, 1);
+      pending.complete(null);
+      await tester.pumpAndSettle();
+    },
+  );
+
+  testWidgets(
+    'selected collection imports PDF original without claiming text extraction',
+    (tester) async {
+      final database = TraceDatabase(NativeDatabase.memory());
+      addTearDown(database.close);
+      await LocalLibraryRepository(
+        database,
+      ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'PDF library'));
+      final original = File('test/fixtures/dummy.pdf').readAsBytesSync();
+      await tester.pumpWidget(
+        MainApp(
+          database: database,
+          pickPdf: () async =>
+              PickedPdfSource(name: 'sample.pdf', bytes: original),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('PDF library'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Import PDF'));
+      await tester.pumpAndSettle();
+      expect(find.text('sample.pdf · v1'), findsOneWidget);
+      await tester.tap(find.text('sample.pdf · v1'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Awaiting page-image Vision'), findsOneWidget);
+      expect(find.text('RAW SOURCE'), findsNothing);
+      final saved = (await LocalPdfSourceRepository(
+        database,
+      ).listForLibrary('lib')).single;
+      expect(
+        await LocalPdfSourceRepository(database).readOriginal(saved.id),
+        original,
+      );
+    },
+  );
 
   testWidgets('selected collection imports a text original and lists it', (
     tester,

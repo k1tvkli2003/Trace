@@ -8,8 +8,10 @@ import 'package:uuid/uuid.dart';
 
 import 'local_connection.dart';
 import 'text_picker.dart';
+import 'pdf_picker.dart';
 
 export 'text_picker.dart' show PickedTextSource;
+export 'pdf_picker.dart' show PickedPdfSource;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,11 +19,12 @@ void main() {
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key, this.database, this.pickText});
+  const MainApp({super.key, this.database, this.pickText, this.pickPdf});
 
   /// Injected for tests; production opens an app-private database lazily.
   final TraceDatabase? database;
   final Future<PickedTextSource?> Function()? pickText;
+  final Future<PickedPdfSource?> Function()? pickPdf;
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -33,9 +36,11 @@ class _MainAppState extends State<MainApp> {
   late final TraceDatabase _database;
   late final LocalLibraryRepository _library;
   late final LocalTextSourceRepository _sources;
+  late final LocalPdfSourceRepository _pdfSources;
   late Future<List<LibraryEntrySummary>> _entries;
   Future<List<SourceDocument>>? _selectedSources;
   bool _ownsDatabase = false;
+  bool _pdfImporting = false;
   String? _selectedId;
 
   @override
@@ -45,6 +50,7 @@ class _MainAppState extends State<MainApp> {
     _database = widget.database ?? TraceDatabase(openLocalConnection());
     _library = LocalLibraryRepository(_database);
     _sources = LocalTextSourceRepository(_database);
+    _pdfSources = LocalPdfSourceRepository(_database);
     _entries = _library.listEntries();
   }
 
@@ -144,7 +150,70 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  Future<void> _importPdf() async {
+    final libraryId = _selectedId;
+    if (libraryId == null || _pdfImporting) return;
+    setState(() => _pdfImporting = true);
+    try {
+      final picked = await (widget.pickPdf ?? pickPdfSource)();
+      if (picked == null) return;
+      await _pdfSources.importPdf(
+        libraryId: libraryId,
+        name: picked.name,
+        bytes: picked.bytes,
+      );
+      if (mounted && _selectedId == libraryId) {
+        setState(() {
+          _selectedSources = _sources.listForLibrary(libraryId);
+        });
+      }
+    } catch (error) {
+      if (mounted) {
+        _messenger.currentState?.showSnackBar(
+          SnackBar(
+            content: Text(
+              error is FormatException
+                  ? 'Invalid PDF or file exceeds 16 MB.'
+                  : 'PDF import could not be confirmed. Reopen collection before retrying.',
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _pdfImporting = false);
+    }
+  }
+
   Future<void> _openSource(SourceDocument source) async {
+    if (source.format == SourceDocumentFormat.pdf) {
+      try {
+        // Verify original before presenting its status; never decode PDF bytes as text.
+        await _pdfSources.readOriginal(source.id);
+        if (!mounted) return;
+        await showDialog<void>(
+          context: _navigator.currentContext!,
+          builder: (context) => AlertDialog(
+            title: const Text('PDF original stored'),
+            content: const Text(
+              'Awaiting page-image Vision. PDF text is not extracted or available for lessons yet.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        );
+      } catch (_) {
+        if (mounted) {
+          _messenger.currentState?.showSnackBar(
+            const SnackBar(content: Text('Cannot verify PDF original.')),
+          );
+        }
+      }
+      return;
+    }
     try {
       final bytes = await _sources.readOriginal(source.id);
       if (!mounted) return;
@@ -218,10 +287,23 @@ class _MainAppState extends State<MainApp> {
               ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: FilledButton.icon(
-                onPressed: _importText,
-                icon: const Icon(Icons.upload_file_outlined),
-                label: const Text('Import text'),
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                children: [
+                  FilledButton.icon(
+                    onPressed: _importText,
+                    icon: const Icon(Icons.upload_file_outlined),
+                    label: const Text('Import text'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: _pdfImporting ? null : _importPdf,
+                    icon: const Icon(Icons.picture_as_pdf_outlined),
+                    label: Text(
+                      _pdfImporting ? 'Importing PDF…' : 'Import PDF',
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
