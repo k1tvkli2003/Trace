@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import 'local_connection.dart';
 import 'text_picker.dart';
 import 'pdf_picker.dart';
+import 'source_reading_page.dart';
 
 export 'text_picker.dart' show PickedTextSource;
 export 'pdf_picker.dart' show PickedPdfSource;
@@ -256,6 +257,36 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  Future<void> _startReading(SourceDocument source) async {
+    if (source.format != SourceDocumentFormat.markdown &&
+        source.format != SourceDocumentFormat.text) {
+      return;
+    }
+    try {
+      // Repository verifies immutable original bytes against source hash.
+      final bytes = await _sources.readOriginal(source.id);
+      final text = utf8.decode(bytes, allowMalformed: false);
+      if (!mounted) return;
+      await Navigator.of(_navigator.currentContext!).push(
+        MaterialPageRoute<void>(
+          builder: (context) => SourceReadingPage(
+            sourceName: source.relativePath,
+            sourceId: source.id,
+            sourceHash: source.sourceHash,
+            text: text,
+            markdown: source.format == SourceDocumentFormat.markdown,
+          ),
+        ),
+      );
+    } catch (_) {
+      if (mounted) {
+        _messenger.currentState?.showSnackBar(
+          const SnackBar(content: Text('Cannot verify source original.')),
+        );
+      }
+    }
+  }
+
   Widget _sourcePanel({bool narrow = false}) {
     if (_selectedId == null) {
       return const Center(child: Text('Choose a collection'));
@@ -318,6 +349,12 @@ class _MainAppState extends State<MainApp> {
                               '${TraceTypography.displayDigits(source.relativePath)} · v${source.version}',
                             ),
                             onTap: () => _openSource(source),
+                            trailing: source.format == SourceDocumentFormat.pdf
+                                ? null
+                                : TextButton(
+                                    onPressed: () => _startReading(source),
+                                    child: const Text('Start reading'),
+                                  ),
                             subtitle: Text(
                               '${source.byteSize} bytes · SHA-256 ${source.sourceHash.substring(0, 12)}',
                             ),
