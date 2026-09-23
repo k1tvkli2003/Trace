@@ -12,4 +12,4 @@ This does **not** measure actual tokens or cost. The eventual provider adapter m
 
 Offline learning behavior: `learning_contract.py` defines versioned `structure_scan`, `page_vision_extract`, `slice_planner`, `teacher_fa` and `coach` envelopes. `docs/contracts/learning-ai-v1.md` records the workbench states and boundaries; `docs/contracts/lesson-ast-v1.json` + `validate_lesson` reject unscoped/HTML/uncited draft lessons. Only lesson AST has runtime output validation so far; other capability outputs are *not* ready for consumption. Source Reader for verified MD/TXT is a separate local UI, not an AI teaching claim. None of this authorizes a network call.
 
-Check: `python -m unittest discover -s services/ai_gateway -p test_*.py -v` from repository root.
+For a fresh Python environment, install test-only dependency with `python -m pip install -r services/ai_gateway/requirements-test.txt`. Check: `python -m unittest discover -s services/ai_gateway -p test_*.py -v` from repository root.

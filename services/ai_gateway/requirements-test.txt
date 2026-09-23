@@ -1,0 +1,2 @@
+# Offline contract test only; no provider client or credential dependency.
+jsonschema==4.26.0
