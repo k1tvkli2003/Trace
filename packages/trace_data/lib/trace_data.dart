@@ -13,6 +13,7 @@ export 'src/local/local_source_citation_repository.dart';
 export 'src/local/local_figure_asset_repository.dart';
 export 'src/local/local_lesson_repository.dart';
 export 'src/local/local_annotation_repository.dart';
+export 'src/local/local_review_repository.dart';
 export 'src/local/trace_database.dart'
     hide
         SourcePage,
@@ -22,6 +23,8 @@ export 'src/local/trace_database.dart'
         LessonArtifact,
         LearnerState,
         HighlightAnchor,
-        StudyNote;
+        StudyNote,
+        ReviewItem,
+        ReviewEvent;
 
 // TODO: Export any libraries intended for clients of this package.

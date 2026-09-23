@@ -6200,6 +6200,1355 @@ class StudyNotesCompanion extends UpdateCompanion<StudyNote> {
   }
 }
 
+class $ReviewItemsTable extends ReviewItems
+    with TableInfo<$ReviewItemsTable, ReviewItem> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReviewItemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _targetTypeMeta = const VerificationMeta(
+    'targetType',
+  );
+  @override
+  late final GeneratedColumn<String> targetType = GeneratedColumn<String>(
+    'target_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _targetIdMeta = const VerificationMeta(
+    'targetId',
+  );
+  @override
+  late final GeneratedColumn<String> targetId = GeneratedColumn<String>(
+    'target_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dueAtMeta = const VerificationMeta('dueAt');
+  @override
+  late final GeneratedColumn<String> dueAt = GeneratedColumn<String>(
+    'due_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _intervalDaysMeta = const VerificationMeta(
+    'intervalDays',
+  );
+  @override
+  late final GeneratedColumn<int> intervalDays = GeneratedColumn<int>(
+    'interval_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _easeMeta = const VerificationMeta('ease');
+  @override
+  late final GeneratedColumn<double> ease = GeneratedColumn<double>(
+    'ease',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lapsesMeta = const VerificationMeta('lapses');
+  @override
+  late final GeneratedColumn<int> lapses = GeneratedColumn<int>(
+    'lapses',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _stateMeta = const VerificationMeta('state');
+  @override
+  late final GeneratedColumn<String> state = GeneratedColumn<String>(
+    'state',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _schedulerVersionMeta = const VerificationMeta(
+    'schedulerVersion',
+  );
+  @override
+  late final GeneratedColumn<String> schedulerVersion = GeneratedColumn<String>(
+    'scheduler_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _initialPayloadJsonMeta =
+      const VerificationMeta('initialPayloadJson');
+  @override
+  late final GeneratedColumn<String> initialPayloadJson =
+      GeneratedColumn<String>(
+        'initial_payload_json',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    contentHash,
+    targetType,
+    targetId,
+    dueAt,
+    intervalDays,
+    ease,
+    lapses,
+    state,
+    schedulerVersion,
+    initialPayloadJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'review_items';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ReviewItem> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('target_type')) {
+      context.handle(
+        _targetTypeMeta,
+        targetType.isAcceptableOrUnknown(data['target_type']!, _targetTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_targetTypeMeta);
+    }
+    if (data.containsKey('target_id')) {
+      context.handle(
+        _targetIdMeta,
+        targetId.isAcceptableOrUnknown(data['target_id']!, _targetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_targetIdMeta);
+    }
+    if (data.containsKey('due_at')) {
+      context.handle(
+        _dueAtMeta,
+        dueAt.isAcceptableOrUnknown(data['due_at']!, _dueAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dueAtMeta);
+    }
+    if (data.containsKey('interval_days')) {
+      context.handle(
+        _intervalDaysMeta,
+        intervalDays.isAcceptableOrUnknown(
+          data['interval_days']!,
+          _intervalDaysMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_intervalDaysMeta);
+    }
+    if (data.containsKey('ease')) {
+      context.handle(
+        _easeMeta,
+        ease.isAcceptableOrUnknown(data['ease']!, _easeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_easeMeta);
+    }
+    if (data.containsKey('lapses')) {
+      context.handle(
+        _lapsesMeta,
+        lapses.isAcceptableOrUnknown(data['lapses']!, _lapsesMeta),
+      );
+    }
+    if (data.containsKey('state')) {
+      context.handle(
+        _stateMeta,
+        state.isAcceptableOrUnknown(data['state']!, _stateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_stateMeta);
+    }
+    if (data.containsKey('scheduler_version')) {
+      context.handle(
+        _schedulerVersionMeta,
+        schedulerVersion.isAcceptableOrUnknown(
+          data['scheduler_version']!,
+          _schedulerVersionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_schedulerVersionMeta);
+    }
+    if (data.containsKey('initial_payload_json')) {
+      context.handle(
+        _initialPayloadJsonMeta,
+        initialPayloadJson.isAcceptableOrUnknown(
+          data['initial_payload_json']!,
+          _initialPayloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_initialPayloadJsonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ReviewItem map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ReviewItem(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      targetType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target_type'],
+      )!,
+      targetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target_id'],
+      )!,
+      dueAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}due_at'],
+      )!,
+      intervalDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}interval_days'],
+      )!,
+      ease: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}ease'],
+      )!,
+      lapses: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}lapses'],
+      )!,
+      state: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}state'],
+      )!,
+      schedulerVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scheduler_version'],
+      )!,
+      initialPayloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}initial_payload_json'],
+      )!,
+    );
+  }
+
+  @override
+  $ReviewItemsTable createAlias(String alias) {
+    return $ReviewItemsTable(attachedDatabase, alias);
+  }
+}
+
+class ReviewItem extends DataClass implements Insertable<ReviewItem> {
+  final String id;
+  final int version;
+  final String contentHash;
+  final String targetType;
+  final String targetId;
+  final String dueAt;
+  final int intervalDays;
+  final double ease;
+  final int lapses;
+  final String state;
+  final String schedulerVersion;
+  final String initialPayloadJson;
+  const ReviewItem({
+    required this.id,
+    required this.version,
+    required this.contentHash,
+    required this.targetType,
+    required this.targetId,
+    required this.dueAt,
+    required this.intervalDays,
+    required this.ease,
+    required this.lapses,
+    required this.state,
+    required this.schedulerVersion,
+    required this.initialPayloadJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['target_type'] = Variable<String>(targetType);
+    map['target_id'] = Variable<String>(targetId);
+    map['due_at'] = Variable<String>(dueAt);
+    map['interval_days'] = Variable<int>(intervalDays);
+    map['ease'] = Variable<double>(ease);
+    map['lapses'] = Variable<int>(lapses);
+    map['state'] = Variable<String>(state);
+    map['scheduler_version'] = Variable<String>(schedulerVersion);
+    map['initial_payload_json'] = Variable<String>(initialPayloadJson);
+    return map;
+  }
+
+  ReviewItemsCompanion toCompanion(bool nullToAbsent) {
+    return ReviewItemsCompanion(
+      id: Value(id),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      targetType: Value(targetType),
+      targetId: Value(targetId),
+      dueAt: Value(dueAt),
+      intervalDays: Value(intervalDays),
+      ease: Value(ease),
+      lapses: Value(lapses),
+      state: Value(state),
+      schedulerVersion: Value(schedulerVersion),
+      initialPayloadJson: Value(initialPayloadJson),
+    );
+  }
+
+  factory ReviewItem.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ReviewItem(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      targetType: serializer.fromJson<String>(json['targetType']),
+      targetId: serializer.fromJson<String>(json['targetId']),
+      dueAt: serializer.fromJson<String>(json['dueAt']),
+      intervalDays: serializer.fromJson<int>(json['intervalDays']),
+      ease: serializer.fromJson<double>(json['ease']),
+      lapses: serializer.fromJson<int>(json['lapses']),
+      state: serializer.fromJson<String>(json['state']),
+      schedulerVersion: serializer.fromJson<String>(json['schedulerVersion']),
+      initialPayloadJson: serializer.fromJson<String>(
+        json['initialPayloadJson'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'targetType': serializer.toJson<String>(targetType),
+      'targetId': serializer.toJson<String>(targetId),
+      'dueAt': serializer.toJson<String>(dueAt),
+      'intervalDays': serializer.toJson<int>(intervalDays),
+      'ease': serializer.toJson<double>(ease),
+      'lapses': serializer.toJson<int>(lapses),
+      'state': serializer.toJson<String>(state),
+      'schedulerVersion': serializer.toJson<String>(schedulerVersion),
+      'initialPayloadJson': serializer.toJson<String>(initialPayloadJson),
+    };
+  }
+
+  ReviewItem copyWith({
+    String? id,
+    int? version,
+    String? contentHash,
+    String? targetType,
+    String? targetId,
+    String? dueAt,
+    int? intervalDays,
+    double? ease,
+    int? lapses,
+    String? state,
+    String? schedulerVersion,
+    String? initialPayloadJson,
+  }) => ReviewItem(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    targetType: targetType ?? this.targetType,
+    targetId: targetId ?? this.targetId,
+    dueAt: dueAt ?? this.dueAt,
+    intervalDays: intervalDays ?? this.intervalDays,
+    ease: ease ?? this.ease,
+    lapses: lapses ?? this.lapses,
+    state: state ?? this.state,
+    schedulerVersion: schedulerVersion ?? this.schedulerVersion,
+    initialPayloadJson: initialPayloadJson ?? this.initialPayloadJson,
+  );
+  ReviewItem copyWithCompanion(ReviewItemsCompanion data) {
+    return ReviewItem(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      targetType: data.targetType.present
+          ? data.targetType.value
+          : this.targetType,
+      targetId: data.targetId.present ? data.targetId.value : this.targetId,
+      dueAt: data.dueAt.present ? data.dueAt.value : this.dueAt,
+      intervalDays: data.intervalDays.present
+          ? data.intervalDays.value
+          : this.intervalDays,
+      ease: data.ease.present ? data.ease.value : this.ease,
+      lapses: data.lapses.present ? data.lapses.value : this.lapses,
+      state: data.state.present ? data.state.value : this.state,
+      schedulerVersion: data.schedulerVersion.present
+          ? data.schedulerVersion.value
+          : this.schedulerVersion,
+      initialPayloadJson: data.initialPayloadJson.present
+          ? data.initialPayloadJson.value
+          : this.initialPayloadJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReviewItem(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('targetType: $targetType, ')
+          ..write('targetId: $targetId, ')
+          ..write('dueAt: $dueAt, ')
+          ..write('intervalDays: $intervalDays, ')
+          ..write('ease: $ease, ')
+          ..write('lapses: $lapses, ')
+          ..write('state: $state, ')
+          ..write('schedulerVersion: $schedulerVersion, ')
+          ..write('initialPayloadJson: $initialPayloadJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    version,
+    contentHash,
+    targetType,
+    targetId,
+    dueAt,
+    intervalDays,
+    ease,
+    lapses,
+    state,
+    schedulerVersion,
+    initialPayloadJson,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ReviewItem &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.targetType == this.targetType &&
+          other.targetId == this.targetId &&
+          other.dueAt == this.dueAt &&
+          other.intervalDays == this.intervalDays &&
+          other.ease == this.ease &&
+          other.lapses == this.lapses &&
+          other.state == this.state &&
+          other.schedulerVersion == this.schedulerVersion &&
+          other.initialPayloadJson == this.initialPayloadJson);
+}
+
+class ReviewItemsCompanion extends UpdateCompanion<ReviewItem> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String> targetType;
+  final Value<String> targetId;
+  final Value<String> dueAt;
+  final Value<int> intervalDays;
+  final Value<double> ease;
+  final Value<int> lapses;
+  final Value<String> state;
+  final Value<String> schedulerVersion;
+  final Value<String> initialPayloadJson;
+  final Value<int> rowid;
+  const ReviewItemsCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.targetType = const Value.absent(),
+    this.targetId = const Value.absent(),
+    this.dueAt = const Value.absent(),
+    this.intervalDays = const Value.absent(),
+    this.ease = const Value.absent(),
+    this.lapses = const Value.absent(),
+    this.state = const Value.absent(),
+    this.schedulerVersion = const Value.absent(),
+    this.initialPayloadJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ReviewItemsCompanion.insert({
+    required String id,
+    this.version = const Value.absent(),
+    required String contentHash,
+    required String targetType,
+    required String targetId,
+    required String dueAt,
+    required int intervalDays,
+    required double ease,
+    this.lapses = const Value.absent(),
+    required String state,
+    required String schedulerVersion,
+    required String initialPayloadJson,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       contentHash = Value(contentHash),
+       targetType = Value(targetType),
+       targetId = Value(targetId),
+       dueAt = Value(dueAt),
+       intervalDays = Value(intervalDays),
+       ease = Value(ease),
+       state = Value(state),
+       schedulerVersion = Value(schedulerVersion),
+       initialPayloadJson = Value(initialPayloadJson);
+  static Insertable<ReviewItem> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? targetType,
+    Expression<String>? targetId,
+    Expression<String>? dueAt,
+    Expression<int>? intervalDays,
+    Expression<double>? ease,
+    Expression<int>? lapses,
+    Expression<String>? state,
+    Expression<String>? schedulerVersion,
+    Expression<String>? initialPayloadJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (targetType != null) 'target_type': targetType,
+      if (targetId != null) 'target_id': targetId,
+      if (dueAt != null) 'due_at': dueAt,
+      if (intervalDays != null) 'interval_days': intervalDays,
+      if (ease != null) 'ease': ease,
+      if (lapses != null) 'lapses': lapses,
+      if (state != null) 'state': state,
+      if (schedulerVersion != null) 'scheduler_version': schedulerVersion,
+      if (initialPayloadJson != null)
+        'initial_payload_json': initialPayloadJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ReviewItemsCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String>? targetType,
+    Value<String>? targetId,
+    Value<String>? dueAt,
+    Value<int>? intervalDays,
+    Value<double>? ease,
+    Value<int>? lapses,
+    Value<String>? state,
+    Value<String>? schedulerVersion,
+    Value<String>? initialPayloadJson,
+    Value<int>? rowid,
+  }) {
+    return ReviewItemsCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      targetType: targetType ?? this.targetType,
+      targetId: targetId ?? this.targetId,
+      dueAt: dueAt ?? this.dueAt,
+      intervalDays: intervalDays ?? this.intervalDays,
+      ease: ease ?? this.ease,
+      lapses: lapses ?? this.lapses,
+      state: state ?? this.state,
+      schedulerVersion: schedulerVersion ?? this.schedulerVersion,
+      initialPayloadJson: initialPayloadJson ?? this.initialPayloadJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (targetType.present) {
+      map['target_type'] = Variable<String>(targetType.value);
+    }
+    if (targetId.present) {
+      map['target_id'] = Variable<String>(targetId.value);
+    }
+    if (dueAt.present) {
+      map['due_at'] = Variable<String>(dueAt.value);
+    }
+    if (intervalDays.present) {
+      map['interval_days'] = Variable<int>(intervalDays.value);
+    }
+    if (ease.present) {
+      map['ease'] = Variable<double>(ease.value);
+    }
+    if (lapses.present) {
+      map['lapses'] = Variable<int>(lapses.value);
+    }
+    if (state.present) {
+      map['state'] = Variable<String>(state.value);
+    }
+    if (schedulerVersion.present) {
+      map['scheduler_version'] = Variable<String>(schedulerVersion.value);
+    }
+    if (initialPayloadJson.present) {
+      map['initial_payload_json'] = Variable<String>(initialPayloadJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReviewItemsCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('targetType: $targetType, ')
+          ..write('targetId: $targetId, ')
+          ..write('dueAt: $dueAt, ')
+          ..write('intervalDays: $intervalDays, ')
+          ..write('ease: $ease, ')
+          ..write('lapses: $lapses, ')
+          ..write('state: $state, ')
+          ..write('schedulerVersion: $schedulerVersion, ')
+          ..write('initialPayloadJson: $initialPayloadJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ReviewEventsTable extends ReviewEvents
+    with TableInfo<$ReviewEventsTable, ReviewEvent> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ReviewEventsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reviewItemIdMeta = const VerificationMeta(
+    'reviewItemId',
+  );
+  @override
+  late final GeneratedColumn<String> reviewItemId = GeneratedColumn<String>(
+    'review_item_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES review_items (id)',
+    ),
+  );
+  static const VerificationMeta _ratingMeta = const VerificationMeta('rating');
+  @override
+  late final GeneratedColumn<String> rating = GeneratedColumn<String>(
+    'rating',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _occurredAtMeta = const VerificationMeta(
+    'occurredAt',
+  );
+  @override
+  late final GeneratedColumn<String> occurredAt = GeneratedColumn<String>(
+    'occurred_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _previousDueAtMeta = const VerificationMeta(
+    'previousDueAt',
+  );
+  @override
+  late final GeneratedColumn<String> previousDueAt = GeneratedColumn<String>(
+    'previous_due_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nextDueAtMeta = const VerificationMeta(
+    'nextDueAt',
+  );
+  @override
+  late final GeneratedColumn<String> nextDueAt = GeneratedColumn<String>(
+    'next_due_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deviceIdMeta = const VerificationMeta(
+    'deviceId',
+  );
+  @override
+  late final GeneratedColumn<String> deviceId = GeneratedColumn<String>(
+    'device_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _schedulerVersionMeta = const VerificationMeta(
+    'schedulerVersion',
+  );
+  @override
+  late final GeneratedColumn<String> schedulerVersion = GeneratedColumn<String>(
+    'scheduler_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    contentHash,
+    reviewItemId,
+    rating,
+    occurredAt,
+    previousDueAt,
+    nextDueAt,
+    deviceId,
+    schedulerVersion,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'review_events';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ReviewEvent> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('review_item_id')) {
+      context.handle(
+        _reviewItemIdMeta,
+        reviewItemId.isAcceptableOrUnknown(
+          data['review_item_id']!,
+          _reviewItemIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_reviewItemIdMeta);
+    }
+    if (data.containsKey('rating')) {
+      context.handle(
+        _ratingMeta,
+        rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ratingMeta);
+    }
+    if (data.containsKey('occurred_at')) {
+      context.handle(
+        _occurredAtMeta,
+        occurredAt.isAcceptableOrUnknown(data['occurred_at']!, _occurredAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_occurredAtMeta);
+    }
+    if (data.containsKey('previous_due_at')) {
+      context.handle(
+        _previousDueAtMeta,
+        previousDueAt.isAcceptableOrUnknown(
+          data['previous_due_at']!,
+          _previousDueAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('next_due_at')) {
+      context.handle(
+        _nextDueAtMeta,
+        nextDueAt.isAcceptableOrUnknown(data['next_due_at']!, _nextDueAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nextDueAtMeta);
+    }
+    if (data.containsKey('device_id')) {
+      context.handle(
+        _deviceIdMeta,
+        deviceId.isAcceptableOrUnknown(data['device_id']!, _deviceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_deviceIdMeta);
+    }
+    if (data.containsKey('scheduler_version')) {
+      context.handle(
+        _schedulerVersionMeta,
+        schedulerVersion.isAcceptableOrUnknown(
+          data['scheduler_version']!,
+          _schedulerVersionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_schedulerVersionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ReviewEvent map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ReviewEvent(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      reviewItemId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}review_item_id'],
+      )!,
+      rating: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rating'],
+      )!,
+      occurredAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}occurred_at'],
+      )!,
+      previousDueAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}previous_due_at'],
+      ),
+      nextDueAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}next_due_at'],
+      )!,
+      deviceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}device_id'],
+      )!,
+      schedulerVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scheduler_version'],
+      )!,
+    );
+  }
+
+  @override
+  $ReviewEventsTable createAlias(String alias) {
+    return $ReviewEventsTable(attachedDatabase, alias);
+  }
+}
+
+class ReviewEvent extends DataClass implements Insertable<ReviewEvent> {
+  final String id;
+  final int version;
+  final String contentHash;
+  final String reviewItemId;
+  final String rating;
+  final String occurredAt;
+  final String? previousDueAt;
+  final String nextDueAt;
+  final String deviceId;
+  final String schedulerVersion;
+  const ReviewEvent({
+    required this.id,
+    required this.version,
+    required this.contentHash,
+    required this.reviewItemId,
+    required this.rating,
+    required this.occurredAt,
+    this.previousDueAt,
+    required this.nextDueAt,
+    required this.deviceId,
+    required this.schedulerVersion,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['review_item_id'] = Variable<String>(reviewItemId);
+    map['rating'] = Variable<String>(rating);
+    map['occurred_at'] = Variable<String>(occurredAt);
+    if (!nullToAbsent || previousDueAt != null) {
+      map['previous_due_at'] = Variable<String>(previousDueAt);
+    }
+    map['next_due_at'] = Variable<String>(nextDueAt);
+    map['device_id'] = Variable<String>(deviceId);
+    map['scheduler_version'] = Variable<String>(schedulerVersion);
+    return map;
+  }
+
+  ReviewEventsCompanion toCompanion(bool nullToAbsent) {
+    return ReviewEventsCompanion(
+      id: Value(id),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      reviewItemId: Value(reviewItemId),
+      rating: Value(rating),
+      occurredAt: Value(occurredAt),
+      previousDueAt: previousDueAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(previousDueAt),
+      nextDueAt: Value(nextDueAt),
+      deviceId: Value(deviceId),
+      schedulerVersion: Value(schedulerVersion),
+    );
+  }
+
+  factory ReviewEvent.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ReviewEvent(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      reviewItemId: serializer.fromJson<String>(json['reviewItemId']),
+      rating: serializer.fromJson<String>(json['rating']),
+      occurredAt: serializer.fromJson<String>(json['occurredAt']),
+      previousDueAt: serializer.fromJson<String?>(json['previousDueAt']),
+      nextDueAt: serializer.fromJson<String>(json['nextDueAt']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
+      schedulerVersion: serializer.fromJson<String>(json['schedulerVersion']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'reviewItemId': serializer.toJson<String>(reviewItemId),
+      'rating': serializer.toJson<String>(rating),
+      'occurredAt': serializer.toJson<String>(occurredAt),
+      'previousDueAt': serializer.toJson<String?>(previousDueAt),
+      'nextDueAt': serializer.toJson<String>(nextDueAt),
+      'deviceId': serializer.toJson<String>(deviceId),
+      'schedulerVersion': serializer.toJson<String>(schedulerVersion),
+    };
+  }
+
+  ReviewEvent copyWith({
+    String? id,
+    int? version,
+    String? contentHash,
+    String? reviewItemId,
+    String? rating,
+    String? occurredAt,
+    Value<String?> previousDueAt = const Value.absent(),
+    String? nextDueAt,
+    String? deviceId,
+    String? schedulerVersion,
+  }) => ReviewEvent(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    reviewItemId: reviewItemId ?? this.reviewItemId,
+    rating: rating ?? this.rating,
+    occurredAt: occurredAt ?? this.occurredAt,
+    previousDueAt: previousDueAt.present
+        ? previousDueAt.value
+        : this.previousDueAt,
+    nextDueAt: nextDueAt ?? this.nextDueAt,
+    deviceId: deviceId ?? this.deviceId,
+    schedulerVersion: schedulerVersion ?? this.schedulerVersion,
+  );
+  ReviewEvent copyWithCompanion(ReviewEventsCompanion data) {
+    return ReviewEvent(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      reviewItemId: data.reviewItemId.present
+          ? data.reviewItemId.value
+          : this.reviewItemId,
+      rating: data.rating.present ? data.rating.value : this.rating,
+      occurredAt: data.occurredAt.present
+          ? data.occurredAt.value
+          : this.occurredAt,
+      previousDueAt: data.previousDueAt.present
+          ? data.previousDueAt.value
+          : this.previousDueAt,
+      nextDueAt: data.nextDueAt.present ? data.nextDueAt.value : this.nextDueAt,
+      deviceId: data.deviceId.present ? data.deviceId.value : this.deviceId,
+      schedulerVersion: data.schedulerVersion.present
+          ? data.schedulerVersion.value
+          : this.schedulerVersion,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReviewEvent(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('reviewItemId: $reviewItemId, ')
+          ..write('rating: $rating, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('previousDueAt: $previousDueAt, ')
+          ..write('nextDueAt: $nextDueAt, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('schedulerVersion: $schedulerVersion')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    version,
+    contentHash,
+    reviewItemId,
+    rating,
+    occurredAt,
+    previousDueAt,
+    nextDueAt,
+    deviceId,
+    schedulerVersion,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ReviewEvent &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.reviewItemId == this.reviewItemId &&
+          other.rating == this.rating &&
+          other.occurredAt == this.occurredAt &&
+          other.previousDueAt == this.previousDueAt &&
+          other.nextDueAt == this.nextDueAt &&
+          other.deviceId == this.deviceId &&
+          other.schedulerVersion == this.schedulerVersion);
+}
+
+class ReviewEventsCompanion extends UpdateCompanion<ReviewEvent> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String> reviewItemId;
+  final Value<String> rating;
+  final Value<String> occurredAt;
+  final Value<String?> previousDueAt;
+  final Value<String> nextDueAt;
+  final Value<String> deviceId;
+  final Value<String> schedulerVersion;
+  final Value<int> rowid;
+  const ReviewEventsCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.reviewItemId = const Value.absent(),
+    this.rating = const Value.absent(),
+    this.occurredAt = const Value.absent(),
+    this.previousDueAt = const Value.absent(),
+    this.nextDueAt = const Value.absent(),
+    this.deviceId = const Value.absent(),
+    this.schedulerVersion = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ReviewEventsCompanion.insert({
+    required String id,
+    this.version = const Value.absent(),
+    required String contentHash,
+    required String reviewItemId,
+    required String rating,
+    required String occurredAt,
+    this.previousDueAt = const Value.absent(),
+    required String nextDueAt,
+    required String deviceId,
+    required String schedulerVersion,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       contentHash = Value(contentHash),
+       reviewItemId = Value(reviewItemId),
+       rating = Value(rating),
+       occurredAt = Value(occurredAt),
+       nextDueAt = Value(nextDueAt),
+       deviceId = Value(deviceId),
+       schedulerVersion = Value(schedulerVersion);
+  static Insertable<ReviewEvent> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? reviewItemId,
+    Expression<String>? rating,
+    Expression<String>? occurredAt,
+    Expression<String>? previousDueAt,
+    Expression<String>? nextDueAt,
+    Expression<String>? deviceId,
+    Expression<String>? schedulerVersion,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (reviewItemId != null) 'review_item_id': reviewItemId,
+      if (rating != null) 'rating': rating,
+      if (occurredAt != null) 'occurred_at': occurredAt,
+      if (previousDueAt != null) 'previous_due_at': previousDueAt,
+      if (nextDueAt != null) 'next_due_at': nextDueAt,
+      if (deviceId != null) 'device_id': deviceId,
+      if (schedulerVersion != null) 'scheduler_version': schedulerVersion,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ReviewEventsCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String>? reviewItemId,
+    Value<String>? rating,
+    Value<String>? occurredAt,
+    Value<String?>? previousDueAt,
+    Value<String>? nextDueAt,
+    Value<String>? deviceId,
+    Value<String>? schedulerVersion,
+    Value<int>? rowid,
+  }) {
+    return ReviewEventsCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      reviewItemId: reviewItemId ?? this.reviewItemId,
+      rating: rating ?? this.rating,
+      occurredAt: occurredAt ?? this.occurredAt,
+      previousDueAt: previousDueAt ?? this.previousDueAt,
+      nextDueAt: nextDueAt ?? this.nextDueAt,
+      deviceId: deviceId ?? this.deviceId,
+      schedulerVersion: schedulerVersion ?? this.schedulerVersion,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (reviewItemId.present) {
+      map['review_item_id'] = Variable<String>(reviewItemId.value);
+    }
+    if (rating.present) {
+      map['rating'] = Variable<String>(rating.value);
+    }
+    if (occurredAt.present) {
+      map['occurred_at'] = Variable<String>(occurredAt.value);
+    }
+    if (previousDueAt.present) {
+      map['previous_due_at'] = Variable<String>(previousDueAt.value);
+    }
+    if (nextDueAt.present) {
+      map['next_due_at'] = Variable<String>(nextDueAt.value);
+    }
+    if (deviceId.present) {
+      map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (schedulerVersion.present) {
+      map['scheduler_version'] = Variable<String>(schedulerVersion.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ReviewEventsCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('reviewItemId: $reviewItemId, ')
+          ..write('rating: $rating, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('previousDueAt: $previousDueAt, ')
+          ..write('nextDueAt: $nextDueAt, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('schedulerVersion: $schedulerVersion, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
@@ -6219,6 +7568,8 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     this,
   );
   late final $StudyNotesTable studyNotes = $StudyNotesTable(this);
+  late final $ReviewItemsTable reviewItems = $ReviewItemsTable(this);
+  late final $ReviewEventsTable reviewEvents = $ReviewEventsTable(this);
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
@@ -6235,6 +7586,10 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     'lesson_artifact_slice_version_unique',
     'CREATE UNIQUE INDEX lesson_artifact_slice_version_unique ON lesson_artifacts (slice_id, version)',
   );
+  late final Index reviewItemStateDue = Index(
+    'review_item_state_due',
+    'CREATE INDEX review_item_state_due ON review_items (state, due_at)',
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -6250,10 +7605,13 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     learnerStates,
     highlightAnchors,
     studyNotes,
+    reviewItems,
+    reviewEvents,
     sourceVersionUnique,
     sourcePageDocumentPageVersionProfileUnique,
     sourceBlockPageVersionOrderUnique,
     lessonArtifactSliceVersionUnique,
+    reviewItemStateDue,
   ];
 }
 
@@ -11012,6 +12370,873 @@ typedef $$StudyNotesTableProcessedTableManager =
       StudyNote,
       PrefetchHooks Function()
     >;
+typedef $$ReviewItemsTableCreateCompanionBuilder =
+    ReviewItemsCompanion Function({
+      required String id,
+      Value<int> version,
+      required String contentHash,
+      required String targetType,
+      required String targetId,
+      required String dueAt,
+      required int intervalDays,
+      required double ease,
+      Value<int> lapses,
+      required String state,
+      required String schedulerVersion,
+      required String initialPayloadJson,
+      Value<int> rowid,
+    });
+typedef $$ReviewItemsTableUpdateCompanionBuilder =
+    ReviewItemsCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String> targetType,
+      Value<String> targetId,
+      Value<String> dueAt,
+      Value<int> intervalDays,
+      Value<double> ease,
+      Value<int> lapses,
+      Value<String> state,
+      Value<String> schedulerVersion,
+      Value<String> initialPayloadJson,
+      Value<int> rowid,
+    });
+
+final class $$ReviewItemsTableReferences
+    extends BaseReferences<_$TraceDatabase, $ReviewItemsTable, ReviewItem> {
+  $$ReviewItemsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ReviewEventsTable, List<ReviewEvent>>
+  _reviewEventsRefsTable(_$TraceDatabase db) => MultiTypedResultKey.fromTable(
+    db.reviewEvents,
+    aliasName: 'review_items__id__review_events__review_item_id',
+  );
+
+  $$ReviewEventsTableProcessedTableManager get reviewEventsRefs {
+    final manager = $$ReviewEventsTableTableManager(
+      $_db,
+      $_db.reviewEvents,
+    ).filter((f) => f.reviewItemId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_reviewEventsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ReviewItemsTableFilterComposer
+    extends Composer<_$TraceDatabase, $ReviewItemsTable> {
+  $$ReviewItemsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get targetType => $composableBuilder(
+    column: $table.targetType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get targetId => $composableBuilder(
+    column: $table.targetId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get dueAt => $composableBuilder(
+    column: $table.dueAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get intervalDays => $composableBuilder(
+    column: $table.intervalDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get ease => $composableBuilder(
+    column: $table.ease,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lapses => $composableBuilder(
+    column: $table.lapses,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get schedulerVersion => $composableBuilder(
+    column: $table.schedulerVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get initialPayloadJson => $composableBuilder(
+    column: $table.initialPayloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> reviewEventsRefs(
+    Expression<bool> Function($$ReviewEventsTableFilterComposer f) f,
+  ) {
+    final $$ReviewEventsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.reviewEvents,
+      getReferencedColumn: (t) => t.reviewItemId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReviewEventsTableFilterComposer(
+            $db: $db,
+            $table: $db.reviewEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ReviewItemsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $ReviewItemsTable> {
+  $$ReviewItemsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get targetType => $composableBuilder(
+    column: $table.targetType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get targetId => $composableBuilder(
+    column: $table.targetId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get dueAt => $composableBuilder(
+    column: $table.dueAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get intervalDays => $composableBuilder(
+    column: $table.intervalDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get ease => $composableBuilder(
+    column: $table.ease,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lapses => $composableBuilder(
+    column: $table.lapses,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get schedulerVersion => $composableBuilder(
+    column: $table.schedulerVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get initialPayloadJson => $composableBuilder(
+    column: $table.initialPayloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ReviewItemsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $ReviewItemsTable> {
+  $$ReviewItemsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get targetType => $composableBuilder(
+    column: $table.targetType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get targetId =>
+      $composableBuilder(column: $table.targetId, builder: (column) => column);
+
+  GeneratedColumn<String> get dueAt =>
+      $composableBuilder(column: $table.dueAt, builder: (column) => column);
+
+  GeneratedColumn<int> get intervalDays => $composableBuilder(
+    column: $table.intervalDays,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get ease =>
+      $composableBuilder(column: $table.ease, builder: (column) => column);
+
+  GeneratedColumn<int> get lapses =>
+      $composableBuilder(column: $table.lapses, builder: (column) => column);
+
+  GeneratedColumn<String> get state =>
+      $composableBuilder(column: $table.state, builder: (column) => column);
+
+  GeneratedColumn<String> get schedulerVersion => $composableBuilder(
+    column: $table.schedulerVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get initialPayloadJson => $composableBuilder(
+    column: $table.initialPayloadJson,
+    builder: (column) => column,
+  );
+
+  Expression<T> reviewEventsRefs<T extends Object>(
+    Expression<T> Function($$ReviewEventsTableAnnotationComposer a) f,
+  ) {
+    final $$ReviewEventsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.reviewEvents,
+      getReferencedColumn: (t) => t.reviewItemId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReviewEventsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.reviewEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ReviewItemsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $ReviewItemsTable,
+          ReviewItem,
+          $$ReviewItemsTableFilterComposer,
+          $$ReviewItemsTableOrderingComposer,
+          $$ReviewItemsTableAnnotationComposer,
+          $$ReviewItemsTableCreateCompanionBuilder,
+          $$ReviewItemsTableUpdateCompanionBuilder,
+          (ReviewItem, $$ReviewItemsTableReferences),
+          ReviewItem,
+          PrefetchHooks Function({bool reviewEventsRefs})
+        > {
+  $$ReviewItemsTableTableManager(_$TraceDatabase db, $ReviewItemsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReviewItemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReviewItemsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReviewItemsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> targetType = const Value.absent(),
+                Value<String> targetId = const Value.absent(),
+                Value<String> dueAt = const Value.absent(),
+                Value<int> intervalDays = const Value.absent(),
+                Value<double> ease = const Value.absent(),
+                Value<int> lapses = const Value.absent(),
+                Value<String> state = const Value.absent(),
+                Value<String> schedulerVersion = const Value.absent(),
+                Value<String> initialPayloadJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReviewItemsCompanion(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                targetType: targetType,
+                targetId: targetId,
+                dueAt: dueAt,
+                intervalDays: intervalDays,
+                ease: ease,
+                lapses: lapses,
+                state: state,
+                schedulerVersion: schedulerVersion,
+                initialPayloadJson: initialPayloadJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<int> version = const Value.absent(),
+                required String contentHash,
+                required String targetType,
+                required String targetId,
+                required String dueAt,
+                required int intervalDays,
+                required double ease,
+                Value<int> lapses = const Value.absent(),
+                required String state,
+                required String schedulerVersion,
+                required String initialPayloadJson,
+                Value<int> rowid = const Value.absent(),
+              }) => ReviewItemsCompanion.insert(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                targetType: targetType,
+                targetId: targetId,
+                dueAt: dueAt,
+                intervalDays: intervalDays,
+                ease: ease,
+                lapses: lapses,
+                state: state,
+                schedulerVersion: schedulerVersion,
+                initialPayloadJson: initialPayloadJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ReviewItemsTable, ReviewItem>(table),
+                  $$ReviewItemsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({reviewEventsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (reviewEventsRefs) db.reviewEvents],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (reviewEventsRefs)
+                    await $_getPrefetchedData<
+                      ReviewItem,
+                      $ReviewItemsTable,
+                      ReviewEvent
+                    >(
+                      currentTable: table,
+                      referencedTable: $$ReviewItemsTableReferences
+                          ._reviewEventsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$ReviewItemsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).reviewEventsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.reviewItemId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ReviewItemsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $ReviewItemsTable,
+      ReviewItem,
+      $$ReviewItemsTableFilterComposer,
+      $$ReviewItemsTableOrderingComposer,
+      $$ReviewItemsTableAnnotationComposer,
+      $$ReviewItemsTableCreateCompanionBuilder,
+      $$ReviewItemsTableUpdateCompanionBuilder,
+      (ReviewItem, $$ReviewItemsTableReferences),
+      ReviewItem,
+      PrefetchHooks Function({bool reviewEventsRefs})
+    >;
+typedef $$ReviewEventsTableCreateCompanionBuilder =
+    ReviewEventsCompanion Function({
+      required String id,
+      Value<int> version,
+      required String contentHash,
+      required String reviewItemId,
+      required String rating,
+      required String occurredAt,
+      Value<String?> previousDueAt,
+      required String nextDueAt,
+      required String deviceId,
+      required String schedulerVersion,
+      Value<int> rowid,
+    });
+typedef $$ReviewEventsTableUpdateCompanionBuilder =
+    ReviewEventsCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String> reviewItemId,
+      Value<String> rating,
+      Value<String> occurredAt,
+      Value<String?> previousDueAt,
+      Value<String> nextDueAt,
+      Value<String> deviceId,
+      Value<String> schedulerVersion,
+      Value<int> rowid,
+    });
+
+final class $$ReviewEventsTableReferences
+    extends BaseReferences<_$TraceDatabase, $ReviewEventsTable, ReviewEvent> {
+  $$ReviewEventsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ReviewItemsTable _reviewItemIdTable(_$TraceDatabase db) => db
+      .reviewItems
+      .createAlias('review_events__review_item_id__review_items__id');
+
+  $$ReviewItemsTableProcessedTableManager get reviewItemId {
+    final $_column = $_itemColumn<String>('review_item_id')!;
+
+    final manager = $$ReviewItemsTableTableManager(
+      $_db,
+      $_db.reviewItems,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_reviewItemIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ReviewEventsTableFilterComposer
+    extends Composer<_$TraceDatabase, $ReviewEventsTable> {
+  $$ReviewEventsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get rating => $composableBuilder(
+    column: $table.rating,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get previousDueAt => $composableBuilder(
+    column: $table.previousDueAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get nextDueAt => $composableBuilder(
+    column: $table.nextDueAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deviceId => $composableBuilder(
+    column: $table.deviceId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get schedulerVersion => $composableBuilder(
+    column: $table.schedulerVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ReviewItemsTableFilterComposer get reviewItemId {
+    final $$ReviewItemsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.reviewItemId,
+      referencedTable: $db.reviewItems,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReviewItemsTableFilterComposer(
+            $db: $db,
+            $table: $db.reviewItems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReviewEventsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $ReviewEventsTable> {
+  $$ReviewEventsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get rating => $composableBuilder(
+    column: $table.rating,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get previousDueAt => $composableBuilder(
+    column: $table.previousDueAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nextDueAt => $composableBuilder(
+    column: $table.nextDueAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get deviceId => $composableBuilder(
+    column: $table.deviceId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get schedulerVersion => $composableBuilder(
+    column: $table.schedulerVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ReviewItemsTableOrderingComposer get reviewItemId {
+    final $$ReviewItemsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.reviewItemId,
+      referencedTable: $db.reviewItems,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReviewItemsTableOrderingComposer(
+            $db: $db,
+            $table: $db.reviewItems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReviewEventsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $ReviewEventsTable> {
+  $$ReviewEventsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get rating =>
+      $composableBuilder(column: $table.rating, builder: (column) => column);
+
+  GeneratedColumn<String> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get previousDueAt => $composableBuilder(
+    column: $table.previousDueAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get nextDueAt =>
+      $composableBuilder(column: $table.nextDueAt, builder: (column) => column);
+
+  GeneratedColumn<String> get deviceId =>
+      $composableBuilder(column: $table.deviceId, builder: (column) => column);
+
+  GeneratedColumn<String> get schedulerVersion => $composableBuilder(
+    column: $table.schedulerVersion,
+    builder: (column) => column,
+  );
+
+  $$ReviewItemsTableAnnotationComposer get reviewItemId {
+    final $$ReviewItemsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.reviewItemId,
+      referencedTable: $db.reviewItems,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ReviewItemsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.reviewItems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ReviewEventsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $ReviewEventsTable,
+          ReviewEvent,
+          $$ReviewEventsTableFilterComposer,
+          $$ReviewEventsTableOrderingComposer,
+          $$ReviewEventsTableAnnotationComposer,
+          $$ReviewEventsTableCreateCompanionBuilder,
+          $$ReviewEventsTableUpdateCompanionBuilder,
+          (ReviewEvent, $$ReviewEventsTableReferences),
+          ReviewEvent,
+          PrefetchHooks Function({bool reviewItemId})
+        > {
+  $$ReviewEventsTableTableManager(_$TraceDatabase db, $ReviewEventsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ReviewEventsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ReviewEventsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ReviewEventsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> reviewItemId = const Value.absent(),
+                Value<String> rating = const Value.absent(),
+                Value<String> occurredAt = const Value.absent(),
+                Value<String?> previousDueAt = const Value.absent(),
+                Value<String> nextDueAt = const Value.absent(),
+                Value<String> deviceId = const Value.absent(),
+                Value<String> schedulerVersion = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ReviewEventsCompanion(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                reviewItemId: reviewItemId,
+                rating: rating,
+                occurredAt: occurredAt,
+                previousDueAt: previousDueAt,
+                nextDueAt: nextDueAt,
+                deviceId: deviceId,
+                schedulerVersion: schedulerVersion,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<int> version = const Value.absent(),
+                required String contentHash,
+                required String reviewItemId,
+                required String rating,
+                required String occurredAt,
+                Value<String?> previousDueAt = const Value.absent(),
+                required String nextDueAt,
+                required String deviceId,
+                required String schedulerVersion,
+                Value<int> rowid = const Value.absent(),
+              }) => ReviewEventsCompanion.insert(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                reviewItemId: reviewItemId,
+                rating: rating,
+                occurredAt: occurredAt,
+                previousDueAt: previousDueAt,
+                nextDueAt: nextDueAt,
+                deviceId: deviceId,
+                schedulerVersion: schedulerVersion,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ReviewEventsTable, ReviewEvent>(table),
+                  $$ReviewEventsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({reviewItemId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (reviewItemId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.reviewItemId,
+                                referencedTable: $$ReviewEventsTableReferences
+                                    ._reviewItemIdTable(db),
+                                referencedColumn: $$ReviewEventsTableReferences
+                                    ._reviewItemIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ReviewEventsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $ReviewEventsTable,
+      ReviewEvent,
+      $$ReviewEventsTableFilterComposer,
+      $$ReviewEventsTableOrderingComposer,
+      $$ReviewEventsTableAnnotationComposer,
+      $$ReviewEventsTableCreateCompanionBuilder,
+      $$ReviewEventsTableUpdateCompanionBuilder,
+      (ReviewEvent, $$ReviewEventsTableReferences),
+      ReviewEvent,
+      PrefetchHooks Function({bool reviewItemId})
+    >;
 
 class $TraceDatabaseManager {
   final _$TraceDatabase _db;
@@ -11036,4 +13261,8 @@ class $TraceDatabaseManager {
       $$HighlightAnchorsTableTableManager(_db, _db.highlightAnchors);
   $$StudyNotesTableTableManager get studyNotes =>
       $$StudyNotesTableTableManager(_db, _db.studyNotes);
+  $$ReviewItemsTableTableManager get reviewItems =>
+      $$ReviewItemsTableTableManager(_db, _db.reviewItems);
+  $$ReviewEventsTableTableManager get reviewEvents =>
+      $$ReviewEventsTableTableManager(_db, _db.reviewEvents);
 }

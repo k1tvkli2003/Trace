@@ -183,6 +183,42 @@ class StudyNotes extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+@TableIndex(name: 'review_item_state_due', columns: {#state, #dueAt})
+class ReviewItems extends Table {
+  TextColumn get id => text()();
+  IntColumn get version => integer().withDefault(const Constant(1))();
+  TextColumn get contentHash => text()();
+  TextColumn get targetType => text()();
+  TextColumn get targetId => text()();
+  TextColumn get dueAt => text()();
+  IntColumn get intervalDays => integer()();
+  RealColumn get ease => real()();
+  IntColumn get lapses => integer().withDefault(const Constant(0))();
+  TextColumn get state => text()();
+  TextColumn get schedulerVersion => text()();
+  // Immutable creation receipt; due/interval/lapses are mutable projections.
+  TextColumn get initialPayloadJson => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class ReviewEvents extends Table {
+  TextColumn get id => text()();
+  IntColumn get version => integer().withDefault(const Constant(1))();
+  TextColumn get contentHash => text()();
+  TextColumn get reviewItemId => text().references(ReviewItems, #id)();
+  TextColumn get rating => text()();
+  TextColumn get occurredAt => text()();
+  TextColumn get previousDueAt => text().nullable()();
+  TextColumn get nextDueAt => text()();
+  TextColumn get deviceId => text()();
+  TextColumn get schedulerVersion => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     LibraryEntries,
@@ -195,13 +231,15 @@ class StudyNotes extends Table {
     LearnerStates,
     HighlightAnchors,
     StudyNotes,
+    ReviewItems,
+    ReviewEvents,
   ],
 )
 class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -237,6 +275,11 @@ class TraceDatabase extends _$TraceDatabase {
       if (from < 7) {
         await m.createTable(highlightAnchors);
         await m.createTable(studyNotes);
+      }
+      if (from < 8) {
+        await m.createTable(reviewItems);
+        await m.createTable(reviewEvents);
+        await m.createIndex(reviewItemStateDue);
       }
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
