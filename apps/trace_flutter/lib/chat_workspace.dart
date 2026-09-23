@@ -31,10 +31,11 @@ class ChatWorkspace extends StatefulWidget {
 class _ChatWorkspaceState extends State<ChatWorkspace> {
   final _scaffold = GlobalKey<ScaffoldState>();
   final _draft = TextEditingController();
-  static const _ink = Color(0xff18292d);
-  static const _surface = Color(0xfff8faf8);
-  static const _muted = Color(0xff637573);
-  static const _accent = Color(0xff1f665c);
+  bool _showEvidenceRail = false;
+  static const _ink = Color(0xff202b2b);
+  static const _surface = Color(0xfffaf9f4);
+  static const _muted = Color(0xff606d69);
+  static const _accent = Color(0xff2f6b60);
 
   @override
   void dispose() {
@@ -145,10 +146,27 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                     ),
                     selected: entry.id == widget.selectedId,
                     selectedTileColor: const Color(0xff304a49),
-                    leading: const Icon(
-                      Icons.menu_book_outlined,
-                      size: 19,
-                      color: Color(0xffbfd9d2),
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 180),
+                          width: 3,
+                          height: 28,
+                          decoration: BoxDecoration(
+                            color: entry.id == widget.selectedId
+                                ? const Color(0xffe5a27a)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                        const SizedBox(width: 7),
+                        const Icon(
+                          Icons.menu_book_outlined,
+                          size: 19,
+                          color: Color(0xffbfd9d2),
+                        ),
+                      ],
                     ),
                     title: Text(
                       entry.title,
@@ -185,7 +203,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
           const Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              'Local workspace\nAI is not connected',
+              'Local workspace\nAI connection not configured',
               style: TextStyle(
                 color: Color(0xffa9c1bc),
                 height: 1.5,
@@ -288,7 +306,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                   : 'Open sources',
               widget.selectedId == null
                   ? 'Start a private library for your books'
-                  : 'Read originals and import more files',
+                  : 'Import a source or open your originals',
               widget.selectedId == null
                   ? widget.onCreate
                   : widget.onOpenSources,
@@ -419,9 +437,113 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
     ),
   );
 
+  Widget _evidenceRail() => Material(
+    key: const Key('evidence-rail'),
+    color: const Color(0xfff5f5f1),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(24, 28, 16, 6),
+          child: Text(
+            'SOURCE INDEX',
+            style: TextStyle(
+              color: _muted,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.1,
+            ),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 16, 18),
+          child: Text(
+            'Your originals',
+            style: TextStyle(
+              color: _ink,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        const Divider(height: 1),
+        Expanded(
+          child: FutureBuilder<List<SourceDocument>>(
+            future: widget.sourceFuture,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Text('Sources unavailable. Open sources to retry.'),
+                );
+              }
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.data!.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Text('No sources imported yet'),
+                );
+              }
+              return ListView.separated(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemCount: snapshot.data!.length,
+                separatorBuilder: (_, _) => const Divider(height: 1),
+                itemBuilder: (context, index) {
+                  final source = snapshot.data![index];
+                  final ready = source.format != SourceDocumentFormat.pdf;
+                  return ListTile(
+                    contentPadding: const EdgeInsetsDirectional.fromSTEB(
+                      24,
+                      12,
+                      20,
+                      12,
+                    ),
+                    title: Text(
+                      source.relativePath,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: _ink,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        ready
+                            ? 'Original · Ready to read'
+                            : 'PDF · Waiting for Vision',
+                        style: const TextStyle(color: _muted),
+                      ),
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+                    onTap: ready
+                        ? () => widget.onReadSource(source)
+                        : widget.onOpenSources,
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        const Divider(height: 1),
+        Padding(
+          padding: const EdgeInsets.all(18),
+          child: OutlinedButton.icon(
+            onPressed: widget.onOpenSources,
+            icon: const Icon(Icons.upload_file_outlined),
+            label: const Text('Manage sources'),
+          ),
+        ),
+      ],
+    ),
+  );
+
   Widget _composer() => Container(
     color: _surface,
-    padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 14),
+    padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 34),
     child: Center(
       heightFactor: 1,
       child: ConstrainedBox(
@@ -495,7 +617,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
             ),
             const SizedBox(height: 9),
             const Text(
-              'AI is not connected · Draft stays here until you leave this chat',
+              'Works offline · AI needs a connection · Draft stays',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 11, color: _muted),
             ),
@@ -509,6 +631,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, limits) {
       final compact = limits.maxWidth < 700;
+      final sourceRailFits = limits.maxWidth >= 1180;
       final title = widget.selectedId == null
           ? 'New conversation'
           : widget.entries
@@ -562,6 +685,20 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                               onPressed: widget.onOpenSources,
                               icon: const Icon(Icons.library_books_outlined),
                             ),
+                          if (sourceRailFits && widget.selectedId != null)
+                            IconButton(
+                              tooltip: _showEvidenceRail
+                                  ? 'Hide source rail'
+                                  : 'Show source rail',
+                              onPressed: () => setState(
+                                () => _showEvidenceRail = !_showEvidenceRail,
+                              ),
+                              icon: Icon(
+                                _showEvidenceRail
+                                    ? Icons.view_sidebar
+                                    : Icons.view_sidebar_outlined,
+                              ),
+                            ),
                           const Padding(
                             padding: EdgeInsetsDirectional.only(start: 10),
                             child: Text(
@@ -578,6 +715,13 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                   ],
                 ),
               ),
+              if (sourceRailFits &&
+                  _showEvidenceRail &&
+                  widget.selectedId != null)
+                SizedBox(
+                  width: (limits.maxWidth * 0.28).clamp(270.0, 360.0),
+                  child: _evidenceRail(),
+                ),
             ],
           ),
         ),

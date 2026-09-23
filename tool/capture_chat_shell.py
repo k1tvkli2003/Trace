@@ -15,7 +15,7 @@ OUT = Path(__file__).resolve().parents[1] / 'docs' / 'design' / 'runtime'
 OUT.mkdir(parents=True, exist_ok=True)
 
 
-def capture(width, height, name, selected=False, teaching=False):
+def capture(width, height, name, selected=False, teaching=False, rail=False):
     with tempfile.TemporaryDirectory(prefix='trace-chat-capture-') as profile:
         process = subprocess.Popen([
             str(CHROME), '--headless=new', '--no-first-run', '--disable-gpu',
@@ -25,13 +25,21 @@ def capture(width, height, name, selected=False, teaching=False):
             creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
         try:
             marker = Path(profile) / 'DevToolsActivePort'
+            port = None
             for _ in range(100):
-                if marker.exists():
-                    break
+                try:
+                    if marker.is_file():
+                        port = int(marker.read_text().splitlines()[0])
+                        break
+                except (PermissionError, ValueError, IndexError):
+                    # Chrome may still be replacing its startup marker.
+                    pass
                 if process.poll() is not None:
                     raise RuntimeError('Chrome exited before opening DevTools')
                 time.sleep(.1)
-            port = int(marker.read_text().splitlines()[0])
+            if port is None:
+                raise RuntimeError('Chrome DevTools marker was not readable')
+
             with urlopen(Request(f'http://127.0.0.1:{port}/json/new?{URL}', method='PUT')) as response:
                 tab = json.load(response)
             with connect(tab['webSocketDebuggerUrl'], origin='http://localhost') as ws:
@@ -96,6 +104,11 @@ def capture(width, height, name, selected=False, teaching=False):
                         if width != 1440 or height != 900:
                             raise ValueError('Teaching screenshot coordinate requires 1440x900')
                         click(650, 545)
+                        time.sleep(1)
+                    if rail:
+                        if width != 1440 or height != 900:
+                            raise ValueError('Source rail screenshot coordinate requires 1440x900')
+                        click(1347, 31)
                         time.sleep(1)
                 image = call('Page.captureScreenshot', {'format': 'png', 'captureBeyondViewport': False})
                 target = OUT / name

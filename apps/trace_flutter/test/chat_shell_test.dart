@@ -37,7 +37,7 @@ void main() {
               .onPressed,
           isNull,
         );
-        expect(find.textContaining('AI is not connected'), findsWidgets);
+        expect(find.textContaining('Works offline'), findsWidgets);
         expect(find.text('سلام، از این فصل شروع کنیم'), findsOneWidget);
         expect(tester.takeException(), isNull);
       },
@@ -97,6 +97,59 @@ void main() {
       expect(find.textContaining('Source evidence.'), findsOneWidget);
     },
   );
+
+  testWidgets('wide workspace can reveal and hide honest source rail', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1440, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+    final db = TraceDatabase(NativeDatabase.memory());
+    addTearDown(db.close);
+    await LocalLibraryRepository(
+      db,
+    ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Atlas'));
+    await tester.pumpWidget(MainApp(database: db));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Atlas'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('evidence-rail')), findsNothing);
+    await tester.tap(find.byTooltip('Show source rail'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('evidence-rail')), findsOneWidget);
+    expect(find.text('No sources imported yet'), findsOneWidget);
+    await tester.tap(find.byTooltip('Hide source rail'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('evidence-rail')), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('tablet keeps source route instead of squeezing rail', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(834, 1112);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+    final db = TraceDatabase(NativeDatabase.memory());
+    addTearDown(db.close);
+    await LocalLibraryRepository(
+      db,
+    ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Atlas'));
+    await tester.pumpWidget(MainApp(database: db));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Atlas'));
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Show source rail'), findsNothing);
+    expect(find.byKey(const Key('evidence-rail')), findsNothing);
+    expect(find.byTooltip('Open sources'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('New chat asks before discarding a typed draft', (tester) async {
     final db = TraceDatabase(NativeDatabase.memory());

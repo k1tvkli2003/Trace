@@ -1,0 +1,112 @@
+[
+  {
+    "id": "01",
+    "name": "Evidence Atelier — teaching",
+    "requested_size": "1536x1024",
+    "actual_dimensions": [
+      1586,
+      992
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\01-evidence-atelier-teaching.webp",
+    "bytes": 1105114
+  },
+  {
+    "id": "02",
+    "name": "Evidence Atelier — pocket lesson",
+    "requested_size": "1024x1536",
+    "actual_dimensions": [
+      853,
+      1844
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\02-evidence-atelier-pocket-lesson.webp",
+    "bytes": 1401204
+  },
+  {
+    "id": "03",
+    "name": "Evidence Atelier — source lens",
+    "requested_size": "1024x1536",
+    "actual_dimensions": [
+      1086,
+      1448
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\03-evidence-atelier-source-lens.webp",
+    "bytes": 1366768
+  },
+  {
+    "id": "04",
+    "name": "Evidence Atelier — library",
+    "requested_size": "1536x1024",
+    "actual_dimensions": [
+      1586,
+      992
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\04-evidence-atelier-library.webp",
+    "bytes": 822920
+  },
+  {
+    "id": "05",
+    "name": "Signal Console — worktree",
+    "requested_size": "1536x1024",
+    "actual_dimensions": [
+      1586,
+      992
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\05-signal-console-worktree.webp",
+    "bytes": 971386
+  },
+  {
+    "id": "06",
+    "name": "Signal Console — review pocket",
+    "requested_size": "1024x1536",
+    "actual_dimensions": [
+      853,
+      1844
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\06-signal-console-review-pocket.webp",
+    "bytes": 760324
+  },
+  {
+    "id": "07",
+    "name": "Folio Field — reader",
+    "requested_size": "1024x1536",
+    "actual_dimensions": [
+      1086,
+      1448
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\07-folio-field-reader.webp",
+    "bytes": 1468688
+  },
+  {
+    "id": "08",
+    "name": "Folio Field — import",
+    "requested_size": "1536x1024",
+    "actual_dimensions": [
+      1586,
+      992
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\08-folio-field-import.webp",
+    "bytes": 824778
+  },
+  {
+    "id": "09",
+    "name": "Quiet Index — library pocket",
+    "requested_size": "1024x1536",
+    "actual_dimensions": [
+      853,
+      1844
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\09-quiet-index-library-pocket.webp",
+    "bytes": 748852
+  },
+  {
+    "id": "10",
+    "name": "Quiet Index — teaching focus",
+    "requested_size": "1536x1024",
+    "actual_dimensions": [
+      1586,
+      992
+    ],
+    "path": "C:\\Users\\K1\\Desktop\\Projects\\Trace\\docs\\design\\previews\\workbench-10\\10-quiet-index-teaching-focus.webp",
+    "bytes": 814104
+  }
+]
