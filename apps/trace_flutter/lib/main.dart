@@ -11,6 +11,7 @@ import 'text_picker.dart';
 import 'pdf_picker.dart';
 import 'source_reading_page.dart';
 import 'chat_workspace.dart';
+import 'teaching_preview_page.dart';
 
 export 'text_picker.dart' show PickedTextSource;
 export 'pdf_picker.dart' show PickedPdfSource;
@@ -292,6 +293,15 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  Future<void> _openTeachingPreview() async {
+    if (!mounted || _selectedId == null) return;
+    await Navigator.of(_navigator.currentContext!).push(
+      MaterialPageRoute<void>(
+        builder: (context) => const TeachingPreviewPage(),
+      ),
+    );
+  }
+
   Future<void> _showSources() async {
     if (_selectedId == null || !mounted) return;
     try {
@@ -486,6 +496,7 @@ class _MainAppState extends State<MainApp> {
               onOpenSources: _showSources,
               sourceFuture: _selectedSources,
               onReadSource: _startReading,
+              onOpenTeachingStage: _openTeachingPreview,
             );
           },
         ),

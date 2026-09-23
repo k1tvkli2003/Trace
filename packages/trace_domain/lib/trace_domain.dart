@@ -9,3 +9,4 @@ export 'src/models/source_document.dart';
 export 'src/models/source_page.dart';
 export 'src/models/page_vision_cache_key.dart';
 export 'src/models/source_outline.dart';
+export 'src/models/lesson_ast.dart';

@@ -37,6 +37,30 @@ void main() {
     );
   });
 
+  testWidgets('selected workspace opens typed offline teaching preview', (
+    tester,
+  ) async {
+    final database = TraceDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    await LocalLibraryRepository(
+      database,
+    ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Teaching book'));
+    await tester.pumpWidget(MainApp(database: database));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Teaching book'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Preview teaching stage'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Preview teaching stage'));
+    await tester.pumpAndSettle();
+    expect(find.text('Offline teaching preview'), findsOneWidget);
+    expect(find.text('درس مستند'), findsOneWidget);
+    expect(find.text('Source unavailable'), findsWidgets);
+    expect(find.text('Figure unavailable'), findsOneWidget);
+    expect(find.text('AI artifact not generated'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('narrow screen can return from sources to collections', (
     tester,
   ) async {
@@ -93,12 +117,14 @@ void main() {
       await tester.pump();
       expect(find.text('Importing PDF…'), findsOneWidget);
       expect(
-        tester.widget<OutlinedButton>(
-          find.ancestor(
-            of: find.text('Importing PDF…'),
-            matching: find.byType(OutlinedButton),
-          ),
-        ).onPressed,
+        tester
+            .widget<OutlinedButton>(
+              find.ancestor(
+                of: find.text('Importing PDF…'),
+                matching: find.byType(OutlinedButton),
+              ),
+            )
+            .onPressed,
         isNull,
       );
       expect(pickerCalls, 1);

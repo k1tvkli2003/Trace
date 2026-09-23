@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://trace.local/contracts/lesson-ast-v1.json",
   "title": "Trace lesson AST v1 — flat, source-bound draft",
-  "description": "Server validates authorized citation IDs and source fidelity separately. Not raw HTML; no client renderer enabled yet.",
+  "description": "Server validates authorized citation IDs and source fidelity separately. Flutter renders validated text and trusted local figure bytes; no raw HTML. Cross-block figure/explanation pairing is enforced by domain validation.",
   "type": "object",
   "required": ["schemaVersion", "sliceId", "language", "blocks"],
   "additionalProperties": false,

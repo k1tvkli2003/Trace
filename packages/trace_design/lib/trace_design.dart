@@ -2,6 +2,8 @@ library;
 
 import 'package:flutter/material.dart';
 
+export 'src/lesson_document_view.dart';
+
 /// Display policy only. Source bytes and citation quotes remain unchanged.
 abstract final class TraceTypography {
   static const english = TextStyle(fontFamily: 'packages/trace_design/Inter');

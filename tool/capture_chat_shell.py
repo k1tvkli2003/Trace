@@ -15,7 +15,7 @@ OUT = Path(__file__).resolve().parents[1] / 'docs' / 'design' / 'runtime'
 OUT.mkdir(parents=True, exist_ok=True)
 
 
-def capture(width, height, name, selected=False):
+def capture(width, height, name, selected=False, teaching=False):
     with tempfile.TemporaryDirectory(prefix='trace-chat-capture-') as profile:
         process = subprocess.Popen([
             str(CHROME), '--headless=new', '--no-first-run', '--disable-gpu',
@@ -92,6 +92,11 @@ def capture(width, height, name, selected=False):
                     })
                     if value['result'].get('value') is not True:
                         raise RuntimeError('Selected collection was not persisted in Chrome')
+                    if teaching:
+                        if width != 1440 or height != 900:
+                            raise ValueError('Teaching screenshot coordinate requires 1440x900')
+                        click(650, 545)
+                        time.sleep(1)
                 image = call('Page.captureScreenshot', {'format': 'png', 'captureBeyondViewport': False})
                 target = OUT / name
                 target.write_bytes(base64.b64decode(image['data']))
