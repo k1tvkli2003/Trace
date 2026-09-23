@@ -32,6 +32,17 @@ void main() {
     expect(figure.toJson(), json);
   });
 
+  test('zero-area figure crop is rejected', () {
+    for (final dimension in ['w', 'h']) {
+      final box = <String, Object>{'x': 0.1, 'y': 0.2, 'w': 0.4, 'h': 0.3};
+      box[dimension] = 0;
+      expect(
+        () => FigureAsset.fromJson({...fixture, 'bbox': box}),
+        throwsFormatException,
+      );
+    }
+  });
+
   test('crop outside normalized page is rejected', () {
     final json = {
       ...fixture,

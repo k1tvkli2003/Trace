@@ -23,8 +23,8 @@
       "properties": {
         "x": {"type": "number", "minimum": 0, "maximum": 1},
         "y": {"type": "number", "minimum": 0, "maximum": 1},
-        "w": {"type": "number", "minimum": 0, "maximum": 1},
-        "h": {"type": "number", "minimum": 0, "maximum": 1}
+        "w": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "h": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
       },
       "additionalProperties": false,
       "allOf": [{
@@ -307,7 +307,7 @@
         "contentHash": {"$ref": "#/$defs/sha256"},
         "sliceId": {"$ref": "#/$defs/id"},
         "lessonArtifactId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
-        "status": {"$ref": "#/$defs/id", "description": "Known: not_started, in_progress, studied, not_learned, mastered, skipped. REVIEW_DUE is a projection, not stored."},
+        "status": {"type": "string", "minLength": 1, "pattern": "\\S", "not": {"pattern": "^[Rr][Ee][Vv][Ii][Ee][Ww]_[Dd][Uu][Ee]$"}, "description": "Known: not_started, in_progress, studied, not_learned, mastered, skipped. REVIEW_DUE is a projection, not stored."},
         "confidence": {"type": "number", "minimum": 0, "maximum": 1},
         "lastReadAt": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
         "lastActionAt": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]}

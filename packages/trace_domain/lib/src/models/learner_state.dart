@@ -84,6 +84,9 @@ final class LearnerState {
       throw const FormatException('confidence must be between 0 and 1');
     }
     final rawStatus = text('status');
+    if (rawStatus.toLowerCase() == 'review_due') {
+      throw const FormatException('review_due is a projection, not persisted state');
+    }
     final status = LearnerStateStatus.values
         .where((candidate) => candidate.wireName == rawStatus)
         .firstOrNull;

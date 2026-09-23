@@ -47,6 +47,9 @@ final class NormalizedBox {
       width: coordinate('w'),
       height: coordinate('h'),
     );
+    if (box.width <= 0 || box.height <= 0) {
+      throw const FormatException('bbox must have positive area');
+    }
     if (box.x + box.width > 1 || box.y + box.height > 1) {
       throw const FormatException('bbox must remain inside page bounds');
     }

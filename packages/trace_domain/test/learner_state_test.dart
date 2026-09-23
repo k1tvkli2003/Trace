@@ -28,6 +28,15 @@ void main() {
     expect(state.toJson(), json);
   });
 
+  test('review_due remains a projection and cannot be persisted', () {
+    for (final status in ['review_due', 'REVIEW_DUE']) {
+      expect(
+        () => LearnerState.fromJson({...fixture, 'status': status}),
+        throwsFormatException,
+      );
+    }
+  });
+
   test('LearnerState accepts not-started state without timestamps', () {
     final json = {
       ...fixture,

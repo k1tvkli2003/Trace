@@ -1,4 +1,6 @@
+import 'figure_asset.dart';
 import 'lesson_ast.dart';
+import 'source_citation.dart';
 
 /// Immutable generated lesson version, separate from source evidence.
 final class LessonArtifact {
@@ -30,7 +32,11 @@ final class LessonArtifact {
 
   Map<String, Object?> get lessonAstJson => lesson.toJson();
 
-  factory LessonArtifact.fromJson(Map<String, Object?> json) {
+  factory LessonArtifact.fromJson(
+    Map<String, Object?> json, {
+    Iterable<SourceCitation>? verifiedCitations,
+    Iterable<FigureAsset>? verifiedFigures,
+  }) {
     String text(String key) {
       final value = json[key];
       if (value is! String || value.trim().isEmpty) {
@@ -76,6 +82,32 @@ final class LessonArtifact {
     if (rawLesson is! Map<String, Object?>) {
       throw const FormatException('lessonAstJson must be an object');
     }
+    final citationEvidence = verifiedCitations == null
+        ? <String, SourceCitation>{}
+        : {
+            for (final citation in verifiedCitations)
+              if (citation.id.isNotEmpty) citation.id: citation,
+          };
+    if (verifiedCitations == null ||
+        citations.any((id) => !citationEvidence.containsKey(id))) {
+      throw const FormatException(
+        'Lesson citations require independently verified SourceCitation evidence',
+      );
+    }
+
+    final figureEvidence = verifiedFigures == null
+        ? <String, FigureAsset>{}
+        : {
+            for (final figure in verifiedFigures)
+              if (figure.reviewStatus == FigureReviewStatus.approved)
+                figure.id: figure,
+          };
+    if (figures.any((id) => !figureEvidence.containsKey(id))) {
+      throw const FormatException(
+        'Lesson figures require independently approved FigureAsset evidence',
+      );
+    }
+
     final lesson = LessonDocument.fromJson(
       rawLesson,
       sliceId: sliceId,
