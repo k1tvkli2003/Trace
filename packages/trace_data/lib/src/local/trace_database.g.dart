@@ -3552,6 +3552,813 @@ class FigureAssetsCompanion extends UpdateCompanion<FigureAsset> {
   }
 }
 
+class $LessonArtifactsTable extends LessonArtifacts
+    with TableInfo<$LessonArtifactsTable, LessonArtifact> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LessonArtifactsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sliceIdMeta = const VerificationMeta(
+    'sliceId',
+  );
+  @override
+  late final GeneratedColumn<String> sliceId = GeneratedColumn<String>(
+    'slice_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+    'payload_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    sliceId,
+    version,
+    contentHash,
+    payloadJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'lesson_artifacts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LessonArtifact> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('slice_id')) {
+      context.handle(
+        _sliceIdMeta,
+        sliceId.isAcceptableOrUnknown(data['slice_id']!, _sliceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sliceIdMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_versionMeta);
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
+          _payloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LessonArtifact map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LessonArtifact(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      sliceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}slice_id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      )!,
+    );
+  }
+
+  @override
+  $LessonArtifactsTable createAlias(String alias) {
+    return $LessonArtifactsTable(attachedDatabase, alias);
+  }
+}
+
+class LessonArtifact extends DataClass implements Insertable<LessonArtifact> {
+  final String id;
+  final String sliceId;
+  final int version;
+  final String contentHash;
+  final String payloadJson;
+  const LessonArtifact({
+    required this.id,
+    required this.sliceId,
+    required this.version,
+    required this.contentHash,
+    required this.payloadJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['slice_id'] = Variable<String>(sliceId);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['payload_json'] = Variable<String>(payloadJson);
+    return map;
+  }
+
+  LessonArtifactsCompanion toCompanion(bool nullToAbsent) {
+    return LessonArtifactsCompanion(
+      id: Value(id),
+      sliceId: Value(sliceId),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      payloadJson: Value(payloadJson),
+    );
+  }
+
+  factory LessonArtifact.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LessonArtifact(
+      id: serializer.fromJson<String>(json['id']),
+      sliceId: serializer.fromJson<String>(json['sliceId']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'sliceId': serializer.toJson<String>(sliceId),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+    };
+  }
+
+  LessonArtifact copyWith({
+    String? id,
+    String? sliceId,
+    int? version,
+    String? contentHash,
+    String? payloadJson,
+  }) => LessonArtifact(
+    id: id ?? this.id,
+    sliceId: sliceId ?? this.sliceId,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    payloadJson: payloadJson ?? this.payloadJson,
+  );
+  LessonArtifact copyWithCompanion(LessonArtifactsCompanion data) {
+    return LessonArtifact(
+      id: data.id.present ? data.id.value : this.id,
+      sliceId: data.sliceId.present ? data.sliceId.value : this.sliceId,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LessonArtifact(')
+          ..write('id: $id, ')
+          ..write('sliceId: $sliceId, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('payloadJson: $payloadJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, sliceId, version, contentHash, payloadJson);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LessonArtifact &&
+          other.id == this.id &&
+          other.sliceId == this.sliceId &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.payloadJson == this.payloadJson);
+}
+
+class LessonArtifactsCompanion extends UpdateCompanion<LessonArtifact> {
+  final Value<String> id;
+  final Value<String> sliceId;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String> payloadJson;
+  final Value<int> rowid;
+  const LessonArtifactsCompanion({
+    this.id = const Value.absent(),
+    this.sliceId = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LessonArtifactsCompanion.insert({
+    required String id,
+    required String sliceId,
+    required int version,
+    required String contentHash,
+    required String payloadJson,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       sliceId = Value(sliceId),
+       version = Value(version),
+       contentHash = Value(contentHash),
+       payloadJson = Value(payloadJson);
+  static Insertable<LessonArtifact> custom({
+    Expression<String>? id,
+    Expression<String>? sliceId,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? payloadJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (sliceId != null) 'slice_id': sliceId,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LessonArtifactsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? sliceId,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String>? payloadJson,
+    Value<int>? rowid,
+  }) {
+    return LessonArtifactsCompanion(
+      id: id ?? this.id,
+      sliceId: sliceId ?? this.sliceId,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      payloadJson: payloadJson ?? this.payloadJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (sliceId.present) {
+      map['slice_id'] = Variable<String>(sliceId.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LessonArtifactsCompanion(')
+          ..write('id: $id, ')
+          ..write('sliceId: $sliceId, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LearnerStatesTable extends LearnerStates
+    with TableInfo<$LearnerStatesTable, LearnerState> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LearnerStatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sliceIdMeta = const VerificationMeta(
+    'sliceId',
+  );
+  @override
+  late final GeneratedColumn<String> sliceId = GeneratedColumn<String>(
+    'slice_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lessonArtifactIdMeta = const VerificationMeta(
+    'lessonArtifactId',
+  );
+  @override
+  late final GeneratedColumn<String> lessonArtifactId = GeneratedColumn<String>(
+    'lesson_artifact_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES lesson_artifacts (id)',
+    ),
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+    'payload_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    sliceId,
+    lessonArtifactId,
+    version,
+    contentHash,
+    payloadJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'learner_states';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LearnerState> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('slice_id')) {
+      context.handle(
+        _sliceIdMeta,
+        sliceId.isAcceptableOrUnknown(data['slice_id']!, _sliceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sliceIdMeta);
+    }
+    if (data.containsKey('lesson_artifact_id')) {
+      context.handle(
+        _lessonArtifactIdMeta,
+        lessonArtifactId.isAcceptableOrUnknown(
+          data['lesson_artifact_id']!,
+          _lessonArtifactIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_lessonArtifactIdMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_versionMeta);
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
+          _payloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LearnerState map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LearnerState(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      sliceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}slice_id'],
+      )!,
+      lessonArtifactId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lesson_artifact_id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      )!,
+    );
+  }
+
+  @override
+  $LearnerStatesTable createAlias(String alias) {
+    return $LearnerStatesTable(attachedDatabase, alias);
+  }
+}
+
+class LearnerState extends DataClass implements Insertable<LearnerState> {
+  final String id;
+  final String sliceId;
+  final String lessonArtifactId;
+  final int version;
+  final String contentHash;
+  final String payloadJson;
+  const LearnerState({
+    required this.id,
+    required this.sliceId,
+    required this.lessonArtifactId,
+    required this.version,
+    required this.contentHash,
+    required this.payloadJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['slice_id'] = Variable<String>(sliceId);
+    map['lesson_artifact_id'] = Variable<String>(lessonArtifactId);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['payload_json'] = Variable<String>(payloadJson);
+    return map;
+  }
+
+  LearnerStatesCompanion toCompanion(bool nullToAbsent) {
+    return LearnerStatesCompanion(
+      id: Value(id),
+      sliceId: Value(sliceId),
+      lessonArtifactId: Value(lessonArtifactId),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      payloadJson: Value(payloadJson),
+    );
+  }
+
+  factory LearnerState.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LearnerState(
+      id: serializer.fromJson<String>(json['id']),
+      sliceId: serializer.fromJson<String>(json['sliceId']),
+      lessonArtifactId: serializer.fromJson<String>(json['lessonArtifactId']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'sliceId': serializer.toJson<String>(sliceId),
+      'lessonArtifactId': serializer.toJson<String>(lessonArtifactId),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+    };
+  }
+
+  LearnerState copyWith({
+    String? id,
+    String? sliceId,
+    String? lessonArtifactId,
+    int? version,
+    String? contentHash,
+    String? payloadJson,
+  }) => LearnerState(
+    id: id ?? this.id,
+    sliceId: sliceId ?? this.sliceId,
+    lessonArtifactId: lessonArtifactId ?? this.lessonArtifactId,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    payloadJson: payloadJson ?? this.payloadJson,
+  );
+  LearnerState copyWithCompanion(LearnerStatesCompanion data) {
+    return LearnerState(
+      id: data.id.present ? data.id.value : this.id,
+      sliceId: data.sliceId.present ? data.sliceId.value : this.sliceId,
+      lessonArtifactId: data.lessonArtifactId.present
+          ? data.lessonArtifactId.value
+          : this.lessonArtifactId,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LearnerState(')
+          ..write('id: $id, ')
+          ..write('sliceId: $sliceId, ')
+          ..write('lessonArtifactId: $lessonArtifactId, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('payloadJson: $payloadJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    sliceId,
+    lessonArtifactId,
+    version,
+    contentHash,
+    payloadJson,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LearnerState &&
+          other.id == this.id &&
+          other.sliceId == this.sliceId &&
+          other.lessonArtifactId == this.lessonArtifactId &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.payloadJson == this.payloadJson);
+}
+
+class LearnerStatesCompanion extends UpdateCompanion<LearnerState> {
+  final Value<String> id;
+  final Value<String> sliceId;
+  final Value<String> lessonArtifactId;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String> payloadJson;
+  final Value<int> rowid;
+  const LearnerStatesCompanion({
+    this.id = const Value.absent(),
+    this.sliceId = const Value.absent(),
+    this.lessonArtifactId = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LearnerStatesCompanion.insert({
+    required String id,
+    required String sliceId,
+    required String lessonArtifactId,
+    required int version,
+    required String contentHash,
+    required String payloadJson,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       sliceId = Value(sliceId),
+       lessonArtifactId = Value(lessonArtifactId),
+       version = Value(version),
+       contentHash = Value(contentHash),
+       payloadJson = Value(payloadJson);
+  static Insertable<LearnerState> custom({
+    Expression<String>? id,
+    Expression<String>? sliceId,
+    Expression<String>? lessonArtifactId,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? payloadJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (sliceId != null) 'slice_id': sliceId,
+      if (lessonArtifactId != null) 'lesson_artifact_id': lessonArtifactId,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LearnerStatesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? sliceId,
+    Value<String>? lessonArtifactId,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String>? payloadJson,
+    Value<int>? rowid,
+  }) {
+    return LearnerStatesCompanion(
+      id: id ?? this.id,
+      sliceId: sliceId ?? this.sliceId,
+      lessonArtifactId: lessonArtifactId ?? this.lessonArtifactId,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      payloadJson: payloadJson ?? this.payloadJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (sliceId.present) {
+      map['slice_id'] = Variable<String>(sliceId.value);
+    }
+    if (lessonArtifactId.present) {
+      map['lesson_artifact_id'] = Variable<String>(lessonArtifactId.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LearnerStatesCompanion(')
+          ..write('id: $id, ')
+          ..write('sliceId: $sliceId, ')
+          ..write('lessonArtifactId: $lessonArtifactId, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
@@ -3563,6 +4370,10 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     this,
   );
   late final $FigureAssetsTable figureAssets = $FigureAssetsTable(this);
+  late final $LessonArtifactsTable lessonArtifacts = $LessonArtifactsTable(
+    this,
+  );
+  late final $LearnerStatesTable learnerStates = $LearnerStatesTable(this);
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
@@ -3575,6 +4386,10 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     'source_block_page_version_order_unique',
     'CREATE UNIQUE INDEX source_block_page_version_order_unique ON source_blocks (page_id, version, "order")',
   );
+  late final Index lessonArtifactSliceVersionUnique = Index(
+    'lesson_artifact_slice_version_unique',
+    'CREATE UNIQUE INDEX lesson_artifact_slice_version_unique ON lesson_artifacts (slice_id, version)',
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3586,9 +4401,12 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     sourceBlocks,
     sourceCitations,
     figureAssets,
+    lessonArtifacts,
+    learnerStates,
     sourceVersionUnique,
     sourcePageDocumentPageVersionProfileUnique,
     sourceBlockPageVersionOrderUnique,
+    lessonArtifactSliceVersionUnique,
   ];
 }
 
@@ -6823,6 +7641,669 @@ typedef $$FigureAssetsTableProcessedTableManager =
       FigureAsset,
       PrefetchHooks Function({bool pageId})
     >;
+typedef $$LessonArtifactsTableCreateCompanionBuilder =
+    LessonArtifactsCompanion Function({
+      required String id,
+      required String sliceId,
+      required int version,
+      required String contentHash,
+      required String payloadJson,
+      Value<int> rowid,
+    });
+typedef $$LessonArtifactsTableUpdateCompanionBuilder =
+    LessonArtifactsCompanion Function({
+      Value<String> id,
+      Value<String> sliceId,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String> payloadJson,
+      Value<int> rowid,
+    });
+
+final class $$LessonArtifactsTableReferences
+    extends
+        BaseReferences<_$TraceDatabase, $LessonArtifactsTable, LessonArtifact> {
+  $$LessonArtifactsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$LearnerStatesTable, List<LearnerState>>
+  _learnerStatesRefsTable(_$TraceDatabase db) => MultiTypedResultKey.fromTable(
+    db.learnerStates,
+    aliasName: 'lesson_artifacts__id__learner_states__lesson_artifact_id',
+  );
+
+  $$LearnerStatesTableProcessedTableManager get learnerStatesRefs {
+    final manager = $$LearnerStatesTableTableManager($_db, $_db.learnerStates)
+        .filter(
+          (f) => f.lessonArtifactId.id.sqlEquals($_itemColumn<String>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(_learnerStatesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$LessonArtifactsTableFilterComposer
+    extends Composer<_$TraceDatabase, $LessonArtifactsTable> {
+  $$LessonArtifactsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sliceId => $composableBuilder(
+    column: $table.sliceId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> learnerStatesRefs(
+    Expression<bool> Function($$LearnerStatesTableFilterComposer f) f,
+  ) {
+    final $$LearnerStatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.learnerStates,
+      getReferencedColumn: (t) => t.lessonArtifactId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LearnerStatesTableFilterComposer(
+            $db: $db,
+            $table: $db.learnerStates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$LessonArtifactsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $LessonArtifactsTable> {
+  $$LessonArtifactsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sliceId => $composableBuilder(
+    column: $table.sliceId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LessonArtifactsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $LessonArtifactsTable> {
+  $$LessonArtifactsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get sliceId =>
+      $composableBuilder(column: $table.sliceId, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
+
+  Expression<T> learnerStatesRefs<T extends Object>(
+    Expression<T> Function($$LearnerStatesTableAnnotationComposer a) f,
+  ) {
+    final $$LearnerStatesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.learnerStates,
+      getReferencedColumn: (t) => t.lessonArtifactId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LearnerStatesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.learnerStates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$LessonArtifactsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $LessonArtifactsTable,
+          LessonArtifact,
+          $$LessonArtifactsTableFilterComposer,
+          $$LessonArtifactsTableOrderingComposer,
+          $$LessonArtifactsTableAnnotationComposer,
+          $$LessonArtifactsTableCreateCompanionBuilder,
+          $$LessonArtifactsTableUpdateCompanionBuilder,
+          (LessonArtifact, $$LessonArtifactsTableReferences),
+          LessonArtifact,
+          PrefetchHooks Function({bool learnerStatesRefs})
+        > {
+  $$LessonArtifactsTableTableManager(
+    _$TraceDatabase db,
+    $LessonArtifactsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LessonArtifactsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LessonArtifactsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LessonArtifactsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> sliceId = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> payloadJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LessonArtifactsCompanion(
+                id: id,
+                sliceId: sliceId,
+                version: version,
+                contentHash: contentHash,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String sliceId,
+                required int version,
+                required String contentHash,
+                required String payloadJson,
+                Value<int> rowid = const Value.absent(),
+              }) => LessonArtifactsCompanion.insert(
+                id: id,
+                sliceId: sliceId,
+                version: version,
+                contentHash: contentHash,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$LessonArtifactsTable, LessonArtifact>(table),
+                  $$LessonArtifactsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({learnerStatesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (learnerStatesRefs) db.learnerStates,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (learnerStatesRefs)
+                    await $_getPrefetchedData<
+                      LessonArtifact,
+                      $LessonArtifactsTable,
+                      LearnerState
+                    >(
+                      currentTable: table,
+                      referencedTable: $$LessonArtifactsTableReferences
+                          ._learnerStatesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$LessonArtifactsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).learnerStatesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.lessonArtifactId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$LessonArtifactsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $LessonArtifactsTable,
+      LessonArtifact,
+      $$LessonArtifactsTableFilterComposer,
+      $$LessonArtifactsTableOrderingComposer,
+      $$LessonArtifactsTableAnnotationComposer,
+      $$LessonArtifactsTableCreateCompanionBuilder,
+      $$LessonArtifactsTableUpdateCompanionBuilder,
+      (LessonArtifact, $$LessonArtifactsTableReferences),
+      LessonArtifact,
+      PrefetchHooks Function({bool learnerStatesRefs})
+    >;
+typedef $$LearnerStatesTableCreateCompanionBuilder =
+    LearnerStatesCompanion Function({
+      required String id,
+      required String sliceId,
+      required String lessonArtifactId,
+      required int version,
+      required String contentHash,
+      required String payloadJson,
+      Value<int> rowid,
+    });
+typedef $$LearnerStatesTableUpdateCompanionBuilder =
+    LearnerStatesCompanion Function({
+      Value<String> id,
+      Value<String> sliceId,
+      Value<String> lessonArtifactId,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String> payloadJson,
+      Value<int> rowid,
+    });
+
+final class $$LearnerStatesTableReferences
+    extends BaseReferences<_$TraceDatabase, $LearnerStatesTable, LearnerState> {
+  $$LearnerStatesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $LessonArtifactsTable _lessonArtifactIdTable(_$TraceDatabase db) => db
+      .lessonArtifacts
+      .createAlias('learner_states__lesson_artifact_id__lesson_artifacts__id');
+
+  $$LessonArtifactsTableProcessedTableManager get lessonArtifactId {
+    final $_column = $_itemColumn<String>('lesson_artifact_id')!;
+
+    final manager = $$LessonArtifactsTableTableManager(
+      $_db,
+      $_db.lessonArtifacts,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_lessonArtifactIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$LearnerStatesTableFilterComposer
+    extends Composer<_$TraceDatabase, $LearnerStatesTable> {
+  $$LearnerStatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sliceId => $composableBuilder(
+    column: $table.sliceId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$LessonArtifactsTableFilterComposer get lessonArtifactId {
+    final $$LessonArtifactsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.lessonArtifactId,
+      referencedTable: $db.lessonArtifacts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LessonArtifactsTableFilterComposer(
+            $db: $db,
+            $table: $db.lessonArtifacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$LearnerStatesTableOrderingComposer
+    extends Composer<_$TraceDatabase, $LearnerStatesTable> {
+  $$LearnerStatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sliceId => $composableBuilder(
+    column: $table.sliceId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$LessonArtifactsTableOrderingComposer get lessonArtifactId {
+    final $$LessonArtifactsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.lessonArtifactId,
+      referencedTable: $db.lessonArtifacts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LessonArtifactsTableOrderingComposer(
+            $db: $db,
+            $table: $db.lessonArtifacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$LearnerStatesTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $LearnerStatesTable> {
+  $$LearnerStatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get sliceId =>
+      $composableBuilder(column: $table.sliceId, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
+
+  $$LessonArtifactsTableAnnotationComposer get lessonArtifactId {
+    final $$LessonArtifactsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.lessonArtifactId,
+      referencedTable: $db.lessonArtifacts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LessonArtifactsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.lessonArtifacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$LearnerStatesTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $LearnerStatesTable,
+          LearnerState,
+          $$LearnerStatesTableFilterComposer,
+          $$LearnerStatesTableOrderingComposer,
+          $$LearnerStatesTableAnnotationComposer,
+          $$LearnerStatesTableCreateCompanionBuilder,
+          $$LearnerStatesTableUpdateCompanionBuilder,
+          (LearnerState, $$LearnerStatesTableReferences),
+          LearnerState,
+          PrefetchHooks Function({bool lessonArtifactId})
+        > {
+  $$LearnerStatesTableTableManager(
+    _$TraceDatabase db,
+    $LearnerStatesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LearnerStatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LearnerStatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LearnerStatesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> sliceId = const Value.absent(),
+                Value<String> lessonArtifactId = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String> payloadJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LearnerStatesCompanion(
+                id: id,
+                sliceId: sliceId,
+                lessonArtifactId: lessonArtifactId,
+                version: version,
+                contentHash: contentHash,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String sliceId,
+                required String lessonArtifactId,
+                required int version,
+                required String contentHash,
+                required String payloadJson,
+                Value<int> rowid = const Value.absent(),
+              }) => LearnerStatesCompanion.insert(
+                id: id,
+                sliceId: sliceId,
+                lessonArtifactId: lessonArtifactId,
+                version: version,
+                contentHash: contentHash,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$LearnerStatesTable, LearnerState>(table),
+                  $$LearnerStatesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({lessonArtifactId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (lessonArtifactId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.lessonArtifactId,
+                                referencedTable: $$LearnerStatesTableReferences
+                                    ._lessonArtifactIdTable(db),
+                                referencedColumn: $$LearnerStatesTableReferences
+                                    ._lessonArtifactIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$LearnerStatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $LearnerStatesTable,
+      LearnerState,
+      $$LearnerStatesTableFilterComposer,
+      $$LearnerStatesTableOrderingComposer,
+      $$LearnerStatesTableAnnotationComposer,
+      $$LearnerStatesTableCreateCompanionBuilder,
+      $$LearnerStatesTableUpdateCompanionBuilder,
+      (LearnerState, $$LearnerStatesTableReferences),
+      LearnerState,
+      PrefetchHooks Function({bool lessonArtifactId})
+    >;
 
 class $TraceDatabaseManager {
   final _$TraceDatabase _db;
@@ -6839,4 +8320,8 @@ class $TraceDatabaseManager {
       $$SourceCitationsTableTableManager(_db, _db.sourceCitations);
   $$FigureAssetsTableTableManager get figureAssets =>
       $$FigureAssetsTableTableManager(_db, _db.figureAssets);
+  $$LessonArtifactsTableTableManager get lessonArtifacts =>
+      $$LessonArtifactsTableTableManager(_db, _db.lessonArtifacts);
+  $$LearnerStatesTableTableManager get learnerStates =>
+      $$LearnerStatesTableTableManager(_db, _db.learnerStates);
 }

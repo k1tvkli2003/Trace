@@ -111,6 +111,34 @@ class FigureAssets extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+@TableIndex(
+  name: 'lesson_artifact_slice_version_unique',
+  columns: {#sliceId, #version},
+  unique: true,
+)
+class LessonArtifacts extends Table {
+  TextColumn get id => text()();
+  TextColumn get sliceId => text()();
+  IntColumn get version => integer()();
+  TextColumn get contentHash => text()();
+  TextColumn get payloadJson => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class LearnerStates extends Table {
+  TextColumn get id => text()();
+  TextColumn get sliceId => text()();
+  TextColumn get lessonArtifactId => text().references(LessonArtifacts, #id)();
+  IntColumn get version => integer()();
+  TextColumn get contentHash => text()();
+  TextColumn get payloadJson => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     LibraryEntries,
@@ -119,13 +147,15 @@ class FigureAssets extends Table {
     SourceBlocks,
     SourceCitations,
     FigureAssets,
+    LessonArtifacts,
+    LearnerStates,
   ],
 )
 class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -154,6 +184,10 @@ class TraceDatabase extends _$TraceDatabase {
         await m.createTable(sourceCitations);
       }
       if (from < 5) await m.createTable(figureAssets);
+      if (from < 6) {
+        await m.createTable(lessonArtifacts);
+        await m.createTable(learnerStates);
+      }
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
   );
