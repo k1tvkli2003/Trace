@@ -11,17 +11,20 @@
 | 2026-09-23 | active | Stage 4 conditional discovery gate: scratch Android APK, Web bundle and separate core Windows EXE exist; combined Windows plugins blocked by missing ATL; runtime capability tests remain at feature gates | `docs/architecture/dependency-decisions.md`; scratch build artifacts and native error |
 | 2026-09-23 | active | Stage 5: 24 raw recipes, two HTML mock directions, four Chrome screenshots; fixed 5px mobile overflow; provisional Evidence Atelier choice, no imagegen or Flutter runtime claim | `docs/design/opinion-ledger.md`, `docs/design/interaction-map.md`, `tool/capture_design_mocks.py`, screenshots |
 | 2026-09-23 01:57 | active | Stage 7 second independent tracer: SourcePage rendered identity/status and PageVisionCacheKey structured identity; RED→GREEN, domain suite/analyzer and partial JSON Schema validation passed | `test/source_page_test.dart`, `test/page_vision_cache_key_test.dart`, `docs/contracts/domain-v1.json` |
+| 2026-09-23 03:29 | active | Fixed local persistence: Drift v3, native reopen, v1 migration, hash-bound UTF-8 originals and idempotent import. Chrome exposed auto storage switch and single-row transaction durability issue; pinned Web storage and direct single-row insert; picker+reload passes. Implemented real Flutter library/source UI; narrow back-navigation test passes. | `packages/trace_data/`; `apps/trace_flutter/`; `tool/smoke_web_library.py`; `05-verification.md` |
+| 2026-09-23 | active | Added RAW SOURCE preview after hash-verified read; Persian RTL/ASCII display digits without mutating source. Corrupted DB bytes rejected by injected failure test. | `apps/trace_flutter/test/app_smoke_test.dart`; `packages/trace_data/test/text_import_test.dart` |
+| 2026-09-23 | active | Concurrency RED exposed duplicate insert race; Drift v3 unique (library, filename, revision) and insert-ignore retry preserve concurrent replay and revised originals. v2→v3 migration assigned revisions to existing duplicate names without data loss. | `test/text_import_test.dart`, `test/source_migration_test.dart` |
 
 ## Done So Far
 - Stage 1: environment/target baseline with Android license warning.
 - Stage 2: monorepo starter builds and runs on three selected development targets; no product features claimed.
 - Icon: exact user selection installed and source hash recorded.
-- Stage 3: contract and fake-repository ViewModel smoke tests; no real local data adapter yet.
+- Stage 3: contract and fake-repository ViewModel smoke tests; real local adapter now added in follow-on slice.
 - Stage 4: candidate matrix and isolated compile evidence recorded; conditional gate permits independent design, but not false native/runtime claims.
-- Stage 5 draft: two browser-rendered design directions, mobile/desktop PNGs, concept ledger, interaction map and responsive contract. Imagegen requirement and Flutter execution still open.
+- Stage 5: two browser-rendered design directions remain mocks; real Flutter library/source UI now executed in widget tests and Chrome. Imagegen mock gate waived, not fulfilled.
 
-- Typography tracer: bundled OFL Inter/Vazirmatn and display-only ASCII numeral mapping; `trace_design` and app tests/analyze plus Web/Windows/Android builds passed. Still only starter app UI, not finished lesson/font coverage.
-- Stage 7 partial tracers: `SourceDocument`, `SourcePage` and `PageVisionCacheKey` round-trip/validation; 12 domain tests, analyzer and partial JSON Schema checks pass. No import, Vision or persistence implied.
+- Typography tracer: bundled OFL Inter/Vazirmatn and display-only ASCII numeral mapping; `trace_design` and app tests/analyze plus Web/Windows/Android builds passed. Persian lesson/font coverage still open.
+- Stage 7 partial source contracts remain; TXT/Markdown original-byte import and real Drift persistence now exist, but PDF/Vision/caches do not.
 
 ## Next
-- Resolve the Stage 5 imagegen-versus-own-model conflict without invoking a different model; do not call HTML screenshots imagegen previews. Complete Stage 7 remaining canonical entities and cross-language schema/codegen contract independently. Do not integrate ATL-bound plugins or claim Web DB persistence before dedicated feature gates.
+- Implement PDF immutable binary store, page rendering, and authorized Vision pilot without OCR; connect evidence cache only after real model capability is proven. Maintain user-only model constraint. Defer ATL-bound optional plugins until actually needed.

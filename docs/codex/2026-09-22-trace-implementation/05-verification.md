@@ -2,7 +2,7 @@
 
 ## Summary
 - Result: partial
-- Scope: Stage 1–2 scaffold and Stage 3 architecture tracer PASS; Stage 4 isolated compile discovery conditionally accepted. Full Trace product NOT DONE.
+- Scope: Stage 1–3 baseline and bounded real Drift/library/TXT/Markdown import slice PASS. Full Trace learning product NOT DONE.
 - Last verified: 2026-09-23
 
 ## Checks
@@ -25,17 +25,21 @@
 | Stage 7 source tracer | `dart format lib test/source_document_test.dart && dart test test/source_document_test.dart && dart test && dart analyze` in `trace_domain` | passed | 5 SourceDocument behavior tests; 6 total domain tests; no analyzer issues. RED observed for missing type, malformed SHA-256, traversal path, invalid metadata. |
 | Partial canonical schema | `jsonschema.Draft202012Validator.check_schema` and sample validation of `docs/contracts/domain-v1.json` | passed partial | SourceDocument previously: valid example accepted and 6 invalid cases rejected. SourcePage and PageVisionCacheKey: valid examples accepted, invalid page number/hash rejected. Schema not complete/code-generated. |
 | Stage 7 page/cache key tracers | `dart format lib test && dart test && dart analyze` in `trace_domain` | passed | 12 domain tests, no analyzer issues; RED observed for missing types and invalid page metadata. Key varies on each extraction input and uses structured JSON encoding to avoid delimiter collision. |
+| Drift v3 native data | `dart test && dart analyze` in `trace_data` | passed | Collection create/replay/rollback, real SQLite file reopen, TXT original hash/idempotent concurrent replay, immutable revised originals and corruption injection, invalid UTF-8/path/PDF rejection, v1→v3 and v2→v3 migrations preserving prior collection, duplicate-name versions and bytes. |
+| App behavior | `flutter analyze && flutter test` in app | passed | Real SQLite collection create/list; injected text picker imports and lists source; 375px navigation back; hash-verified RAW SOURCE preview displays Persian digits as ASCII; ViewModel baseline tests. |
+| Web storage/browser picker | `python tool/smoke_web_library.py`, `TRACE_SMOKE_IMPORT=1 python tool/smoke_web_library.py` on local COOP/COEP server, plus baseline non-COOP port | passed in headless Chrome | CDP created a collection, opened actual file chooser, loaded Markdown bytes; exact SQLite page content persisted to IndexedDB before/after reload; pin `sharedIndexedDb` and direct single-row write fixed RED reload loss. Chrome only, not PWA offline proof. |
+| Production target builds | `flutter build web && flutter build windows && flutter build apk --debug` after real Drift/file-picker integration | passed | Web build, Windows release EXE, Android debug APK; optional ATL-bound secure storage/notification plugins still absent. |
 | Work-doc structure | `validate_task_docs.py` | passed | `OK` 2026-09-23 |
 
 ## Not Run
-- PWA offline/install/update/storage/browser-portability and deployment; Flutter web render is only starter smoke.
-- Production signing/install upgrades and real learning workflows; absent implementation and user-owned release facts.
-- Browser Use CLI CDP endpoint failed; fallback real Chrome headless screenshot passed.
-- Stage 4 scratch dependencies were not invoked at runtime: no Web Drift DB persistence, PDF render fidelity, real picker, secure-storage session flow or actual notification scheduling proven.
-- Stage 5 visual previews came from HTML/CSS in Chrome, not a separate imagegen model. No authorized own-model imagegen output; no 200% text or screen-reader audit, visual-model inspection, Flutter implementation or native parity.
-- Stage 7 remaining entities, actual source hashing/import, page rendering, Vision extraction, cache storage/hit-miss behavior, filesystem symlink containment, Drift persistence, migrations and generated cross-language types not implemented or tested.
+- PWA offline/install/update/browser portability and deployment; live Chrome persistence is verified but not an offline-install proof.
+- Production signing/install upgrades and full learning workflows; absent implementation and user-owned release facts.
+- Real Chrome CDP smoke ran via `tool/smoke_web_library.py` rather than Browser Use CLI; widget build alone not used as proof.
+- PDF render fidelity, Vision-only extraction, secure-storage session, notifications, cross-browser/mobile runtime picker and PWA offline/install/update not exercised. Core Web Drift/file picker runtime now passed Chrome.
+- Stage 5 HTML visual previews remain mocks; imagegen-specific gate waived under later user direction, not fulfilled. No 200% text/screen-reader, Persian lesson Flutter UI or native visual parity audit yet.
+- Stage 7 remaining entities, PDF page rendering, Vision extraction, cache persistence/hit-miss, filesystem symlink containment and cross-language generated types not implemented/tested. TXT/Markdown hashing, Drift persistence and v1→v3 migration are implemented/tested.
 
 ## Known Issues
 - Android licenses incomplete; development `com.example.trace_flutter` must never ship as release ID.
-- Generated Flutter `Hello World!` is all runtime UI currently available.
+- First Flutter library/source UI is functional, but import has an 8 MiB TXT/Markdown limit; PDF/Vision, teaching and sync are not yet implemented.
 - Windows full optional-plugin combination needs ATL headers or proved replacement; independent core Windows build passes. Do not treat Stage 4 conditional discovery acceptance as complete feature parity.
