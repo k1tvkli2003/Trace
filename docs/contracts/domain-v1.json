@@ -1,29 +1,69 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://trace.local/contracts/domain-v1.json",
-  "title": "Trace domain v1 — partial Stage 7 source contract",
-  "description": "SourceDocument, SourcePage and PageVisionCacheKey only. No other Stage 7 entities, persistence or generated types are claimed.",
+  "title": "Trace domain v1 — source and learning contracts",
+  "description": "Canonical JSON boundary for hash-bound source evidence and deterministic learning planning. Unknown enum tokens remain round-trippable but are non-processable in Dart models.",
   "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "normalizedBox": {
+      "type": "object",
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": {"type": "number", "minimum": 0, "maximum": 1},
+        "y": {"type": "number", "minimum": 0, "maximum": 1},
+        "w": {"type": "number", "minimum": 0, "maximum": 1},
+        "h": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false,
+      "allOf": [{
+        "description": "x+w and y+h must remain within page bounds; enforced by domain parser."
+      }]
+    },
     "SourceDocument": {
       "type": "object",
       "required": ["id", "libraryId", "version", "sourceHash", "relativePath", "mimeType", "byteSize", "importVersion", "format"],
       "properties": {
-        "id": {"type": "string", "minLength": 1},
-        "libraryId": {"type": "string", "minLength": 1},
-        "version": {"type": "integer", "minimum": 1},
-        "sourceHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "id": {"$ref": "#/$defs/id"},
+        "libraryId": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "sourceHash": {"$ref": "#/$defs/sha256"},
         "relativePath": {
           "type": "string",
-          "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:\\u0000])[^/]+(?:/[^/]+)*$",
-          "description": "Slash-separated relative path, no empty/dot/dot-dot segments, colon, backslash or NUL. Filesystem symlink/realpath checks belong at import boundary."
-        },
-        "mimeType": {"type": "string", "minLength": 1},
-        "byteSize": {"type": "integer", "minimum": 0},
-        "importVersion": {"type": "integer", "minimum": 1},
-        "format": {
-          "type": "string",
           "minLength": 1,
-          "description": "Known: pdf, markdown, text, image. Future/unsupported tokens round-trip, but do not become processable."
+          "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:\\u0000])[^/]+(?:/[^/]+)*$"
+        },
+        "mimeType": {"$ref": "#/$defs/id"},
+        "byteSize": {"type": "integer", "minimum": 0},
+        "importVersion": {"$ref": "#/$defs/version"},
+        "format": {"$ref": "#/$defs/id", "description": "Known: pdf, markdown, text, image. Unknown tokens are unsupported."
+        }
+      },
+      "additionalProperties": true
+    },
+    "LibraryItem": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "title", "language", "ownerId", "defaultNodeId", "createdAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "title": {"$ref": "#/$defs/id"},
+        "language": {"$ref": "#/$defs/id"},
+        "ownerId": {"$ref": "#/$defs/id"},
+        "defaultNodeId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "createdAt": {"type": "string", "format": "date-time", "description": "Must be UTC with a Z suffix; domain parser enforces this."
         }
       },
       "additionalProperties": true
@@ -32,34 +72,347 @@
       "type": "object",
       "required": ["id", "documentId", "version", "pageNumber", "pixelHash", "renderProfile", "thumbnailPath", "visionStatus"],
       "properties": {
-        "id": {"type": "string", "pattern": "\\S"},
-        "documentId": {"type": "string", "pattern": "\\S"},
-        "version": {"type": "integer", "minimum": 1},
+        "id": {"$ref": "#/$defs/id"},
+        "documentId": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
         "pageNumber": {"type": "integer", "minimum": 1},
-        "pixelHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-        "renderProfile": {"type": "string", "pattern": "\\S"},
+        "pixelHash": {"$ref": "#/$defs/sha256"},
+        "renderProfile": {"$ref": "#/$defs/id"},
         "thumbnailPath": {
           "type": "string",
-          "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:\\u0000])[^/]+(?:/[^/]+)*$",
-          "description": "Relative thumbnail path; importer must still resolve symlinks safely."
+          "minLength": 1,
+          "pattern": "^(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:\\u0000])[^/]+(?:/[^/]+)*$"
         },
-        "visionStatus": {
-          "type": "string",
-          "pattern": "\\S",
-          "description": "Known: not_started, pending, complete, failed. Unknown nonempty tokens round-trip as unsupported."
+        "visionStatus": {"$ref": "#/$defs/id", "description": "Known: not_started, pending, complete, failed. Unknown tokens are unsupported."
         }
       },
       "additionalProperties": true
+    },
+    "SourceBlock": {
+      "type": "object",
+      "required": ["id", "documentId", "pageId", "version", "sourceHash", "order", "kind", "rawText", "normalizedText"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "documentId": {"$ref": "#/$defs/id"},
+        "pageId": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "sourceHash": {"$ref": "#/$defs/sha256"},
+        "order": {"type": "integer", "minimum": 0},
+        "kind": {"$ref": "#/$defs/id", "description": "Unknown kinds become unsupported."
+        },
+        "rawText": {"type": "string"},
+        "normalizedText": {"type": "string"},
+        "bbox": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/normalizedBox"}]}
+      },
+      "additionalProperties": true
+    },
+    "SourceCitation": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "sourceBlockId", "pageId", "figureId", "quote", "locator", "confidence", "extractionVersion"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "sourceBlockId": {"$ref": "#/$defs/id"},
+        "pageId": {"$ref": "#/$defs/id"},
+        "figureId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "quote": {"$ref": "#/$defs/id"},
+        "locator": {"$ref": "#/$defs/id"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "extractionVersion": {"$ref": "#/$defs/id"}
+      },
+      "additionalProperties": true
+    },
+    "FigureAsset": {
+      "type": "object",
+      "required": ["id", "version", "assetHash", "sourceHash", "pagePixelHash", "pageId", "bbox", "widthPx", "heightPx", "caption", "altText", "reviewStatus"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "assetHash": {"$ref": "#/$defs/sha256"},
+        "sourceHash": {"$ref": "#/$defs/sha256"},
+        "pagePixelHash": {"$ref": "#/$defs/sha256"},
+        "pageId": {"$ref": "#/$defs/id"},
+        "bbox": {"$ref": "#/$defs/normalizedBox"},
+        "widthPx": {"type": "integer", "minimum": 1},
+        "heightPx": {"type": "integer", "minimum": 1},
+        "caption": {"$ref": "#/$defs/id"},
+        "altText": {"$ref": "#/$defs/id"},
+        "reviewStatus": {"$ref": "#/$defs/id", "description": "Known: pending, approved, rejected. Unknown tokens are unsupported."
+        }
+      },
+      "additionalProperties": true
+    },
+    "SourcePageRange": {
+      "type": "object",
+      "required": ["startPage", "endPage"],
+      "properties": {
+        "startPage": {"type": "integer", "minimum": 1},
+        "endPage": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false,
+      "description": "endPage >= startPage is enforced by domain parser."
+    },
+    "KnowledgeNode": {
+      "type": "object",
+      "required": ["id", "parentId", "version", "contentHash", "order", "kind", "title", "sourceRange", "confidence", "userOverride"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "parentId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "order": {"type": "integer", "minimum": 0},
+        "kind": {"$ref": "#/$defs/id"},
+        "title": {"$ref": "#/$defs/id"},
+        "sourceRange": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/SourcePageRange"}]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "userOverride": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "LearningSlice": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "nodeId", "order", "sourceBlockIds", "pageIds", "conceptIds", "estimatedEffort", "boundaryReason", "nextVisionRequiredAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "nodeId": {"$ref": "#/$defs/id"},
+        "order": {"type": "integer", "minimum": 0},
+        "sourceBlockIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "minItems": 1, "uniqueItems": true},
+        "pageIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+        "conceptIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+        "estimatedEffort": {"type": "integer", "minimum": 0},
+        "boundaryReason": {"$ref": "#/$defs/id"},
+        "nextVisionRequiredAt": {"anyOf": [{"type": "null"}, {"type": "integer", "minimum": 1}]}
+      },
+      "additionalProperties": true
+    },
+    "SliceCursor": {
+      "type": "object",
+      "required": ["id", "version", "stateHash", "libraryId", "nodeId", "currentSliceId", "nextBlockIndex", "nextPageNumber", "lookaheadState", "plannerVersion"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "stateHash": {"$ref": "#/$defs/sha256"},
+        "libraryId": {"$ref": "#/$defs/id"},
+        "nodeId": {"$ref": "#/$defs/id"},
+        "currentSliceId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "nextBlockIndex": {"type": "integer", "minimum": 0},
+        "nextPageNumber": {"anyOf": [{"type": "null"}, {"type": "integer", "minimum": 1}]},
+        "lookaheadState": {"$ref": "#/$defs/id"},
+        "plannerVersion": {"$ref": "#/$defs/id"}
+      },
+      "additionalProperties": true
+    },
+    "HighlightAnchor": {
+      "type": "object",
+      "required": ["id", "version", "contentHashAtCreation", "sourceBlockId", "pageId", "lessonBlockId", "quote", "prefix", "suffix", "startOffset", "endOffset", "color", "status"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHashAtCreation": {"$ref": "#/$defs/sha256"},
+        "sourceBlockId": {"$ref": "#/$defs/id"},
+        "pageId": {"$ref": "#/$defs/id"},
+        "lessonBlockId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "quote": {"$ref": "#/$defs/id"},
+        "prefix": {"type": "string"},
+        "suffix": {"type": "string"},
+        "startOffset": {"type": "integer", "minimum": 0},
+        "endOffset": {"type": "integer", "minimum": 1, "description": "Must be greater than startOffset; domain parser enforces this."},
+        "bbox": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/normalizedBox"}]},
+        "color": {"$ref": "#/$defs/id"},
+        "status": {"$ref": "#/$defs/id", "description": "Known: attached, detached. Unknown tokens are unsupported."}
+      },
+      "additionalProperties": true
+    },
+    "StudyNote": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "anchorId", "sourceBlockId", "figureId", "lessonBlockId", "body", "pinned", "createdAt", "updatedAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "anchorId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "sourceBlockId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "figureId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "lessonBlockId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "body": {"$ref": "#/$defs/id"},
+        "pinned": {"type": "boolean"},
+        "createdAt": {"type": "string", "format": "date-time"},
+        "updatedAt": {"type": "string", "format": "date-time"}
+      },
+      "additionalProperties": true,
+      "description": "At least one of anchorId, sourceBlockId, figureId, or lessonBlockId is required; updatedAt must not precede createdAt."
+    },
+    "ReviewItem": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "targetType", "targetId", "dueAt", "intervalDays", "ease", "lapses", "state", "schedulerVersion"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "targetType": {"$ref": "#/$defs/id"},
+        "targetId": {"$ref": "#/$defs/id"},
+        "dueAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."},
+        "intervalDays": {"type": "integer", "minimum": 0},
+        "ease": {"type": "number", "minimum": 1},
+        "lapses": {"type": "integer", "minimum": 0},
+        "state": {"$ref": "#/$defs/id"},
+        "schedulerVersion": {"$ref": "#/$defs/id"}
+      },
+      "additionalProperties": true
+    },
+    "ReviewEvent": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "reviewItemId", "rating", "occurredAt", "previousDueAt", "nextDueAt", "deviceId", "schedulerVersion"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "reviewItemId": {"$ref": "#/$defs/id"},
+        "rating": {"$ref": "#/$defs/id"},
+        "occurredAt": {"type": "string", "format": "date-time"},
+        "previousDueAt": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
+        "nextDueAt": {"type": "string", "format": "date-time"},
+        "deviceId": {"$ref": "#/$defs/id"},
+        "schedulerVersion": {"$ref": "#/$defs/id"}
+      },
+      "additionalProperties": true,
+      "description": "Append-only event; UTC Z suffix and nextDueAt >= occurredAt enforced by domain parser."
+    },
+    "LessonArtifact": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "sliceId", "lessonAstJson", "citationIds", "figureIds", "modelProfile", "promptVersion", "createdAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "sliceId": {"$ref": "#/$defs/id"},
+        "lessonAstJson": {"type": "object", "description": "Validated as typed LessonDocument with lesson-ast-v1, matching sliceId, citationIds, and figureIds by domain parser."},
+        "citationIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "minItems": 1, "uniqueItems": true},
+        "figureIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+        "modelProfile": {"$ref": "#/$defs/id"},
+        "promptVersion": {"$ref": "#/$defs/id"},
+        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+      },
+      "additionalProperties": true
+    },
+    "LearnerState": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "sliceId", "lessonArtifactId", "status", "confidence", "lastReadAt", "lastActionAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "sliceId": {"$ref": "#/$defs/id"},
+        "lessonArtifactId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "status": {"$ref": "#/$defs/id", "description": "Known: not_started, in_progress, studied, not_learned, mastered, skipped. REVIEW_DUE is a projection, not stored."},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "lastReadAt": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
+        "lastActionAt": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]}
+      },
+      "additionalProperties": true
+    },
+    "ChatThread": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "libraryId", "targetNodeId", "targetSliceId", "title", "status", "createdAt", "updatedAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "libraryId": {"$ref": "#/$defs/id"},
+        "targetNodeId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "targetSliceId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "title": {"$ref": "#/$defs/id"},
+        "status": {"$ref": "#/$defs/id", "description": "Known: active, archived. Unknown tokens are unsupported."},
+        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."},
+        "updatedAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix and not before createdAt."}
+      },
+      "additionalProperties": true
+    },
+    "ChatMessage": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "threadId", "role", "body", "sourceCitationIds", "toolInvocationId", "createdAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "threadId": {"$ref": "#/$defs/id"},
+        "role": {"$ref": "#/$defs/id", "description": "Known: user, assistant, tool, system. Unknown tokens are unsupported."},
+        "body": {"$ref": "#/$defs/id"},
+        "sourceCitationIds": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+        "toolInvocationId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+      },
+      "additionalProperties": true
+    },
+    "ToolInvocation": {
+      "type": "object",
+      "required": ["id", "version", "contentHash", "toolName", "argsJson", "validationResult", "idempotencyKey", "mutationId", "resultJson", "createdAt"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "toolName": {"$ref": "#/$defs/id"},
+        "argsJson": {"type": "object"},
+        "validationResult": {"type": "object"},
+        "idempotencyKey": {"$ref": "#/$defs/id"},
+        "mutationId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "resultJson": {"anyOf": [{"type": "null"}, {"type": "object"}]},
+        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+      },
+      "additionalProperties": true
+    },
+    "SyncOperation": {
+      "type": "object",
+      "required": ["operationId", "version", "contentHash", "entityType", "entityId", "mutationType", "payload", "localVersion", "syncState", "retryCount", "createdAt"],
+      "properties": {
+        "operationId": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "entityType": {"$ref": "#/$defs/id"},
+        "entityId": {"$ref": "#/$defs/id"},
+        "mutationType": {"$ref": "#/$defs/id", "description": "Known: insert, update, delete. Unknown tokens are unsupported."},
+        "payload": {"type": "object"},
+        "localVersion": {"type": "integer", "minimum": 0},
+        "syncState": {"$ref": "#/$defs/id", "description": "Known: pending, in_flight, synced, failed, tombstone. Unknown tokens are unsupported."},
+        "retryCount": {"type": "integer", "minimum": 0},
+        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+      },
+      "additionalProperties": true
+    },
+    "AiRunLedger": {
+      "type": "object",
+      "required": ["runId", "version", "contentHash", "capability", "inputHashes", "modelProfile", "promptVersion", "inputTokens", "outputTokens", "costMicros", "latencyMs", "retryCount", "outcome", "createdAt"],
+      "properties": {
+        "runId": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/version"},
+        "contentHash": {"$ref": "#/$defs/sha256"},
+        "capability": {"$ref": "#/$defs/id"},
+        "inputHashes": {"type": "array", "items": {"$ref": "#/$defs/sha256"}, "uniqueItems": true},
+        "modelProfile": {"$ref": "#/$defs/id"},
+        "promptVersion": {"$ref": "#/$defs/id"},
+        "inputTokens": {"type": "integer", "minimum": 0},
+        "outputTokens": {"type": "integer", "minimum": 0},
+        "costMicros": {"anyOf": [{"type": "null"}, {"type": "integer", "minimum": 0}]},
+        "latencyMs": {"type": "integer", "minimum": 0},
+        "retryCount": {"type": "integer", "minimum": 0},
+        "outcome": {"$ref": "#/$defs/id", "description": "Known: succeeded, failed, cancelled, cache_hit. Unknown tokens are unsupported."},
+        "createdAt": {"type": "string", "format": "date-time", "description": "UTC Z suffix required by domain parser."}
+      },
+      "additionalProperties": true,
+      "description": "Metadata-only ledger; raw source payloads and credentials are forbidden."
     },
     "PageVisionCacheKey": {
       "type": "object",
       "required": ["sourceHash", "pageNumber", "renderProfile", "visionModelProfile", "promptVersion"],
       "properties": {
-        "sourceHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "sourceHash": {"$ref": "#/$defs/sha256"},
         "pageNumber": {"type": "integer", "minimum": 1},
-        "renderProfile": {"type": "string", "pattern": "\\S"},
-        "visionModelProfile": {"type": "string", "pattern": "\\S"},
-        "promptVersion": {"type": "string", "pattern": "\\S"}
+        "renderProfile": {"$ref": "#/$defs/id"},
+        "visionModelProfile": {"$ref": "#/$defs/id"},
+        "promptVersion": {"$ref": "#/$defs/id"}
       },
       "additionalProperties": true
     }
