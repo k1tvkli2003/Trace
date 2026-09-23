@@ -4359,6 +4359,1847 @@ class LearnerStatesCompanion extends UpdateCompanion<LearnerState> {
   }
 }
 
+class $HighlightAnchorsTable extends HighlightAnchors
+    with TableInfo<$HighlightAnchorsTable, HighlightAnchor> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $HighlightAnchorsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentHashAtCreationMeta =
+      const VerificationMeta('contentHashAtCreation');
+  @override
+  late final GeneratedColumn<String> contentHashAtCreation =
+      GeneratedColumn<String>(
+        'content_hash_at_creation',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _sourceBlockIdMeta = const VerificationMeta(
+    'sourceBlockId',
+  );
+  @override
+  late final GeneratedColumn<String> sourceBlockId = GeneratedColumn<String>(
+    'source_block_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pageIdMeta = const VerificationMeta('pageId');
+  @override
+  late final GeneratedColumn<String> pageId = GeneratedColumn<String>(
+    'page_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lessonBlockIdMeta = const VerificationMeta(
+    'lessonBlockId',
+  );
+  @override
+  late final GeneratedColumn<String> lessonBlockId = GeneratedColumn<String>(
+    'lesson_block_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _quoteMeta = const VerificationMeta('quote');
+  @override
+  late final GeneratedColumn<String> quote = GeneratedColumn<String>(
+    'quote',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _prefixMeta = const VerificationMeta('prefix');
+  @override
+  late final GeneratedColumn<String> prefix = GeneratedColumn<String>(
+    'prefix',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _suffixMeta = const VerificationMeta('suffix');
+  @override
+  late final GeneratedColumn<String> suffix = GeneratedColumn<String>(
+    'suffix',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startOffsetMeta = const VerificationMeta(
+    'startOffset',
+  );
+  @override
+  late final GeneratedColumn<int> startOffset = GeneratedColumn<int>(
+    'start_offset',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endOffsetMeta = const VerificationMeta(
+    'endOffset',
+  );
+  @override
+  late final GeneratedColumn<int> endOffset = GeneratedColumn<int>(
+    'end_offset',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bboxXMeta = const VerificationMeta('bboxX');
+  @override
+  late final GeneratedColumn<double> bboxX = GeneratedColumn<double>(
+    'bbox_x',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bboxYMeta = const VerificationMeta('bboxY');
+  @override
+  late final GeneratedColumn<double> bboxY = GeneratedColumn<double>(
+    'bbox_y',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bboxWMeta = const VerificationMeta('bboxW');
+  @override
+  late final GeneratedColumn<double> bboxW = GeneratedColumn<double>(
+    'bbox_w',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bboxHMeta = const VerificationMeta('bboxH');
+  @override
+  late final GeneratedColumn<double> bboxH = GeneratedColumn<double>(
+    'bbox_h',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<String> color = GeneratedColumn<String>(
+    'color',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tombstoneMeta = const VerificationMeta(
+    'tombstone',
+  );
+  @override
+  late final GeneratedColumn<bool> tombstone = GeneratedColumn<bool>(
+    'tombstone',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("tombstone" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _tombstonedAtMeta = const VerificationMeta(
+    'tombstonedAt',
+  );
+  @override
+  late final GeneratedColumn<String> tombstonedAt = GeneratedColumn<String>(
+    'tombstoned_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    contentHashAtCreation,
+    sourceBlockId,
+    pageId,
+    lessonBlockId,
+    quote,
+    prefix,
+    suffix,
+    startOffset,
+    endOffset,
+    bboxX,
+    bboxY,
+    bboxW,
+    bboxH,
+    color,
+    status,
+    tombstone,
+    tombstonedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'highlight_anchors';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<HighlightAnchor> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_versionMeta);
+    }
+    if (data.containsKey('content_hash_at_creation')) {
+      context.handle(
+        _contentHashAtCreationMeta,
+        contentHashAtCreation.isAcceptableOrUnknown(
+          data['content_hash_at_creation']!,
+          _contentHashAtCreationMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashAtCreationMeta);
+    }
+    if (data.containsKey('source_block_id')) {
+      context.handle(
+        _sourceBlockIdMeta,
+        sourceBlockId.isAcceptableOrUnknown(
+          data['source_block_id']!,
+          _sourceBlockIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceBlockIdMeta);
+    }
+    if (data.containsKey('page_id')) {
+      context.handle(
+        _pageIdMeta,
+        pageId.isAcceptableOrUnknown(data['page_id']!, _pageIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pageIdMeta);
+    }
+    if (data.containsKey('lesson_block_id')) {
+      context.handle(
+        _lessonBlockIdMeta,
+        lessonBlockId.isAcceptableOrUnknown(
+          data['lesson_block_id']!,
+          _lessonBlockIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('quote')) {
+      context.handle(
+        _quoteMeta,
+        quote.isAcceptableOrUnknown(data['quote']!, _quoteMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quoteMeta);
+    }
+    if (data.containsKey('prefix')) {
+      context.handle(
+        _prefixMeta,
+        prefix.isAcceptableOrUnknown(data['prefix']!, _prefixMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_prefixMeta);
+    }
+    if (data.containsKey('suffix')) {
+      context.handle(
+        _suffixMeta,
+        suffix.isAcceptableOrUnknown(data['suffix']!, _suffixMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_suffixMeta);
+    }
+    if (data.containsKey('start_offset')) {
+      context.handle(
+        _startOffsetMeta,
+        startOffset.isAcceptableOrUnknown(
+          data['start_offset']!,
+          _startOffsetMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_startOffsetMeta);
+    }
+    if (data.containsKey('end_offset')) {
+      context.handle(
+        _endOffsetMeta,
+        endOffset.isAcceptableOrUnknown(data['end_offset']!, _endOffsetMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_endOffsetMeta);
+    }
+    if (data.containsKey('bbox_x')) {
+      context.handle(
+        _bboxXMeta,
+        bboxX.isAcceptableOrUnknown(data['bbox_x']!, _bboxXMeta),
+      );
+    }
+    if (data.containsKey('bbox_y')) {
+      context.handle(
+        _bboxYMeta,
+        bboxY.isAcceptableOrUnknown(data['bbox_y']!, _bboxYMeta),
+      );
+    }
+    if (data.containsKey('bbox_w')) {
+      context.handle(
+        _bboxWMeta,
+        bboxW.isAcceptableOrUnknown(data['bbox_w']!, _bboxWMeta),
+      );
+    }
+    if (data.containsKey('bbox_h')) {
+      context.handle(
+        _bboxHMeta,
+        bboxH.isAcceptableOrUnknown(data['bbox_h']!, _bboxHMeta),
+      );
+    }
+    if (data.containsKey('color')) {
+      context.handle(
+        _colorMeta,
+        color.isAcceptableOrUnknown(data['color']!, _colorMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_colorMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('tombstone')) {
+      context.handle(
+        _tombstoneMeta,
+        tombstone.isAcceptableOrUnknown(data['tombstone']!, _tombstoneMeta),
+      );
+    }
+    if (data.containsKey('tombstoned_at')) {
+      context.handle(
+        _tombstonedAtMeta,
+        tombstonedAt.isAcceptableOrUnknown(
+          data['tombstoned_at']!,
+          _tombstonedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  HighlightAnchor map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return HighlightAnchor(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHashAtCreation: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash_at_creation'],
+      )!,
+      sourceBlockId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_block_id'],
+      )!,
+      pageId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}page_id'],
+      )!,
+      lessonBlockId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lesson_block_id'],
+      ),
+      quote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}quote'],
+      )!,
+      prefix: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prefix'],
+      )!,
+      suffix: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}suffix'],
+      )!,
+      startOffset: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}start_offset'],
+      )!,
+      endOffset: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}end_offset'],
+      )!,
+      bboxX: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_x'],
+      ),
+      bboxY: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_y'],
+      ),
+      bboxW: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_w'],
+      ),
+      bboxH: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}bbox_h'],
+      ),
+      color: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}color'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      tombstone: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}tombstone'],
+      )!,
+      tombstonedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tombstoned_at'],
+      ),
+    );
+  }
+
+  @override
+  $HighlightAnchorsTable createAlias(String alias) {
+    return $HighlightAnchorsTable(attachedDatabase, alias);
+  }
+}
+
+class HighlightAnchor extends DataClass implements Insertable<HighlightAnchor> {
+  final String id;
+  final int version;
+  final String contentHashAtCreation;
+  final String sourceBlockId;
+  final String pageId;
+  final String? lessonBlockId;
+  final String quote;
+  final String prefix;
+  final String suffix;
+  final int startOffset;
+  final int endOffset;
+  final double? bboxX;
+  final double? bboxY;
+  final double? bboxW;
+  final double? bboxH;
+  final String color;
+  final String status;
+  final bool tombstone;
+  final String? tombstonedAt;
+  const HighlightAnchor({
+    required this.id,
+    required this.version,
+    required this.contentHashAtCreation,
+    required this.sourceBlockId,
+    required this.pageId,
+    this.lessonBlockId,
+    required this.quote,
+    required this.prefix,
+    required this.suffix,
+    required this.startOffset,
+    required this.endOffset,
+    this.bboxX,
+    this.bboxY,
+    this.bboxW,
+    this.bboxH,
+    required this.color,
+    required this.status,
+    required this.tombstone,
+    this.tombstonedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['content_hash_at_creation'] = Variable<String>(contentHashAtCreation);
+    map['source_block_id'] = Variable<String>(sourceBlockId);
+    map['page_id'] = Variable<String>(pageId);
+    if (!nullToAbsent || lessonBlockId != null) {
+      map['lesson_block_id'] = Variable<String>(lessonBlockId);
+    }
+    map['quote'] = Variable<String>(quote);
+    map['prefix'] = Variable<String>(prefix);
+    map['suffix'] = Variable<String>(suffix);
+    map['start_offset'] = Variable<int>(startOffset);
+    map['end_offset'] = Variable<int>(endOffset);
+    if (!nullToAbsent || bboxX != null) {
+      map['bbox_x'] = Variable<double>(bboxX);
+    }
+    if (!nullToAbsent || bboxY != null) {
+      map['bbox_y'] = Variable<double>(bboxY);
+    }
+    if (!nullToAbsent || bboxW != null) {
+      map['bbox_w'] = Variable<double>(bboxW);
+    }
+    if (!nullToAbsent || bboxH != null) {
+      map['bbox_h'] = Variable<double>(bboxH);
+    }
+    map['color'] = Variable<String>(color);
+    map['status'] = Variable<String>(status);
+    map['tombstone'] = Variable<bool>(tombstone);
+    if (!nullToAbsent || tombstonedAt != null) {
+      map['tombstoned_at'] = Variable<String>(tombstonedAt);
+    }
+    return map;
+  }
+
+  HighlightAnchorsCompanion toCompanion(bool nullToAbsent) {
+    return HighlightAnchorsCompanion(
+      id: Value(id),
+      version: Value(version),
+      contentHashAtCreation: Value(contentHashAtCreation),
+      sourceBlockId: Value(sourceBlockId),
+      pageId: Value(pageId),
+      lessonBlockId: lessonBlockId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lessonBlockId),
+      quote: Value(quote),
+      prefix: Value(prefix),
+      suffix: Value(suffix),
+      startOffset: Value(startOffset),
+      endOffset: Value(endOffset),
+      bboxX: bboxX == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxX),
+      bboxY: bboxY == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxY),
+      bboxW: bboxW == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxW),
+      bboxH: bboxH == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bboxH),
+      color: Value(color),
+      status: Value(status),
+      tombstone: Value(tombstone),
+      tombstonedAt: tombstonedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tombstonedAt),
+    );
+  }
+
+  factory HighlightAnchor.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return HighlightAnchor(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHashAtCreation: serializer.fromJson<String>(
+        json['contentHashAtCreation'],
+      ),
+      sourceBlockId: serializer.fromJson<String>(json['sourceBlockId']),
+      pageId: serializer.fromJson<String>(json['pageId']),
+      lessonBlockId: serializer.fromJson<String?>(json['lessonBlockId']),
+      quote: serializer.fromJson<String>(json['quote']),
+      prefix: serializer.fromJson<String>(json['prefix']),
+      suffix: serializer.fromJson<String>(json['suffix']),
+      startOffset: serializer.fromJson<int>(json['startOffset']),
+      endOffset: serializer.fromJson<int>(json['endOffset']),
+      bboxX: serializer.fromJson<double?>(json['bboxX']),
+      bboxY: serializer.fromJson<double?>(json['bboxY']),
+      bboxW: serializer.fromJson<double?>(json['bboxW']),
+      bboxH: serializer.fromJson<double?>(json['bboxH']),
+      color: serializer.fromJson<String>(json['color']),
+      status: serializer.fromJson<String>(json['status']),
+      tombstone: serializer.fromJson<bool>(json['tombstone']),
+      tombstonedAt: serializer.fromJson<String?>(json['tombstonedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'contentHashAtCreation': serializer.toJson<String>(contentHashAtCreation),
+      'sourceBlockId': serializer.toJson<String>(sourceBlockId),
+      'pageId': serializer.toJson<String>(pageId),
+      'lessonBlockId': serializer.toJson<String?>(lessonBlockId),
+      'quote': serializer.toJson<String>(quote),
+      'prefix': serializer.toJson<String>(prefix),
+      'suffix': serializer.toJson<String>(suffix),
+      'startOffset': serializer.toJson<int>(startOffset),
+      'endOffset': serializer.toJson<int>(endOffset),
+      'bboxX': serializer.toJson<double?>(bboxX),
+      'bboxY': serializer.toJson<double?>(bboxY),
+      'bboxW': serializer.toJson<double?>(bboxW),
+      'bboxH': serializer.toJson<double?>(bboxH),
+      'color': serializer.toJson<String>(color),
+      'status': serializer.toJson<String>(status),
+      'tombstone': serializer.toJson<bool>(tombstone),
+      'tombstonedAt': serializer.toJson<String?>(tombstonedAt),
+    };
+  }
+
+  HighlightAnchor copyWith({
+    String? id,
+    int? version,
+    String? contentHashAtCreation,
+    String? sourceBlockId,
+    String? pageId,
+    Value<String?> lessonBlockId = const Value.absent(),
+    String? quote,
+    String? prefix,
+    String? suffix,
+    int? startOffset,
+    int? endOffset,
+    Value<double?> bboxX = const Value.absent(),
+    Value<double?> bboxY = const Value.absent(),
+    Value<double?> bboxW = const Value.absent(),
+    Value<double?> bboxH = const Value.absent(),
+    String? color,
+    String? status,
+    bool? tombstone,
+    Value<String?> tombstonedAt = const Value.absent(),
+  }) => HighlightAnchor(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    contentHashAtCreation: contentHashAtCreation ?? this.contentHashAtCreation,
+    sourceBlockId: sourceBlockId ?? this.sourceBlockId,
+    pageId: pageId ?? this.pageId,
+    lessonBlockId: lessonBlockId.present
+        ? lessonBlockId.value
+        : this.lessonBlockId,
+    quote: quote ?? this.quote,
+    prefix: prefix ?? this.prefix,
+    suffix: suffix ?? this.suffix,
+    startOffset: startOffset ?? this.startOffset,
+    endOffset: endOffset ?? this.endOffset,
+    bboxX: bboxX.present ? bboxX.value : this.bboxX,
+    bboxY: bboxY.present ? bboxY.value : this.bboxY,
+    bboxW: bboxW.present ? bboxW.value : this.bboxW,
+    bboxH: bboxH.present ? bboxH.value : this.bboxH,
+    color: color ?? this.color,
+    status: status ?? this.status,
+    tombstone: tombstone ?? this.tombstone,
+    tombstonedAt: tombstonedAt.present ? tombstonedAt.value : this.tombstonedAt,
+  );
+  HighlightAnchor copyWithCompanion(HighlightAnchorsCompanion data) {
+    return HighlightAnchor(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      contentHashAtCreation: data.contentHashAtCreation.present
+          ? data.contentHashAtCreation.value
+          : this.contentHashAtCreation,
+      sourceBlockId: data.sourceBlockId.present
+          ? data.sourceBlockId.value
+          : this.sourceBlockId,
+      pageId: data.pageId.present ? data.pageId.value : this.pageId,
+      lessonBlockId: data.lessonBlockId.present
+          ? data.lessonBlockId.value
+          : this.lessonBlockId,
+      quote: data.quote.present ? data.quote.value : this.quote,
+      prefix: data.prefix.present ? data.prefix.value : this.prefix,
+      suffix: data.suffix.present ? data.suffix.value : this.suffix,
+      startOffset: data.startOffset.present
+          ? data.startOffset.value
+          : this.startOffset,
+      endOffset: data.endOffset.present ? data.endOffset.value : this.endOffset,
+      bboxX: data.bboxX.present ? data.bboxX.value : this.bboxX,
+      bboxY: data.bboxY.present ? data.bboxY.value : this.bboxY,
+      bboxW: data.bboxW.present ? data.bboxW.value : this.bboxW,
+      bboxH: data.bboxH.present ? data.bboxH.value : this.bboxH,
+      color: data.color.present ? data.color.value : this.color,
+      status: data.status.present ? data.status.value : this.status,
+      tombstone: data.tombstone.present ? data.tombstone.value : this.tombstone,
+      tombstonedAt: data.tombstonedAt.present
+          ? data.tombstonedAt.value
+          : this.tombstonedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HighlightAnchor(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHashAtCreation: $contentHashAtCreation, ')
+          ..write('sourceBlockId: $sourceBlockId, ')
+          ..write('pageId: $pageId, ')
+          ..write('lessonBlockId: $lessonBlockId, ')
+          ..write('quote: $quote, ')
+          ..write('prefix: $prefix, ')
+          ..write('suffix: $suffix, ')
+          ..write('startOffset: $startOffset, ')
+          ..write('endOffset: $endOffset, ')
+          ..write('bboxX: $bboxX, ')
+          ..write('bboxY: $bboxY, ')
+          ..write('bboxW: $bboxW, ')
+          ..write('bboxH: $bboxH, ')
+          ..write('color: $color, ')
+          ..write('status: $status, ')
+          ..write('tombstone: $tombstone, ')
+          ..write('tombstonedAt: $tombstonedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    version,
+    contentHashAtCreation,
+    sourceBlockId,
+    pageId,
+    lessonBlockId,
+    quote,
+    prefix,
+    suffix,
+    startOffset,
+    endOffset,
+    bboxX,
+    bboxY,
+    bboxW,
+    bboxH,
+    color,
+    status,
+    tombstone,
+    tombstonedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is HighlightAnchor &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.contentHashAtCreation == this.contentHashAtCreation &&
+          other.sourceBlockId == this.sourceBlockId &&
+          other.pageId == this.pageId &&
+          other.lessonBlockId == this.lessonBlockId &&
+          other.quote == this.quote &&
+          other.prefix == this.prefix &&
+          other.suffix == this.suffix &&
+          other.startOffset == this.startOffset &&
+          other.endOffset == this.endOffset &&
+          other.bboxX == this.bboxX &&
+          other.bboxY == this.bboxY &&
+          other.bboxW == this.bboxW &&
+          other.bboxH == this.bboxH &&
+          other.color == this.color &&
+          other.status == this.status &&
+          other.tombstone == this.tombstone &&
+          other.tombstonedAt == this.tombstonedAt);
+}
+
+class HighlightAnchorsCompanion extends UpdateCompanion<HighlightAnchor> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> contentHashAtCreation;
+  final Value<String> sourceBlockId;
+  final Value<String> pageId;
+  final Value<String?> lessonBlockId;
+  final Value<String> quote;
+  final Value<String> prefix;
+  final Value<String> suffix;
+  final Value<int> startOffset;
+  final Value<int> endOffset;
+  final Value<double?> bboxX;
+  final Value<double?> bboxY;
+  final Value<double?> bboxW;
+  final Value<double?> bboxH;
+  final Value<String> color;
+  final Value<String> status;
+  final Value<bool> tombstone;
+  final Value<String?> tombstonedAt;
+  final Value<int> rowid;
+  const HighlightAnchorsCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHashAtCreation = const Value.absent(),
+    this.sourceBlockId = const Value.absent(),
+    this.pageId = const Value.absent(),
+    this.lessonBlockId = const Value.absent(),
+    this.quote = const Value.absent(),
+    this.prefix = const Value.absent(),
+    this.suffix = const Value.absent(),
+    this.startOffset = const Value.absent(),
+    this.endOffset = const Value.absent(),
+    this.bboxX = const Value.absent(),
+    this.bboxY = const Value.absent(),
+    this.bboxW = const Value.absent(),
+    this.bboxH = const Value.absent(),
+    this.color = const Value.absent(),
+    this.status = const Value.absent(),
+    this.tombstone = const Value.absent(),
+    this.tombstonedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  HighlightAnchorsCompanion.insert({
+    required String id,
+    required int version,
+    required String contentHashAtCreation,
+    required String sourceBlockId,
+    required String pageId,
+    this.lessonBlockId = const Value.absent(),
+    required String quote,
+    required String prefix,
+    required String suffix,
+    required int startOffset,
+    required int endOffset,
+    this.bboxX = const Value.absent(),
+    this.bboxY = const Value.absent(),
+    this.bboxW = const Value.absent(),
+    this.bboxH = const Value.absent(),
+    required String color,
+    required String status,
+    this.tombstone = const Value.absent(),
+    this.tombstonedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       version = Value(version),
+       contentHashAtCreation = Value(contentHashAtCreation),
+       sourceBlockId = Value(sourceBlockId),
+       pageId = Value(pageId),
+       quote = Value(quote),
+       prefix = Value(prefix),
+       suffix = Value(suffix),
+       startOffset = Value(startOffset),
+       endOffset = Value(endOffset),
+       color = Value(color),
+       status = Value(status);
+  static Insertable<HighlightAnchor> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? contentHashAtCreation,
+    Expression<String>? sourceBlockId,
+    Expression<String>? pageId,
+    Expression<String>? lessonBlockId,
+    Expression<String>? quote,
+    Expression<String>? prefix,
+    Expression<String>? suffix,
+    Expression<int>? startOffset,
+    Expression<int>? endOffset,
+    Expression<double>? bboxX,
+    Expression<double>? bboxY,
+    Expression<double>? bboxW,
+    Expression<double>? bboxH,
+    Expression<String>? color,
+    Expression<String>? status,
+    Expression<bool>? tombstone,
+    Expression<String>? tombstonedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (contentHashAtCreation != null)
+        'content_hash_at_creation': contentHashAtCreation,
+      if (sourceBlockId != null) 'source_block_id': sourceBlockId,
+      if (pageId != null) 'page_id': pageId,
+      if (lessonBlockId != null) 'lesson_block_id': lessonBlockId,
+      if (quote != null) 'quote': quote,
+      if (prefix != null) 'prefix': prefix,
+      if (suffix != null) 'suffix': suffix,
+      if (startOffset != null) 'start_offset': startOffset,
+      if (endOffset != null) 'end_offset': endOffset,
+      if (bboxX != null) 'bbox_x': bboxX,
+      if (bboxY != null) 'bbox_y': bboxY,
+      if (bboxW != null) 'bbox_w': bboxW,
+      if (bboxH != null) 'bbox_h': bboxH,
+      if (color != null) 'color': color,
+      if (status != null) 'status': status,
+      if (tombstone != null) 'tombstone': tombstone,
+      if (tombstonedAt != null) 'tombstoned_at': tombstonedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  HighlightAnchorsCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? contentHashAtCreation,
+    Value<String>? sourceBlockId,
+    Value<String>? pageId,
+    Value<String?>? lessonBlockId,
+    Value<String>? quote,
+    Value<String>? prefix,
+    Value<String>? suffix,
+    Value<int>? startOffset,
+    Value<int>? endOffset,
+    Value<double?>? bboxX,
+    Value<double?>? bboxY,
+    Value<double?>? bboxW,
+    Value<double?>? bboxH,
+    Value<String>? color,
+    Value<String>? status,
+    Value<bool>? tombstone,
+    Value<String?>? tombstonedAt,
+    Value<int>? rowid,
+  }) {
+    return HighlightAnchorsCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      contentHashAtCreation:
+          contentHashAtCreation ?? this.contentHashAtCreation,
+      sourceBlockId: sourceBlockId ?? this.sourceBlockId,
+      pageId: pageId ?? this.pageId,
+      lessonBlockId: lessonBlockId ?? this.lessonBlockId,
+      quote: quote ?? this.quote,
+      prefix: prefix ?? this.prefix,
+      suffix: suffix ?? this.suffix,
+      startOffset: startOffset ?? this.startOffset,
+      endOffset: endOffset ?? this.endOffset,
+      bboxX: bboxX ?? this.bboxX,
+      bboxY: bboxY ?? this.bboxY,
+      bboxW: bboxW ?? this.bboxW,
+      bboxH: bboxH ?? this.bboxH,
+      color: color ?? this.color,
+      status: status ?? this.status,
+      tombstone: tombstone ?? this.tombstone,
+      tombstonedAt: tombstonedAt ?? this.tombstonedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHashAtCreation.present) {
+      map['content_hash_at_creation'] = Variable<String>(
+        contentHashAtCreation.value,
+      );
+    }
+    if (sourceBlockId.present) {
+      map['source_block_id'] = Variable<String>(sourceBlockId.value);
+    }
+    if (pageId.present) {
+      map['page_id'] = Variable<String>(pageId.value);
+    }
+    if (lessonBlockId.present) {
+      map['lesson_block_id'] = Variable<String>(lessonBlockId.value);
+    }
+    if (quote.present) {
+      map['quote'] = Variable<String>(quote.value);
+    }
+    if (prefix.present) {
+      map['prefix'] = Variable<String>(prefix.value);
+    }
+    if (suffix.present) {
+      map['suffix'] = Variable<String>(suffix.value);
+    }
+    if (startOffset.present) {
+      map['start_offset'] = Variable<int>(startOffset.value);
+    }
+    if (endOffset.present) {
+      map['end_offset'] = Variable<int>(endOffset.value);
+    }
+    if (bboxX.present) {
+      map['bbox_x'] = Variable<double>(bboxX.value);
+    }
+    if (bboxY.present) {
+      map['bbox_y'] = Variable<double>(bboxY.value);
+    }
+    if (bboxW.present) {
+      map['bbox_w'] = Variable<double>(bboxW.value);
+    }
+    if (bboxH.present) {
+      map['bbox_h'] = Variable<double>(bboxH.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<String>(color.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (tombstone.present) {
+      map['tombstone'] = Variable<bool>(tombstone.value);
+    }
+    if (tombstonedAt.present) {
+      map['tombstoned_at'] = Variable<String>(tombstonedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HighlightAnchorsCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHashAtCreation: $contentHashAtCreation, ')
+          ..write('sourceBlockId: $sourceBlockId, ')
+          ..write('pageId: $pageId, ')
+          ..write('lessonBlockId: $lessonBlockId, ')
+          ..write('quote: $quote, ')
+          ..write('prefix: $prefix, ')
+          ..write('suffix: $suffix, ')
+          ..write('startOffset: $startOffset, ')
+          ..write('endOffset: $endOffset, ')
+          ..write('bboxX: $bboxX, ')
+          ..write('bboxY: $bboxY, ')
+          ..write('bboxW: $bboxW, ')
+          ..write('bboxH: $bboxH, ')
+          ..write('color: $color, ')
+          ..write('status: $status, ')
+          ..write('tombstone: $tombstone, ')
+          ..write('tombstonedAt: $tombstonedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $StudyNotesTable extends StudyNotes
+    with TableInfo<$StudyNotesTable, StudyNote> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StudyNotesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  @override
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _anchorIdMeta = const VerificationMeta(
+    'anchorId',
+  );
+  @override
+  late final GeneratedColumn<String> anchorId = GeneratedColumn<String>(
+    'anchor_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sourceBlockIdMeta = const VerificationMeta(
+    'sourceBlockId',
+  );
+  @override
+  late final GeneratedColumn<String> sourceBlockId = GeneratedColumn<String>(
+    'source_block_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _figureIdMeta = const VerificationMeta(
+    'figureId',
+  );
+  @override
+  late final GeneratedColumn<String> figureId = GeneratedColumn<String>(
+    'figure_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lessonBlockIdMeta = const VerificationMeta(
+    'lessonBlockId',
+  );
+  @override
+  late final GeneratedColumn<String> lessonBlockId = GeneratedColumn<String>(
+    'lesson_block_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bodyMeta = const VerificationMeta('body');
+  @override
+  late final GeneratedColumn<String> body = GeneratedColumn<String>(
+    'body',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pinnedMeta = const VerificationMeta('pinned');
+  @override
+  late final GeneratedColumn<bool> pinned = GeneratedColumn<bool>(
+    'pinned',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("pinned" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<String> updatedAt = GeneratedColumn<String>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tombstoneMeta = const VerificationMeta(
+    'tombstone',
+  );
+  @override
+  late final GeneratedColumn<bool> tombstone = GeneratedColumn<bool>(
+    'tombstone',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("tombstone" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _tombstonedAtMeta = const VerificationMeta(
+    'tombstonedAt',
+  );
+  @override
+  late final GeneratedColumn<String> tombstonedAt = GeneratedColumn<String>(
+    'tombstoned_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    version,
+    contentHash,
+    anchorId,
+    sourceBlockId,
+    figureId,
+    lessonBlockId,
+    body,
+    pinned,
+    createdAt,
+    updatedAt,
+    tombstone,
+    tombstonedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'study_notes';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<StudyNote> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_versionMeta);
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('anchor_id')) {
+      context.handle(
+        _anchorIdMeta,
+        anchorId.isAcceptableOrUnknown(data['anchor_id']!, _anchorIdMeta),
+      );
+    }
+    if (data.containsKey('source_block_id')) {
+      context.handle(
+        _sourceBlockIdMeta,
+        sourceBlockId.isAcceptableOrUnknown(
+          data['source_block_id']!,
+          _sourceBlockIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('figure_id')) {
+      context.handle(
+        _figureIdMeta,
+        figureId.isAcceptableOrUnknown(data['figure_id']!, _figureIdMeta),
+      );
+    }
+    if (data.containsKey('lesson_block_id')) {
+      context.handle(
+        _lessonBlockIdMeta,
+        lessonBlockId.isAcceptableOrUnknown(
+          data['lesson_block_id']!,
+          _lessonBlockIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('body')) {
+      context.handle(
+        _bodyMeta,
+        body.isAcceptableOrUnknown(data['body']!, _bodyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bodyMeta);
+    }
+    if (data.containsKey('pinned')) {
+      context.handle(
+        _pinnedMeta,
+        pinned.isAcceptableOrUnknown(data['pinned']!, _pinnedMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pinnedMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('tombstone')) {
+      context.handle(
+        _tombstoneMeta,
+        tombstone.isAcceptableOrUnknown(data['tombstone']!, _tombstoneMeta),
+      );
+    }
+    if (data.containsKey('tombstoned_at')) {
+      context.handle(
+        _tombstonedAtMeta,
+        tombstonedAt.isAcceptableOrUnknown(
+          data['tombstoned_at']!,
+          _tombstonedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  StudyNote map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return StudyNote(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      anchorId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}anchor_id'],
+      ),
+      sourceBlockId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_block_id'],
+      ),
+      figureId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}figure_id'],
+      ),
+      lessonBlockId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lesson_block_id'],
+      ),
+      body: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}body'],
+      )!,
+      pinned: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}pinned'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      tombstone: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}tombstone'],
+      )!,
+      tombstonedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tombstoned_at'],
+      ),
+    );
+  }
+
+  @override
+  $StudyNotesTable createAlias(String alias) {
+    return $StudyNotesTable(attachedDatabase, alias);
+  }
+}
+
+class StudyNote extends DataClass implements Insertable<StudyNote> {
+  final String id;
+  final int version;
+  final String contentHash;
+  final String? anchorId;
+  final String? sourceBlockId;
+  final String? figureId;
+  final String? lessonBlockId;
+  final String body;
+  final bool pinned;
+  final String createdAt;
+  final String updatedAt;
+  final bool tombstone;
+  final String? tombstonedAt;
+  const StudyNote({
+    required this.id,
+    required this.version,
+    required this.contentHash,
+    this.anchorId,
+    this.sourceBlockId,
+    this.figureId,
+    this.lessonBlockId,
+    required this.body,
+    required this.pinned,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.tombstone,
+    this.tombstonedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['version'] = Variable<int>(version);
+    map['content_hash'] = Variable<String>(contentHash);
+    if (!nullToAbsent || anchorId != null) {
+      map['anchor_id'] = Variable<String>(anchorId);
+    }
+    if (!nullToAbsent || sourceBlockId != null) {
+      map['source_block_id'] = Variable<String>(sourceBlockId);
+    }
+    if (!nullToAbsent || figureId != null) {
+      map['figure_id'] = Variable<String>(figureId);
+    }
+    if (!nullToAbsent || lessonBlockId != null) {
+      map['lesson_block_id'] = Variable<String>(lessonBlockId);
+    }
+    map['body'] = Variable<String>(body);
+    map['pinned'] = Variable<bool>(pinned);
+    map['created_at'] = Variable<String>(createdAt);
+    map['updated_at'] = Variable<String>(updatedAt);
+    map['tombstone'] = Variable<bool>(tombstone);
+    if (!nullToAbsent || tombstonedAt != null) {
+      map['tombstoned_at'] = Variable<String>(tombstonedAt);
+    }
+    return map;
+  }
+
+  StudyNotesCompanion toCompanion(bool nullToAbsent) {
+    return StudyNotesCompanion(
+      id: Value(id),
+      version: Value(version),
+      contentHash: Value(contentHash),
+      anchorId: anchorId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(anchorId),
+      sourceBlockId: sourceBlockId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sourceBlockId),
+      figureId: figureId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(figureId),
+      lessonBlockId: lessonBlockId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lessonBlockId),
+      body: Value(body),
+      pinned: Value(pinned),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      tombstone: Value(tombstone),
+      tombstonedAt: tombstonedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tombstonedAt),
+    );
+  }
+
+  factory StudyNote.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return StudyNote(
+      id: serializer.fromJson<String>(json['id']),
+      version: serializer.fromJson<int>(json['version']),
+      contentHash: serializer.fromJson<String>(json['contentHash']),
+      anchorId: serializer.fromJson<String?>(json['anchorId']),
+      sourceBlockId: serializer.fromJson<String?>(json['sourceBlockId']),
+      figureId: serializer.fromJson<String?>(json['figureId']),
+      lessonBlockId: serializer.fromJson<String?>(json['lessonBlockId']),
+      body: serializer.fromJson<String>(json['body']),
+      pinned: serializer.fromJson<bool>(json['pinned']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      updatedAt: serializer.fromJson<String>(json['updatedAt']),
+      tombstone: serializer.fromJson<bool>(json['tombstone']),
+      tombstonedAt: serializer.fromJson<String?>(json['tombstonedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'version': serializer.toJson<int>(version),
+      'contentHash': serializer.toJson<String>(contentHash),
+      'anchorId': serializer.toJson<String?>(anchorId),
+      'sourceBlockId': serializer.toJson<String?>(sourceBlockId),
+      'figureId': serializer.toJson<String?>(figureId),
+      'lessonBlockId': serializer.toJson<String?>(lessonBlockId),
+      'body': serializer.toJson<String>(body),
+      'pinned': serializer.toJson<bool>(pinned),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'updatedAt': serializer.toJson<String>(updatedAt),
+      'tombstone': serializer.toJson<bool>(tombstone),
+      'tombstonedAt': serializer.toJson<String?>(tombstonedAt),
+    };
+  }
+
+  StudyNote copyWith({
+    String? id,
+    int? version,
+    String? contentHash,
+    Value<String?> anchorId = const Value.absent(),
+    Value<String?> sourceBlockId = const Value.absent(),
+    Value<String?> figureId = const Value.absent(),
+    Value<String?> lessonBlockId = const Value.absent(),
+    String? body,
+    bool? pinned,
+    String? createdAt,
+    String? updatedAt,
+    bool? tombstone,
+    Value<String?> tombstonedAt = const Value.absent(),
+  }) => StudyNote(
+    id: id ?? this.id,
+    version: version ?? this.version,
+    contentHash: contentHash ?? this.contentHash,
+    anchorId: anchorId.present ? anchorId.value : this.anchorId,
+    sourceBlockId: sourceBlockId.present
+        ? sourceBlockId.value
+        : this.sourceBlockId,
+    figureId: figureId.present ? figureId.value : this.figureId,
+    lessonBlockId: lessonBlockId.present
+        ? lessonBlockId.value
+        : this.lessonBlockId,
+    body: body ?? this.body,
+    pinned: pinned ?? this.pinned,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    tombstone: tombstone ?? this.tombstone,
+    tombstonedAt: tombstonedAt.present ? tombstonedAt.value : this.tombstonedAt,
+  );
+  StudyNote copyWithCompanion(StudyNotesCompanion data) {
+    return StudyNote(
+      id: data.id.present ? data.id.value : this.id,
+      version: data.version.present ? data.version.value : this.version,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      anchorId: data.anchorId.present ? data.anchorId.value : this.anchorId,
+      sourceBlockId: data.sourceBlockId.present
+          ? data.sourceBlockId.value
+          : this.sourceBlockId,
+      figureId: data.figureId.present ? data.figureId.value : this.figureId,
+      lessonBlockId: data.lessonBlockId.present
+          ? data.lessonBlockId.value
+          : this.lessonBlockId,
+      body: data.body.present ? data.body.value : this.body,
+      pinned: data.pinned.present ? data.pinned.value : this.pinned,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      tombstone: data.tombstone.present ? data.tombstone.value : this.tombstone,
+      tombstonedAt: data.tombstonedAt.present
+          ? data.tombstonedAt.value
+          : this.tombstonedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StudyNote(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('anchorId: $anchorId, ')
+          ..write('sourceBlockId: $sourceBlockId, ')
+          ..write('figureId: $figureId, ')
+          ..write('lessonBlockId: $lessonBlockId, ')
+          ..write('body: $body, ')
+          ..write('pinned: $pinned, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('tombstone: $tombstone, ')
+          ..write('tombstonedAt: $tombstonedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    version,
+    contentHash,
+    anchorId,
+    sourceBlockId,
+    figureId,
+    lessonBlockId,
+    body,
+    pinned,
+    createdAt,
+    updatedAt,
+    tombstone,
+    tombstonedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is StudyNote &&
+          other.id == this.id &&
+          other.version == this.version &&
+          other.contentHash == this.contentHash &&
+          other.anchorId == this.anchorId &&
+          other.sourceBlockId == this.sourceBlockId &&
+          other.figureId == this.figureId &&
+          other.lessonBlockId == this.lessonBlockId &&
+          other.body == this.body &&
+          other.pinned == this.pinned &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.tombstone == this.tombstone &&
+          other.tombstonedAt == this.tombstonedAt);
+}
+
+class StudyNotesCompanion extends UpdateCompanion<StudyNote> {
+  final Value<String> id;
+  final Value<int> version;
+  final Value<String> contentHash;
+  final Value<String?> anchorId;
+  final Value<String?> sourceBlockId;
+  final Value<String?> figureId;
+  final Value<String?> lessonBlockId;
+  final Value<String> body;
+  final Value<bool> pinned;
+  final Value<String> createdAt;
+  final Value<String> updatedAt;
+  final Value<bool> tombstone;
+  final Value<String?> tombstonedAt;
+  final Value<int> rowid;
+  const StudyNotesCompanion({
+    this.id = const Value.absent(),
+    this.version = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.anchorId = const Value.absent(),
+    this.sourceBlockId = const Value.absent(),
+    this.figureId = const Value.absent(),
+    this.lessonBlockId = const Value.absent(),
+    this.body = const Value.absent(),
+    this.pinned = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.tombstone = const Value.absent(),
+    this.tombstonedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  StudyNotesCompanion.insert({
+    required String id,
+    required int version,
+    required String contentHash,
+    this.anchorId = const Value.absent(),
+    this.sourceBlockId = const Value.absent(),
+    this.figureId = const Value.absent(),
+    this.lessonBlockId = const Value.absent(),
+    required String body,
+    required bool pinned,
+    required String createdAt,
+    required String updatedAt,
+    this.tombstone = const Value.absent(),
+    this.tombstonedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       version = Value(version),
+       contentHash = Value(contentHash),
+       body = Value(body),
+       pinned = Value(pinned),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<StudyNote> custom({
+    Expression<String>? id,
+    Expression<int>? version,
+    Expression<String>? contentHash,
+    Expression<String>? anchorId,
+    Expression<String>? sourceBlockId,
+    Expression<String>? figureId,
+    Expression<String>? lessonBlockId,
+    Expression<String>? body,
+    Expression<bool>? pinned,
+    Expression<String>? createdAt,
+    Expression<String>? updatedAt,
+    Expression<bool>? tombstone,
+    Expression<String>? tombstonedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (version != null) 'version': version,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (anchorId != null) 'anchor_id': anchorId,
+      if (sourceBlockId != null) 'source_block_id': sourceBlockId,
+      if (figureId != null) 'figure_id': figureId,
+      if (lessonBlockId != null) 'lesson_block_id': lessonBlockId,
+      if (body != null) 'body': body,
+      if (pinned != null) 'pinned': pinned,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (tombstone != null) 'tombstone': tombstone,
+      if (tombstonedAt != null) 'tombstoned_at': tombstonedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  StudyNotesCompanion copyWith({
+    Value<String>? id,
+    Value<int>? version,
+    Value<String>? contentHash,
+    Value<String?>? anchorId,
+    Value<String?>? sourceBlockId,
+    Value<String?>? figureId,
+    Value<String?>? lessonBlockId,
+    Value<String>? body,
+    Value<bool>? pinned,
+    Value<String>? createdAt,
+    Value<String>? updatedAt,
+    Value<bool>? tombstone,
+    Value<String?>? tombstonedAt,
+    Value<int>? rowid,
+  }) {
+    return StudyNotesCompanion(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      contentHash: contentHash ?? this.contentHash,
+      anchorId: anchorId ?? this.anchorId,
+      sourceBlockId: sourceBlockId ?? this.sourceBlockId,
+      figureId: figureId ?? this.figureId,
+      lessonBlockId: lessonBlockId ?? this.lessonBlockId,
+      body: body ?? this.body,
+      pinned: pinned ?? this.pinned,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      tombstone: tombstone ?? this.tombstone,
+      tombstonedAt: tombstonedAt ?? this.tombstonedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (anchorId.present) {
+      map['anchor_id'] = Variable<String>(anchorId.value);
+    }
+    if (sourceBlockId.present) {
+      map['source_block_id'] = Variable<String>(sourceBlockId.value);
+    }
+    if (figureId.present) {
+      map['figure_id'] = Variable<String>(figureId.value);
+    }
+    if (lessonBlockId.present) {
+      map['lesson_block_id'] = Variable<String>(lessonBlockId.value);
+    }
+    if (body.present) {
+      map['body'] = Variable<String>(body.value);
+    }
+    if (pinned.present) {
+      map['pinned'] = Variable<bool>(pinned.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<String>(updatedAt.value);
+    }
+    if (tombstone.present) {
+      map['tombstone'] = Variable<bool>(tombstone.value);
+    }
+    if (tombstonedAt.present) {
+      map['tombstoned_at'] = Variable<String>(tombstonedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StudyNotesCompanion(')
+          ..write('id: $id, ')
+          ..write('version: $version, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('anchorId: $anchorId, ')
+          ..write('sourceBlockId: $sourceBlockId, ')
+          ..write('figureId: $figureId, ')
+          ..write('lessonBlockId: $lessonBlockId, ')
+          ..write('body: $body, ')
+          ..write('pinned: $pinned, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('tombstone: $tombstone, ')
+          ..write('tombstonedAt: $tombstonedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
@@ -4374,6 +6215,10 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     this,
   );
   late final $LearnerStatesTable learnerStates = $LearnerStatesTable(this);
+  late final $HighlightAnchorsTable highlightAnchors = $HighlightAnchorsTable(
+    this,
+  );
+  late final $StudyNotesTable studyNotes = $StudyNotesTable(this);
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
@@ -4403,6 +6248,8 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     figureAssets,
     lessonArtifacts,
     learnerStates,
+    highlightAnchors,
+    studyNotes,
     sourceVersionUnique,
     sourcePageDocumentPageVersionProfileUnique,
     sourceBlockPageVersionOrderUnique,
@@ -8304,6 +10151,867 @@ typedef $$LearnerStatesTableProcessedTableManager =
       LearnerState,
       PrefetchHooks Function({bool lessonArtifactId})
     >;
+typedef $$HighlightAnchorsTableCreateCompanionBuilder =
+    HighlightAnchorsCompanion Function({
+      required String id,
+      required int version,
+      required String contentHashAtCreation,
+      required String sourceBlockId,
+      required String pageId,
+      Value<String?> lessonBlockId,
+      required String quote,
+      required String prefix,
+      required String suffix,
+      required int startOffset,
+      required int endOffset,
+      Value<double?> bboxX,
+      Value<double?> bboxY,
+      Value<double?> bboxW,
+      Value<double?> bboxH,
+      required String color,
+      required String status,
+      Value<bool> tombstone,
+      Value<String?> tombstonedAt,
+      Value<int> rowid,
+    });
+typedef $$HighlightAnchorsTableUpdateCompanionBuilder =
+    HighlightAnchorsCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> contentHashAtCreation,
+      Value<String> sourceBlockId,
+      Value<String> pageId,
+      Value<String?> lessonBlockId,
+      Value<String> quote,
+      Value<String> prefix,
+      Value<String> suffix,
+      Value<int> startOffset,
+      Value<int> endOffset,
+      Value<double?> bboxX,
+      Value<double?> bboxY,
+      Value<double?> bboxW,
+      Value<double?> bboxH,
+      Value<String> color,
+      Value<String> status,
+      Value<bool> tombstone,
+      Value<String?> tombstonedAt,
+      Value<int> rowid,
+    });
+
+class $$HighlightAnchorsTableFilterComposer
+    extends Composer<_$TraceDatabase, $HighlightAnchorsTable> {
+  $$HighlightAnchorsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHashAtCreation => $composableBuilder(
+    column: $table.contentHashAtCreation,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceBlockId => $composableBuilder(
+    column: $table.sourceBlockId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pageId => $composableBuilder(
+    column: $table.pageId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lessonBlockId => $composableBuilder(
+    column: $table.lessonBlockId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get quote => $composableBuilder(
+    column: $table.quote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get prefix => $composableBuilder(
+    column: $table.prefix,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get suffix => $composableBuilder(
+    column: $table.suffix,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get startOffset => $composableBuilder(
+    column: $table.startOffset,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get endOffset => $composableBuilder(
+    column: $table.endOffset,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxX => $composableBuilder(
+    column: $table.bboxX,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxY => $composableBuilder(
+    column: $table.bboxY,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxW => $composableBuilder(
+    column: $table.bboxW,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get bboxH => $composableBuilder(
+    column: $table.bboxH,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get tombstone => $composableBuilder(
+    column: $table.tombstone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tombstonedAt => $composableBuilder(
+    column: $table.tombstonedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$HighlightAnchorsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $HighlightAnchorsTable> {
+  $$HighlightAnchorsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHashAtCreation => $composableBuilder(
+    column: $table.contentHashAtCreation,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceBlockId => $composableBuilder(
+    column: $table.sourceBlockId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pageId => $composableBuilder(
+    column: $table.pageId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lessonBlockId => $composableBuilder(
+    column: $table.lessonBlockId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get quote => $composableBuilder(
+    column: $table.quote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get prefix => $composableBuilder(
+    column: $table.prefix,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get suffix => $composableBuilder(
+    column: $table.suffix,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get startOffset => $composableBuilder(
+    column: $table.startOffset,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get endOffset => $composableBuilder(
+    column: $table.endOffset,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxX => $composableBuilder(
+    column: $table.bboxX,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxY => $composableBuilder(
+    column: $table.bboxY,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxW => $composableBuilder(
+    column: $table.bboxW,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get bboxH => $composableBuilder(
+    column: $table.bboxH,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get tombstone => $composableBuilder(
+    column: $table.tombstone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tombstonedAt => $composableBuilder(
+    column: $table.tombstonedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$HighlightAnchorsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $HighlightAnchorsTable> {
+  $$HighlightAnchorsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHashAtCreation => $composableBuilder(
+    column: $table.contentHashAtCreation,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sourceBlockId => $composableBuilder(
+    column: $table.sourceBlockId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get pageId =>
+      $composableBuilder(column: $table.pageId, builder: (column) => column);
+
+  GeneratedColumn<String> get lessonBlockId => $composableBuilder(
+    column: $table.lessonBlockId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get quote =>
+      $composableBuilder(column: $table.quote, builder: (column) => column);
+
+  GeneratedColumn<String> get prefix =>
+      $composableBuilder(column: $table.prefix, builder: (column) => column);
+
+  GeneratedColumn<String> get suffix =>
+      $composableBuilder(column: $table.suffix, builder: (column) => column);
+
+  GeneratedColumn<int> get startOffset => $composableBuilder(
+    column: $table.startOffset,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get endOffset =>
+      $composableBuilder(column: $table.endOffset, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxX =>
+      $composableBuilder(column: $table.bboxX, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxY =>
+      $composableBuilder(column: $table.bboxY, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxW =>
+      $composableBuilder(column: $table.bboxW, builder: (column) => column);
+
+  GeneratedColumn<double> get bboxH =>
+      $composableBuilder(column: $table.bboxH, builder: (column) => column);
+
+  GeneratedColumn<String> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<bool> get tombstone =>
+      $composableBuilder(column: $table.tombstone, builder: (column) => column);
+
+  GeneratedColumn<String> get tombstonedAt => $composableBuilder(
+    column: $table.tombstonedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$HighlightAnchorsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $HighlightAnchorsTable,
+          HighlightAnchor,
+          $$HighlightAnchorsTableFilterComposer,
+          $$HighlightAnchorsTableOrderingComposer,
+          $$HighlightAnchorsTableAnnotationComposer,
+          $$HighlightAnchorsTableCreateCompanionBuilder,
+          $$HighlightAnchorsTableUpdateCompanionBuilder,
+          (
+            HighlightAnchor,
+            BaseReferences<
+              _$TraceDatabase,
+              $HighlightAnchorsTable,
+              HighlightAnchor
+            >,
+          ),
+          HighlightAnchor,
+          PrefetchHooks Function()
+        > {
+  $$HighlightAnchorsTableTableManager(
+    _$TraceDatabase db,
+    $HighlightAnchorsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$HighlightAnchorsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$HighlightAnchorsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$HighlightAnchorsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHashAtCreation = const Value.absent(),
+                Value<String> sourceBlockId = const Value.absent(),
+                Value<String> pageId = const Value.absent(),
+                Value<String?> lessonBlockId = const Value.absent(),
+                Value<String> quote = const Value.absent(),
+                Value<String> prefix = const Value.absent(),
+                Value<String> suffix = const Value.absent(),
+                Value<int> startOffset = const Value.absent(),
+                Value<int> endOffset = const Value.absent(),
+                Value<double?> bboxX = const Value.absent(),
+                Value<double?> bboxY = const Value.absent(),
+                Value<double?> bboxW = const Value.absent(),
+                Value<double?> bboxH = const Value.absent(),
+                Value<String> color = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<bool> tombstone = const Value.absent(),
+                Value<String?> tombstonedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => HighlightAnchorsCompanion(
+                id: id,
+                version: version,
+                contentHashAtCreation: contentHashAtCreation,
+                sourceBlockId: sourceBlockId,
+                pageId: pageId,
+                lessonBlockId: lessonBlockId,
+                quote: quote,
+                prefix: prefix,
+                suffix: suffix,
+                startOffset: startOffset,
+                endOffset: endOffset,
+                bboxX: bboxX,
+                bboxY: bboxY,
+                bboxW: bboxW,
+                bboxH: bboxH,
+                color: color,
+                status: status,
+                tombstone: tombstone,
+                tombstonedAt: tombstonedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required int version,
+                required String contentHashAtCreation,
+                required String sourceBlockId,
+                required String pageId,
+                Value<String?> lessonBlockId = const Value.absent(),
+                required String quote,
+                required String prefix,
+                required String suffix,
+                required int startOffset,
+                required int endOffset,
+                Value<double?> bboxX = const Value.absent(),
+                Value<double?> bboxY = const Value.absent(),
+                Value<double?> bboxW = const Value.absent(),
+                Value<double?> bboxH = const Value.absent(),
+                required String color,
+                required String status,
+                Value<bool> tombstone = const Value.absent(),
+                Value<String?> tombstonedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => HighlightAnchorsCompanion.insert(
+                id: id,
+                version: version,
+                contentHashAtCreation: contentHashAtCreation,
+                sourceBlockId: sourceBlockId,
+                pageId: pageId,
+                lessonBlockId: lessonBlockId,
+                quote: quote,
+                prefix: prefix,
+                suffix: suffix,
+                startOffset: startOffset,
+                endOffset: endOffset,
+                bboxX: bboxX,
+                bboxY: bboxY,
+                bboxW: bboxW,
+                bboxH: bboxH,
+                color: color,
+                status: status,
+                tombstone: tombstone,
+                tombstonedAt: tombstonedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$HighlightAnchorsTable, HighlightAnchor>(table),
+                  BaseReferences<
+                    _$TraceDatabase,
+                    $HighlightAnchorsTable,
+                    HighlightAnchor
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$HighlightAnchorsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $HighlightAnchorsTable,
+      HighlightAnchor,
+      $$HighlightAnchorsTableFilterComposer,
+      $$HighlightAnchorsTableOrderingComposer,
+      $$HighlightAnchorsTableAnnotationComposer,
+      $$HighlightAnchorsTableCreateCompanionBuilder,
+      $$HighlightAnchorsTableUpdateCompanionBuilder,
+      (
+        HighlightAnchor,
+        BaseReferences<
+          _$TraceDatabase,
+          $HighlightAnchorsTable,
+          HighlightAnchor
+        >,
+      ),
+      HighlightAnchor,
+      PrefetchHooks Function()
+    >;
+typedef $$StudyNotesTableCreateCompanionBuilder =
+    StudyNotesCompanion Function({
+      required String id,
+      required int version,
+      required String contentHash,
+      Value<String?> anchorId,
+      Value<String?> sourceBlockId,
+      Value<String?> figureId,
+      Value<String?> lessonBlockId,
+      required String body,
+      required bool pinned,
+      required String createdAt,
+      required String updatedAt,
+      Value<bool> tombstone,
+      Value<String?> tombstonedAt,
+      Value<int> rowid,
+    });
+typedef $$StudyNotesTableUpdateCompanionBuilder =
+    StudyNotesCompanion Function({
+      Value<String> id,
+      Value<int> version,
+      Value<String> contentHash,
+      Value<String?> anchorId,
+      Value<String?> sourceBlockId,
+      Value<String?> figureId,
+      Value<String?> lessonBlockId,
+      Value<String> body,
+      Value<bool> pinned,
+      Value<String> createdAt,
+      Value<String> updatedAt,
+      Value<bool> tombstone,
+      Value<String?> tombstonedAt,
+      Value<int> rowid,
+    });
+
+class $$StudyNotesTableFilterComposer
+    extends Composer<_$TraceDatabase, $StudyNotesTable> {
+  $$StudyNotesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get anchorId => $composableBuilder(
+    column: $table.anchorId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceBlockId => $composableBuilder(
+    column: $table.sourceBlockId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get figureId => $composableBuilder(
+    column: $table.figureId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lessonBlockId => $composableBuilder(
+    column: $table.lessonBlockId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get body => $composableBuilder(
+    column: $table.body,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get pinned => $composableBuilder(
+    column: $table.pinned,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get tombstone => $composableBuilder(
+    column: $table.tombstone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tombstonedAt => $composableBuilder(
+    column: $table.tombstonedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$StudyNotesTableOrderingComposer
+    extends Composer<_$TraceDatabase, $StudyNotesTable> {
+  $$StudyNotesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get anchorId => $composableBuilder(
+    column: $table.anchorId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceBlockId => $composableBuilder(
+    column: $table.sourceBlockId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get figureId => $composableBuilder(
+    column: $table.figureId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lessonBlockId => $composableBuilder(
+    column: $table.lessonBlockId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get body => $composableBuilder(
+    column: $table.body,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get pinned => $composableBuilder(
+    column: $table.pinned,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get tombstone => $composableBuilder(
+    column: $table.tombstone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tombstonedAt => $composableBuilder(
+    column: $table.tombstonedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$StudyNotesTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $StudyNotesTable> {
+  $$StudyNotesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get contentHash => $composableBuilder(
+    column: $table.contentHash,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get anchorId =>
+      $composableBuilder(column: $table.anchorId, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceBlockId => $composableBuilder(
+    column: $table.sourceBlockId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get figureId =>
+      $composableBuilder(column: $table.figureId, builder: (column) => column);
+
+  GeneratedColumn<String> get lessonBlockId => $composableBuilder(
+    column: $table.lessonBlockId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get body =>
+      $composableBuilder(column: $table.body, builder: (column) => column);
+
+  GeneratedColumn<bool> get pinned =>
+      $composableBuilder(column: $table.pinned, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get tombstone =>
+      $composableBuilder(column: $table.tombstone, builder: (column) => column);
+
+  GeneratedColumn<String> get tombstonedAt => $composableBuilder(
+    column: $table.tombstonedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$StudyNotesTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $StudyNotesTable,
+          StudyNote,
+          $$StudyNotesTableFilterComposer,
+          $$StudyNotesTableOrderingComposer,
+          $$StudyNotesTableAnnotationComposer,
+          $$StudyNotesTableCreateCompanionBuilder,
+          $$StudyNotesTableUpdateCompanionBuilder,
+          (
+            StudyNote,
+            BaseReferences<_$TraceDatabase, $StudyNotesTable, StudyNote>,
+          ),
+          StudyNote,
+          PrefetchHooks Function()
+        > {
+  $$StudyNotesTableTableManager(_$TraceDatabase db, $StudyNotesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StudyNotesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StudyNotesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StudyNotesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String> contentHash = const Value.absent(),
+                Value<String?> anchorId = const Value.absent(),
+                Value<String?> sourceBlockId = const Value.absent(),
+                Value<String?> figureId = const Value.absent(),
+                Value<String?> lessonBlockId = const Value.absent(),
+                Value<String> body = const Value.absent(),
+                Value<bool> pinned = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> updatedAt = const Value.absent(),
+                Value<bool> tombstone = const Value.absent(),
+                Value<String?> tombstonedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StudyNotesCompanion(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                anchorId: anchorId,
+                sourceBlockId: sourceBlockId,
+                figureId: figureId,
+                lessonBlockId: lessonBlockId,
+                body: body,
+                pinned: pinned,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                tombstone: tombstone,
+                tombstonedAt: tombstonedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required int version,
+                required String contentHash,
+                Value<String?> anchorId = const Value.absent(),
+                Value<String?> sourceBlockId = const Value.absent(),
+                Value<String?> figureId = const Value.absent(),
+                Value<String?> lessonBlockId = const Value.absent(),
+                required String body,
+                required bool pinned,
+                required String createdAt,
+                required String updatedAt,
+                Value<bool> tombstone = const Value.absent(),
+                Value<String?> tombstonedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StudyNotesCompanion.insert(
+                id: id,
+                version: version,
+                contentHash: contentHash,
+                anchorId: anchorId,
+                sourceBlockId: sourceBlockId,
+                figureId: figureId,
+                lessonBlockId: lessonBlockId,
+                body: body,
+                pinned: pinned,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                tombstone: tombstone,
+                tombstonedAt: tombstonedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$StudyNotesTable, StudyNote>(table),
+                  BaseReferences<_$TraceDatabase, $StudyNotesTable, StudyNote>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$StudyNotesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $StudyNotesTable,
+      StudyNote,
+      $$StudyNotesTableFilterComposer,
+      $$StudyNotesTableOrderingComposer,
+      $$StudyNotesTableAnnotationComposer,
+      $$StudyNotesTableCreateCompanionBuilder,
+      $$StudyNotesTableUpdateCompanionBuilder,
+      (StudyNote, BaseReferences<_$TraceDatabase, $StudyNotesTable, StudyNote>),
+      StudyNote,
+      PrefetchHooks Function()
+    >;
 
 class $TraceDatabaseManager {
   final _$TraceDatabase _db;
@@ -8324,4 +11032,8 @@ class $TraceDatabaseManager {
       $$LessonArtifactsTableTableManager(_db, _db.lessonArtifacts);
   $$LearnerStatesTableTableManager get learnerStates =>
       $$LearnerStatesTableTableManager(_db, _db.learnerStates);
+  $$HighlightAnchorsTableTableManager get highlightAnchors =>
+      $$HighlightAnchorsTableTableManager(_db, _db.highlightAnchors);
+  $$StudyNotesTableTableManager get studyNotes =>
+      $$StudyNotesTableTableManager(_db, _db.studyNotes);
 }

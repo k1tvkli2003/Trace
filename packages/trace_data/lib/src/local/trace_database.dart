@@ -139,6 +139,50 @@ class LearnerStates extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+class HighlightAnchors extends Table {
+  TextColumn get id => text()();
+  IntColumn get version => integer()();
+  TextColumn get contentHashAtCreation => text()();
+  TextColumn get sourceBlockId => text()();
+  TextColumn get pageId => text()();
+  TextColumn get lessonBlockId => text().nullable()();
+  TextColumn get quote => text()();
+  TextColumn get prefix => text()();
+  TextColumn get suffix => text()();
+  IntColumn get startOffset => integer()();
+  IntColumn get endOffset => integer()();
+  RealColumn get bboxX => real().nullable()();
+  RealColumn get bboxY => real().nullable()();
+  RealColumn get bboxW => real().nullable()();
+  RealColumn get bboxH => real().nullable()();
+  TextColumn get color => text()();
+  TextColumn get status => text()();
+  BoolColumn get tombstone => boolean().withDefault(const Constant(false))();
+  TextColumn get tombstonedAt => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class StudyNotes extends Table {
+  TextColumn get id => text()();
+  IntColumn get version => integer()();
+  TextColumn get contentHash => text()();
+  TextColumn get anchorId => text().nullable()();
+  TextColumn get sourceBlockId => text().nullable()();
+  TextColumn get figureId => text().nullable()();
+  TextColumn get lessonBlockId => text().nullable()();
+  TextColumn get body => text()();
+  BoolColumn get pinned => boolean()();
+  TextColumn get createdAt => text()();
+  TextColumn get updatedAt => text()();
+  BoolColumn get tombstone => boolean().withDefault(const Constant(false))();
+  TextColumn get tombstonedAt => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     LibraryEntries,
@@ -149,13 +193,15 @@ class LearnerStates extends Table {
     FigureAssets,
     LessonArtifacts,
     LearnerStates,
+    HighlightAnchors,
+    StudyNotes,
   ],
 )
 class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -187,6 +233,10 @@ class TraceDatabase extends _$TraceDatabase {
       if (from < 6) {
         await m.createTable(lessonArtifacts);
         await m.createTable(learnerStates);
+      }
+      if (from < 7) {
+        await m.createTable(highlightAnchors);
+        await m.createTable(studyNotes);
       }
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),

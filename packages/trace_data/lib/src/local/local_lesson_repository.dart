@@ -109,9 +109,10 @@ final class LocalLessonRepository {
         database.sourceCitations,
       )..where((entry) => entry.id.equals(id))).getSingleOrNull();
       if (row == null) throw StateError('Citation $id is absent');
-      final block = await (database.select(database.sourceBlocks)
-            ..where((entry) => entry.id.equals(row.sourceBlockId)))
-          .getSingleOrNull();
+      final block =
+          await (database.select(database.sourceBlocks)
+                ..where((entry) => entry.id.equals(row.sourceBlockId)))
+              .getSingleOrNull();
       if (block == null ||
           block.pageId != row.pageId ||
           (!block.rawText.contains(row.quote) &&

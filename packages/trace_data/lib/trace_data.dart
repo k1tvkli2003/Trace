@@ -12,7 +12,16 @@ export 'src/local/local_source_block_repository.dart';
 export 'src/local/local_source_citation_repository.dart';
 export 'src/local/local_figure_asset_repository.dart';
 export 'src/local/local_lesson_repository.dart';
+export 'src/local/local_annotation_repository.dart';
 export 'src/local/trace_database.dart'
-    hide SourcePage, SourceBlock, SourceCitation, FigureAsset;
+    hide
+        SourcePage,
+        SourceBlock,
+        SourceCitation,
+        FigureAsset,
+        LessonArtifact,
+        LearnerState,
+        HighlightAnchor,
+        StudyNote;
 
 // TODO: Export any libraries intended for clients of this package.
