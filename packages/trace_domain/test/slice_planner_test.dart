@@ -101,6 +101,26 @@ void main() {
     expect(plan.slices.last.sourceBlockIds, ['explain-1']);
   });
 
+  test('earliest missing page wins over a later figure dependency', () {
+    final plan = planLearningSlices(
+      nodeId: 'node-1',
+      version: 1,
+      plannerVersion: 'planner-v1',
+      nodeStartPage: 1,
+      nodeEndPage: 9,
+      blocks: [
+        _block('b1', 'p1', 0, 'paragraph', 'A'),
+        _block('figure-1', 'p1', 1, 'figure', ''),
+      ],
+      completePageIds: {'p1', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8'},
+      pageNumbers: {for (var page = 1; page <= 9; page++) 'p$page': page},
+      requiredPageIdsByBlockId: {'figure-1': {'p9'}},
+    );
+    expect(plan.slices.single.sourceBlockIds, ['b1']);
+    expect(plan.slices.single.nextVisionRequiredAt, 2);
+    expect(plan.nextVisionRequiredAt, 2);
+  });
+
   test('missing figure dependency blocks it and reports required page', () {
     final plan = planLearningSlices(
       nodeId: 'node-1',

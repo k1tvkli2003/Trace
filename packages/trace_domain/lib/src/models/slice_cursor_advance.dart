@@ -51,6 +51,9 @@ LearningSlice? selectNextSlice(
     throw const FormatException('Planner version mismatch');
   }
   if (pageNumbers != null) _validateSlicePages(slices, pageNumbers);
+  if (cursor.lookaheadState == 'vision_required') {
+    return null;
+  }
   if (cursor.currentSliceId == null) {
     return slices.isEmpty ? null : _firstVisible(slices, cursor.nextPageNumber);
   }
@@ -74,14 +77,24 @@ SliceCursor advanceSliceCursor(
   List<LearningSlice> slices, {
   required String completedBlockId,
   required String nextStateHash,
+  String? plannerVersion,
   Map<String, int>? pageNumbers,
+  Map<String, String>? blockPageIds,
 }) {
   _validateSlices(slices, cursor.nodeId);
   _hash(nextStateHash, 'nextStateHash');
+  if (plannerVersion != null && plannerVersion != cursor.plannerVersion) {
+    throw const FormatException('Planner version mismatch');
+  }
   if (pageNumbers != null) _validateSlicePages(slices, pageNumbers);
   if (slices.isEmpty) throw const FormatException('Cannot advance empty plan');
 
-  final selected = selectNextSlice(cursor, slices, pageNumbers: pageNumbers);
+  final selected = selectNextSlice(
+    cursor,
+    slices,
+    plannerVersion: plannerVersion,
+    pageNumbers: pageNumbers,
+  );
   if (selected == null) throw const FormatException('Cursor is at end of plan');
   final index = slices.indexWhere((slice) => slice.id == selected.id);
   final blockIndex = selected.id == cursor.currentSliceId
@@ -103,7 +116,12 @@ SliceCursor advanceSliceCursor(
       'nodeId': cursor.nodeId,
       'currentSliceId': selected.id,
       'nextBlockIndex': nextBlockIndex,
-      'nextPageNumber': _firstPageNumber(selected, pageNumbers),
+      'nextPageNumber': _nextBlockPageNumber(
+        selected.sourceBlockIds[nextBlockIndex],
+        blockPageIds,
+        selected,
+        pageNumbers,
+      ),
       'lookaheadState': 'ready',
       'plannerVersion': cursor.plannerVersion,
     });
@@ -206,6 +224,23 @@ LearningSlice? _visibleOrNull(LearningSlice slice, int? nextPageNumber) {
 }
 
 String _lookaheadState(LearningSlice slice) => 'ready';
+
+int? _nextBlockPageNumber(
+  String blockId,
+  Map<String, String>? blockPageIds,
+  LearningSlice selected,
+  Map<String, int>? pageNumbers,
+) {
+  final pageId = blockPageIds?[blockId];
+  if (pageId == null || pageNumbers == null) {
+    return _firstPageNumber(selected, pageNumbers);
+  }
+  final page = pageNumbers[pageId];
+  if (page == null) {
+    throw const FormatException('Slice points at unknown page');
+  }
+  return page;
+}
 
 int? _firstPageNumber(LearningSlice slice, Map<String, int>? pageNumbers) {
   if (pageNumbers == null) return null;

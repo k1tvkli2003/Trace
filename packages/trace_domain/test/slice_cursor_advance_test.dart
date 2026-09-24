@@ -132,6 +132,31 @@ void main() {
     );
   });
 
+  test('completed Vision boundary cannot skip into a later cached slice', () {
+    final blocked = LearningSlice.fromJson({
+      ..._slice('slice-1', 0, ['b1']).toJson(),
+      'boundaryReason': 'vision_required',
+      'nextVisionRequiredAt': 2,
+    });
+    final slices = [blocked, _slice('slice-2', 1, ['b2'])];
+    final cursor = createSliceCursor(
+      id: 'cursor', libraryId: 'library-1', nodeId: 'node-1',
+      plannerVersion: 'planner-v1', stateHash: 'a' * 64, slices: slices,
+    );
+    final waiting = advanceSliceCursor(
+      cursor, slices, completedBlockId: 'b1', nextStateHash: 'b' * 64,
+    );
+    expect(waiting.lookaheadState, 'vision_required');
+    expect(waiting.nextPageNumber, 2);
+    expect(selectNextSlice(waiting, slices), isNull);
+    expect(
+      () => advanceSliceCursor(
+        waiting, slices, completedBlockId: 'b2', nextStateHash: 'c' * 64,
+      ),
+      throwsFormatException,
+    );
+  });
+
   test('cursor reports actual next page from explicit page map', () {
     final slices = [
       _slice('slice-1', 0, ['b1']),
@@ -185,6 +210,24 @@ void main() {
     );
   });
 
+  test('mid-slice next page follows next unconsumed block', () {
+    final slices = [LearningSlice.fromJson({
+      ..._slice('slice-1', 0, ['b1', 'b2']).toJson(),
+      'pageIds': ['page-1', 'page-9'],
+    })];
+    final cursor = createSliceCursor(
+      id: 'cursor-1', libraryId: 'library-1', nodeId: 'node-1',
+      plannerVersion: 'planner-v1', stateHash: 'a' * 64, slices: slices,
+      pageNumbers: {'page-1': 1, 'page-9': 9},
+    );
+    final advanced = advanceSliceCursor(
+      cursor, slices, completedBlockId: 'b1', nextStateHash: 'b' * 64,
+      pageNumbers: {'page-1': 1, 'page-9': 9},
+      blockPageIds: {'b1': 'page-1', 'b2': 'page-9'},
+    );
+    expect(advanced.nextPageNumber, 9);
+  });
+
   test('cursor resume rejects a planner version mismatch', () {
     final slices = [
       _slice('slice-1', 0, ['b1']),
@@ -200,6 +243,13 @@ void main() {
 
     expect(
       () => selectNextSlice(cursor, slices, plannerVersion: 'planner-v2'),
+      throwsFormatException,
+    );
+    expect(
+      () => advanceSliceCursor(
+        cursor, slices, completedBlockId: 'b1',
+        nextStateHash: 'b' * 64, plannerVersion: 'planner-v2',
+      ),
       throwsFormatException,
     );
   });

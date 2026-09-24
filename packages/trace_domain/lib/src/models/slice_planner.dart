@@ -175,6 +175,10 @@ int? _requiredVisionPage(
           : (requiredPage < result ? requiredPage : result);
     }
   }
+  if (result != null && firstMissingPage != null &&
+      firstMissingPage < result) {
+    return firstMissingPage;
+  }
   return result;
 }
 
