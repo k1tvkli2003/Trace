@@ -81,9 +81,12 @@ def run() -> None:
                 else:
                     raise RuntimeError("Flutter did not mount")
                 time.sleep(1)
+                viewport = evaluate("({w: innerWidth, h: innerHeight})")
+                new_x = int(viewport["w"] * 0.14)
+                new_y = int(viewport["h"] * 0.51)
                 for kind in ("mousePressed", "mouseReleased"):
                     call("Input.dispatchMouseEvent", {
-                        "type": kind, "x": 670, "y": 28, "button": "left", "clickCount": 1,
+                        "type": kind, "x": new_x, "y": new_y, "button": "left", "clickCount": 1,
                     })
                 time.sleep(.4)
                 if not evaluate("!!document.querySelector('.flt-text-editing')"):
@@ -94,16 +97,20 @@ def run() -> None:
                         "type": kind, "key": "Enter", "code": "Enter", "windowsVirtualKeyCode": 13,
                     })
                 time.sleep(2)
-                probe = "new Promise((resolve,reject)=>{let q=indexedDB.open('trace_local_v1');q.onerror=()=>reject(q.error);q.onsuccess=async()=>{let d=q.result;let b=await new Promise((yes,no)=>{let r=d.transaction('blocks').objectStore('blocks').getAll();r.onerror=()=>no(r.error);r.onsuccess=()=>yes(r.result)});d.close();resolve(b.some(v=>new TextDecoder().decode(new Uint8Array(v)).includes('Trace browser persistence')))}})"
-                if not evaluate(probe):
+                probe = "new Promise((resolve,reject)=>{let q=indexedDB.open('trace_local_v1');q.onerror=()=>reject(q.error);q.onsuccess=async()=>{let d=q.result;let b=await new Promise((yes,no)=>{let r=d.transaction('blocks').objectStore('blocks').getAll();r.onerror=()=>no(r.error);r.onsuccess=()=>yes(r.result)});let names=[...d.objectStoreNames];let mode=d.objectStoreNames.contains('__drift_meta')?'drift-meta':'raw';d.close();resolve(JSON.stringify({hit: b.some(v=>new TextDecoder().decode(new Uint8Array(v)).includes('Trace browser persistence')), names: names, storeMode: mode}))}})"
+                probe_raw = evaluate(probe)
+                if not probe_raw or '"hit":true' not in probe_raw:
                     raise RuntimeError("Exact title not persisted before reload")
+                storage_sig = probe_raw
                 if os.environ.get('TRACE_SMOKE_SCREENSHOT'):
                     import base64
                     Path(os.environ['TRACE_SMOKE_SCREENSHOT']).write_bytes(base64.b64decode(call('Page.captureScreenshot', {'format':'png'})['data']))
                 call("Page.reload", {"ignoreCache": True})
                 time.sleep(3)
-                if not evaluate(probe):
+                probe_raw_after = evaluate(probe)
+                if not probe_raw_after or '"hit":true' not in probe_raw_after:
                     raise RuntimeError("Exact title lost after reload")
+                print(f"STORAGE: {storage_sig} -> {probe_raw_after}")
                 if os.environ.get('TRACE_SMOKE_IMPORT') or os.environ.get('TRACE_SMOKE_PDF'):
                     pdf_mode = bool(os.environ.get('TRACE_SMOKE_PDF'))
                     source = Path(__file__).resolve().parent.parent / 'apps/trace_flutter/test/fixtures/dummy.pdf' if pdf_mode else Path(profile) / 'chapter.md'
