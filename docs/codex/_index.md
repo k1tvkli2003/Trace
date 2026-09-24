@@ -10,3 +10,4 @@
 | `2026-09-24-stage-14-vision-page-extraction` | Stage 14 vision page extraction | active | 2026-09-24 | [Open](2026-09-24-stage-14-vision-page-extraction/00-brief.md) |
 | `2026-09-25-stage-15-page-vision-cache-dedupe` | Stage 15 page vision cache dedupe | active | 2026-09-25 | [Open](2026-09-25-stage-15-page-vision-cache-dedupe/00-brief.md) |
 | `2026-09-25-stage-16-source-block-normalization` | Stage 16 source block normalization | done | 2026-09-25 | [Open](2026-09-25-stage-16-source-block-normalization/00-brief.md) |
+| `2026-09-25-stage-17-slice-planner-and-cursor` | Stage 17 slice planner and cursor | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-17-slice-planner-and-cursor/00-brief.md) |

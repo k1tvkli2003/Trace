@@ -16,6 +16,8 @@ export 'src/models/figure_asset.dart';
 export 'src/models/knowledge_node.dart';
 export 'src/models/learning_slice.dart';
 export 'src/models/slice_cursor.dart';
+export 'src/models/slice_planner.dart';
+export 'src/models/slice_cursor_advance.dart';
 export 'src/models/page_vision_cache_key.dart';
 export 'src/models/source_outline.dart';
 export 'src/models/lesson_ast.dart';
