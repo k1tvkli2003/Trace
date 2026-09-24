@@ -10,6 +10,7 @@ export 'src/models/source_import_item.dart';
 export 'src/models/library_item.dart';
 export 'src/models/source_page.dart';
 export 'src/models/source_block.dart';
+export 'src/models/source_block_normalization.dart';
 export 'src/models/source_citation.dart';
 export 'src/models/figure_asset.dart';
 export 'src/models/knowledge_node.dart';
