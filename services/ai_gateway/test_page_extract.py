@@ -1,0 +1,119 @@
+"""Fail-closed page-extract-v1. Raster Vision only. No OCR, no text layer."""
+import json
+import unittest
+from pathlib import Path
+
+from jsonschema import Draft202012Validator
+
+from page_extract import ContractFailure, validate_page_extract
+
+
+SOURCE = 'a' * 64
+PIXEL = 'b' * 64
+PROFILE = 'full-v1'
+PAGE = 'page-1'
+
+
+def extract():
+    return {
+        'schemaVersion': 'page-extract-v1',
+        'sourceHash': SOURCE,
+        'pixelHash': PIXEL,
+        'renderProfile': PROFILE,
+        'pageRef': PAGE,
+        'extractionVersion': 'page-vision-extract-v1',
+        'coverage': 'complete',
+        'blocks': [
+            {
+                'id': 'b1',
+                'order': 0,
+                'kind': 'heading',
+                'text': 'عنوان',
+                'bbox': {'x': 0.1, 'y': 0.05, 'w': 0.4, 'h': 0.04},
+                'confidence': 0.92,
+                'uncertain': False,
+            },
+            {
+                'id': 'b2',
+                'order': 1,
+                'kind': 'paragraph',
+                'text': 'متن پاراگراف.',
+                'bbox': {'x': 0.1, 'y': 0.12, 'w': 0.7, 'h': 0.1},
+                'confidence': 0.8,
+                'uncertain': False,
+            },
+            {
+                'id': 'b3',
+                'order': 2,
+                'kind': 'unknown',
+                'text': '',
+                'bbox': {'x': 0.1, 'y': 0.3, 'w': 0.2, 'h': 0.04},
+                'confidence': 0.1,
+                'uncertain': True,
+            },
+        ],
+        'figures': [
+            {
+                'id': 'fig-1',
+                'blockId': 'b2',
+                'bbox': {'x': 0.2, 'y': 0.5, 'w': 0.4, 'h': 0.2},
+                'caption': 'شکل ۱',
+                'confidence': 0.7,
+            },
+        ],
+    }
+
+
+class PageExtractTests(unittest.TestCase):
+    def test_complete_page_keeps_order_figures_and_quarantine(self):
+        valid = extract()
+        self.assertEqual(
+            validate_page_extract(
+                valid, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            ),
+            valid,
+        )
+        unknown = valid['blocks'][2]
+        self.assertTrue(unknown['uncertain'])
+        self.assertEqual(unknown['text'], '')
+
+    def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
+        valid = extract()
+        cases = (
+            'not-json{',
+            {**valid, 'schemaVersion': 'lesson-ast-v1'},
+            {**valid, 'sourceHash': 'c' * 64},
+            {**valid, 'pixelHash': 'd' * 64},
+            {**valid, 'renderProfile': 'thumb-v1'},
+            {**valid, 'pageRef': 'page-9'},
+            {**valid, 'coverage': 'partial'},
+            {**valid, 'provenance': 'ocr'},
+            {**valid, 'textLayer': 'stolen text'},
+            {**valid, 'blocks': [{**valid['blocks'][0], 'text': '<script>x</script>'}]},
+            {**valid, 'figures': [{**valid['figures'][0], 'blockId': 'missing'}]},
+            {**valid, 'blocks': [valid['blocks'][1]]},
+            {**valid, 'blocks': [
+                {**valid['blocks'][0], 'confidence': 0.2, 'uncertain': False},
+            ]},
+        )
+        for case in cases:
+            with self.subTest(case=str(case)[:140]):
+                with self.assertRaises(ContractFailure):
+                    validate_page_extract(
+                        case, source_hash=SOURCE, pixel_hash=PIXEL,
+                        render_profile=PROFILE, page_ref=PAGE,
+                    )
+
+    def test_schema_file_matches_runtime_acceptance(self):
+        path = Path(__file__).resolve().parents[2] / 'docs/contracts/page-extract-v1.json'
+        schema = json.loads(path.read_text(encoding='utf-8'))
+        Draft202012Validator.check_schema(schema)
+        validator = Draft202012Validator(schema)
+        self.assertEqual(list(validator.iter_errors(extract())), [])
+        bad = {**extract(), 'coverage': 'guessed'}
+        self.assertTrue(list(validator.iter_errors(bad)))
+
+
+if __name__ == '__main__':
+    unittest.main()

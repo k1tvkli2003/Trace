@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace.local/contracts/page-extract-v1.json",
+  "title": "page-extract-v1",
+  "description": "Raster-only page Vision result. No OCR and no PDF text layer.",
+  "type": "object",
+  "required": ["schemaVersion", "sourceHash", "pixelHash", "renderProfile", "pageRef", "extractionVersion", "coverage", "blocks", "figures"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "page-extract-v1" },
+    "sourceHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "pixelHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "renderProfile": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "pageRef": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "extractionVersion": { "const": "page-vision-extract-v1" },
+    "coverage": { "const": "complete" },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 300,
+      "items": {
+        "type": "object",
+        "required": ["id", "order", "kind", "text", "bbox", "confidence", "uncertain"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1, "maxLength": 512 },
+          "order": { "type": "integer", "minimum": 0 },
+          "kind": { "enum": ["heading", "paragraph", "list", "table", "formula", "caption", "footnote", "figure", "unknown"] },
+          "text": { "type": "string", "maxLength": 8000 },
+          "bbox": {
+            "type": "object",
+            "required": ["x", "y", "w", "h"],
+            "additionalProperties": false,
+            "properties": {
+              "x": { "type": "number", "minimum": 0, "maximum": 1 },
+              "y": { "type": "number", "minimum": 0, "maximum": 1 },
+              "w": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+              "h": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+            }
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "uncertain": { "type": "boolean" }
+        }
+      }
+    },
+    "figures": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "required": ["id", "blockId", "bbox", "caption", "confidence"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1, "maxLength": 512 },
+          "blockId": { "type": "string", "minLength": 1, "maxLength": 512 },
+          "bbox": {
+            "type": "object",
+            "required": ["x", "y", "w", "h"],
+            "additionalProperties": false,
+            "properties": {
+              "x": { "type": "number", "minimum": 0, "maximum": 1 },
+              "y": { "type": "number", "minimum": 0, "maximum": 1 },
+              "w": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+              "h": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+            }
+          },
+          "caption": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    }
+  }
+}
