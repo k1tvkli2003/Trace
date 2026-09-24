@@ -5,6 +5,7 @@ library;
 
 export 'src/trace_data_base.dart';
 export 'src/local/local_library_repository.dart';
+export 'src/local/local_source_import_repository.dart';
 export 'src/local/local_text_source_repository.dart';
 export 'src/local/local_pdf_source_repository.dart';
 export 'src/local/local_source_page_repository.dart';

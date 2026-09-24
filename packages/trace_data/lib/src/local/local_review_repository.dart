@@ -173,8 +173,10 @@ final class LocalReviewRepository {
         final latest = historyRows
             .map(_eventFromRow)
             .reduce((a, b) => a.occurredAt.isAfter(b.occurredAt) ? a : b);
-        if (event.occurredAt.isBefore(latest.occurredAt)) {
-          throw StateError('Event time is stale for ${event.reviewItemId}');
+        if (!event.occurredAt.isAfter(latest.occurredAt)) {
+          throw StateError(
+            'Event time is not strictly newer for ${event.reviewItemId}',
+          );
         }
       }
       if (current.state != domain.ReviewItemState.active) {

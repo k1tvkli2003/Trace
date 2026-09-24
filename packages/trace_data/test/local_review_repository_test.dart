@@ -45,11 +45,15 @@ Map<String, Object?> eventJson({
   'schedulerVersion': 'fixed-ladder-v1',
 };
 
+TraceDatabase _database() {
+  final database = TraceDatabase(NativeDatabase.memory());
+  addTearDown(database.close);
+  return database;
+}
+
 void main() {
   test('review item persists with replay-safe immutable put', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     final item = ReviewItem.fromJson(itemJson());
     await repository.putReviewItem(item);
     expect((await repository.readReviewItem(item.id))?.toJson(), itemJson());
@@ -59,9 +63,7 @@ void main() {
   test(
     'replaying original item after an event leaves projection intact',
     () async {
-      final db = TraceDatabase(NativeDatabase.memory());
-      addTearDown(db.close);
-      final repository = LocalReviewRepository(db);
+      final repository = LocalReviewRepository(_database());
       final original = ReviewItem.fromJson(itemJson());
       await repository.putReviewItem(original);
       await repository.appendEvent(ReviewEvent.fromJson(eventJson()));
@@ -71,9 +73,7 @@ void main() {
   );
 
   test('duplicate item id with different payload is rejected', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
     await expectLater(
       repository.putReviewItem(
@@ -84,9 +84,7 @@ void main() {
   });
 
   test('unsupported target or state is rejected fail-closed', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await expectLater(
       repository.putReviewItem(
         ReviewItem.fromJson(itemJson(targetType: 'future_target')),
@@ -102,9 +100,7 @@ void main() {
   });
 
   test('due query returns only active items due at or before now', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(
       ReviewItem.fromJson(itemJson(id: 'due-1', dueAt: '2026-09-24T09:00:00Z')),
     );
@@ -127,9 +123,7 @@ void main() {
   });
 
   test('due query compares instants across different UTC precisions', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(
       ReviewItem.fromJson(
         itemJson(id: 'due-whole', dueAt: '2026-09-24T10:30:00Z'),
@@ -170,9 +164,7 @@ void main() {
   });
 
   test('good rating advances fixed ladder 1 to 3 days', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
     final event = ReviewEvent.fromJson(eventJson());
     await repository.appendEvent(event);
@@ -184,9 +176,7 @@ void main() {
   });
 
   test('review event on suspended item is rejected atomically', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(
       ReviewItem.fromJson(itemJson(state: 'suspended')),
     );
@@ -202,9 +192,7 @@ void main() {
   });
 
   test('forged next due is rejected with no partial write', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
     await expectLater(
       repository.appendEvent(
@@ -220,9 +208,7 @@ void main() {
   });
 
   test('stale chained event and absent item are rejected', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
     await repository.appendEvent(ReviewEvent.fromJson(eventJson()));
     await expectLater(
@@ -253,9 +239,7 @@ void main() {
   });
 
   test('again rating resets to one day and counts a lapse', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(
       ReviewItem.fromJson(
         itemJson(intervalDays: 3, dueAt: '2026-09-27T10:35:00Z'),
@@ -278,9 +262,7 @@ void main() {
   });
 
   test('projection rebuilds deterministically from stored events', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     final initial = ReviewItem.fromJson(itemJson());
     await repository.putReviewItem(initial);
     await repository.appendEvent(ReviewEvent.fromJson(eventJson()));
@@ -312,9 +294,7 @@ void main() {
   test(
     'event history sorts UTC instants despite precision differences',
     () async {
-      final db = TraceDatabase(NativeDatabase.memory());
-      addTearDown(db.close);
-      final repository = LocalReviewRepository(db);
+      final repository = LocalReviewRepository(_database());
       await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
       await repository.appendEvent(
         ReviewEvent.fromJson(
@@ -343,10 +323,42 @@ void main() {
     },
   );
 
+  test('equal-time appends require a strictly later instant', () async {
+    final repository = LocalReviewRepository(_database());
+    await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
+    await repository.appendEvent(
+      ReviewEvent.fromJson(
+        eventJson(
+          id: 'z',
+          occurredAt: '2026-09-24T10:35:00Z',
+          nextDueAt: '2026-09-27T10:35:00Z',
+          rating: 'good',
+        ),
+      ),
+    );
+    await expectLater(
+      repository.appendEvent(
+        ReviewEvent.fromJson(
+          eventJson(
+            id: 'a',
+            occurredAt: '2026-09-24T10:35:00Z',
+            previousDueAt: '2026-09-27T10:35:00Z',
+            nextDueAt: '2026-09-25T10:35:00Z',
+            rating: 'again',
+          ),
+        ),
+      ),
+      throwsStateError,
+    );
+    expect(await repository.readEvent('a'), isNull);
+    final stored = await repository.readReviewItem('review-1');
+    expect(stored?.rawDueAt, '2026-09-27T10:35:00Z');
+    expect(stored?.intervalDays, 3);
+    expect(stored?.lapses, 0);
+  });
+
   test('future event cannot be appended before its due instant', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
     await expectLater(
       repository.appendEvent(
@@ -365,9 +377,7 @@ void main() {
   test(
     'earlier timestamp cannot append after later event even with matching due',
     () async {
-      final db = TraceDatabase(NativeDatabase.memory());
-      addTearDown(db.close);
-      final repository = LocalReviewRepository(db);
+      final repository = LocalReviewRepository(_database());
       await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
       await repository.appendEvent(ReviewEvent.fromJson(eventJson()));
       await expectLater(
@@ -389,11 +399,9 @@ void main() {
   );
 
   test('corrupted due timestamp surfaces instead of silent default', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
-    await db.customStatement(
+    await repository.database.customStatement(
       "UPDATE review_items SET due_at = 'not-a-timestamp' WHERE id = 'review-1'",
     );
     await expectLater(
@@ -403,12 +411,10 @@ void main() {
   });
 
   test('corrupted immutable receipt surfaces instead of being ignored', () async {
-    final db = TraceDatabase(NativeDatabase.memory());
-    addTearDown(db.close);
-    final repository = LocalReviewRepository(db);
+    final repository = LocalReviewRepository(_database());
     final item = ReviewItem.fromJson(itemJson());
     await repository.putReviewItem(item);
-    await db.customStatement(
+    await repository.database.customStatement(
       "UPDATE review_items SET initial_payload_json = 'not-json' WHERE id = 'review-1'",
     );
     await expectLater(repository.putReviewItem(item), throwsFormatException);
@@ -417,13 +423,11 @@ void main() {
   test(
     'corrupted event row cannot silently become an idempotent replay',
     () async {
-      final db = TraceDatabase(NativeDatabase.memory());
-      addTearDown(db.close);
-      final repository = LocalReviewRepository(db);
+      final repository = LocalReviewRepository(_database());
       await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
       final event = ReviewEvent.fromJson(eventJson());
       await repository.appendEvent(event);
-      await db.customStatement(
+      await repository.database.customStatement(
         "UPDATE review_events SET rating = 'unknown' WHERE id = 'event-1'",
       );
       await expectLater(repository.appendEvent(event), throwsStateError);
