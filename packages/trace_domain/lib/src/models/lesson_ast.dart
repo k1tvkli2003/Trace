@@ -153,6 +153,9 @@ final class LessonBlock {
     final text = type == LessonBlockType.figure
         ? null
         : _limitedString(json['text'], 'text', 3000);
+    if (text != null && _unsafeLessonText.hasMatch(text)) {
+      throw const FormatException('Unsafe lesson text');
+    }
     return LessonBlock._(
       id: id,
       type: type,
@@ -172,11 +175,19 @@ final class LessonBlock {
 }
 
 String _limitedString(Object? value, String name, int maxLength) {
-  if (value is! String || value.isEmpty || value.length > maxLength) {
+  if (value is! String ||
+      value.isEmpty ||
+      value.trim().isEmpty ||
+      value.length > maxLength) {
     throw FormatException('Invalid $name');
   }
   return value;
 }
+
+final _unsafeLessonText = RegExp(
+  r'<\s*/?\s*[a-zA-Z!][^>]*>|\b(?:javascript|data)\s*:',
+  caseSensitive: false,
+);
 
 void _onlyKeys(Map<String, Object?> value, Set<String> allowed) {
   if (value.keys.any((key) => !allowed.contains(key))) {

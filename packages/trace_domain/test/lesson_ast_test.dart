@@ -139,6 +139,59 @@ void main() {
     );
   });
 
+  test('rejects active markup and unsafe URL schemes inside lesson text', () {
+    for (final text in [
+      '<script>alert(1)</script>',
+      '<SCRIPT>alert(1)</SCRIPT>',
+      '<img src=x onerror=alert(1)>',
+      'javascript:alert(1)',
+      'JaVaScRiPt : alert(1)',
+      'data:text/html;base64,AAAA',
+    ]) {
+      expect(
+        () => LessonDocument.fromJson({
+          'schemaVersion': 'lesson-ast-v1',
+          'sliceId': 'slice-1',
+          'language': 'fa',
+          'blocks': [
+            {
+              'id': 'unsafe',
+              'type': 'paragraph',
+              'text': text,
+              'sourceCitationIds': ['cite-1'],
+            },
+          ],
+        }),
+        throwsFormatException,
+        reason: text,
+      );
+    }
+  });
+
+  test('rejects whitespace-only identities and lesson text', () {
+    final base = <String, Object?>{
+      'schemaVersion': 'lesson-ast-v1',
+      'sliceId': 'slice-1',
+      'language': 'fa',
+      'blocks': [
+        {
+          'id': 'p',
+          'type': 'paragraph',
+          'text': 'متن',
+          'sourceCitationIds': ['cite-1'],
+        },
+      ],
+    };
+    for (final bad in [
+      {...base, 'sliceId': '   '},
+      {...base, 'blocks': [{'id': '   ', 'type': 'paragraph', 'text': 'متن', 'sourceCitationIds': ['cite-1']}]},
+      {...base, 'blocks': [{'id': 'p', 'type': 'paragraph', 'text': '   ', 'sourceCitationIds': ['cite-1']}]},
+      {...base, 'blocks': [{'id': 'p', 'type': 'paragraph', 'text': 'متن', 'sourceCitationIds': ['   ']}]},
+    ]) {
+      expect(() => LessonDocument.fromJson(bad), throwsFormatException);
+    }
+  });
+
   test('rejects malformed or unsafe AST blocks', () {
     final base = <String, Object?>{
       'schemaVersion': 'lesson-ast-v1',

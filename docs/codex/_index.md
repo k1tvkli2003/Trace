@@ -11,3 +11,4 @@
 | `2026-09-25-stage-15-page-vision-cache-dedupe` | Stage 15 page vision cache dedupe | active | 2026-09-25 | [Open](2026-09-25-stage-15-page-vision-cache-dedupe/00-brief.md) |
 | `2026-09-25-stage-16-source-block-normalization` | Stage 16 source block normalization | done | 2026-09-25 | [Open](2026-09-25-stage-16-source-block-normalization/00-brief.md) |
 | `2026-09-25-stage-17-slice-planner-and-cursor` | Stage 17 slice planner and cursor | done | 2026-09-25 | [Open](2026-09-25-stage-17-slice-planner-and-cursor/00-brief.md) |
+| `2026-09-25-stage-18-lesson-ast-schema-and-validator` | Stage 18 lesson AST schema and validator | done | 2026-09-25 | [Open](2026-09-25-stage-18-lesson-ast-schema-and-validator/00-brief.md) |

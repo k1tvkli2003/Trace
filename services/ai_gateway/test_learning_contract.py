@@ -127,6 +127,42 @@ class LearningContractTests(unittest.TestCase):
                     {**lesson(), 'blocks': [{**lesson()['blocks'][0], 'style': 'color:red'}]}):
             self.assertTrue(list(validator.iter_errors(bad)))
 
+    def test_lesson_rejects_extra_fields_and_inert_text_violations(self):
+        valid = lesson()
+        injected = {**valid['blocks'][0], 'text': '<img src=x onerror=alert(1)>'}
+        unsafe_scheme = {**valid['blocks'][0], 'text': 'data:text/html;base64,AAAA'}
+        with self.assertRaises(ContractFailure):
+            validate_lesson({**valid, 'blocks': [injected]}, slice_id='slice-1',
+                            source_ids={'block-1'}, figure_ids={'fig-1'})
+        with self.assertRaises(ContractFailure):
+            validate_lesson({**valid, 'blocks': [unsafe_scheme]}, slice_id='slice-1',
+                            source_ids={'block-1'}, figure_ids={'fig-1'})
+    def test_schema_rejects_whitespace_and_unsafe_text_like_runtime(self):
+        path = Path(__file__).resolve().parents[2] / 'docs/contracts/lesson-ast-v1.json'
+        validator = Draft202012Validator(json.loads(path.read_text(encoding='utf-8')))
+        for field, value in (('sliceId', '   '),):
+            with self.subTest(field=field):
+                self.assertTrue(list(validator.iter_errors({**lesson(), field: value})))
+        for field in ('id', 'sourceCitationIds', 'figureId'):
+            with self.subTest(field=field):
+                blocks = lesson()['blocks']
+                if field == 'id':
+                    blocks[0][field] = '   '
+                elif field == 'sourceCitationIds':
+                    blocks[0][field] = ['   ']
+                else:
+                    blocks[1][field] = '   '
+                self.assertTrue(list(validator.iter_errors({**lesson(), 'blocks': blocks})))
+        unexpected_figure = {**lesson()['blocks'][0], 'figureId': 'fig-1'}
+        self.assertTrue(list(validator.iter_errors(
+            {**lesson(), 'blocks': [unexpected_figure]})))
+        for text in ('   ', '<script>alert(1)</script>', '<SCRIPT>alert(1)</SCRIPT>',
+                     'javascript:alert(1)', 'JaVaScRiPt : alert(1)',
+                     'data:text/html;base64,AAAA'):
+            with self.subTest(text=text):
+                invalid = {**lesson(), 'blocks': [{**lesson()['blocks'][0], 'text': text}]}
+                self.assertTrue(list(validator.iter_errors(invalid)))
+
     def test_partial_or_malformed_output_is_never_a_lesson(self):
         for raw in ('{"schemaVersion":', {'schemaVersion': 'lesson-ast-v1',
                                          'sliceId': 'slice-1', 'blocks': []},

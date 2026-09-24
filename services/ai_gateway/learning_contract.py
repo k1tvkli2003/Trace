@@ -72,7 +72,7 @@ _ALLOWED_BLOCKS = frozenset({
     'comparison_table', 'formula_box', 'example_box', 'figure',
     'figure_explanation', 'key_takeaway', 'recall_prompt',
 })
-_UNSAFE = re.compile(r'<\s*/?\s*[a-z!][^>]*>|\b(?:javascript|data):', re.I)
+_UNSAFE = re.compile(r'<\s*/?\s*[a-z!][^>]*>|\b(?:javascript|data)\s*:', re.I)
 _SHA256 = re.compile(r'^[0-9a-f]{64}$')
 _ASSET_HANDLE = re.compile(r'^asset_[a-zA-Z0-9_-]{1,120}$')
 _MAX_PROMPT_BYTES = 65536
