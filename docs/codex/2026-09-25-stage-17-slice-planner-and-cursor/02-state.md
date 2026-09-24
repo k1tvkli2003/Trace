@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 

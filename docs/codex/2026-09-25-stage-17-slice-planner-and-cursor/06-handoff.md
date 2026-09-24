@@ -12,9 +12,7 @@ Stage 17 planner/cursor helpers are implemented and ready for review. No Vision,
 - Completed Stage 17 task docs under `docs/codex/2026-09-25-stage-17-slice-planner-and-cursor/`.
 
 ## How To Continue
-- Review `git diff --stat` and `git diff --check`.
-- Commit with: `git add docs/codex/_index.md docs/codex/2026-09-25-stage-17-slice-planner-and-cursor packages/trace_domain && git commit -m "feat: deterministic Stage 17 slice planner and cursor"`.
-- Mark the task `done` after commit if verification stays green.
+- Stage 17 code committed in `c6a4375` and verified green. Next: wire helpers into ingestion and local persistence behind atomic cursor updates; retain source evidence gates.
 
 ## Done
 - Deterministic coverage without duplication or replay.
@@ -23,7 +21,6 @@ Stage 17 planner/cursor helpers are implemented and ready for review. No Vision,
 - Focused, domain, data, analysis, and docs validation green.
 
 ## Remaining
-- Commit Stage 17.
 - Later ingestion/repository wiring and live PDF/Vision/E2E proof.
 
 ## Verification

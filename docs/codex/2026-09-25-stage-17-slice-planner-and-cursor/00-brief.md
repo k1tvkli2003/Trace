@@ -1,7 +1,7 @@
 # Stage 17 — Slice Planner and Cursor
 
 - Task ID: `2026-09-25-stage-17-slice-planner-and-cursor`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: English
 
