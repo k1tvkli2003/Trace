@@ -28,6 +28,6 @@
 - Plain `flutter analyze` / package resolution can hit a transient upstream Pub advisory lookup failure; `--no-pub` analysis and release Web build passed on finalized packages.
 - `services/ingestion_worker/README.md` still explicitly says no worker is implemented; worker implementation belongs to later stages.
 - ZIP extraction, OCR, Vision, AI, sync, and UI remain out of scope.
-- Known issue: Stage 11 follow-up status documentation was committed after `dd40a4d`.
-- Stage 11 changes are committed.
-- Docs validation and diff hygiene: `OK` when last run; see final commit for the exact settled state.
+- Stage 11 implementation commit: `dd40a4d`.
+- Stage 11 closing documentation commit: `3cfdbae`.
+- Worktree was clean after `3cfdbae`; no production changes after verification.

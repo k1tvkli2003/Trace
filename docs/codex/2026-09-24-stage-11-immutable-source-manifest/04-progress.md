@@ -13,7 +13,8 @@
 
 ## Done
 - Stage 11 implementation and verification complete.
-- Commit `dd40a4d` contains all Stage 11 files.
+- Implementation commit: `dd40a4d`.
+- Closing documentation commit: `3cfdbae`.
 
 ## Remaining
 - Stage 12 PDF worker/render implementation.
@@ -25,4 +26,4 @@
 - Full package, Flutter, Web, and docs verification passed.
 
 ## Next
-- Commit Stage 11 and record clean-worktree proof.
+- Stage 12 PDF worker/render implementation.

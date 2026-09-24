@@ -1,7 +1,7 @@
 # Handoff
 
 ## Outcome
-Stage 11 immutable source manifest/provenance slice implemented, verified, and recorded as `dd40a4d`; follow-up status documentation is in the working tree for the closing commit.
+Stage 11 immutable source manifest/provenance slice implemented, verified, implemented in `dd40a4d`, and documented through `3cfdbae`.
 
 ## Changed Artifacts
 - `packages/trace_domain/lib/src/models/source_document.dart`
@@ -28,8 +28,9 @@ Stage 11 immutable source manifest/provenance slice implemented, verified, and r
 - Later Stage 12 worker/render implementation.
 
 ## Closeout
-- `dd40a4d` contains implementation and initial verification.
-- Closing documentation commit follows after docs validation.
+- Implementation: `dd40a4d`.
+- Closing documentation: `3cfdbae`.
+- Closing documentation is committed; worktree was clean after `3cfdbae`.
 
 ## Verification
 Domain full 80, data full 72, both analyses clean, diff hygiene clean, Flutter analysis clean, Flutter Web release passed, and work-doc validation passed. Real SQLite v9 migration to v10 passed.
