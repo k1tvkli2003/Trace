@@ -24,6 +24,10 @@ class SourceEntries extends Table {
   TextColumn get sourceHash => text()();
   TextColumn get mimeType => text()();
   TextColumn get format => text()();
+  TextColumn get modifiedAt => text().nullable()();
+  TextColumn get logicalRole =>
+      text().withDefault(const Constant('primary'))();
+  TextColumn get exclusionReason => text().nullable()();
   BlobColumn get originalBytes => blob()();
 
   @override
@@ -268,7 +272,7 @@ class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -314,6 +318,30 @@ class TraceDatabase extends _$TraceDatabase {
         await m.createTable(syncOperations);
         await m.createTable(aiRunLedgers);
         await m.createIndex(syncOperationsStateCreated);
+      }
+      if (from < 10) {
+        // Older migration fixtures may already carry Stage 11 columns while
+        // still advertising their historical schema version. SQLite has no
+        // ADD COLUMN IF NOT EXISTS, so inspect table metadata first.
+        final columns = await customSelect(
+          'PRAGMA table_info(source_entries)',
+        ).get();
+        final names = columns.map((row) => row.read<String>('name')).toSet();
+        if (!names.contains('modified_at')) {
+          await customStatement(
+            'ALTER TABLE source_entries ADD COLUMN modified_at TEXT',
+          );
+        }
+        if (!names.contains('logical_role')) {
+          await customStatement(
+            "ALTER TABLE source_entries ADD COLUMN logical_role TEXT NOT NULL DEFAULT 'primary'",
+          );
+        }
+        if (!names.contains('exclusion_reason')) {
+          await customStatement(
+            'ALTER TABLE source_entries ADD COLUMN exclusion_reason TEXT',
+          );
+        }
       }
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),

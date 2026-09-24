@@ -289,6 +289,40 @@ class $SourceEntriesTable extends SourceEntries
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _modifiedAtMeta = const VerificationMeta(
+    'modifiedAt',
+  );
+  @override
+  late final GeneratedColumn<String> modifiedAt = GeneratedColumn<String>(
+    'modified_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _logicalRoleMeta = const VerificationMeta(
+    'logicalRole',
+  );
+  @override
+  late final GeneratedColumn<String> logicalRole = GeneratedColumn<String>(
+    'logical_role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('primary'),
+  );
+  static const VerificationMeta _exclusionReasonMeta = const VerificationMeta(
+    'exclusionReason',
+  );
+  @override
+  late final GeneratedColumn<String> exclusionReason = GeneratedColumn<String>(
+    'exclusion_reason',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _originalBytesMeta = const VerificationMeta(
     'originalBytes',
   );
@@ -310,6 +344,9 @@ class $SourceEntriesTable extends SourceEntries
     sourceHash,
     mimeType,
     format,
+    modifiedAt,
+    logicalRole,
+    exclusionReason,
     originalBytes,
   ];
   @override
@@ -375,6 +412,30 @@ class $SourceEntriesTable extends SourceEntries
     } else if (isInserting) {
       context.missing(_formatMeta);
     }
+    if (data.containsKey('modified_at')) {
+      context.handle(
+        _modifiedAtMeta,
+        modifiedAt.isAcceptableOrUnknown(data['modified_at']!, _modifiedAtMeta),
+      );
+    }
+    if (data.containsKey('logical_role')) {
+      context.handle(
+        _logicalRoleMeta,
+        logicalRole.isAcceptableOrUnknown(
+          data['logical_role']!,
+          _logicalRoleMeta,
+        ),
+      );
+    }
+    if (data.containsKey('exclusion_reason')) {
+      context.handle(
+        _exclusionReasonMeta,
+        exclusionReason.isAcceptableOrUnknown(
+          data['exclusion_reason']!,
+          _exclusionReasonMeta,
+        ),
+      );
+    }
     if (data.containsKey('original_bytes')) {
       context.handle(
         _originalBytesMeta,
@@ -423,6 +484,18 @@ class $SourceEntriesTable extends SourceEntries
         DriftSqlType.string,
         data['${effectivePrefix}format'],
       )!,
+      modifiedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}modified_at'],
+      ),
+      logicalRole: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}logical_role'],
+      )!,
+      exclusionReason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}exclusion_reason'],
+      ),
       originalBytes: attachedDatabase.typeMapping.read(
         DriftSqlType.blob,
         data['${effectivePrefix}original_bytes'],
@@ -444,6 +517,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
   final String sourceHash;
   final String mimeType;
   final String format;
+  final String? modifiedAt;
+  final String logicalRole;
+  final String? exclusionReason;
   final Uint8List originalBytes;
   const SourceEntry({
     required this.id,
@@ -453,6 +529,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
     required this.sourceHash,
     required this.mimeType,
     required this.format,
+    this.modifiedAt,
+    required this.logicalRole,
+    this.exclusionReason,
     required this.originalBytes,
   });
   @override
@@ -465,6 +544,13 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
     map['source_hash'] = Variable<String>(sourceHash);
     map['mime_type'] = Variable<String>(mimeType);
     map['format'] = Variable<String>(format);
+    if (!nullToAbsent || modifiedAt != null) {
+      map['modified_at'] = Variable<String>(modifiedAt);
+    }
+    map['logical_role'] = Variable<String>(logicalRole);
+    if (!nullToAbsent || exclusionReason != null) {
+      map['exclusion_reason'] = Variable<String>(exclusionReason);
+    }
     map['original_bytes'] = Variable<Uint8List>(originalBytes);
     return map;
   }
@@ -478,6 +564,13 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
       sourceHash: Value(sourceHash),
       mimeType: Value(mimeType),
       format: Value(format),
+      modifiedAt: modifiedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(modifiedAt),
+      logicalRole: Value(logicalRole),
+      exclusionReason: exclusionReason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exclusionReason),
       originalBytes: Value(originalBytes),
     );
   }
@@ -495,6 +588,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
       sourceHash: serializer.fromJson<String>(json['sourceHash']),
       mimeType: serializer.fromJson<String>(json['mimeType']),
       format: serializer.fromJson<String>(json['format']),
+      modifiedAt: serializer.fromJson<String?>(json['modifiedAt']),
+      logicalRole: serializer.fromJson<String>(json['logicalRole']),
+      exclusionReason: serializer.fromJson<String?>(json['exclusionReason']),
       originalBytes: serializer.fromJson<Uint8List>(json['originalBytes']),
     );
   }
@@ -509,6 +605,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
       'sourceHash': serializer.toJson<String>(sourceHash),
       'mimeType': serializer.toJson<String>(mimeType),
       'format': serializer.toJson<String>(format),
+      'modifiedAt': serializer.toJson<String?>(modifiedAt),
+      'logicalRole': serializer.toJson<String>(logicalRole),
+      'exclusionReason': serializer.toJson<String?>(exclusionReason),
       'originalBytes': serializer.toJson<Uint8List>(originalBytes),
     };
   }
@@ -521,6 +620,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
     String? sourceHash,
     String? mimeType,
     String? format,
+    Value<String?> modifiedAt = const Value.absent(),
+    String? logicalRole,
+    Value<String?> exclusionReason = const Value.absent(),
     Uint8List? originalBytes,
   }) => SourceEntry(
     id: id ?? this.id,
@@ -530,6 +632,11 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
     sourceHash: sourceHash ?? this.sourceHash,
     mimeType: mimeType ?? this.mimeType,
     format: format ?? this.format,
+    modifiedAt: modifiedAt.present ? modifiedAt.value : this.modifiedAt,
+    logicalRole: logicalRole ?? this.logicalRole,
+    exclusionReason: exclusionReason.present
+        ? exclusionReason.value
+        : this.exclusionReason,
     originalBytes: originalBytes ?? this.originalBytes,
   );
   SourceEntry copyWithCompanion(SourceEntriesCompanion data) {
@@ -543,6 +650,15 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
           : this.sourceHash,
       mimeType: data.mimeType.present ? data.mimeType.value : this.mimeType,
       format: data.format.present ? data.format.value : this.format,
+      modifiedAt: data.modifiedAt.present
+          ? data.modifiedAt.value
+          : this.modifiedAt,
+      logicalRole: data.logicalRole.present
+          ? data.logicalRole.value
+          : this.logicalRole,
+      exclusionReason: data.exclusionReason.present
+          ? data.exclusionReason.value
+          : this.exclusionReason,
       originalBytes: data.originalBytes.present
           ? data.originalBytes.value
           : this.originalBytes,
@@ -559,6 +675,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
           ..write('sourceHash: $sourceHash, ')
           ..write('mimeType: $mimeType, ')
           ..write('format: $format, ')
+          ..write('modifiedAt: $modifiedAt, ')
+          ..write('logicalRole: $logicalRole, ')
+          ..write('exclusionReason: $exclusionReason, ')
           ..write('originalBytes: $originalBytes')
           ..write(')'))
         .toString();
@@ -573,6 +692,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
     sourceHash,
     mimeType,
     format,
+    modifiedAt,
+    logicalRole,
+    exclusionReason,
     $driftBlobEquality.hash(originalBytes),
   );
   @override
@@ -586,6 +708,9 @@ class SourceEntry extends DataClass implements Insertable<SourceEntry> {
           other.sourceHash == this.sourceHash &&
           other.mimeType == this.mimeType &&
           other.format == this.format &&
+          other.modifiedAt == this.modifiedAt &&
+          other.logicalRole == this.logicalRole &&
+          other.exclusionReason == this.exclusionReason &&
           $driftBlobEquality.equals(other.originalBytes, this.originalBytes));
 }
 
@@ -597,6 +722,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
   final Value<String> sourceHash;
   final Value<String> mimeType;
   final Value<String> format;
+  final Value<String?> modifiedAt;
+  final Value<String> logicalRole;
+  final Value<String?> exclusionReason;
   final Value<Uint8List> originalBytes;
   final Value<int> rowid;
   const SourceEntriesCompanion({
@@ -607,6 +735,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
     this.sourceHash = const Value.absent(),
     this.mimeType = const Value.absent(),
     this.format = const Value.absent(),
+    this.modifiedAt = const Value.absent(),
+    this.logicalRole = const Value.absent(),
+    this.exclusionReason = const Value.absent(),
     this.originalBytes = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -618,6 +749,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
     required String sourceHash,
     required String mimeType,
     required String format,
+    this.modifiedAt = const Value.absent(),
+    this.logicalRole = const Value.absent(),
+    this.exclusionReason = const Value.absent(),
     required Uint8List originalBytes,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -635,6 +769,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
     Expression<String>? sourceHash,
     Expression<String>? mimeType,
     Expression<String>? format,
+    Expression<String>? modifiedAt,
+    Expression<String>? logicalRole,
+    Expression<String>? exclusionReason,
     Expression<Uint8List>? originalBytes,
     Expression<int>? rowid,
   }) {
@@ -646,6 +783,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
       if (sourceHash != null) 'source_hash': sourceHash,
       if (mimeType != null) 'mime_type': mimeType,
       if (format != null) 'format': format,
+      if (modifiedAt != null) 'modified_at': modifiedAt,
+      if (logicalRole != null) 'logical_role': logicalRole,
+      if (exclusionReason != null) 'exclusion_reason': exclusionReason,
       if (originalBytes != null) 'original_bytes': originalBytes,
       if (rowid != null) 'rowid': rowid,
     });
@@ -659,6 +799,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
     Value<String>? sourceHash,
     Value<String>? mimeType,
     Value<String>? format,
+    Value<String?>? modifiedAt,
+    Value<String>? logicalRole,
+    Value<String?>? exclusionReason,
     Value<Uint8List>? originalBytes,
     Value<int>? rowid,
   }) {
@@ -670,6 +813,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
       sourceHash: sourceHash ?? this.sourceHash,
       mimeType: mimeType ?? this.mimeType,
       format: format ?? this.format,
+      modifiedAt: modifiedAt ?? this.modifiedAt,
+      logicalRole: logicalRole ?? this.logicalRole,
+      exclusionReason: exclusionReason ?? this.exclusionReason,
       originalBytes: originalBytes ?? this.originalBytes,
       rowid: rowid ?? this.rowid,
     );
@@ -699,6 +845,15 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
     if (format.present) {
       map['format'] = Variable<String>(format.value);
     }
+    if (modifiedAt.present) {
+      map['modified_at'] = Variable<String>(modifiedAt.value);
+    }
+    if (logicalRole.present) {
+      map['logical_role'] = Variable<String>(logicalRole.value);
+    }
+    if (exclusionReason.present) {
+      map['exclusion_reason'] = Variable<String>(exclusionReason.value);
+    }
     if (originalBytes.present) {
       map['original_bytes'] = Variable<Uint8List>(originalBytes.value);
     }
@@ -718,6 +873,9 @@ class SourceEntriesCompanion extends UpdateCompanion<SourceEntry> {
           ..write('sourceHash: $sourceHash, ')
           ..write('mimeType: $mimeType, ')
           ..write('format: $format, ')
+          ..write('modifiedAt: $modifiedAt, ')
+          ..write('logicalRole: $logicalRole, ')
+          ..write('exclusionReason: $exclusionReason, ')
           ..write('originalBytes: $originalBytes, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -8675,6 +8833,9 @@ typedef $$SourceEntriesTableCreateCompanionBuilder =
       required String sourceHash,
       required String mimeType,
       required String format,
+      Value<String?> modifiedAt,
+      Value<String> logicalRole,
+      Value<String?> exclusionReason,
       required Uint8List originalBytes,
       Value<int> rowid,
     });
@@ -8687,6 +8848,9 @@ typedef $$SourceEntriesTableUpdateCompanionBuilder =
       Value<String> sourceHash,
       Value<String> mimeType,
       Value<String> format,
+      Value<String?> modifiedAt,
+      Value<String> logicalRole,
+      Value<String?> exclusionReason,
       Value<Uint8List> originalBytes,
       Value<int> rowid,
     });
@@ -8790,6 +8954,21 @@ class $$SourceEntriesTableFilterComposer
 
   ColumnFilters<String> get format => $composableBuilder(
     column: $table.format,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get modifiedAt => $composableBuilder(
+    column: $table.modifiedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get logicalRole => $composableBuilder(
+    column: $table.logicalRole,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get exclusionReason => $composableBuilder(
+    column: $table.exclusionReason,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -8911,6 +9090,21 @@ class $$SourceEntriesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get modifiedAt => $composableBuilder(
+    column: $table.modifiedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get logicalRole => $composableBuilder(
+    column: $table.logicalRole,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get exclusionReason => $composableBuilder(
+    column: $table.exclusionReason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<Uint8List> get originalBytes => $composableBuilder(
     column: $table.originalBytes,
     builder: (column) => ColumnOrderings(column),
@@ -8968,6 +9162,21 @@ class $$SourceEntriesTableAnnotationComposer
 
   GeneratedColumn<String> get format =>
       $composableBuilder(column: $table.format, builder: (column) => column);
+
+  GeneratedColumn<String> get modifiedAt => $composableBuilder(
+    column: $table.modifiedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get logicalRole => $composableBuilder(
+    column: $table.logicalRole,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get exclusionReason => $composableBuilder(
+    column: $table.exclusionReason,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<Uint8List> get originalBytes => $composableBuilder(
     column: $table.originalBytes,
@@ -9089,6 +9298,9 @@ class $$SourceEntriesTableTableManager
                 Value<String> sourceHash = const Value.absent(),
                 Value<String> mimeType = const Value.absent(),
                 Value<String> format = const Value.absent(),
+                Value<String?> modifiedAt = const Value.absent(),
+                Value<String> logicalRole = const Value.absent(),
+                Value<String?> exclusionReason = const Value.absent(),
                 Value<Uint8List> originalBytes = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SourceEntriesCompanion(
@@ -9099,6 +9311,9 @@ class $$SourceEntriesTableTableManager
                 sourceHash: sourceHash,
                 mimeType: mimeType,
                 format: format,
+                modifiedAt: modifiedAt,
+                logicalRole: logicalRole,
+                exclusionReason: exclusionReason,
                 originalBytes: originalBytes,
                 rowid: rowid,
               ),
@@ -9111,6 +9326,9 @@ class $$SourceEntriesTableTableManager
                 required String sourceHash,
                 required String mimeType,
                 required String format,
+                Value<String?> modifiedAt = const Value.absent(),
+                Value<String> logicalRole = const Value.absent(),
+                Value<String?> exclusionReason = const Value.absent(),
                 required Uint8List originalBytes,
                 Value<int> rowid = const Value.absent(),
               }) => SourceEntriesCompanion.insert(
@@ -9121,6 +9339,9 @@ class $$SourceEntriesTableTableManager
                 sourceHash: sourceHash,
                 mimeType: mimeType,
                 format: format,
+                modifiedAt: modifiedAt,
+                logicalRole: logicalRole,
+                exclusionReason: exclusionReason,
                 originalBytes: originalBytes,
                 rowid: rowid,
               ),

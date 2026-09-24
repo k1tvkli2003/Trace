@@ -94,8 +94,83 @@ void main() {
     },
   );
 
+  test('conflicting provenance for one source identity rejects entire batch', () async {
+    final db = createDatabase();
+    addTearDown(db.close);
+    await addLibrary(db);
+    final importer = LocalSourceImportRepository(db);
+    final bytes = Uint8List.fromList(utf8.encode('# Same bytes'));
+    for (final reversed in [false, true]) {
+      final conflicting = [
+        SourceImportItem(relativePath: 'same.md', bytes: bytes),
+        SourceImportItem(
+          relativePath: 'same.md',
+          bytes: bytes,
+          logicalRole: 'reference',
+          exclusionReason: 'not_lesson_source',
+        ),
+      ];
+      await expectLater(
+        importer.importBatch(
+          libraryId: 'lib',
+          items: reversed ? conflicting.reversed : conflicting,
+        ),
+        throwsFormatException,
+      );
+    }
+    expect(await importer.listForLibrary('lib'), isEmpty);
+  });
+
+  test('re-import cannot rewrite provenance of existing hash identity', () async {
+    final db = createDatabase();
+    addTearDown(db.close);
+    await addLibrary(db);
+    final importer = LocalSourceImportRepository(db);
+    final bytes = Uint8List.fromList(utf8.encode('# Existing'));
+    final original = await importer.importOne(
+      libraryId: 'lib',
+      item: SourceImportItem(relativePath: 'same.md', bytes: bytes),
+    );
+    await expectLater(
+      importer.importOne(
+        libraryId: 'lib',
+        item: SourceImportItem(
+          relativePath: 'same.md',
+          bytes: bytes,
+          logicalRole: 'reference',
+        ),
+      ),
+      throwsFormatException,
+    );
+    expect((await importer.listForLibrary('lib')).single.toJson(), original.toJson());
+  });
+
+  test('persists immutable source provenance metadata', () async {
+    final db = createDatabase();
+    addTearDown(db.close);
+    await addLibrary(db);
+    final modifiedAt = DateTime.utc(2026, 9, 24, 12, 34, 56);
+    final saved = await LocalSourceImportRepository(db).importOne(
+      libraryId: 'lib',
+      item: SourceImportItem(
+        relativePath: 'references/guide.md',
+        bytes: Uint8List.fromList(utf8.encode('# Guide')),
+        modifiedAt: modifiedAt,
+        logicalRole: 'reference',
+        exclusionReason: 'not_lesson_source',
+      ),
+    );
+
+    expect(saved.modifiedAt, modifiedAt);
+    expect(saved.logicalRole, 'reference');
+    expect(saved.exclusionReason, 'not_lesson_source');
+    final listed = (await LocalSourceImportRepository(db).listForLibrary('lib'))
+        .single;
+    expect(listed.toJson(), saved.toJson());
+  });
+
   test(
-    'rejects unsupported, empty, oversized, and unsafe batch before write',
+    'rejects unsupported, empty, oversized, unsafe, and provenance batch before write',
     () async {
       final db = createDatabase();
       addTearDown(db.close);
@@ -112,6 +187,16 @@ void main() {
           bytes: Uint8List.fromList([80, 75, 3, 4]),
         ),
         SourceImportItem(relativePath: 'empty.txt', bytes: Uint8List(0)),
+        SourceImportItem(
+          relativePath: 'blank-role.txt',
+          bytes: Uint8List.fromList([65]),
+          logicalRole: '   ',
+        ),
+        SourceImportItem(
+          relativePath: 'blank-exclusion.txt',
+          bytes: Uint8List.fromList([65]),
+          exclusionReason: '',
+        ),
       ]) {
         await expectLater(
           importer.importBatch(libraryId: 'lib', items: [item]),

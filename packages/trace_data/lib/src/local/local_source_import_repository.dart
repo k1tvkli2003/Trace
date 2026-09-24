@@ -63,6 +63,11 @@ final class LocalSourceImportRepository {
       if (sha256.convert(existing.originalBytes).toString() != sourceHash) {
         throw StateError('Existing source original fails hash verification');
       }
+      if (!_rowMatchesProvenance(existing, item)) {
+        throw const FormatException(
+          'Existing source identity has conflicting provenance',
+        );
+      }
       return _manifest(existing);
     }
 
@@ -91,6 +96,11 @@ final class LocalSourceImportRepository {
       'byteSize': item.bytes.length,
       'importVersion': 1,
       'format': format,
+      if (item.modifiedAt != null)
+        'modifiedAt': item.modifiedAt!.toUtc().toIso8601String(),
+      if (item.logicalRole != 'primary') 'logicalRole': item.logicalRole,
+      if (item.exclusionReason != null)
+        'exclusionReason': item.exclusionReason,
     });
 
     await db
@@ -104,6 +114,11 @@ final class LocalSourceImportRepository {
             sourceHash: sourceHash,
             mimeType: mimeType,
             format: format,
+            modifiedAt: Value(
+              item.modifiedAt?.toUtc().toIso8601String(),
+            ),
+            logicalRole: Value(item.logicalRole),
+            exclusionReason: Value(item.exclusionReason),
             originalBytes: Uint8List.fromList(item.bytes),
           ),
         );
@@ -138,22 +153,92 @@ final class LocalSourceImportRepository {
       ..sort((left, right) {
         final path = left.relativePath.compareTo(right.relativePath);
         if (path != 0) return path;
-        return sha256
+        final hash = sha256
             .convert(left.bytes)
             .toString()
             .compareTo(sha256.convert(right.bytes).toString());
+        if (hash != 0) return hash;
+        final modified = _compareModifiedAt(
+          left.modifiedAt,
+          right.modifiedAt,
+        );
+        if (modified != 0) return modified;
+        final role = left.logicalRole.compareTo(right.logicalRole);
+        if (role != 0) return role;
+        return _compareNullableText(
+          left.exclusionReason,
+          right.exclusionReason,
+        );
       });
     final accepted = <SourceImportItem>[];
-    final seen = <String>{};
+    final seen = <String, SourceImportItem>{};
     for (final item in sorted) {
       _validateItem(item);
       final hash = sha256.convert(item.bytes).toString();
-      if (seen.add('${item.relativePath}\u0000$hash')) accepted.add(item);
+      final key = '${item.relativePath}\u0000$hash';
+      final prior = seen[key];
+      if (prior != null) {
+        if (!_sameProvenance(prior, item)) {
+          throw const FormatException('Conflicting source provenance');
+        }
+      } else {
+        seen[key] = item;
+        accepted.add(item);
+      }
     }
     return accepted;
   }
 
+  bool _sameProvenance(SourceImportItem left, SourceImportItem right) =>
+      left.modifiedAt?.toUtc().microsecondsSinceEpoch ==
+          right.modifiedAt?.toUtc().microsecondsSinceEpoch &&
+      left.logicalRole == right.logicalRole &&
+      left.exclusionReason == right.exclusionReason;
+
+  bool _rowMatchesProvenance(SourceEntry row, SourceImportItem item) =>
+      _sameProvenance(
+        SourceImportItem(
+          relativePath: row.name,
+          bytes: Uint8List(0),
+          modifiedAt: row.modifiedAt == null
+              ? null
+              : DateTime.parse(row.modifiedAt!),
+          logicalRole: row.logicalRole,
+          exclusionReason: row.exclusionReason,
+        ),
+        item,
+      );
+
+  int _compareModifiedAt(DateTime? left, DateTime? right) {
+    if (left == null && right == null) return 0;
+    if (left == null) return -1;
+    if (right == null) return 1;
+    return left.toUtc().microsecondsSinceEpoch.compareTo(
+      right.toUtc().microsecondsSinceEpoch,
+    );
+  }
+
+  int _compareNullableText(String? left, String? right) {
+    if (left == null && right == null) return 0;
+    if (left == null) return -1;
+    if (right == null) return 1;
+    return left.compareTo(right);
+  }
+
+  void _validateProvenance(SourceImportItem item) {
+    if (item.logicalRole.trim().isEmpty) {
+      throw const FormatException('logicalRole must be nonempty text');
+    }
+    if (item.exclusionReason != null &&
+        item.exclusionReason!.trim().isEmpty) {
+      throw const FormatException(
+        'exclusionReason must be null or nonempty text',
+      );
+    }
+  }
+
   void _validateItem(SourceImportItem item) {
+    _validateProvenance(item);
     final path = item.relativePath;
     if (path.isEmpty ||
         path.contains('\\') ||
@@ -243,5 +328,9 @@ final class LocalSourceImportRepository {
     'byteSize': row.originalBytes.length,
     'importVersion': 1,
     'format': row.format,
+    if (row.modifiedAt != null) 'modifiedAt': row.modifiedAt!,
+    if (row.logicalRole != 'primary') 'logicalRole': row.logicalRole,
+    if (row.exclusionReason != null)
+      'exclusionReason': row.exclusionReason!,
   });
 }
