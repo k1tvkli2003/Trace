@@ -8500,6 +8500,322 @@ class AiRunLedgersCompanion extends UpdateCompanion<AiRunLedger> {
   }
 }
 
+class $VisionCacheEntriesTable extends VisionCacheEntries
+    with TableInfo<$VisionCacheEntriesTable, VisionCacheEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $VisionCacheEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cacheKeyMeta = const VerificationMeta(
+    'cacheKey',
+  );
+  @override
+  late final GeneratedColumn<String> cacheKey = GeneratedColumn<String>(
+    'cache_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pixelHashMeta = const VerificationMeta(
+    'pixelHash',
+  );
+  @override
+  late final GeneratedColumn<String> pixelHash = GeneratedColumn<String>(
+    'pixel_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+    'payload_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, cacheKey, pixelHash, payloadJson];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'vision_cache_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<VisionCacheEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('cache_key')) {
+      context.handle(
+        _cacheKeyMeta,
+        cacheKey.isAcceptableOrUnknown(data['cache_key']!, _cacheKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cacheKeyMeta);
+    }
+    if (data.containsKey('pixel_hash')) {
+      context.handle(
+        _pixelHashMeta,
+        pixelHash.isAcceptableOrUnknown(data['pixel_hash']!, _pixelHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pixelHashMeta);
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
+          _payloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  VisionCacheEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return VisionCacheEntry(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      cacheKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cache_key'],
+      )!,
+      pixelHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pixel_hash'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      )!,
+    );
+  }
+
+  @override
+  $VisionCacheEntriesTable createAlias(String alias) {
+    return $VisionCacheEntriesTable(attachedDatabase, alias);
+  }
+}
+
+class VisionCacheEntry extends DataClass
+    implements Insertable<VisionCacheEntry> {
+  final String id;
+  final String cacheKey;
+  final String pixelHash;
+  final String payloadJson;
+  const VisionCacheEntry({
+    required this.id,
+    required this.cacheKey,
+    required this.pixelHash,
+    required this.payloadJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['cache_key'] = Variable<String>(cacheKey);
+    map['pixel_hash'] = Variable<String>(pixelHash);
+    map['payload_json'] = Variable<String>(payloadJson);
+    return map;
+  }
+
+  VisionCacheEntriesCompanion toCompanion(bool nullToAbsent) {
+    return VisionCacheEntriesCompanion(
+      id: Value(id),
+      cacheKey: Value(cacheKey),
+      pixelHash: Value(pixelHash),
+      payloadJson: Value(payloadJson),
+    );
+  }
+
+  factory VisionCacheEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return VisionCacheEntry(
+      id: serializer.fromJson<String>(json['id']),
+      cacheKey: serializer.fromJson<String>(json['cacheKey']),
+      pixelHash: serializer.fromJson<String>(json['pixelHash']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'cacheKey': serializer.toJson<String>(cacheKey),
+      'pixelHash': serializer.toJson<String>(pixelHash),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+    };
+  }
+
+  VisionCacheEntry copyWith({
+    String? id,
+    String? cacheKey,
+    String? pixelHash,
+    String? payloadJson,
+  }) => VisionCacheEntry(
+    id: id ?? this.id,
+    cacheKey: cacheKey ?? this.cacheKey,
+    pixelHash: pixelHash ?? this.pixelHash,
+    payloadJson: payloadJson ?? this.payloadJson,
+  );
+  VisionCacheEntry copyWithCompanion(VisionCacheEntriesCompanion data) {
+    return VisionCacheEntry(
+      id: data.id.present ? data.id.value : this.id,
+      cacheKey: data.cacheKey.present ? data.cacheKey.value : this.cacheKey,
+      pixelHash: data.pixelHash.present ? data.pixelHash.value : this.pixelHash,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VisionCacheEntry(')
+          ..write('id: $id, ')
+          ..write('cacheKey: $cacheKey, ')
+          ..write('pixelHash: $pixelHash, ')
+          ..write('payloadJson: $payloadJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, cacheKey, pixelHash, payloadJson);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is VisionCacheEntry &&
+          other.id == this.id &&
+          other.cacheKey == this.cacheKey &&
+          other.pixelHash == this.pixelHash &&
+          other.payloadJson == this.payloadJson);
+}
+
+class VisionCacheEntriesCompanion extends UpdateCompanion<VisionCacheEntry> {
+  final Value<String> id;
+  final Value<String> cacheKey;
+  final Value<String> pixelHash;
+  final Value<String> payloadJson;
+  final Value<int> rowid;
+  const VisionCacheEntriesCompanion({
+    this.id = const Value.absent(),
+    this.cacheKey = const Value.absent(),
+    this.pixelHash = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  VisionCacheEntriesCompanion.insert({
+    required String id,
+    required String cacheKey,
+    required String pixelHash,
+    required String payloadJson,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       cacheKey = Value(cacheKey),
+       pixelHash = Value(pixelHash),
+       payloadJson = Value(payloadJson);
+  static Insertable<VisionCacheEntry> custom({
+    Expression<String>? id,
+    Expression<String>? cacheKey,
+    Expression<String>? pixelHash,
+    Expression<String>? payloadJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (cacheKey != null) 'cache_key': cacheKey,
+      if (pixelHash != null) 'pixel_hash': pixelHash,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  VisionCacheEntriesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? cacheKey,
+    Value<String>? pixelHash,
+    Value<String>? payloadJson,
+    Value<int>? rowid,
+  }) {
+    return VisionCacheEntriesCompanion(
+      id: id ?? this.id,
+      cacheKey: cacheKey ?? this.cacheKey,
+      pixelHash: pixelHash ?? this.pixelHash,
+      payloadJson: payloadJson ?? this.payloadJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (cacheKey.present) {
+      map['cache_key'] = Variable<String>(cacheKey.value);
+    }
+    if (pixelHash.present) {
+      map['pixel_hash'] = Variable<String>(pixelHash.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VisionCacheEntriesCompanion(')
+          ..write('id: $id, ')
+          ..write('cacheKey: $cacheKey, ')
+          ..write('pixelHash: $pixelHash, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
@@ -8523,6 +8839,8 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
   late final $ReviewEventsTable reviewEvents = $ReviewEventsTable(this);
   late final $SyncOperationsTable syncOperations = $SyncOperationsTable(this);
   late final $AiRunLedgersTable aiRunLedgers = $AiRunLedgersTable(this);
+  late final $VisionCacheEntriesTable visionCacheEntries =
+      $VisionCacheEntriesTable(this);
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
@@ -8547,6 +8865,10 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     'sync_operations_state_created',
     'CREATE INDEX sync_operations_state_created ON sync_operations (sync_state, created_at)',
   );
+  late final Index visionCacheKeyUnique = Index(
+    'vision_cache_key_unique',
+    'CREATE UNIQUE INDEX vision_cache_key_unique ON vision_cache_entries (cache_key, pixel_hash)',
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8566,12 +8888,14 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     reviewEvents,
     syncOperations,
     aiRunLedgers,
+    visionCacheEntries,
     sourceVersionUnique,
     sourcePageDocumentPageVersionProfileUnique,
     sourceBlockPageVersionOrderUnique,
     lessonArtifactSliceVersionUnique,
     reviewItemStateDue,
     syncOperationsStateCreated,
+    visionCacheKeyUnique,
   ];
 }
 
@@ -14711,6 +15035,213 @@ typedef $$AiRunLedgersTableProcessedTableManager =
       AiRunLedger,
       PrefetchHooks Function()
     >;
+typedef $$VisionCacheEntriesTableCreateCompanionBuilder =
+    VisionCacheEntriesCompanion Function({
+      required String id,
+      required String cacheKey,
+      required String pixelHash,
+      required String payloadJson,
+      Value<int> rowid,
+    });
+typedef $$VisionCacheEntriesTableUpdateCompanionBuilder =
+    VisionCacheEntriesCompanion Function({
+      Value<String> id,
+      Value<String> cacheKey,
+      Value<String> pixelHash,
+      Value<String> payloadJson,
+      Value<int> rowid,
+    });
+
+class $$VisionCacheEntriesTableFilterComposer
+    extends Composer<_$TraceDatabase, $VisionCacheEntriesTable> {
+  $$VisionCacheEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get cacheKey => $composableBuilder(
+    column: $table.cacheKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pixelHash => $composableBuilder(
+    column: $table.pixelHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$VisionCacheEntriesTableOrderingComposer
+    extends Composer<_$TraceDatabase, $VisionCacheEntriesTable> {
+  $$VisionCacheEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get cacheKey => $composableBuilder(
+    column: $table.cacheKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pixelHash => $composableBuilder(
+    column: $table.pixelHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$VisionCacheEntriesTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $VisionCacheEntriesTable> {
+  $$VisionCacheEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get cacheKey =>
+      $composableBuilder(column: $table.cacheKey, builder: (column) => column);
+
+  GeneratedColumn<String> get pixelHash =>
+      $composableBuilder(column: $table.pixelHash, builder: (column) => column);
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
+}
+
+class $$VisionCacheEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $VisionCacheEntriesTable,
+          VisionCacheEntry,
+          $$VisionCacheEntriesTableFilterComposer,
+          $$VisionCacheEntriesTableOrderingComposer,
+          $$VisionCacheEntriesTableAnnotationComposer,
+          $$VisionCacheEntriesTableCreateCompanionBuilder,
+          $$VisionCacheEntriesTableUpdateCompanionBuilder,
+          (
+            VisionCacheEntry,
+            BaseReferences<
+              _$TraceDatabase,
+              $VisionCacheEntriesTable,
+              VisionCacheEntry
+            >,
+          ),
+          VisionCacheEntry,
+          PrefetchHooks Function()
+        > {
+  $$VisionCacheEntriesTableTableManager(
+    _$TraceDatabase db,
+    $VisionCacheEntriesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$VisionCacheEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$VisionCacheEntriesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$VisionCacheEntriesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> cacheKey = const Value.absent(),
+                Value<String> pixelHash = const Value.absent(),
+                Value<String> payloadJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => VisionCacheEntriesCompanion(
+                id: id,
+                cacheKey: cacheKey,
+                pixelHash: pixelHash,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String cacheKey,
+                required String pixelHash,
+                required String payloadJson,
+                Value<int> rowid = const Value.absent(),
+              }) => VisionCacheEntriesCompanion.insert(
+                id: id,
+                cacheKey: cacheKey,
+                pixelHash: pixelHash,
+                payloadJson: payloadJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$VisionCacheEntriesTable, VisionCacheEntry>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$TraceDatabase,
+                    $VisionCacheEntriesTable,
+                    VisionCacheEntry
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$VisionCacheEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $VisionCacheEntriesTable,
+      VisionCacheEntry,
+      $$VisionCacheEntriesTableFilterComposer,
+      $$VisionCacheEntriesTableOrderingComposer,
+      $$VisionCacheEntriesTableAnnotationComposer,
+      $$VisionCacheEntriesTableCreateCompanionBuilder,
+      $$VisionCacheEntriesTableUpdateCompanionBuilder,
+      (
+        VisionCacheEntry,
+        BaseReferences<
+          _$TraceDatabase,
+          $VisionCacheEntriesTable,
+          VisionCacheEntry
+        >,
+      ),
+      VisionCacheEntry,
+      PrefetchHooks Function()
+    >;
 
 class $TraceDatabaseManager {
   final _$TraceDatabase _db;
@@ -14743,4 +15274,6 @@ class $TraceDatabaseManager {
       $$SyncOperationsTableTableManager(_db, _db.syncOperations);
   $$AiRunLedgersTableTableManager get aiRunLedgers =>
       $$AiRunLedgersTableTableManager(_db, _db.aiRunLedgers);
+  $$VisionCacheEntriesTableTableManager get visionCacheEntries =>
+      $$VisionCacheEntriesTableTableManager(_db, _db.visionCacheEntries);
 }

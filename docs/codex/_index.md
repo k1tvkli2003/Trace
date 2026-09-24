@@ -8,3 +8,4 @@
 | `2026-09-24-stage-12-pdf-render-contact-sheet` | Stage 12 PDF render and contact sheet | done | 2026-09-24 | [Open](2026-09-24-stage-12-pdf-render-contact-sheet/00-brief.md) |
 | `2026-09-24-stage-13-structure-scan-and-tree-proposal` | Stage 13 structure scan and tree proposal | active | 2026-09-24 | [Open](2026-09-24-stage-13-structure-scan-and-tree-proposal/00-brief.md) |
 | `2026-09-24-stage-14-vision-page-extraction` | Stage 14 vision page extraction | active | 2026-09-24 | [Open](2026-09-24-stage-14-vision-page-extraction/00-brief.md) |
+| `2026-09-25-stage-15-page-vision-cache-dedupe` | Stage 15 page vision cache dedupe | active | 2026-09-25 | [Open](2026-09-25-stage-15-page-vision-cache-dedupe/00-brief.md) |

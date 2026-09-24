@@ -250,6 +250,21 @@ class AiRunLedgers extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+@TableIndex(
+  name: 'vision_cache_key_unique',
+  columns: {#cacheKey, #pixelHash},
+  unique: true,
+)
+class VisionCacheEntries extends Table {
+  TextColumn get id => text()();
+  TextColumn get cacheKey => text()();
+  TextColumn get pixelHash => text()();
+  TextColumn get payloadJson => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DriftDatabase(
   tables: [
     LibraryEntries,
@@ -266,13 +281,14 @@ class AiRunLedgers extends Table {
     ReviewEvents,
     SyncOperations,
     AiRunLedgers,
+    VisionCacheEntries,
   ],
 )
 class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -342,6 +358,15 @@ class TraceDatabase extends _$TraceDatabase {
             'ALTER TABLE source_entries ADD COLUMN exclusion_reason TEXT',
           );
         }
+      }
+      if (from < 11) {
+        await m.createTable(visionCacheEntries);
+        // Some historical fixtures already create this index with the table;
+        // others do not. Enforce it without double-creating it.
+        await customStatement('''
+          CREATE UNIQUE INDEX IF NOT EXISTS vision_cache_key_unique
+          ON vision_cache_entries (cache_key, pixel_hash)
+        ''');
       }
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),
