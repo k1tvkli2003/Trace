@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-24
 - Owner: Codex
 
 ## Current State
-Stage 11 slice is implemented but not committed. Provenance is validated pre-transaction, persisted and read back immutably, conflicting provenance rejects batches and re-imports, origin map is sorted latest-revision, and v9 data upgrades to v10 while preserving original bytes.
+Stage 11 slice is implemented and committed as `dd40a4d`. Provenance is validated pre-transaction, persisted and read back immutably, conflicting provenance rejects batches and re-imports, origin map is sorted latest-revision, and v9 data upgrades to v10 while preserving original bytes.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -25,5 +25,9 @@ Stage 11 slice is implemented but not committed. Provenance is validated pre-tra
 - Real SQLite v9 upgrade and reopen test.
 - Source manifest contract documentation.
 
+## Commit and Worktree
+- Commit: `dd40a4d feat: immutable source manifest and provenance for Stage 11`.
+- Worktree immediately after commit: clean; `git status --porcelain=v1` empty.
+
 ## Remaining
-- Commit Stage 11 and record clean-worktree proof.
+- Stage 12 PDF worker/render implementation; not part of Stage 11.

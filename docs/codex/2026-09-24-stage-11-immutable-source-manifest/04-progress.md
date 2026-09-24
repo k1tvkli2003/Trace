@@ -9,6 +9,14 @@
 | 2026-09-24 | active | Updated source manifest contract and created Stage 11 work docs. | `docs/contracts/source-manifest-v1.md` |
 | 2026-09-24 | active | Verified Flutter app analysis and Web release build. | `flutter analyze --no-pub`; `flutter build web --release --no-pub` |
 | 2026-09-24 | ready-for-review | Full package suites, migration, analysis, Web release, docs validation, and diff checks passed. | final gates |
+| 2026-09-24 | done | Committed Stage 11 and confirmed clean worktree. | `dd40a4d`; `git status --porcelain=v1` empty |
+
+## Done
+- Stage 11 implementation and verification complete.
+- Commit `dd40a4d` contains all Stage 11 files.
+
+## Remaining
+- Stage 12 PDF worker/render implementation.
 
 ## Done So Far
 - Immutable source provenance model and JSON contract.

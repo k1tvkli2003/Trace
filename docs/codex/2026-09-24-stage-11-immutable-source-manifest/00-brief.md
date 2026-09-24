@@ -1,7 +1,7 @@
 # Stage 11 immutable source manifest and provenance
 
 - Task ID: `2026-09-24-stage-11-immutable-source-manifest`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-24
 - Language: English
 
