@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
+- Provenance: slice committed in `a434743` ancestor of HEAD.
 
 ## Current State
-Stage 21 GREEN complete. LessonDocumentView renders validated Lesson AST on Signal Console graphite roles. TeachingPreviewPage uses shared dark console theme. Banner honesty preserved. Back navigation restored. Full design and app suites pass. Analyze clean. Web build succeeded. Audit exit 0. Docs status synchronized for review.
+Stage 21 GREEN complete. LessonDocumentView renders validated Lesson AST on Signal Console graphite roles. TeachingPreviewPage uses shared dark console theme. Banner honesty preserved. Back navigation restored. Full design and app suites pass. Analyze clean. Web build succeeded. Audit exit 0. Record closes with validator OK.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -14,7 +15,7 @@ Stage 21 GREEN complete. LessonDocumentView renders validated Lesson AST on Sign
 | 2026-09-25 | Keep renderer API and honesty contracts unchanged | No invented lessons, citations, or AI state | Stage 18/20 scope |
 | 2026-09-25 | Keep preview page sample-only with banner | No live AI adapter exists | implementation evidence |
 | 2026-09-25 | Restore Back navigation on preview page | Disabled button was dead UI; pop preserves honesty | widget review |
-| 2026-09-25 | Mark Stage 21 ready-for-review | Tests, analyze, build, audit, diff-check all green | verification evidence |
+| 2026-09-25 | Mark Stage 21 done | Tests, analyze, build, audit, diff-check all green; slice `a434743` ancestor of HEAD | verification evidence |
 
 ## Blockers
 - None for this slice.
@@ -25,8 +26,7 @@ Stage 21 GREEN complete. LessonDocumentView renders validated Lesson AST on Sign
 - GREEN reskin of LessonDocumentView to trace tokens.
 - Preview page aligned to TraceTheme.dark with honest banner.
 - Full verification: design suite, app suite, analyze, web build, audit, diff-check.
-- Task docs synchronized; status set to ready-for-review.
+- Task docs synchronized; status set to done.
 
 ## Remaining
-- Commit the slice.
-- Next slice: teaching-stage renderer polish or live pipeline work only on user order.
+- None for this record; slice committed in `a434743` ancestor of HEAD.

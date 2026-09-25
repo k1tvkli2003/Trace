@@ -6,11 +6,11 @@ Token-driven reskin only. Keep `LessonDocumentView` API and honesty contracts id
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Fill task docs (brief/plan/state/previews/progress) |
-| 2 | planned | RED: widget test asserting Signal Console surfaces on lesson blocks |
-| 3 | planned | GREEN: reskin `LessonDocumentView` to tokens; align preview page theme |
-| 4 | planned | Run design + app suites, analyze, web build; record evidence |
-| 5 | planned | Update state/progress/verification/handoff/_index.md; validate docs; commit |
+| 1 | done | Task docs filled; committed `a434743`. |
+| 2 | done | RED widget test added for Signal Console lesson surfaces; committed `a434743`. |
+| 3 | done | GREEN reskin `LessonDocumentView` to tokens; preview page aligned; committed `a434743`. |
+| 4 | done | Design + app suites, analyze, web build, audit, diff-check recorded in `05-verification.md`. |
+| 5 | done | State/progress/verification/handoff finalized; validator OK; record closes with this commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_design/lib/src/lesson_document_view.dart`

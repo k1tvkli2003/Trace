@@ -11,18 +11,17 @@ Stage 21 delivers the Signal Console teaching stage slice. Validated lessons now
 - `docs/codex/_index.md`
 
 ## How To Continue
-- Commit this slice.
+- Record closed; slice `a434743` already on `master`.
 - Next only on user order: renderer polish, real screenshot matrix, or live pipeline work.
 
 ## Done
 - Token-driven teaching-stage reskin complete.
 - Renderer API and honesty contracts unchanged.
 - Full test, analyze, build, audit evidence collected.
-- Task docs ready-for-review.
+- Task docs done.
 
 ## Remaining
-- Commit.
-- No live AI, Vision, sync, or release work in this slice.
+- None for this record; committed in `a434743` ancestor of HEAD.
 
 ## Verification
 - Passed: design suite, app suite, analyze, web build, audit, diff-check.

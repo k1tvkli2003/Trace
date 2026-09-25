@@ -1,7 +1,7 @@
 # Stage 21 Signal Console teaching stage
 
 - Task ID: `2026-09-25-stage-21-signal-console-teaching-stage`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 
