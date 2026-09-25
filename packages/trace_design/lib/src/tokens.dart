@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 
 import 'typography.dart';
 
-/// Quiet Index semantic color roles.
+/// Signal Console semantic color roles. Matte graphite console with warm
+/// paper text, amber markers, and sea-glass reserved for real source state.
 abstract final class TraceColors {
-  static const ink = Color(0xff202b2b);
-  static const canvas = Color(0xfffaf9f4);
-  static const muted = Color(0xff606d69);
-  static const accent = Color(0xff2f6b60);
-  static const accentSoft = Color(0xffdfede7);
+  static const ink = Color(0xff151a1d);
+  static const canvas = Color(0xff1d2326);
+  static const onCanvas = Color(0xfff1f0e9);
+  static const muted = Color(0xffaab4b2);
+  static const accent = Color(0xffe9bc72);
+  static const seaGlass = Color(0xff9ed8c0);
+  static const panel = Color(0xff252c2f);
   static const navigation = ink;
-  static const navigationText = Colors.white;
-  static const navigationMuted = Color(0xffa9c1bc);
-  static const navigationSelected = Color(0xff304a49);
-  static const navigationMarker = Color(0xffe5a27a);
-  static const edge = Color(0xffdbe5e0);
-  static const context = Color(0xffeef4ef);
-  static const rail = Color(0xfff5f5f1);
+  static const navigationText = onCanvas;
+  static const navigationMuted = muted;
+  static const navigationSelected = Color(0xff303a3c);
+  static const navigationMarker = accent;
+  static const edge = Color(0xff3e484a);
+  static const context = Color(0xff22292c);
+  static const rail = Color(0xff191f22);
+  static const paper = Color(0xfff6f1e7);
+  static const paperInk = Color(0xff1f2422);
+  static const deepMoss = Color(0xff27423c);
 }
 
 /// Shared 4/8-based spacing ramp. Repeated layout values use these roles.
@@ -71,21 +77,43 @@ abstract final class TraceGeometry {
 }
 
 abstract final class TraceTheme {
+  static ThemeData dark() => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    fontFamily: TraceTypography.english.fontFamily,
+    scaffoldBackgroundColor: TraceColors.canvas,
+    colorScheme: const ColorScheme.dark(
+      primary: TraceColors.accent,
+      onPrimary: TraceColors.ink,
+      secondary: TraceColors.seaGlass,
+      onSecondary: TraceColors.ink,
+      surface: TraceColors.canvas,
+      onSurface: TraceColors.onCanvas,
+      outline: TraceColors.edge,
+    ),
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        fontFamily: 'packages/trace_design/Inter',
+        color: TraceColors.onCanvas,
+      ),
+    ),
+  );
+
   static ThemeData light() {
     final colorScheme =
         ColorScheme.fromSeed(
           seedColor: TraceColors.accent,
-          surface: TraceColors.canvas,
+          surface: TraceColors.paper,
         ).copyWith(
-          primary: TraceColors.accent,
-          onPrimary: Colors.white,
-          surface: TraceColors.canvas,
+          primary: TraceColors.deepMoss,
+          onPrimary: TraceColors.paper,
+          surface: TraceColors.paper,
           onSurface: TraceColors.ink,
         );
     return ThemeData(
       useMaterial3: true,
       fontFamily: TraceTypography.english.fontFamily,
-      scaffoldBackgroundColor: TraceColors.canvas,
+      scaffoldBackgroundColor: TraceColors.paper,
       colorScheme: colorScheme,
       textTheme: TextTheme(bodyMedium: TraceTypography.english),
     );

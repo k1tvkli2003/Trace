@@ -13,3 +13,4 @@
 | `2026-09-25-stage-17-slice-planner-and-cursor` | Stage 17 slice planner and cursor | done | 2026-09-25 | [Open](2026-09-25-stage-17-slice-planner-and-cursor/00-brief.md) |
 | `2026-09-25-stage-18-lesson-ast-schema-and-validator` | Stage 18 lesson AST schema and validator | done | 2026-09-25 | [Open](2026-09-25-stage-18-lesson-ast-schema-and-validator/00-brief.md) |
 | `2026-09-25-stage-19-teacher-fa-capability-contract` | Stage 19 teacher-fa capability contract | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-19-teacher-fa-capability-contract/00-brief.md) |
+| `2026-09-25-stage-20-signal-console-shell-redesign` | Stage 20 Signal Console shell redesign | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-20-signal-console-shell-redesign/00-brief.md) |

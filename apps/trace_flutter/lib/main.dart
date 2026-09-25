@@ -445,7 +445,8 @@ class _MainAppState extends State<MainApp> {
       title: 'Trace',
       navigatorKey: _navigator,
       scaffoldMessengerKey: _messenger,
-      theme: TraceTheme.light(),
+      theme: TraceTheme.dark(),
+      darkTheme: TraceTheme.dark(),
       home: Scaffold(
         body: FutureBuilder<List<LibraryEntrySummary>>(
           future: _entries,

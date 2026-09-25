@@ -5,10 +5,78 @@ import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trace_data/trace_data.dart';
+import 'package:trace_design/trace_design.dart';
 import 'package:trace_domain/trace_domain.dart';
 import 'package:trace_flutter/main.dart';
 
 void main() {
+  testWidgets(
+    'Signal Console frames real collections without invented progress',
+    (tester) async {
+      tester.view.physicalSize = const Size(1440, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+      final db = TraceDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      await LocalLibraryRepository(
+        db,
+      ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Atlas'));
+      await tester.pumpWidget(MainApp(database: db));
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const Key('signal-console-navigation')),
+        findsOneWidget,
+      );
+      expect(
+        Theme.of(
+          tester.element(find.byKey(const Key('chat-composer'))),
+        ).brightness,
+        Brightness.dark,
+      );
+      expect(find.text('YOUR WORKTREE'), findsOneWidget);
+      expect(find.text('Atlas'), findsOneWidget);
+      expect(find.text('0 due'), findsNothing);
+      expect(find.textContaining('Complete'), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'Signal Console dark stage and composer have readable material surfaces',
+    (tester) async {
+      tester.view.physicalSize = const Size(1280, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+      final db = TraceDatabase(NativeDatabase.memory());
+      addTearDown(db.close);
+      await tester.pumpWidget(MainApp(database: db));
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .widget<Material>(find.byKey(const Key('signal-console-stage')))
+            .color,
+        TraceColors.canvas,
+      );
+      expect(
+        tester
+            .widget<Material>(find.byKey(const Key('signal-console-composer')))
+            .color,
+        TraceColors.panel,
+      );
+      expect(find.text('AI offline'), findsOneWidget);
+      expect(find.textContaining('OpenCode Go'), findsNothing);
+      expect(find.text('PRIVATE WORKSPACE'), findsOneWidget);
+      expect(find.text('What are we learning today?'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
   for (final width in [375.0, 1280.0]) {
     testWidgets(
       'chat workspace keeps draft without claiming AI reply at $width',

@@ -1,6 +1,18 @@
-# Quiet Index — autonomous design decision
+# Signal Console — user-approved design decision
 
-Selected after inspection of 10 separate Flare-generated previews (01–10), contact-sheet comparison, and original-resolution checks of 09/10. User delegated visual selection under `/automate`; this is a **working design spec**, not a claim of user-approved pixels. Source previews in 09/10 contain fictional book metadata, fake reading counts, and illustration; none is product data. Existing icon is unchanged.
+2026-09-25: User selected **Signal Console** (05 desktop worktree, 06 mobile review) and explicitly authorized improvement during implementation. This supersedes the earlier autonomous Quiet Index recommendation below. Both files remain Mock Previews, not runtime proof. The prior scoring is historical, not binding.
+
+## Binding production direction
+
+- Matte graphite navigation and center stage with warm, readable text; restrained amber for active selection and sea-glass for verified local source status. Prefer truthful data-driven worktree over fictional progress.
+- Desktop: flexible center, repository-backed collection list in fixed rail, optional source inspector at >=1180 dp. Mobile: drawer and working source route; do **not** add dead review tabs or fake due counts from preview 06.
+- Keep draft, source import/reading, collection selection, offline AI state, and explicit teaching-preview label. AI send remains disabled until live gateway exists.
+- Existing Inter/Vazirmatn font assets and ASCII numeral policy remain. Use bounded roles, directional geometry, keyboard focus, 200% text, reduced motion.
+- New UI changes must follow the approved reference while improving legibility and responsive behavior. Deviations from fictional preview data are required by product truth.
+
+## Superseded decision (historical)
+
+Selected after inspection of 10 separate Flare-generated previews (01–10), contact-sheet comparison, and original-resolution checks of 09/10. User delegated visual selection under `/automate`; this was a working design spec, not a claim of user-approved pixels. Source previews in 09/10 contain fictional book metadata, fake reading counts, and illustration; none is product data. Existing icon is unchanged.
 
 | System | Task clarity | Trust/honest state | Identity | Adaptive fit | RTL/type | Buildability | Mean |
 |---|---:|---:|---:|---:|---:|---:|---:|

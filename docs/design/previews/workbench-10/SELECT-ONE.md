@@ -17,4 +17,4 @@ Concept images only, created earlier. Nothing here proves Flutter runtime, AI ex
 
 [Contact sheet](contact-sheet.webp)
 
-Choose one number, or combine pieces from multiple. Current working recommendation in `decision.md` is 09/10, not user approval. New generation attempt on 2026-09-25 failed: local 9Router image endpoint returned upstream HTTP 404 for Flare and Sunburst. The 10 linked images above are existing verified files from 2026-09-23; no new image is claimed.
+Selected: **05/06 Signal Console**, approved by user on 2026-09-25; implementation may improve legibility and responsiveness. Earlier 09/10 recommendation in `decision.md` is superseded. New generation attempt on 2026-09-25 failed: local 9Router image endpoint returned upstream HTTP 404 for Flare and Sunburst. The 10 linked images above are existing verified files from 2026-09-23; no new image is claimed.
