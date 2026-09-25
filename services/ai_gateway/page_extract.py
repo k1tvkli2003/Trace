@@ -150,8 +150,12 @@ def validate_page_extract(
 
     figure_blocks = {b['id'] for b in blocks if isinstance(b, dict) and b.get('kind') == 'figure'}
     owned = [figure.get('blockId') for figure in figures if isinstance(figure, dict)]
-    if len(set(owned)) != len(owned) or \
-            not figure_blocks <= set(owned) or not set(owned) <= figure_blocks:
+    if len(set(owned)) != len(owned):
+        raise ContractFailure('DUPLICATE_FIGURE_BLOCK')
+    owned_set = set(owned)
+    if not owned_set <= figure_blocks:
+        raise ContractFailure('FIGURE_ATTACHED_TO_NON_FIGURE_BLOCK')
+    if not figure_blocks <= owned_set:
         raise ContractFailure('FIGURE_BLOCK_WITHOUT_FIGURE')
 
     return document

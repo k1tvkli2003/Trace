@@ -99,7 +99,7 @@ class PageExtractTests(unittest.TestCase):
                 case, source_hash=SOURCE, pixel_hash=PIXEL,
                 render_profile=PROFILE, page_ref=PAGE,
             )
-        self.assertEqual(str(failure.exception), 'FIGURE_BLOCK_WITHOUT_FIGURE')
+        self.assertEqual(str(failure.exception), 'FIGURE_ATTACHED_TO_NON_FIGURE_BLOCK')
 
     def test_rejects_two_figures_sharing_one_figure_block(self):
         doc = extract()
@@ -109,6 +109,16 @@ class PageExtractTests(unittest.TestCase):
         )
         second = {**doc['figures'][0], 'id': 'fig-2'}
         case = {**doc, 'figures': [doc['figures'][0], second]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'DUPLICATE_FIGURE_BLOCK')
+
+    def test_rejects_lonely_figure_block_with_no_owning_figure(self):
+        doc = extract()
+        case = {**doc, 'figures': []}
         with self.assertRaises(ContractFailure) as failure:
             validate_page_extract(
                 case, source_hash=SOURCE, pixel_hash=PIXEL,
