@@ -100,6 +100,18 @@ final class LocalOplogRepository {
     retryDelta: 0,
   );
 
+  /// Release one claimed row back to pending without touching retries.
+  ///
+  /// Local-only crash recovery: a worker that dies after [claimNext] or
+  /// [claimPending] leaves the row stranded in `in_flight`. The next worker
+  /// calls this explicit release, then reclaims the head. No clock involved.
+  Future<domain.SyncOperation> releaseClaim(String id) async => _transition(
+    id,
+    from: domain.SyncState.inFlight,
+    to: domain.SyncState.pending,
+    retryDelta: 0,
+  );
+
   /// Record one local failure attempt and preserve the retry count.
   Future<domain.SyncOperation> recordFailure(String id) async => _transition(
     id,
