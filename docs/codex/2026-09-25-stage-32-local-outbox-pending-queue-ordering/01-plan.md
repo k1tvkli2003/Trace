@@ -6,11 +6,11 @@ TDD vertical tracer bullet: one failing queue-ordering test for a new `listReady
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write failing `local_oplog_queue_test.dart`: pending-only, createdAt then operationId order, limit bound, invalid limit fail-closed, empty queue |
-| 2 | planned | Run RED, confirm failure is missing API not typo |
-| 3 | planned | Add `listReadyToClaim({int limit})` to `LocalOplogRepository` |
-| 4 | planned | Run GREEN focused test, then full data/domain/app/Gateway suites and analyzers |
-| 5 | planned | Format, docs, validator, commit |
+| 1 | done | Failing `local_oplog_queue_test.dart` written; committed slice `be22ee3`. |
+| 2 | done | RED confirmed missing API not typo. |
+| 3 | done | `listReadyToClaim({int limit})` added to `LocalOplogRepository`. |
+| 4 | done | GREEN focused test, then full data/domain/app/Gateway suites and analyzers recorded in `05-verification.md`. |
+| 5 | done | Format, docs, validator, commit; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_oplog_repository.dart`: add `listReadyToClaim`

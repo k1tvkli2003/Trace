@@ -1,7 +1,7 @@
 # Stage 32 local outbox pending queue ordering
 
 - Task ID: `2026-09-25-stage-32-local-outbox-pending-queue-ordering`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

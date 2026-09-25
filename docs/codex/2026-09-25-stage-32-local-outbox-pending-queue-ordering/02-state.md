@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes
 
@@ -26,4 +26,4 @@ Local pending-queue ordering is GREEN in `LocalOplogRepository` via `listReadyTo
 - Focused test GREEN; full wider suites GREEN.
 
 ## Remaining
-- Docs, validator, commit, handoff.
+- None for this record; slice committed in `be22ee3` ancestor of HEAD. Real sync transport/RLS/Storage/background/CI remain later stages.

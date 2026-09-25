@@ -20,7 +20,7 @@ Local pending-queue ordering is closed: `LocalOplogRepository` now exposes `list
 - Analyzers clean; format and diff checks clean.
 
 ## Remaining
-- Commit.
+- None for this record; committed in `be22ee3` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope for this slice.
 
 ## Verification

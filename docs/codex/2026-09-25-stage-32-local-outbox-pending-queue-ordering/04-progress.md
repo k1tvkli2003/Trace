@@ -13,4 +13,4 @@
 - Local pending-queue reader with deterministic order and bounded limit.
 
 ## Next
-- Docs validator, final status sync, commit.
+- Done: slice committed in `be22ee3` ancestor of HEAD; local-only record closes here.
