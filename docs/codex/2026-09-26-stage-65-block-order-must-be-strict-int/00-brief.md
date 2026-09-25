@@ -1,8 +1,9 @@
 # Stage 65 block order must be strict int
 
 - Task ID: `2026-09-26-stage-65-block-order-must-be-strict-int`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
+- Feat commit: `bc2c01e`
 - Language: en
 
 ## Request

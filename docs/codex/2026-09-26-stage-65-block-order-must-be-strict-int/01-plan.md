@@ -9,7 +9,7 @@ TDD vertical slice: one RED test first (block `order=1.0`), verify RED, then one
 | 1 | done | Added RED test `test_rejects_float_block_order`; RED confirmed (`ContractFailure not raised`) |
 | 2 | done | Require `type(order) is int` in the `BLOCKS_NOT_ORDERED` check (excludes `bool`/`float`, supersedes Stage63 `isinstance` guard) |
 | 3 | done | GREEN: `test_page_extract -v` 12/12 + gateway `discover` 59/59 OK |
-| 4 | planned | Fill Stage65 state/progress/verification/handoff/previews; validate docs; `diff --check`; feat commit + close commit |
+| 4 | done | Stage65 docs validated; feat `bc2c01e`; status flipped to `done` |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py` (`validate_page_extract` order check)

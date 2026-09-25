@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
+- Feat commit: `bc2c01e`
 
 ## Current State
-RED test confirmed the float-order hole (`order=1.0` accepted via `1.0 == 1`). GREEN fix applied: order check now requires `type(order) is int`. Full gateway suite GREEN 59/59. Feat commit pending.
+RED test confirmed the float-order hole (`order=1.0` accepted via `1.0 == 1`). GREEN fix applied: order check now requires `type(order) is int`. Full gateway suite GREEN 59/59. Committed as feat `bc2c01e`.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -21,4 +22,4 @@ RED test confirmed the float-order hole (`order=1.0` accepted via `1.0 == 1`). G
 - GREEN fix applied; `test_page_extract -v` 12/12; gateway `discover` 59/59 OK.
 
 ## Remaining
-- Fill progress/verification/handoff/previews; validate docs; `diff --check`; feat commit + close commit.
+- None — stage closed at feat `bc2c01e` + close commit.

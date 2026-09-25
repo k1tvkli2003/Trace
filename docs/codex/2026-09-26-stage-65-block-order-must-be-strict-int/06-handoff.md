@@ -1,7 +1,7 @@
 # Handoff
 
 ## Outcome
-Block `order` must be strict `int`: `order=1.0` now raises `BLOCKS_NOT_ORDERED` (pending feat commit).
+Block `order` must be strict `int`: `order=1.0` now raises `BLOCKS_NOT_ORDERED`. Committed as feat `bc2c01e`.
 
 ## Changed Artifacts
 - `services/ai_gateway/page_extract.py` (`type(order) is int` in order check)
@@ -10,13 +10,13 @@ Block `order` must be strict `int`: `order=1.0` now raises `BLOCKS_NOT_ORDERED` 
 - `docs/codex/_index.md` (Stage65 row; status to `done` after close commit)
 
 ## How To Continue
-- Validate docs, `diff --check`, feat commit, flip Stage65 to `done`, close commit.
+- Docs validated; feat `bc2c01e` committed. Close commit below ends Stage65.
 
 ## Done
-- RED confirmed + GREEN 12/12 page, 59/59 gateway.
+- RED confirmed + GREEN 12/12 page, 59/59 gateway + feat `bc2c01e`.
 
 ## Remaining
-- Docs validation; `diff --check`; feat commit + close commit.
+- None — stage closed at feat `bc2c01e` + close commit.
 
 ## Verification
-- Evidence GREEN (see `05-verification.md`); docs validation + commits pending.
+- Evidence GREEN + docs validated + feat `bc2c01e` (see `05-verification.md`); close commit SHA recorded below after push.
