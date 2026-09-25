@@ -109,12 +109,48 @@ final class LocalOplogRepository {
   );
 
   /// Return failed work to pending while preserving prior retry attempts.
-  Future<domain.SyncOperation> requeueFailed(String id) async => _transition(
-    id,
-    from: domain.SyncState.failed,
-    to: domain.SyncState.pending,
-    retryDelta: 0,
-  );
+  ///
+  /// Bounded: rows whose `retryCount` exceeds [maxRetries] stay `failed`
+  /// as a local dead-letter instead of requeueing forever.
+  Future<domain.SyncOperation> requeueFailed(
+    String id, {
+    int maxRetries = 5,
+  }) async {
+    _requireRetryBudget(maxRetries);
+    final current = await readOperation(id);
+    if (current == null) {
+      throw StateError('Sync operation $id is absent');
+    }
+    if (current.syncState != domain.SyncState.failed) {
+      throw StateError(
+        'Sync operation $id is ${current.rawSyncState}, not failed',
+      );
+    }
+    if (current.retryCount > maxRetries) {
+      throw StateError(
+        'Sync operation $id exhausted retry budget ($maxRetries)',
+      );
+    }
+    return _transition(
+      id,
+      from: domain.SyncState.failed,
+      to: domain.SyncState.pending,
+      retryDelta: 0,
+    );
+  }
+
+  /// Pure retry eligibility without a DB hit.
+  static bool canRequeue(domain.SyncOperation operation, {int maxRetries = 5}) {
+    _requireRetryBudget(maxRetries);
+    return operation.syncState == domain.SyncState.failed &&
+        operation.retryCount <= maxRetries;
+  }
+
+  static void _requireRetryBudget(int maxRetries) {
+    if (maxRetries < 0) {
+      throw ArgumentError.value(maxRetries, 'maxRetries', 'must be at least 0');
+    }
+  }
 
   Future<domain.SyncOperation> _transition(
     String id, {
