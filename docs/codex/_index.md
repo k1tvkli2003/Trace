@@ -21,7 +21,7 @@
 | `2026-09-25-stage-25-studied-review-atomic-wiring` | Stage 25 studied review atomic wiring | done | 2026-09-25 | [Open](2026-09-25-stage-25-studied-review-atomic-wiring/00-brief.md) |
 | `2026-09-25-stage-26-review-inbox-cached-replay` | Stage 26 review inbox cached replay | done | 2026-09-25 | [Open](2026-09-25-stage-26-review-inbox-cached-replay/00-brief.md) |
 | `2026-09-25-stage-27-highlight-anchor-engine` | Stage 27 highlight anchor engine | done | 2026-09-25 | [Open](2026-09-25-stage-27-highlight-anchor-engine/00-brief.md) |
-| `2026-09-25-stage-28-notes-backlinks-and-export` | Stage 28 notes backlinks and export | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-28-notes-backlinks-and-export/00-brief.md) |
+| `2026-09-25-stage-28-notes-backlinks-and-export` | Stage 28 notes backlinks and export | done | 2026-09-25 | [Open](2026-09-25-stage-28-notes-backlinks-and-export/00-brief.md) |
 | `2026-09-25-stage-29-native-adapters-and-background-jobs` | Stage 29 native adapters and background jobs | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-29-native-adapters-and-background-jobs/00-brief.md) |
 | `2026-09-25-stage-30-vertical-slice-proof-and-release-gate` | Stage 30 vertical slice proof and release gate | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-30-vertical-slice-proof-and-release-gate/00-brief.md) |
 | `2026-09-25-stage-31-local-outbox-lifecycle-replay-safety` | Stage 31 local outbox lifecycle replay safety | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-31-local-outbox-lifecycle-replay-safety/00-brief.md) |

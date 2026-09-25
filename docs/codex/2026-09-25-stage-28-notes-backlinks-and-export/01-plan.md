@@ -10,7 +10,7 @@
 | 2 | done | RED: تست لیست معکوس و export پیش از پیاده‌سازی |
 | 3 | done | GREEN: `listNotesFor*` فقط‌خواندنی با ترتیب قطعی و tombstone filter |
 | 4 | done | GREEN: `exportNote` خالص با locator خوانا و round-trip import |
-| 5 | planned | suite داده/دامنه و analyze و format و docs validation؛ commit |
+| 5 | done | suite داده/دامنه و analyze و format و docs validation؛ committed in `6b1b4ac` |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_annotation_repository.dart`

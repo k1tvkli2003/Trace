@@ -21,7 +21,7 @@
 - Suite داده (۱۰۷)، دامنه (۱۱۲)، اپ (۳۹) و analyze پاس
 
 ## Remaining
-- Docs validation و commit
+- None for this record; slice committed in `6b1b4ac`.
 - تعمیم به block/figure/lesson در slice بعدی در صورت نیاز محصول
 - UI یادداشت، sync واقعی و آزمون device/browser
 

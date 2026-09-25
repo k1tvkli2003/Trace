@@ -12,4 +12,4 @@
 - Backlink listing and export implemented and green
 
 ## Next
-- Docs validation and commit
+- Done: record committed in `6b1b4ac`; docs-only close pending validation/commit.

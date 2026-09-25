@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes
 
@@ -22,4 +22,4 @@
 - Read-only `listNotesForAnchor` and display-only `exportNote` green
 
 ## Remaining
-- Docs validation and commit
+- None for this bounded slice; committed in `6b1b4ac` ancestor of HEAD. Follow-ups (block/figure/lesson backlinks, note UI, real sync, device/browser proof) belong to later stages.

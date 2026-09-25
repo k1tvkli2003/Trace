@@ -1,7 +1,7 @@
 # Stage 28 notes backlinks and export
 
 - Task ID: `2026-09-25-stage-28-notes-backlinks-and-export`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25T11:01:39
 - Language: fa
 
