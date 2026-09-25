@@ -126,6 +126,23 @@ class PageExtractTests(unittest.TestCase):
             )
         self.assertEqual(str(failure.exception), 'FIGURE_BLOCK_WITHOUT_FIGURE')
 
+    def test_rejects_figure_block_carrying_text(self):
+        doc = extract()
+        self.assertEqual(
+            next(block['kind'] for block in doc['blocks'] if block['id'] == 'b3'),
+            'figure',
+        )
+        case = {**doc, 'blocks': [
+            {**block, 'text': 'smuggled transcription'} if block['id'] == 'b3' else block
+            for block in doc['blocks']
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'FIGURE_BLOCK_MUST_BE_TEXTLESS')
+
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()
         cases = (

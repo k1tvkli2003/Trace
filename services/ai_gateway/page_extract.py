@@ -119,6 +119,8 @@ def validate_page_extract(
             raise ContractFailure('INVALID_UNCERTAINTY')
         if kind == 'unknown' and (text.strip() or not uncertain):
             raise ContractFailure('UNKNOWN_BLOCK_MUST_BE_QUARANTINED')
+        if kind == 'figure' and text.strip():
+            raise ContractFailure('FIGURE_BLOCK_MUST_BE_TEXTLESS')
         if float(confidence) < _LOW_CONFIDENCE and not uncertain:
             raise ContractFailure('LOW_CONFIDENCE_REQUIRES_UNCERTAIN')
         if uncertain and kind != 'unknown' and not text.strip():
