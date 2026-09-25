@@ -6,6 +6,20 @@ import 'package:trace_domain/trace_domain.dart' as domain;
 import 'trace_database.dart' as db;
 
 /// Private local outbox and AI run metadata. No provider credentials or input text.
+final class OutboxHealth {
+  const OutboxHealth({
+    required this.pending,
+    required this.inFlight,
+    required this.failedRetryable,
+    required this.failedDeadLetter,
+  });
+
+  final int pending;
+  final int inFlight;
+  final int failedRetryable;
+  final int failedDeadLetter;
+}
+
 final class LocalOplogRepository {
   const LocalOplogRepository(this.database);
 
@@ -472,6 +486,53 @@ final class LocalOplogRepository {
       counts[operation.syncState] = counts[operation.syncState]! + 1;
     }
     return counts;
+  }
+
+  /// Read-only single-scan health snapshot of actionable outbox backlog.
+  ///
+  /// Local-only observability for worker/drain callers: one point-in-time
+  /// fold over existing rows reporting `pending` ready work, stranded
+  /// `inFlight` claims, retryable `failed` rows, and exhausted dead-letter
+  /// `failed` rows. The failed split reuses [canRequeue] semantics
+  /// (`retryCount <= maxRetries` retryable, otherwise dead-letter), so the
+  /// two failed counts are the exact in-memory complement of
+  /// [listFailedWithinBudget] and [listFailedOverBudget]. `synced` and
+  /// `tombstone` rows are not actionable backlog and are excluded from all
+  /// four counts. Negative budgets fail closed via [_requireRetryBudget]
+  /// before the scan. No transition, clock, sleep, scheduler, schema, or
+  /// network is involved.
+  Future<OutboxHealth> outboxHealth({int maxRetries = 5}) async {
+    _requireRetryBudget(maxRetries);
+    var pending = 0;
+    var inFlight = 0;
+    var failedRetryable = 0;
+    var failedDeadLetter = 0;
+    final rows = await database.select(database.syncOperations).get();
+    for (final row in rows) {
+      final operation = _operationFromRow(row);
+      switch (operation.syncState) {
+        case domain.SyncState.pending:
+          pending += 1;
+        case domain.SyncState.inFlight:
+          inFlight += 1;
+        case domain.SyncState.failed:
+          if (canRequeue(operation, maxRetries: maxRetries)) {
+            failedRetryable += 1;
+          } else {
+            failedDeadLetter += 1;
+          }
+        case domain.SyncState.synced:
+        case domain.SyncState.tombstone:
+        case domain.SyncState.unsupported:
+          break;
+      }
+    }
+    return OutboxHealth(
+      pending: pending,
+      inFlight: inFlight,
+      failedRetryable: failedRetryable,
+      failedDeadLetter: failedDeadLetter,
+    );
   }
 
   Future<List<domain.AiRunLedger>> listRuns() async =>
