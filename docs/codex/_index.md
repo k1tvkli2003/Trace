@@ -46,3 +46,4 @@
 | `2026-09-25-stage-50-e2e-scaffold-contract` | Stage 50 e2e scaffold contract | done | 2026-09-25 | [Open](2026-09-25-stage-50-e2e-scaffold-contract/00-brief.md) |
 | `2026-09-26-stage-51-figure-block-must-own-figure` | Stage 51 figure block must own figure | done | 2026-09-26 | [Open](2026-09-26-stage-51-figure-block-must-own-figure/00-brief.md) |
 | `2026-09-26-stage-52-gateway-suite-count-refresh` | Stage 52 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-52-gateway-suite-count-refresh/00-brief.md) |
+| `2026-09-26-stage-53-figure-block-single-ownership` | Stage 53 figure block single ownership | planned | 2026-09-26 | [Open](2026-09-26-stage-53-figure-block-single-ownership/00-brief.md) |

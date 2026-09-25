@@ -101,6 +101,21 @@ class PageExtractTests(unittest.TestCase):
             )
         self.assertEqual(str(failure.exception), 'FIGURE_BLOCK_WITHOUT_FIGURE')
 
+    def test_rejects_two_figures_sharing_one_figure_block(self):
+        doc = extract()
+        self.assertEqual(
+            next(block['kind'] for block in doc['blocks'] if block['id'] == 'b3'),
+            'figure',
+        )
+        second = {**doc['figures'][0], 'id': 'fig-2'}
+        case = {**doc, 'figures': [doc['figures'][0], second]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'FIGURE_BLOCK_WITHOUT_FIGURE')
+
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()
         cases = (
