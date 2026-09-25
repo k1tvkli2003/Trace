@@ -367,6 +367,36 @@ final class LocalOplogRepository {
         .toList();
   }
 
+  /// Read-only exhausted failed rows past the retry budget, deterministic order.
+  ///
+  /// Local-only dead-letter listing: the complement of
+  /// [listFailedWithinBudget] under the same `<=` budget semantics as
+  /// [canRequeue]. Rows with `retryCount > maxRetries` stay `failed` as the
+  /// local dead-letter set. Order matches the queue ownership: `createdAt`
+  /// ascending, then row id ascending (the `operationId`). Negative budgets
+  /// fail closed via [_requireRetryBudget]. No transition, clock, sleep,
+  /// scheduler, schema, or network is involved.
+  Future<List<domain.SyncOperation>> listFailedOverBudget({
+    int maxRetries = 5,
+  }) async {
+    _requireRetryBudget(maxRetries);
+    final rows =
+        await (database.select(database.syncOperations)
+              ..where(
+                (entry) =>
+                    entry.syncState.equals(domain.SyncState.failed.wireName),
+              )
+              ..orderBy([
+                (entry) => OrderingTerm.asc(entry.createdAt),
+                (entry) => OrderingTerm.asc(entry.id),
+              ]))
+            .get();
+    return rows
+        .map(_operationFromRow)
+        .where((operation) => operation.retryCount > maxRetries)
+        .toList();
+  }
+
   /// Read-only failed rows whose caller-supplied due time has arrived.
   ///
   /// This method owns no clock: [nowUtc] and each due instant arrive from the
