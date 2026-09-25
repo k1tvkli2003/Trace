@@ -11,4 +11,4 @@
 - Matrix patch applied.
 
 ## Next
-- Docs validation; `diff --check`; refresh commit + close commit.
+- None — stage closed at refresh `d664b7b` + close commit.

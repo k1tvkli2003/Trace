@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
+- Refresh commit: `d664b7b`
 
 ## Current State
-Matrix gateway row now cites Stage65 verification with 59 tests OK, including the Stage65 strict-int order case. Refresh commit pending.
+Matrix gateway row now cites Stage65 verification with 59 tests OK, including the Stage65 strict-int order case. Committed as refresh `d664b7b`.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -20,4 +21,4 @@ Matrix gateway row now cites Stage65 verification with 59 tests OK, including th
 - Matrix gateway row patched (Stage63 58 → Stage65 59, strict-int order case named).
 
 ## Remaining
-- Validate docs; `diff --check`; refresh commit + close commit.
+- None — stage closed at refresh `d664b7b` + close commit.

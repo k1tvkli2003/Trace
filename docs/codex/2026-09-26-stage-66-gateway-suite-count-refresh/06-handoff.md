@@ -1,7 +1,7 @@
 # Handoff
 
 ## Outcome
-`docs/qa/acceptance-matrix.md` gateway row refreshed to Stage65 59 tests OK (pending commit).
+`docs/qa/acceptance-matrix.md` gateway row refreshed to Stage65 59 tests OK. Committed as refresh `d664b7b`.
 
 ## Changed Artifacts
 - `docs/qa/acceptance-matrix.md` (gateway row)
@@ -9,13 +9,13 @@
 - `docs/codex/_index.md` (Stage66 row; status to `done` after close commit)
 
 ## How To Continue
-- Validate docs, `diff --check`, refresh commit, flip Stage66 to `done`, close commit.
+- Docs validated; refresh `d664b7b` committed. Close commit below ends Stage66.
 
 ## Done
-- Fresh 59/59 evidence + matrix patch.
+- Fresh 59/59 evidence + matrix patch + refresh `d664b7b`.
 
 ## Remaining
-- Docs validation; `diff --check`; refresh commit + close commit.
+- None — stage closed at refresh `d664b7b` + close commit.
 
 ## Verification
-- Evidence GREEN (see `05-verification.md`); docs validation + commits pending.
+- Evidence GREEN + docs validated + refresh `d664b7b` (see `05-verification.md`); close commit SHA recorded below after push.

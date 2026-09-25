@@ -59,4 +59,4 @@
 | `2026-09-26-stage-63-reject-boolean-numerics` | Stage 63 reject boolean numerics | done | 2026-09-26 | [Open](2026-09-26-stage-63-reject-boolean-numerics/00-brief.md) |
 | `2026-09-26-stage-64-gateway-suite-count-refresh` | Stage 64 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-64-gateway-suite-count-refresh/00-brief.md) |
 | `2026-09-26-stage-65-block-order-must-be-strict-int` | Stage 65 block order must be strict int | done | 2026-09-26 | [Open](2026-09-26-stage-65-block-order-must-be-strict-int/00-brief.md) |
-| `2026-09-26-stage-66-gateway-suite-count-refresh` | Stage 66 gateway suite count refresh | active | 2026-09-26 | [Open](2026-09-26-stage-66-gateway-suite-count-refresh/00-brief.md) |
+| `2026-09-26-stage-66-gateway-suite-count-refresh` | Stage 66 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-66-gateway-suite-count-refresh/00-brief.md) |
