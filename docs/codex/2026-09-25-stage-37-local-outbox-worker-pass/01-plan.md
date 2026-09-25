@@ -6,10 +6,10 @@ TDD tracer: RED focused worker-pass test, minimal GREEN `LocalOutboxWorker.runNe
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write focused `local_oplog_worker_pass_test.dart`; run RED |
-| 2 | planned | Implement `LocalOutboxWorker.runNext` in `LocalOplogRepository`-adjacent file |
-| 3 | planned | GREEN focused test; run data/domain/app/Gateway suites + format |
-| 4 | planned | Docs to ready-for-review; validator; stage; review; commit |
+| 1 | done | Focused `local_oplog_worker_pass_test.dart` written; RED captured; committed slice `ca1dc15`. |
+| 2 | done | `LocalOutboxWorker.runNext` implemented in adjacent file. |
+| 3 | done | GREEN focused test; data/domain/app/Gateway suites + format recorded in `05-verification.md`. |
+| 4 | done | Docs synced to done; validator; commit; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_outbox_worker.dart`: `runNext`

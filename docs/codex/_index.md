@@ -30,7 +30,7 @@
 | `2026-09-25-stage-34-local-outbox-retry-backoff-policy` | Stage 34 local outbox retry backoff policy | done | 2026-09-25 | [Open](2026-09-25-stage-34-local-outbox-retry-backoff-policy/00-brief.md) |
 | `2026-09-25-stage-35-local-outbox-atomic-claim-next` | Stage 35 local outbox atomic claim next | done | 2026-09-25 | [Open](2026-09-25-stage-35-local-outbox-atomic-claim-next/00-brief.md) |
 | `2026-09-25-stage-36-local-outbox-release-claim` | Stage 36 local outbox release claim | done | 2026-09-25 | [Open](2026-09-25-stage-36-local-outbox-release-claim/00-brief.md) |
-| `2026-09-25-stage-37-local-outbox-worker-pass` | Stage 37 local outbox worker pass | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-37-local-outbox-worker-pass/00-brief.md) |
+| `2026-09-25-stage-37-local-outbox-worker-pass` | Stage 37 local outbox worker pass | done | 2026-09-25 | [Open](2026-09-25-stage-37-local-outbox-worker-pass/00-brief.md) |
 | `2026-09-25-stage-38-local-outbox-bounded-drain` | Stage 38 local outbox bounded drain | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-38-local-outbox-bounded-drain/00-brief.md) |
 | `2026-09-25-stage-39-local-outbox-snapshot-counts` | Stage 39 local outbox snapshot counts | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-39-local-outbox-snapshot-counts/00-brief.md) |
 | `2026-09-25-stage-40-local-outbox-drain-throw-propagation` | Stage 40 local outbox drain throw propagation | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-40-local-outbox-drain-throw-propagation/00-brief.md) |

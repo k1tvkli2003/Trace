@@ -1,7 +1,7 @@
 # Stage 37 local outbox worker pass
 
 - Task ID: `2026-09-25-stage-37-local-outbox-worker-pass`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

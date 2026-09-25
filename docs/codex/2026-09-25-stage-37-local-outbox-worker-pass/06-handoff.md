@@ -21,7 +21,7 @@ Local outbox now has an explicit single-pass worker: `LocalOutboxWorker.runNext(
 - Analyzers clean; format clean.
 
 ## Remaining
-- Validator + review + commit (this verify step).
+- None for this record; committed in `ca1dc15` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope.
 
 ## Verification

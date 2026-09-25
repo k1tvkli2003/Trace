@@ -15,4 +15,4 @@
 - Wider suites verified with real commands.
 
 ## Next
-- Validator, stage, review, commit.
+- Done: slice committed in `ca1dc15` ancestor of HEAD; local-only record closes here.

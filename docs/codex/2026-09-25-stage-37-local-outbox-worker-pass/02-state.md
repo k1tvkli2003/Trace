@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -23,4 +23,4 @@ Stage37 GREEN: `LocalOutboxWorker.runNext({handler, maxRetries})` claims the que
 - Docs to ready-for-review.
 
 ## Remaining
-- Validator, `git diff --check`, stage, review, commit.
+- None for this record; slice committed in `ca1dc15` ancestor of HEAD. Bounded drain/transport/RLS/Storage/background/CI remain later stages.
