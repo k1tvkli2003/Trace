@@ -143,6 +143,17 @@ class PageExtractTests(unittest.TestCase):
             )
         self.assertEqual(str(failure.exception), 'FIGURE_BLOCK_MUST_BE_TEXTLESS')
 
+    def test_rejects_low_confidence_figure(self):
+        doc = extract()
+        self.assertEqual(doc['figures'][0]['confidence'], 0.7)
+        case = {**doc, 'figures': [{**doc['figures'][0], 'confidence': 0.0}]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'LOW_CONFIDENCE_FIGURE_REJECTED')
+
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()
         cases = (

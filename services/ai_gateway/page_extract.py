@@ -148,6 +148,8 @@ def validate_page_extract(
         if not isinstance(confidence, (int, float)) or confidence != confidence or \
                 not 0.0 <= float(confidence) <= 1.0:
             raise ContractFailure('INVALID_FIGURE_CONFIDENCE')
+        if float(confidence) < _LOW_CONFIDENCE:
+            raise ContractFailure('LOW_CONFIDENCE_FIGURE_REJECTED')
         _check_box(figure.get('bbox'))
 
     figure_blocks = {b['id'] for b in blocks if isinstance(b, dict) and b.get('kind') == 'figure'}

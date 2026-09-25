@@ -52,3 +52,4 @@
 | `2026-09-26-stage-56-gateway-suite-count-refresh` | Stage 56 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-56-gateway-suite-count-refresh/00-brief.md) |
 | `2026-09-26-stage-57-figure-block-must-be-textless` | Stage 57 figure block must be textless | done | 2026-09-26 | [Open](2026-09-26-stage-57-figure-block-must-be-textless/00-brief.md) |
 | `2026-09-26-stage-58-gateway-suite-count-refresh` | Stage 58 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-58-gateway-suite-count-refresh/00-brief.md) |
+| `2026-09-26-stage-59-figure-low-confidence-rejected` | Stage 59 figure low confidence rejected | planned | 2026-09-26 | [Open](2026-09-26-stage-59-figure-low-confidence-rejected/00-brief.md) |
