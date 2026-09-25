@@ -6,10 +6,10 @@ Tracer bullet on `LocalOplogRepository`: RED test calling missing `claimNext()`,
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write `local_oplog_claim_next_test.dart`; run RED |
-| 2 | planned | Implement `claimNext()` atomic pick-and-claim |
-| 3 | planned | GREEN focused test; run data/domain/app/Gateway suites + analyzers + format |
-| 4 | planned | Docs verification/handoff, validator, review, commit |
+| 1 | done | `local_oplog_claim_next_test.dart` written; RED captured; committed slice `de5fca3`. |
+| 2 | done | `claimNext()` atomic pick-and-claim implemented. |
+| 3 | done | GREEN focused test; data/domain/app/Gateway suites + analyzers + format recorded in `05-verification.md`. |
+| 4 | done | Docs verification/handoff, validator, commit; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_oplog_repository.dart`: add `Future<SyncOperation?> claimNext()`.

@@ -20,7 +20,7 @@ Local outbox pick-and-claim is now atomic: `LocalOplogRepository.claimNext()` se
 - Analyzers clean; format clean.
 
 ## Remaining
-- Validator + review + commit (this verify step).
+- None for this record; committed in `de5fca3` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope.
 
 ## Verification

@@ -14,4 +14,4 @@
 - Full suites + analyzers verified.
 
 ## Next
-- Validator, diff check, stage, review, commit.
+- Done: slice committed in `de5fca3` ancestor of HEAD; local-only record closes here.

@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -23,4 +23,4 @@ Stage35 GREEN: atomic `LocalOplogRepository.claimNext()` picks queue head (`crea
 - GREEN minimal atomic helper; full suites verified.
 
 ## Remaining
-- Validator, `git diff --check`, stage, review, commit.
+- None for this record; slice committed in `de5fca3` ancestor of HEAD. Worker loop/transport/RLS/Storage/background/CI remain later stages.

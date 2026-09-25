@@ -1,7 +1,7 @@
 # Stage 35 local outbox atomic claim next
 
 - Task ID: `2026-09-25-stage-35-local-outbox-atomic-claim-next`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 
