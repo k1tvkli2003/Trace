@@ -1,0 +1,28 @@
+{
+  "license": "original-synthetic",
+  "license_text": "Original synthetic Trace fixture written for this repository. Not a third-party work. Not a textbook page.",
+  "generator": "PyMuPDF 1.28.2 local one-shot; tests assert committed bytes, they do not regenerate.",
+  "files": {
+    "pdf": {
+      "name": "trace-synthetic-lesson.pdf",
+      "sha256": "de8aceae597331c5d22cb72a98d1a1d11e5ca5d2503dcdd7d63b0356d93578a4"
+    },
+    "markdown": {
+      "name": "trace-synthetic-lesson.md",
+      "sha256": "84604263073d14cd12f6ea4033846df0a08216f401bb1a7201e69420e7b26760"
+    }
+  },
+  "expected": {
+    "page_count": 1,
+    "strings": [
+      "Trace synthetic lesson 01",
+      "Sodium potassium pump",
+      "The pump moves three sodium ions out and two potassium ions in.",
+      "Figure S1. A labeled box, not a scanned textbook figure."
+    ],
+    "figure": {
+      "kind": "labeled-box",
+      "label": "Figure S1"
+    }
+  }
+}

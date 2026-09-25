@@ -33,7 +33,7 @@ Scope: offline local-first vertical-slice proof only. Every `passed` below trace
 | CI workflow | SCAFFOLD (unrun) | `.github/workflows/ci.yml` exists as CI-only intent (Stage47 `fcbecdd`); no pipeline has ever run — local-only validation |
 | Benchmarks | MISSING | No `benchmarks/` directory or perf baseline exists |
 | E2E (device/browser) | MISSING | No `test/e2e/` directory; app-level tests are unit/widget only |
-| Test fixtures beyond placeholder | MISSING | `test/fixtures/` holds only `README.md`; no licensed synthetic/authorized PDFs |
+| Test fixtures beyond placeholder | SCAFFOLD | `test/fixtures/synthetic/` holds one original PDF, Markdown twin, and SHA-256 manifest (Stage48); no ingestion or Vision run |
 
 ## Baseline references (not release proof)
 
