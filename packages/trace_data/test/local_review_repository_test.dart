@@ -163,6 +163,229 @@ void main() {
     expect(hard.rawDueAt, '2026-09-25T10:30:00Z');
   });
 
+  test('v2 first-study due preserves UTC subsecond instant', () {
+    final item = LocalReviewRepository.firstStudyItem(
+      id: 'fractional',
+      targetId: 'lesson-block-1',
+      targetType: ReviewTargetType.lessonBox,
+      contentHash: 'e' * 64,
+      firstStudiedAt: DateTime.utc(2026, 9, 24, 10, 30, 0, 250),
+    );
+    expect(item.rawDueAt, '2026-09-25T10:30:00.250Z');
+    final next = LocalReviewRepository.projectNext(
+      current: item,
+      rating: ReviewRating.good,
+      occurredAt: item.dueAt,
+    );
+    expect(next.rawDueAt, '2026-09-27T10:30:00.250Z');
+  });
+
+  test(
+    'first study creates UTC v2 due at +1 day with immutable receipt',
+    () async {
+      final repository = LocalReviewRepository(_database());
+      final firstStudiedAt = DateTime.utc(2026, 9, 24, 10, 30);
+      final item = LocalReviewRepository.firstStudyItem(
+        id: 'new-1',
+        targetId: 'lesson-block-1',
+        targetType: ReviewTargetType.lessonBox,
+        contentHash: 'e' * 64,
+        firstStudiedAt: firstStudiedAt,
+      );
+      expect(item.schedulerVersion, 'fixed-offset-v2');
+      expect(item.rawDueAt, '2026-09-25T10:30:00Z');
+      expect(item.intervalDays, 1);
+      await repository.putReviewItem(item);
+      await repository.putReviewItem(item);
+      expect(
+        (await repository.readReviewItem('new-1'))?.toJson(),
+        item.toJson(),
+      );
+    },
+  );
+
+  test('v2 review offsets are anchored to first study, not cumulative', () {
+    final firstStudy = DateTime.utc(2026, 9, 24, 10, 30);
+    var item = ReviewItem.fromJson({
+      ...itemJson(dueAt: '2026-09-25T10:30:00Z'),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    for (final (reviewedAt, expectedDue, gap) in [
+      (DateTime.utc(2026, 9, 25, 10, 30), '2026-09-27T10:30:00Z', 2),
+      (DateTime.utc(2026, 9, 27, 10, 30), '2026-10-01T10:30:00Z', 4),
+      (DateTime.utc(2026, 10, 1, 10, 30), '2026-10-09T10:30:00Z', 8),
+      (DateTime.utc(2026, 10, 9, 10, 30), '2026-10-24T10:30:00Z', 15),
+    ]) {
+      item = LocalReviewRepository.projectNext(
+        current: item,
+        rating: ReviewRating.good,
+        occurredAt: reviewedAt,
+      );
+      expect(item.rawDueAt, expectedDue);
+      expect(item.intervalDays, gap);
+    }
+    expect(firstStudy.add(const Duration(days: 30)), item.dueAt);
+  });
+
+  test('v2 review event advances due and duplicate ID replays once', () async {
+    final repository = LocalReviewRepository(_database());
+    final item = ReviewItem.fromJson({
+      ...itemJson(dueAt: '2026-09-25T10:30:00Z'),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    await repository.putReviewItem(item);
+    final event = ReviewEvent.fromJson({
+      ...eventJson(
+        occurredAt: '2026-09-25T10:30:00Z',
+        previousDueAt: '2026-09-25T10:30:00Z',
+        nextDueAt: '2026-09-27T10:30:00Z',
+      ),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    await repository.appendEvent(event);
+    await repository.appendEvent(event);
+    expect((await repository.listEvents(item.id)).length, 1);
+    expect((await repository.readReviewItem(item.id))?.intervalDays, 2);
+    expect(
+      (await repository.readReviewItem(item.id))?.rawDueAt,
+      '2026-09-27T10:30:00Z',
+    );
+  });
+
+  test('v2 late review retains one missed event then advances gap', () async {
+    final repository = LocalReviewRepository(_database());
+    final item = ReviewItem.fromJson({
+      ...itemJson(dueAt: '2026-09-25T10:30:00Z'),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    await repository.putReviewItem(item);
+    await repository.appendEvent(
+      ReviewEvent.fromJson({
+        ...eventJson(
+          occurredAt: '2026-09-25T10:30:00Z',
+          previousDueAt: '2026-09-25T10:30:00Z',
+          nextDueAt: '2026-09-27T10:30:00Z',
+        ),
+        'schedulerVersion': 'fixed-offset-v2',
+      }),
+    );
+    final late = ReviewEvent.fromJson({
+      ...eventJson(
+        id: 'late-1',
+        occurredAt: '2026-09-28T10:30:00Z',
+        previousDueAt: '2026-09-27T10:30:00Z',
+        nextDueAt: '2026-10-02T10:30:00Z',
+      ),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    await repository.appendEvent(late);
+    final stored = await repository.readReviewItem(item.id);
+    expect(stored?.rawDueAt, '2026-10-02T10:30:00Z');
+    expect(stored?.intervalDays, 4);
+    expect((await repository.listEvents(item.id)).length, 2);
+  });
+
+  test('v2 hard holds gap and v1 forged v2 mix is rejected', () async {
+    final repository = LocalReviewRepository(_database());
+    final item = ReviewItem.fromJson({
+      ...itemJson(dueAt: '2026-09-25T10:30:00Z'),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    await repository.putReviewItem(item);
+    await repository.appendEvent(
+      ReviewEvent.fromJson({
+        ...eventJson(
+          occurredAt: '2026-09-25T10:30:00Z',
+          previousDueAt: '2026-09-25T10:30:00Z',
+          nextDueAt: '2026-09-27T10:30:00Z',
+        ),
+        'schedulerVersion': 'fixed-offset-v2',
+      }),
+    );
+    await repository.appendEvent(
+      ReviewEvent.fromJson({
+        ...eventJson(
+          id: 'hard-1',
+          rating: 'hard',
+          occurredAt: '2026-09-27T10:30:00Z',
+          previousDueAt: '2026-09-27T10:30:00Z',
+          nextDueAt: '2026-09-29T10:30:00Z',
+        ),
+        'schedulerVersion': 'fixed-offset-v2',
+      }),
+    );
+    final stored = await repository.readReviewItem(item.id);
+    expect(stored?.rawDueAt, '2026-09-29T10:30:00Z');
+    expect(stored?.intervalDays, 2);
+    await expectLater(
+      repository.appendEvent(
+        ReviewEvent.fromJson({
+          ...eventJson(
+            id: 'mix-1',
+            rating: 'hard',
+            occurredAt: '2026-09-29T10:30:00Z',
+            previousDueAt: '2026-09-29T10:30:00Z',
+            nextDueAt: '2026-10-02T10:30:00Z',
+          ),
+        }),
+      ),
+      throwsFormatException,
+    );
+  });
+
+  test('v2 again resets and easy skips one milestone', () {
+    final item = ReviewItem.fromJson({
+      ...itemJson(dueAt: '2026-09-27T10:30:00Z', intervalDays: 2),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    final reviewedAt = DateTime.utc(2026, 9, 27, 10, 30);
+    final again = LocalReviewRepository.projectNext(
+      current: item,
+      rating: ReviewRating.again,
+      occurredAt: reviewedAt,
+    );
+    expect(again.rawDueAt, '2026-09-28T10:30:00Z');
+    expect(again.lapses, 1);
+    final easy = LocalReviewRepository.projectNext(
+      current: item,
+      rating: ReviewRating.easy,
+      occurredAt: reviewedAt,
+    );
+    expect(easy.rawDueAt, '2026-10-05T10:30:00Z');
+    expect(easy.intervalDays, 8);
+  });
+
+  test('v2 post-30-day policy doubles gaps and caps at 120 days', () {
+    var item = ReviewItem.fromJson({
+      ...itemJson(dueAt: '2026-10-24T10:30:00Z', intervalDays: 15),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    for (final (date, gap) in [
+      (DateTime.utc(2026, 10, 24, 10, 30), 30),
+      (DateTime.utc(2026, 11, 23, 10, 30), 60),
+      (DateTime.utc(2027, 1, 22, 10, 30), 120),
+      (DateTime.utc(2027, 5, 22, 10, 30), 120),
+    ]) {
+      item = LocalReviewRepository.projectNext(
+        current: item,
+        rating: ReviewRating.good,
+        occurredAt: date,
+      );
+      expect(item.intervalDays, gap);
+      expect(item.dueAt, date.add(Duration(days: gap)));
+    }
+  });
+
+  test('v2 invalid gap is rejected before storing', () async {
+    final repository = LocalReviewRepository(_database());
+    final invalid = ReviewItem.fromJson({
+      ...itemJson(intervalDays: 3),
+      'schedulerVersion': 'fixed-offset-v2',
+    });
+    await expectLater(repository.putReviewItem(invalid), throwsFormatException);
+    expect(await repository.readReviewItem(invalid.id), isNull);
+  });
+
   test('good rating advances fixed ladder 1 to 3 days', () async {
     final repository = LocalReviewRepository(_database());
     await repository.putReviewItem(ReviewItem.fromJson(itemJson()));
@@ -311,7 +534,7 @@ void main() {
             id: 'second',
             occurredAt: '2026-09-27T10:35:00.250Z',
             previousDueAt: '2026-09-27T10:35:00Z',
-            nextDueAt: '2026-09-30T10:35:00Z',
+            nextDueAt: '2026-09-30T10:35:00.250Z',
             rating: 'hard',
           ),
         ),

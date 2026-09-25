@@ -14,6 +14,60 @@ final class LocalReviewRepository {
 
   static const List<int> fixedLadderDays = [1, 3, 7, 15, 30];
   static const String schedulerVersion = 'fixed-ladder-v1';
+  static const String offsetSchedulerVersion = 'fixed-offset-v2';
+  static const List<int> offsetGapsDays = [1, 2, 4, 8, 15];
+  static const List<int> postOffsetGapsDays = [30, 60, 120];
+
+  static int _nextOffsetGap(int current, int steps) {
+    final gaps = [...offsetGapsDays, ...postOffsetGapsDays];
+    final index = current == 0 ? -1 : gaps.indexOf(current);
+    if (index < 0 && current != 0) {
+      throw const FormatException('Invalid v2 review gap');
+    }
+    final next = index + steps;
+    return gaps[next < gaps.length ? next : gaps.length - 1];
+  }
+
+  /// Creates first-study v2 projection: due A+1 day, gap 1, no lapses.
+  /// Rejects non-UTC instants; local timezone remains display-only.
+  static domain.ReviewItem firstStudyItem({
+    required String id,
+    required String targetId,
+    required domain.ReviewTargetType targetType,
+    required String contentHash,
+    required DateTime firstStudiedAt,
+    int version = 1,
+    double ease = 2.5,
+  }) {
+    if (!firstStudiedAt.isUtc) {
+      throw const FormatException('First study must be a UTC instant');
+    }
+    if (targetType == domain.ReviewTargetType.unsupported) {
+      throw const FormatException('Unsupported review target is rejected');
+    }
+    if (ease.isNaN || !ease.isFinite || ease < 1) {
+      throw const FormatException('Ease must be finite and at least 1');
+    }
+    if (version < 1) {
+      throw const FormatException('Version must be a positive integer');
+    }
+    if (!RegExp(r'^[a-f0-9]{64}$').hasMatch(contentHash)) {
+      throw const FormatException('contentHash must be lowercase SHA-256 hex');
+    }
+    return domain.ReviewItem.fromJson({
+      'id': id,
+      'version': version,
+      'contentHash': contentHash,
+      'targetType': targetType.wireName,
+      'targetId': targetId,
+      'dueAt': _utcPlusDays(firstStudiedAt, 1),
+      'intervalDays': 1,
+      'ease': ease,
+      'lapses': 0,
+      'state': domain.ReviewItemState.active.wireName,
+      'schedulerVersion': offsetSchedulerVersion,
+    });
+  }
 
   /// Pure projection: good advances one rung, easy two rungs, hard holds,
   /// again resets to one day and counts a lapse. Unknown ratings fail closed.
@@ -22,6 +76,16 @@ final class LocalReviewRepository {
     required domain.ReviewRating rating,
     required DateTime occurredAt,
   }) {
+    if (current.schedulerVersion == offsetSchedulerVersion) {
+      return _projectNextOffset(
+        current: current,
+        rating: rating,
+        occurredAt: occurredAt,
+      );
+    }
+    if (current.schedulerVersion != schedulerVersion) {
+      throw const FormatException('Scheduler version mismatch');
+    }
     final base = current.toJson();
     switch (rating) {
       case domain.ReviewRating.again:
@@ -59,6 +123,50 @@ final class LocalReviewRepository {
     }
   }
 
+  static domain.ReviewItem _projectNextOffset({
+    required domain.ReviewItem current,
+    required domain.ReviewRating rating,
+    required DateTime occurredAt,
+  }) {
+    if (!occurredAt.isUtc) {
+      throw const FormatException('Review instant must be UTC');
+    }
+    if (current.intervalDays != 0 && !_validOffsetGap(current.intervalDays)) {
+      throw const FormatException('Invalid v2 review gap');
+    }
+    final int gap;
+    final int lapses;
+    switch (rating) {
+      case domain.ReviewRating.again:
+        gap = 1;
+        lapses = current.lapses + 1;
+      case domain.ReviewRating.hard:
+        gap = current.intervalDays == 0 ? 1 : current.intervalDays;
+        lapses = current.lapses;
+      case domain.ReviewRating.good:
+        gap = _nextOffsetGap(current.intervalDays, 1);
+        lapses = current.lapses;
+      case domain.ReviewRating.easy:
+        gap = _nextOffsetGap(current.intervalDays, 2);
+        lapses = current.lapses;
+      case domain.ReviewRating.unsupported:
+        throw const FormatException(
+          'Unsupported rating cannot drive scheduler',
+        );
+    }
+    return domain.ReviewItem.fromJson({
+      ...current.toJson(),
+      'intervalDays': gap,
+      'lapses': lapses,
+      'dueAt': _utcPlusDays(occurredAt, gap),
+    });
+  }
+
+  static bool _validOffsetGap(int gap) =>
+      offsetGapsDays.contains(gap) ||
+      postOffsetGapsDays.contains(gap) ||
+      gap == 0;
+
   static int _advance(int current, int steps) {
     var index = fixedLadderDays.indexOf(current);
     if (index < 0) index = -1;
@@ -70,10 +178,13 @@ final class LocalReviewRepository {
 
   static String _utcPlusDays(DateTime value, int days) {
     final target = value.toUtc().add(Duration(days: days));
-    var text = target.toIso8601String();
-    if (text.contains('.')) text = text.substring(0, text.indexOf('.'));
-    if (text.endsWith('Z')) text = text.substring(0, text.length - 1);
-    return '${text}Z';
+    final text = target.toIso8601String();
+    if (!text.contains('.')) return text;
+    final source = value.toUtc();
+    if (source.millisecond == 0 && source.microsecond == 0) {
+      return '${text.substring(0, text.indexOf('.'))}Z';
+    }
+    return text;
   }
 
   Future<void> putReviewItem(domain.ReviewItem item) async {
@@ -146,7 +257,8 @@ final class LocalReviewRepository {
     if (event.rating == domain.ReviewRating.unsupported) {
       throw FormatException('Unsupported rating cannot be appended');
     }
-    if (event.schedulerVersion != schedulerVersion) {
+    if (event.schedulerVersion != schedulerVersion &&
+        event.schedulerVersion != offsetSchedulerVersion) {
       throw FormatException('Scheduler version mismatch');
     }
     await database.transaction(() async {
@@ -166,6 +278,9 @@ final class LocalReviewRepository {
         throw StateError('Review item ${event.reviewItemId} is absent');
       }
       final current = _itemFromRow(itemRow);
+      if (event.schedulerVersion != current.schedulerVersion) {
+        throw const FormatException('Review event and item scheduler mismatch');
+      }
       final historyRows = await (database.select(
         database.reviewEvents,
       )..where((row) => row.reviewItemId.equals(current.id))).get();
@@ -250,8 +365,13 @@ final class LocalReviewRepository {
         item.state == domain.ReviewItemState.unsupported) {
       throw FormatException('Unsupported review target or state is rejected');
     }
-    if (item.schedulerVersion != schedulerVersion) {
+    if (item.schedulerVersion != schedulerVersion &&
+        item.schedulerVersion != offsetSchedulerVersion) {
       throw FormatException('Scheduler version mismatch');
+    }
+    if (item.schedulerVersion == offsetSchedulerVersion &&
+        !_validOffsetGap(item.intervalDays)) {
+      throw const FormatException('Invalid v2 review gap');
     }
   }
 
