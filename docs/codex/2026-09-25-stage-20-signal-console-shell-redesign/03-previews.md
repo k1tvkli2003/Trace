@@ -14,7 +14,7 @@ Existing concept images are Mock Previews. They guide composition and styling, n
 - Source: existing concept image
 - Assumptions: dark graphite navigation with warm stage is desired; portrayed trees/progress are illustrative
 - Limitations: desktop image viewer failed; implement responsive structure and compare runtime later
-- Verified: no
+- Verified: not verified - mock only, no runtime evidence
 - Asset: ../../../design/previews/workbench-10/05-signal-console-worktree.webp
 
 ## Mock Preview: mobile
@@ -22,5 +22,5 @@ Existing concept images are Mock Previews. They guide composition and styling, n
 - Source: existing concept image
 - Assumptions: review empty-state composition and dark treatment can inform offline shell
 - Limitations: no review data exists; do not show fake “due” counts or saved lessons
-- Verified: no
+- Verified: not verified - mock only, no runtime evidence
 - Asset: ../../../design/previews/workbench-10/06-signal-console-review-pocket.webp

@@ -2,7 +2,7 @@
 
 ## Summary
 
-- Result: `partial`
+- Result: partial
 - Last verified: 2026-09-25
 
 ## Checks
