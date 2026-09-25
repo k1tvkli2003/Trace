@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
+- Feat commit: `8444ccc`
 
 ## Current State
-Two RED tests confirmed the bool-numeric hole (`order=True`, `confidence=True`, figure `confidence=True` all accepted). GREEN fix applied: `_is_number` rejects `bool` in bbox/confidence checks plus explicit `isinstance(order, bool)` guard. Full gateway suite GREEN 58/58. Feat commit pending.
+Two RED tests confirmed the bool-numeric hole (`order=True`, `confidence=True`, figure `confidence=True` all accepted). GREEN fix applied: `_is_number` rejects `bool` in bbox/confidence checks plus explicit `isinstance(order, bool)` guard. Full gateway suite GREEN 58/58. Committed as feat `8444ccc`.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -21,4 +22,4 @@ Two RED tests confirmed the bool-numeric hole (`order=True`, `confidence=True`, 
 - GREEN fix applied; `test_page_extract -v` 11/11; gateway `discover` 58/58 OK.
 
 ## Remaining
-- Fill progress/verification/handoff/previews; validate docs; `diff --check`; feat commit + close commit.
+- None — stage closed at feat `8444ccc` + close commit.

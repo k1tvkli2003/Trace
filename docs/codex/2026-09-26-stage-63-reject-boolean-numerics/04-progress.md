@@ -12,4 +12,4 @@
 - RED confirmed; GREEN fix; full suite OK.
 
 ## Next
-- Verification/handoff/previews; docs validation; `diff --check`; feat + close commits.
+- None — stage closed at feat `8444ccc` + close commit.

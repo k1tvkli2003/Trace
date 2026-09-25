@@ -1,7 +1,7 @@
 # Handoff
 
 ## Outcome
-Boolean numerics rejected in `page_extract.py`: `order=True`, `confidence=True` (block + figure), and bool bbox coordinates all raise `ContractFailure` (pending feat commit).
+Boolean numerics rejected in `page_extract.py`: `order=True`, `confidence=True` (block + figure), and bool bbox coordinates all raise `ContractFailure`. Committed as feat `8444ccc`.
 
 ## Changed Artifacts
 - `services/ai_gateway/page_extract.py` (`_is_number` + order guard)
@@ -10,13 +10,13 @@ Boolean numerics rejected in `page_extract.py`: `order=True`, `confidence=True` 
 - `docs/codex/_index.md` (Stage63 row; status to `done` after close commit)
 
 ## How To Continue
-- Validate docs, `diff --check`, feat commit, flip Stage63 to `done`, close commit.
+- Docs validated; feat `8444ccc` committed. Close commit below ends Stage63.
 
 ## Done
-- RED confirmed + GREEN 11/11 page, 58/58 gateway.
+- RED confirmed + GREEN 11/11 page, 58/58 gateway + feat `8444ccc`.
 
 ## Remaining
-- Docs validation; `diff --check`; feat commit + close commit.
+- None — stage closed at feat `8444ccc` + close commit.
 
 ## Verification
-- Evidence GREEN (see `05-verification.md`); docs validation + commits pending.
+- Evidence GREEN + docs validated + feat `8444ccc` (see `05-verification.md`); close commit SHA recorded below after push.

@@ -1,8 +1,9 @@
 # Stage 63 reject boolean numerics
 
 - Task ID: `2026-09-26-stage-63-reject-boolean-numerics`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
+- Feat commit: `8444ccc`
 - Language: en
 
 ## Request

@@ -9,7 +9,7 @@ TDD vertical slice: two RED tests first (block order+confidence bools, figure co
 | 1 | done | Added 2 RED tests (`test_rejects_boolean_order_confidence` covers order+block-confidence, `test_rejects_boolean_figure_confidence`); RED confirmed (`ContractFailure not raised`, both) |
 | 2 | done | Added `_is_number` (`not isinstance(bool)`) in `_check_box`, both `confidence` checks; explicit `isinstance(order, bool)` guard on `BLOCKS_NOT_ORDERED` |
 | 3 | done | GREEN: `test_page_extract -v` 11/11 + gateway `discover` 58/58 OK |
-| 4 | planned | Fill Stage63 state/progress/verification/handoff/previews; validate docs; `diff --check`; feat commit + close commit |
+| 4 | done | Stage63 docs validated; feat `8444ccc`; status flipped to `done` |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py` (`validate_page_extract`, `_check_box`)
