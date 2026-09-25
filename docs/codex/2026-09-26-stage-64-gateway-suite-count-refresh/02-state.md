@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
+- Refresh commit: `0ab1b43`
 
 ## Current State
-Matrix gateway row now cites Stage63 verification with 58 tests OK, including the Stage63 boolean-numeric rejection cases. Fresh `discover` evidence re-run in this stage: `Ran 58 tests ... OK`. Refresh commit pending.
+Matrix gateway row now cites Stage63 verification with 58 tests OK, including the Stage63 boolean-numeric rejection cases. Fresh `discover` evidence re-run in this stage: `Ran 58 tests ... OK`. Committed as refresh `0ab1b43`.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -19,4 +20,4 @@ Matrix gateway row now cites Stage63 verification with 58 tests OK, including th
 - Fresh 58/58 evidence; matrix row patched.
 
 ## Remaining
-- Validate docs; `diff --check`; refresh commit + close commit.
+- None — stage closed at refresh `0ab1b43` + close commit.

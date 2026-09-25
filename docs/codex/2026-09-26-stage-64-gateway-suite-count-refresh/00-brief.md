@@ -1,8 +1,9 @@
 # Stage 64 gateway suite count refresh
 
 - Task ID: `2026-09-26-stage-64-gateway-suite-count-refresh`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
+- Refresh commit: `0ab1b43`
 - Language: en
 
 ## Request

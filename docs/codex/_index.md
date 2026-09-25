@@ -57,4 +57,4 @@
 | `2026-09-26-stage-61-certain-text-blocks-must-carry-text` | Stage 61 certain text blocks must carry text | done | 2026-09-26 | [Open](2026-09-26-stage-61-certain-text-blocks-must-carry-text/00-brief.md) |
 | `2026-09-26-stage-62-gateway-suite-count-refresh` | Stage 62 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-62-gateway-suite-count-refresh/00-brief.md) |
 | `2026-09-26-stage-63-reject-boolean-numerics` | Stage 63 reject boolean numerics | done | 2026-09-26 | [Open](2026-09-26-stage-63-reject-boolean-numerics/00-brief.md) |
-| `2026-09-26-stage-64-gateway-suite-count-refresh` | Stage 64 gateway suite count refresh | active | 2026-09-26 | [Open](2026-09-26-stage-64-gateway-suite-count-refresh/00-brief.md) |
+| `2026-09-26-stage-64-gateway-suite-count-refresh` | Stage 64 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-64-gateway-suite-count-refresh/00-brief.md) |
