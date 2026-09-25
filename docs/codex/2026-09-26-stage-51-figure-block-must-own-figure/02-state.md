@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-RED->GREEN complete locally. `page_extract.py` now requires a two-way figure/block ownership: a `kind: figure` block needs an owning figure record, and every figure `blockId` must name a `kind: figure` block. Fixture updated so `fig-1` owns new figure-kind block `b3` (quarantine block renumbered `b4`).
+RED->GREEN complete locally and committed (`21c63f2`). `page_extract.py` now requires a two-way figure/block ownership: a `kind: figure` block needs an owning figure record, and every figure `blockId` must name a `kind: figure` block. Fixture updated so `fig-1` owns new figure-kind block `b3` (quarantine block renumbered `b4`).
 
 ## Decisions
 | Date | Decision | Reason | Source |
