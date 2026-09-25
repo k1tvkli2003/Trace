@@ -1,0 +1,42 @@
+{
+  "scope": "local-only-baseline",
+  "note": "NOT-A-BUDGET: machine-specific local timings only; never a release perf claim.",
+  "provenance": {
+    "host": "Keyvan",
+    "date": "2026-09-25T20:15:00.326407+00:00",
+    "fixture_manifest_sha256": "7a1e3879b336546a93324ade43f1a051ed25eff9b68ad29950cb8c6dd5737aac",
+    "fixture_pdf_sha256": "de8aceae597331c5d22cb72a98d1a1d11e5ca5d2503dcdd7d63b0356d93578a4",
+    "fixture_markdown_sha256": "84604263073d14cd12f6ea4033846df0a08216f401bb1a7201e69420e7b26760",
+    "python": "3.11.15"
+  },
+  "measures": {
+    "manifest_read_json": {
+      "iterations": 20,
+      "min_ms": 0.0313,
+      "median_ms": 0.0337,
+      "max_ms": 0.0474,
+      "mean_ms": 0.0349
+    },
+    "sha256_pdf": {
+      "iterations": 20,
+      "min_ms": 0.0257,
+      "median_ms": 0.0285,
+      "max_ms": 0.0487,
+      "mean_ms": 0.0297
+    },
+    "sha256_markdown": {
+      "iterations": 20,
+      "min_ms": 0.0248,
+      "median_ms": 0.0254,
+      "max_ms": 0.0726,
+      "mean_ms": 0.0283
+    },
+    "pdf_byte_scan": {
+      "iterations": 20,
+      "min_ms": 0.0496,
+      "median_ms": 0.0515,
+      "max_ms": 0.0729,
+      "mean_ms": 0.0533
+    }
+  }
+}
