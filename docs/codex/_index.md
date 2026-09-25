@@ -40,4 +40,4 @@
 | `2026-09-25-stage-44-local-outbox-dead-letter-listing` | Stage 44 local outbox dead-letter listing | done | 2026-09-25 | [Open](2026-09-25-stage-44-local-outbox-dead-letter-listing/00-brief.md) |
 | `2026-09-25-stage-45-local-outbox-health-snapshot` | Stage 45 local outbox health snapshot | done | 2026-09-25 | [Open](2026-09-25-stage-45-local-outbox-health-snapshot/00-brief.md) |
 | `2026-09-25-stage-46-release-gate-truthful-docs` | Stage 46 release gate truthful docs | done | 2026-09-25 | [Open](2026-09-25-stage-46-release-gate-truthful-docs/00-brief.md) |
-| `2026-09-25-stage-47-ci-workflow-foundation` | Stage 47 CI workflow foundation | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-47-ci-workflow-foundation/00-brief.md) |
+| `2026-09-25-stage-47-ci-workflow-foundation` | Stage 47 CI workflow foundation | done | 2026-09-25 | [Open](2026-09-25-stage-47-ci-workflow-foundation/00-brief.md) |

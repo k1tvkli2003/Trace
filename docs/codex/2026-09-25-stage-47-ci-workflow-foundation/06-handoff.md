@@ -10,15 +10,16 @@ Stage47 foundation complete locally: `.github/workflows/ci.yml` + `tool/check_ta
 - `docs/codex/2026-09-25-stage-47-ci-workflow-foundation/*`, `docs/codex/_index.md`
 
 ## How To Continue
-- Next: commit this slice, then update Stage46 matrix CI row only after evidence (`MISSING` → `SCAFFOLD (unrun)`) — never `passed` without a runner log.
+- Stage47 is closed. Do not mark CI `passed` without a runner log.
 - Remaining gates after CI scaffold: `benchmarks/`, `test/e2e/`, PDF immutable store/render/Vision pilot, live AI route, sync/auth/release — each needs its own runtime evidence.
 
 ## Done
 - RED→GREEN contract verified with real local output.
 - Full task-doc validator + `diff --check` clean at commit time (see verification).
+- Matrix CI row is `SCAFFOLD (unrun)`, not `passed`.
 
 ## Remaining
-- Actual GitHub Actions run (needs remote + runner; explicitly out of scope here).
+- None for this slice. Actual GitHub Actions run stays out of scope (no remote, no runner).
 
 ## Verification
 - Contract 2/2 OK; docs-structure 39 tasks OK; gateway suite 50/50 OK; validator + diff-check clean; no secrets reference.

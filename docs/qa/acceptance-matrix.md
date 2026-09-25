@@ -30,7 +30,7 @@ Scope: offline local-first vertical-slice proof only. Every `passed` below trace
 | Supabase / auth / RLS / storage | NOT VERIFIED | Stage30 `Not Run`; no Supabase project exists in this slice |
 | Live AI Vision / cost pilot | NOT VERIFIED | Stage30 `Not Run`; Vision compatibility and cost of the personal route remain unproven |
 | PDF renderer / license spike beyond scaffold | NOT VERIFIED | Stage30 `Not Run` |
-| CI workflow | MISSING | No `.github/workflows/ci.yml` exists; no pipeline has ever run (audit `deleg_0892c1eb`) |
+| CI workflow | SCAFFOLD (unrun) | `.github/workflows/ci.yml` exists as CI-only intent (Stage47 `fcbecdd`); no pipeline has ever run — local-only validation |
 | Benchmarks | MISSING | No `benchmarks/` directory or perf baseline exists |
 | E2E (device/browser) | MISSING | No `test/e2e/` directory; app-level tests are unit/widget only |
 | Test fixtures beyond placeholder | MISSING | `test/fixtures/` holds only `README.md`; no licensed synthetic/authorized PDFs |

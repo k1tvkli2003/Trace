@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes (single model)
 
 ## Current State
-RED→GREEN complete locally: `tool/test_ci_workflow_contract.py` failed on the missing workflow (`FileNotFoundError` + failed existence assert), then passed 2/2 after `.github/workflows/ci.yml` + `tool/check_task_docs_structure.py` were added. Docs-structure check reports 39 tasks OK; full `validate_task_docs.py` passed `--structure-only` and awaits final doc fill. No GitHub run claimed (no remote/runner).
+Stage47 closed: RED→GREEN contract (`FileNotFoundError` pre-GREEN, 2/2 post-GREEN), `.github/workflows/ci.yml` + docs checker committed in `fcbecdd`, full validator OK, `diff --check` clean, working tree clean. Matrix CI row updated to `SCAFFOLD (unrun)` — no pipeline run claimed.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -24,4 +24,4 @@ RED→GREEN complete locally: `tool/test_ci_workflow_contract.py` failed on the 
 - Docs-structure check: 39 tasks OK; `diff --check` clean.
 
 ## Remaining
-- Actual GitHub Actions run (needs remote + runner; explicitly out of scope here).
+- None for this slice. Actual GitHub Actions run stays out of scope (no remote, no runner).
