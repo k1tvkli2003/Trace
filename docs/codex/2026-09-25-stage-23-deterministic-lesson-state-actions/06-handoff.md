@@ -21,7 +21,7 @@ Stage 23 adds one deterministic local-first learner-state action: footer actions
 - Focused and full suites pass with no regressions.
 
 ## Remaining
-- Commit this slice.
+- None for Stage 23; slice committed in a1ad434.
 - UI/chat binding, review scheduling, sync push, and device runtime proof remain for later stages.
 
 ## Verification

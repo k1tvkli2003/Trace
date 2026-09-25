@@ -10,7 +10,7 @@ Use a small vertical TDD slice in the existing Drift boundary. Add a typed domai
 | 2 | completed | Tests cover studied, replay, conflict, identity, stale time, and no-write failure. |
 | 3 | completed | Domain action contract and local transactional repository method implemented. |
 | 4 | completed | Focused/full suites and analysis pass; handoff docs updated. |
-| 5 | in_progress | Commit one coherent Stage 23 slice. |
+| 5 | completed | Committed in a1ad434; HEAD also carries Stage25 extension 9c33f6c on same files. |
 
 ## Interfaces and Artifacts
 - Create: `packages/trace_domain/lib/src/models/learner_state_action.dart`

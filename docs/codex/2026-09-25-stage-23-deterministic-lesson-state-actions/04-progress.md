@@ -13,4 +13,4 @@
 - Local-first transactional action receipt and replay tests pass.
 
 ## Next
-- Commit slice; future UI/scheduler/sync work stays separate.
+- Done; slice committed in a1ad434. Future UI/scheduler/sync work stays separate.

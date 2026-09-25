@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -25,5 +25,5 @@ Stage 23 local action contract and transactional repository method are implement
 - Data 84, domain 106, design 12, app 35, and gateway 50 tests passed; data/domain analysis clean.
 
 ## Remaining
-- Commit this slice.
+- Stage 23 slice committed in a1ad434 (ancestor of HEAD). HEAD also contains Stage25 extension 9c33f6c on the same repository/test files; Stage23 scheduler-free claim applies to a1ad434, not to current HEAD files.
 - UI/chat binding, review scheduling, sync push, and device runtime proof are later work.

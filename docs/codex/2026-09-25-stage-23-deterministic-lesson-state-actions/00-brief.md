@@ -1,7 +1,7 @@
 # Stage 23 deterministic lesson state actions
 
 - Task ID: `2026-09-25-stage-23-deterministic-lesson-state-actions`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 
