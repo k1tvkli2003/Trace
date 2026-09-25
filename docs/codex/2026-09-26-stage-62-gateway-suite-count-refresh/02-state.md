@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
@@ -19,4 +19,4 @@ Matrix gateway row now cites Stage61 verification with 56 tests OK, including th
 - Fresh 56/56 evidence; matrix row patched.
 
 ## Remaining
-- Validate docs, `diff --check`, refresh + close commits, `_index.md` to `done`.
+- None

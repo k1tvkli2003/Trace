@@ -1,7 +1,7 @@
 # Stage 62 gateway suite count refresh
 
 - Task ID: `2026-09-26-stage-62-gateway-suite-count-refresh`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
 - Language: en
 

@@ -9,13 +9,13 @@
 - `docs/codex/_index.md` (Stage62 row; status to `done` after close commit)
 
 ## How To Continue
-- Validate docs, `diff --check`, refresh-commit matrix+Stage62+`_index.md`, flip Stage62 docs to `done`, validate again, close-commit.
+- Stage61+Stage62 closed. Next validator slice only after a fresh probe finds a new hole; otherwise continue the standing plan.
 
 ## Done
-- Fresh 56/56 evidence + matrix patch.
+- Fresh 56/56 evidence + matrix patch + refresh `4033c6e`.
 
 ## Remaining
-- Docs validation, `diff --check`, refresh + close commits.
+- None.
 
 ## Verification
-- Evidence GREEN (see `05-verification.md`); doc/commit proof pending in the close step.
+- Evidence GREEN + docs validated + `diff --check` clean (see `05-verification.md`); close commit SHA recorded below after push.

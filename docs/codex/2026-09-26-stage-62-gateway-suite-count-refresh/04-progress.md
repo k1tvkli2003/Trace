@@ -10,4 +10,4 @@
 - Fresh evidence + matrix patch.
 
 ## Next
-- Validate docs, `diff --check`, refresh + close commits.
+- None — stage closed at refresh `4033c6e` + close commit.

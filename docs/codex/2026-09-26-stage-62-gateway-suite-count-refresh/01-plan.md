@@ -6,8 +6,8 @@ Docs-only refresh: re-run the gateway suite for fresh Stage62 evidence, patch th
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | active | Re-run gateway `discover` for fresh 56/56 evidence; patch matrix row |
-| 2 | planned | Fill Stage62 state/progress/verification/handoff/previews; validate docs; `diff --check`; refresh + close commits |
+| 1 | done | Re-ran gateway `discover` (56/56); patched matrix row to Stage61 56 |
+| 2 | done | Stage62 docs validated; `diff --check` clean; refresh `4033c6e`; close pending |
 
 ## Interfaces and Artifacts
 - `docs/qa/acceptance-matrix.md` (gateway row)
