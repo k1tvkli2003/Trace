@@ -1,7 +1,7 @@
 # Stage 20 — Trace Signal Console shell redesign
 
 - Task ID: `2026-09-25-stage-20-signal-console-shell-redesign`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: English
 

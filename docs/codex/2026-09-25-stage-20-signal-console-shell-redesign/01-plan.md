@@ -6,11 +6,11 @@ Apply Signal Console as a token-driven reskin around the existing honest shell. 
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Record Signal Console decision in task docs and design previews |
-| 2 | planned | Add failing widget/layout tests for console shell behavior |
-| 3 | planned | Extend trace_design tokens and ChatWorkspace presentation |
-| 4 | planned | Run targeted tests, full Flutter tests, analyze, and build/runtime smoke |
-| 5 | planned | Update docs, verification, handoff, and commit |
+| 1 | done | Signal Console decision recorded; committed `98f14da`. |
+| 2 | done | Failing shell assertions added; committed `98f14da`. |
+| 3 | done | Tokens + ChatWorkspace reskin done; committed `98f14da`. |
+| 4 | done | Shell/app suites, analyzer, web build recorded in `05-verification.md`. |
+| 5 | done | State/progress/verification/handoff finalized; validator OK; record closes with this commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_design/lib/src/tokens.dart`

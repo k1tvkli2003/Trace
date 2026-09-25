@@ -10,6 +10,7 @@
 | 2026-09-25 | active | Added failing shell assertions, then made navigation/stage/composer truthful and theme-backed | `chat_shell_test.dart` |
 | 2026-09-25 | active | Reskinned navigation, worktree, context bar, source cards, evidence rail, stage and composer | `chat_workspace.dart` |
 | 2026-09-25 | ready-for-review | Full Flutter suite, analyzer, web build pass; runtime screenshot and Chrome integration remain unavailable | `05-verification.md` |
+| 2026-09-25 | done | Record closed: slice `98f14da` ancestor of HEAD; validator OK; index synced to done. | `02-state.md`, `_index.md` |
 
 ## Done So Far
 
@@ -22,7 +23,4 @@
 
 ## Next
 
-- Capture and compare real runtime screenshot matrix.
-- Add source-backed Lesson AST teaching stage.
-- Verify live 9Router route only with exact requested `memo 2.6 flash` / `oc` + `ocz` evidence.
-- Prepare platform runtime/release proof separately.
+- Done: slice committed in `98f14da` ancestor of HEAD; record closes here.

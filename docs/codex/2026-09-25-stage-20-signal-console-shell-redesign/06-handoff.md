@@ -33,11 +33,7 @@ Stage 20 Signal Console shell slice implemented. Trace now uses graphite console
 
 ## Remaining
 
-- Screenshot-based visual QA.
-- Android/Windows/PWA runtime proof.
-- Live AI gateway adapter and route verification.
-- PDF Vision/review/lesson path.
-- Sync, auth, release identity and packaging.
+- None for this record; slice committed in `98f14da` ancestor of HEAD. Screenshot QA, platform runtime, live adapter, Vision/review/lesson, sync/auth/release stay later slices.
 
 ## Verification
 

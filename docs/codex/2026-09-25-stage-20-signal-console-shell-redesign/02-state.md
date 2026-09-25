@@ -1,12 +1,13 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
+- Provenance: slice committed in `98f14da` ancestor of HEAD.
 
 ## Current State
 
-Signal Console shell slice is implemented and staged. Trace uses a shared dark console theme, truthful worktree collections, responsive navigation, source inspector rail, stable draft behavior, and offline AI state. Flutter shell suite, app suite, analyzer, and web build pass.
+Signal Console shell slice is implemented and staged. Trace uses a shared dark console theme, truthful worktree collections, responsive navigation, source inspector rail, stable draft behavior, and offline AI state. Flutter shell suite, app suite, analyzer, and web build pass. Record closes with validator OK; screenshot/platform/live-route work stays later slices.
 
 ## Decisions
 
@@ -32,7 +33,4 @@ Signal Console shell slice is implemented and staged. Trace uses a shared dark c
 
 ## Remaining
 
-- Screenshot matrix and visual mismatch ledger.
-- Android/Windows/PWA runtime proof.
-- Live 9Router route/API/Vision verification and server-only adapter.
-- PDF Vision/review/lesson flow, sync/auth/storage, release identity.
+- None for this record; slice committed in `98f14da` ancestor of HEAD. Screenshot matrix, platform runtime, live route, Vision/review/lesson, sync/auth/release stay later slices.

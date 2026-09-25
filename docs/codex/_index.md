@@ -13,7 +13,7 @@
 | `2026-09-25-stage-17-slice-planner-and-cursor` | Stage 17 slice planner and cursor | done | 2026-09-25 | [Open](2026-09-25-stage-17-slice-planner-and-cursor/00-brief.md) |
 | `2026-09-25-stage-18-lesson-ast-schema-and-validator` | Stage 18 lesson AST schema and validator | done | 2026-09-25 | [Open](2026-09-25-stage-18-lesson-ast-schema-and-validator/00-brief.md) |
 | `2026-09-25-stage-19-teacher-fa-capability-contract` | Stage 19 teacher-fa capability contract | done | 2026-09-25 | [Open](2026-09-25-stage-19-teacher-fa-capability-contract/00-brief.md) |
-| `2026-09-25-stage-20-signal-console-shell-redesign` | Stage 20 Signal Console shell redesign | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-20-signal-console-shell-redesign/00-brief.md) |
+| `2026-09-25-stage-20-signal-console-shell-redesign` | Stage 20 Signal Console shell redesign | done | 2026-09-25 | [Open](2026-09-25-stage-20-signal-console-shell-redesign/00-brief.md) |
 | `2026-09-25-stage-21-signal-console-teaching-stage` | Stage 21 Signal Console teaching stage | done | 2026-09-25 | [Open](2026-09-25-stage-21-signal-console-teaching-stage/00-brief.md) |
 | `2026-09-25-stage-22-chat-tool-router-offline-contract` | Stage 22 chat tool router offline contract | done | 2026-09-25 | [Open](2026-09-25-stage-22-chat-tool-router-offline-contract/00-brief.md) |
 | `2026-09-25-stage-23-deterministic-lesson-state-actions` | Stage 23 deterministic lesson state actions | done | 2026-09-25 | [Open](2026-09-25-stage-23-deterministic-lesson-state-actions/00-brief.md) |
