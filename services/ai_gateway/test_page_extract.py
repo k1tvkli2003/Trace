@@ -213,6 +213,22 @@ class PageExtractTests(unittest.TestCase):
             )
         self.assertEqual(str(failure.exception), 'INVALID_FIGURE_CONFIDENCE')
 
+    def test_rejects_block_text_with_control_characters(self):
+        doc = extract()
+        for text in ('a' + chr(0) + 'b', 'a' + chr(1) + 'b',
+                     'a' + chr(0x202e) + 'b'):
+            with self.subTest(text=ascii(text)):
+                case = {**doc, 'blocks': [
+                    {**block, 'text': text} if block['id'] == 'b2' else block
+                    for block in doc['blocks']
+                ]}
+                with self.assertRaises(ContractFailure) as failure:
+                    validate_page_extract(
+                        case, source_hash=SOURCE, pixel_hash=PIXEL,
+                        render_profile=PROFILE, page_ref=PAGE,
+                    )
+                self.assertEqual(str(failure.exception), 'INVALID_BLOCK_TEXT')
+
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()
         cases = (

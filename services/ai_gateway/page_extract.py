@@ -31,6 +31,16 @@ _MAX_FIGURES = 30
 _MAX_TEXT = 8000
 _MAX_CAPTION = 1000
 _LOW_CONFIDENCE = 0.5
+_CONTROL_RANGES = (
+    (0x00, 0x08), (0x0B, 0x0C), (0x0E, 0x1F), (0x7F, 0x9F),
+    (0x202A, 0x202E), (0x2066, 0x2069),
+)
+_CONTROL_TEXT = re.compile(
+    '[' + ''.join(
+        chr(code) for start, end in _CONTROL_RANGES
+        for code in range(start, end + 1)
+    ) + ']'
+)
 _TEXT_KINDS = frozenset({
     'heading', 'paragraph', 'list', 'table',
     'formula', 'caption', 'footnote',
@@ -117,7 +127,8 @@ def validate_page_extract(
         if kind not in _ALLOWED_KINDS:
             raise ContractFailure('INVALID_BLOCK_KIND')
         text = block.get('text')
-        if not isinstance(text, str) or len(text) > _MAX_TEXT or _UNSAFE.search(text):
+        if not isinstance(text, str) or len(text) > _MAX_TEXT or \
+                _UNSAFE.search(text) or _CONTROL_TEXT.search(text):
             raise ContractFailure('INVALID_BLOCK_TEXT')
         confidence = block.get('confidence')
         if not _is_number(confidence) or confidence != confidence or \
