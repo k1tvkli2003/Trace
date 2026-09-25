@@ -8,13 +8,13 @@ Matrix gateway row cites Stage55 run (53 tests OK). No production change.
 - `docs/codex/2026-09-26-stage-56-gateway-suite-count-refresh/` (task docs)
 
 ## How To Continue
-- Validate docs, diff-check, commit.
+- None. Stage closed; next work starts from this commit.
 
 ## Done
-- Suite 53/53; one-row refresh.
+- Suite 53/53; one-row refresh; refresh + close committed.
 
 ## Remaining
-- Commit.
+- None.
 
 ## Verification
 - 53/53 OK; diff limited to gateway row.

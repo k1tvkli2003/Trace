@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-Matrix gateway row updated to Stage55 run (53 tests OK). Suite re-run local, still 53/53. Only gateway row changed.
+Closed `done` after refresh commit (`b06cc92`). Suite re-run local, still 53/53. Only gateway row changed.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -20,4 +20,4 @@ Matrix gateway row updated to Stage55 run (53 tests OK). Suite re-run local, sti
 - Matrix row cites Stage55 evidence.
 
 ## Remaining
-- Validate docs, diff-check, commit.
+- None. Refresh (`b06cc92`) plus this close commit.
