@@ -1,6 +1,6 @@
 # State
 
-- Current status: `active`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -21,4 +21,4 @@ RED->GREEN complete locally. `benchmarks/run_local_baseline.py` (stdlib only, N=
 - Runner + baseline artifact + GREEN 2/2
 
 ## Remaining
-- Commit (close to `done` after commit)
+- None (committed `9890d47`)

@@ -9,7 +9,7 @@ TDD RED->GREEN: contract test first (fails: no `benchmarks/` baseline), then a m
 | 1 | done | RED contract `tool/test_benchmark_baseline_contract.py` failed 2/2, no `benchmarks/baseline-*.json` |
 | 2 | done | GREEN `benchmarks/run_local_baseline.py` stdlib-only runner, N=20, wrote `baseline-Keyvan-20260925.json` |
 | 3 | done | Matrix `MISSING` -> `SCAFFOLD (local-only baseline)`; contract GREEN 2/2, validator OK, diff-check clean |
-| 4 | planned | Validate docs, diff-check, commit |
+| 4 | done | Validated OK, diff-check clean, committed `9890d47` |
 
 ## Interfaces and Artifacts
 - `tool/test_benchmark_baseline_contract.py` (new, unittest contract)

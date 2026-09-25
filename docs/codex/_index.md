@@ -42,4 +42,4 @@
 | `2026-09-25-stage-46-release-gate-truthful-docs` | Stage 46 release gate truthful docs | done | 2026-09-25 | [Open](2026-09-25-stage-46-release-gate-truthful-docs/00-brief.md) |
 | `2026-09-25-stage-47-ci-workflow-foundation` | Stage 47 CI workflow foundation | done | 2026-09-25 | [Open](2026-09-25-stage-47-ci-workflow-foundation/00-brief.md) |
 | `2026-09-25-stage-48-licensed-synthetic-fixture-contract` | Stage 48 licensed synthetic fixture contract | done | 2026-09-25 | [Open](2026-09-25-stage-48-licensed-synthetic-fixture-contract/00-brief.md) |
-| `2026-09-25-stage-49-local-benchmark-baseline` | Stage 49 local benchmark baseline | active | 2026-09-25 | [Open](2026-09-25-stage-49-local-benchmark-baseline/00-brief.md) |
+| `2026-09-25-stage-49-local-benchmark-baseline` | Stage 49 local benchmark baseline | done | 2026-09-25 | [Open](2026-09-25-stage-49-local-benchmark-baseline/00-brief.md) |

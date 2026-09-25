@@ -1,7 +1,7 @@
 # Stage 49 local benchmark baseline
 
 - Task ID: `2026-09-25-stage-49-local-benchmark-baseline`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-25T23:41:06
 - Language: en
 

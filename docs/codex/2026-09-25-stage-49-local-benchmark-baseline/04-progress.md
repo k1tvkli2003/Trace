@@ -12,4 +12,4 @@
 - RED->GREEN: contract 2/2, baseline artifact with provenance.
 
 ## Next
-- Commit, then mark `done`.
+- None (Stage49 closed).

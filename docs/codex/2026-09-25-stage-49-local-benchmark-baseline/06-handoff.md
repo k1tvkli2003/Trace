@@ -18,7 +18,7 @@ Host-local benchmark baseline only. Runner + timestamped JSON + 2/2 contract GRE
 - RED->GREEN contract cycle with real local run.
 
 ## Remaining
-- Commit, then mark `done`.
+- None (committed `9890d47`).
 
 ## Verification
 - Local GREEN 2/2; medians 0.025-0.052 ms over N=20; not a budget, not portable.
