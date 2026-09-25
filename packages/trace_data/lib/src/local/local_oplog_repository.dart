@@ -181,6 +181,22 @@ final class LocalOplogRepository {
     return row == null ? null : _runFromRow(row);
   }
 
+  Future<List<domain.SyncOperation>> listReadyToClaim({int limit = 100}) async {
+    if (limit < 1) {
+      throw ArgumentError.value(limit, 'limit', 'must be at least 1');
+    }
+    final query = database.select(database.syncOperations)
+      ..where(
+        (entry) => entry.syncState.equals(domain.SyncState.pending.wireName),
+      )
+      ..orderBy([
+        (entry) => OrderingTerm.asc(entry.createdAt),
+        (entry) => OrderingTerm.asc(entry.id),
+      ])
+      ..limit(limit);
+    return (await query.get()).map(_operationFromRow).toList();
+  }
+
   Future<List<domain.SyncOperation>> listOperations() async =>
       (await database.select(database.syncOperations).get())
           .map(_operationFromRow)

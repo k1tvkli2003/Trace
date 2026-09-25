@@ -25,3 +25,4 @@
 | `2026-09-25-stage-29-native-adapters-and-background-jobs` | Stage 29 native adapters and background jobs | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-29-native-adapters-and-background-jobs/00-brief.md) |
 | `2026-09-25-stage-30-vertical-slice-proof-and-release-gate` | Stage 30 vertical slice proof and release gate | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-30-vertical-slice-proof-and-release-gate/00-brief.md) |
 | `2026-09-25-stage-31-local-outbox-lifecycle-replay-safety` | Stage 31 local outbox lifecycle replay safety | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-31-local-outbox-lifecycle-replay-safety/00-brief.md) |
+| `2026-09-25-stage-32-local-outbox-pending-queue-ordering` | Stage 32 local outbox pending queue ordering | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-32-local-outbox-pending-queue-ordering/00-brief.md) |
