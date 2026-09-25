@@ -6,7 +6,8 @@
 
 ## Current State
 Offline vertical-slice proof is GREEN with no production changes required.
-Docs and release-gate inventory are recorded. Commit is next.
+Docs and release-gate inventory are recorded. Committed as `339f1c3`;
+worktree clean at commit.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -28,5 +29,4 @@ Docs and release-gate inventory are recorded. Commit is next.
 - Full verification recorded.
 
 ## Remaining
-- `_index.md` status update.
-- Commit.
+- Release gate is still open: real PDF Vision, persisted approved tree, live AI, sync/auth, platform and CI evidence.

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart';
 import 'package:trace_domain/trace_domain.dart' as domain;
 
 import 'trace_database.dart' as db;
@@ -76,6 +77,101 @@ final class LocalOplogRepository {
       database.syncOperations,
     )..where((entry) => entry.id.equals(id))).getSingleOrNull();
     return row == null ? null : _operationFromRow(row);
+  }
+
+  /// Claim one pending row for local work.
+  ///
+  /// Local-only: the caller owns crash recovery by calling the explicit
+  /// acknowledge/recordFailure path. No server acknowledgement exists yet.
+  Future<domain.SyncOperation> claimPending(String id) async => _transition(
+    id,
+    from: domain.SyncState.pending,
+    to: domain.SyncState.inFlight,
+    retryDelta: 0,
+  );
+
+  /// Mark in-flight work acknowledged locally.
+  ///
+  /// Terminal in this slice: there is no later local transition from synced.
+  Future<domain.SyncOperation> acknowledge(String id) async => _transition(
+    id,
+    from: domain.SyncState.inFlight,
+    to: domain.SyncState.synced,
+    retryDelta: 0,
+  );
+
+  /// Record one local failure attempt and preserve the retry count.
+  Future<domain.SyncOperation> recordFailure(String id) async => _transition(
+    id,
+    from: domain.SyncState.inFlight,
+    to: domain.SyncState.failed,
+    retryDelta: 1,
+  );
+
+  /// Return failed work to pending while preserving prior retry attempts.
+  Future<domain.SyncOperation> requeueFailed(String id) async => _transition(
+    id,
+    from: domain.SyncState.failed,
+    to: domain.SyncState.pending,
+    retryDelta: 0,
+  );
+
+  Future<domain.SyncOperation> _transition(
+    String id, {
+    required domain.SyncState from,
+    required domain.SyncState to,
+    required int retryDelta,
+  }) async {
+    return database.transaction(() async {
+      final row = await (database.select(
+        database.syncOperations,
+      )..where((entry) => entry.id.equals(id))).getSingleOrNull();
+      if (row == null) {
+        throw StateError('Sync operation $id is absent');
+      }
+      final current = _operationFromRow(row);
+      if (current.syncState != from) {
+        throw StateError(
+          'Sync operation $id is ${current.rawSyncState}, not ${from.wireName}',
+        );
+      }
+      return _writeTransition(current, to: to, retryDelta: retryDelta);
+    });
+  }
+
+  Future<domain.SyncOperation> _writeTransition(
+    domain.SyncOperation current, {
+    required domain.SyncState to,
+    required int retryDelta,
+  }) async {
+    if (to == domain.SyncState.tombstone ||
+        to == domain.SyncState.unsupported) {
+      throw StateError('Sync transition target is out of scope');
+    }
+    final priorJson = current.toJson();
+    final next = domain.SyncOperation.fromJson({
+      ...priorJson,
+      'syncState': to.wireName,
+      'retryCount': current.retryCount + retryDelta,
+    });
+    final changed =
+        await (database.update(database.syncOperations)..where(
+              (entry) =>
+                  entry.id.equals(current.operationId) &
+                  entry.syncState.equals(current.rawSyncState),
+            ))
+            .write(
+              db.SyncOperationsCompanion(
+                syncState: Value(next.rawSyncState),
+                payloadJson: Value(jsonEncode(next.toJson())),
+              ),
+            );
+    if (changed != 1) {
+      throw StateError(
+        'Sync operation ${current.operationId} changed during transition',
+      );
+    }
+    return next;
   }
 
   Future<domain.AiRunLedger?> readRun(String id) async {

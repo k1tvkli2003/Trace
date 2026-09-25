@@ -12,6 +12,7 @@
 | 2026-09-25 | active | Gateway suite passed. | `python -m unittest discover -s services/ai_gateway -p 'test_*.py'` (50 tests OK) |
 | 2026-09-25 | active | App tests passed with `--no-pub`; analyzer clean. | `flutter test --no-pub`, `flutter analyze --no-pub` |
 | 2026-09-25 | active | App formatter has pre-existing SDK-version drift in unrelated PDF files; reverted to keep slice clean. | `git checkout -- lib test` from app package |
+| 2026-09-25 | ready-for-review | Proof committed; release gate remains open. | `339f1c3`; clean worktree after commit |
 
 ## Done So Far
 - Offline vertical-slice integration test added and green.
@@ -19,6 +20,4 @@
 - Release-gate inventory checked: acceptance matrix, runbook, CI workflow, benchmarks, and E2E remain absent.
 
 ## Next
-- Complete verification receipt and handoff.
-- Update `_index.md`.
-- Commit.
+- Prove missing production boundaries in separate slices; do not treat this offline proof as release readiness.
