@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes
 
@@ -30,4 +30,4 @@ closed for review.
 - Focused test GREEN; full wider suites GREEN.
 
 ## Remaining
-- Docs, validator, commit, handoff.
+- None for this record; slice committed in `5c93ac1` ancestor of HEAD. Real sync transport/RLS/Storage/background/CI remain later stages.

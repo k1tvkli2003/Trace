@@ -19,6 +19,4 @@
 - Focused and wider verification completed.
 
 ## Next
-- Complete verification receipt and handoff.
-- Update `_index.md`.
-- Commit.
+- Done: slice committed in `5c93ac1` ancestor of HEAD; local-only record closes here.

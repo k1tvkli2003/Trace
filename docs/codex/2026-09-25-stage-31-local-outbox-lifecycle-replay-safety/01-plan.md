@@ -9,11 +9,11 @@ failing closed through the existing exact-immutable `putBatch` guard.
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write focused RED lifecycle test before production edits. |
-| 2 | planned | Verify RED with the missing transition API. |
-| 3 | planned | Add minimal claim/ack/failure/requeue methods, no migration. |
-| 4 | planned | Verify GREEN plus full data/domain/app/Gateway suites. |
-| 5 | planned | Complete docs, validator, commit, and honest handoff. |
+| 1 | done | Focused RED lifecycle test written first; committed slice `5c93ac1`. |
+| 2 | done | RED verified with missing transition API. |
+| 3 | done | Minimal claim/ack/failure/requeue methods added, no migration. |
+| 4 | done | GREEN plus full data/domain/app/Gateway suites recorded in `05-verification.md`. |
+| 5 | done | Docs, validator, commit, and honest handoff; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_oplog_repository.dart`

@@ -24,7 +24,7 @@ metadata change. No migration, no network, no Supabase change.
 - Analyzers clean; format and diff checks clean.
 
 ## Remaining
-- Commit.
+- None for this record; committed in `5c93ac1` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope for this slice.
 
 ## Verification

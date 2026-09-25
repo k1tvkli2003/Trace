@@ -1,7 +1,7 @@
 # Stage 31 local outbox lifecycle replay safety
 
 - Task ID: `2026-09-25-stage-31-local-outbox-lifecycle-replay-safety`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 
