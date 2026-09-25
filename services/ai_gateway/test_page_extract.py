@@ -190,6 +190,19 @@ class PageExtractTests(unittest.TestCase):
             )
         self.assertEqual(str(failure.exception), 'INVALID_CONFIDENCE')
 
+    def test_rejects_float_block_order(self):
+        doc = extract()
+        case = {**doc, 'blocks': [
+            {**block, 'order': 1.0} if block['id'] == 'b2' else block
+            for block in doc['blocks']
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'BLOCKS_NOT_ORDERED')
+
     def test_rejects_boolean_figure_confidence(self):
         doc = extract()
         case = {**doc, 'figures': [{**doc['figures'][0], 'confidence': True}]}

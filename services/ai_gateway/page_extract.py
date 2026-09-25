@@ -111,7 +111,7 @@ def validate_page_extract(
             raise ContractFailure('DUPLICATE_BLOCK_ID')
         ids.add(block_id)
         order = block.get('order')
-        if isinstance(order, bool) or order != index:
+        if type(order) is not int or order != index:
             raise ContractFailure('BLOCKS_NOT_ORDERED')
         kind = block.get('kind')
         if kind not in _ALLOWED_KINDS:
