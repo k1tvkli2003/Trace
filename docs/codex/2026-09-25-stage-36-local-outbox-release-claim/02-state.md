@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -23,4 +23,4 @@ Stage36 GREEN: `LocalOplogRepository.releaseClaim(id)` moves `in_flight` to `pen
 - Docs to ready-for-review.
 
 ## Remaining
-- Validator, `git diff --check`, stage, review, commit.
+- None for this record; slice committed in `dca85d1` ancestor of HEAD. Worker loop/transport/RLS/Storage/background/CI remain later stages.
