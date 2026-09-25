@@ -32,5 +32,6 @@ export 'src/models/review_event.dart';
 export 'src/models/chat_thread.dart';
 export 'src/models/chat_message.dart';
 export 'src/models/tool_invocation.dart';
+export 'src/models/platform_capabilities.dart';
 export 'src/models/sync_operation.dart';
 export 'src/models/ai_run_ledger.dart';
