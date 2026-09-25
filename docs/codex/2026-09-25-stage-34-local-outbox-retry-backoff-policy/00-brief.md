@@ -1,7 +1,7 @@
 # Stage 34 local outbox retry backoff policy
 
 - Task ID: `2026-09-25-stage-34-local-outbox-retry-backoff-policy`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

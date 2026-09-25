@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -23,4 +23,4 @@ Stage34 GREEN: pure `LocalOplogRepository.retryDelay` added with base 10s, doubl
 - GREEN minimal pure helper; full suites verified.
 
 ## Remaining
-- Validator, `git diff --check`, stage, commit.
+- None for this record; slice committed in `7d869ed` ancestor of HEAD. Caller wait loop/transport/RLS/Storage/background/CI remain later stages.

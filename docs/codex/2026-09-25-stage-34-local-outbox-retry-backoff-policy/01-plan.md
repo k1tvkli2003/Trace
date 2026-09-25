@@ -6,10 +6,10 @@ Tracer on `LocalOplogRepository`: RED focused test for a pure `retryDelay(retryC
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write focused failing test `local_oplog_backoff_test.dart` |
-| 2 | planned | Verify RED exit nonzero for the missing symbol |
-| 3 | planned | Implement minimal pure `retryDelay` + cap validation |
-| 4 | planned | Verify GREEN focused + data/domain/app/Gateway suites |
+| 1 | done | Focused failing test `local_oplog_backoff_test.dart` written; committed slice `7d869ed`. |
+| 2 | done | RED exit nonzero for the missing symbol verified. |
+| 3 | done | Minimal pure `retryDelay` + cap validation implemented. |
+| 4 | done | GREEN focused + data/domain/app/Gateway suites recorded in `05-verification.md`; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_oplog_repository.dart`: `retryDelay` static helper.

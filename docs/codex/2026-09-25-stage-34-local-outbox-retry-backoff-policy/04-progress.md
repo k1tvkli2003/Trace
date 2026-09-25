@@ -12,4 +12,4 @@
 - RED→GREEN tracer complete with full-suite evidence.
 
 ## Next
-- Validator, diff check, stage, commit.
+- Done: slice committed in `7d869ed` ancestor of HEAD; local-only record closes here.

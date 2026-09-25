@@ -20,7 +20,7 @@ Local retry timing is now deterministic: pure `LocalOplogRepository.retryDelay(r
 - Analyzers clean; format clean.
 
 ## Remaining
-- Validator + commit (this verify step).
+- None for this record; committed in `7d869ed` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope.
 
 ## Verification
