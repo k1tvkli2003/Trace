@@ -10,7 +10,7 @@
 | 2 | done | RED: تست exact و quote-moved و prefix/suffix و detached و Persian whitespace |
 | 3 | done | GREEN: `rehydrateHighlight` در دامنه با enum نتیجه و reason |
 | 4 | done | GREEN: `rehydrateAnchor` و `markDetached` در repository با tombstone/locator check |
-| 5 | active | suite داده/دامنه و analyze و format و docs validation؛ commit |
+| 5 | done | suite داده/دامنه و analyze و format و docs validation پاس؛ committed in e52a638. |
 
 ## Interfaces and Artifacts
 - `packages/trace_domain/lib/src/models/highlight_rehydration.dart`

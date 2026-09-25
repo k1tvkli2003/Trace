@@ -12,7 +12,7 @@ Highlight anchors now rehydrate through the explicit ordered ladder and detach v
 - `docs/codex/2026-09-25-stage-27-highlight-anchor-engine/` and `_index.md`
 
 ## How To Continue
-Run docs validation, then commit this slice. Next: repair flow with a fresh anchor ID that reuses the same quote/prefix/suffix evidence, then selection/repair UI. Do not write new offsets into an existing anchor row.
+Done; slice committed in e52a638. Next: repair flow with a fresh anchor ID that reuses the same quote/prefix/suffix evidence, then selection/repair UI. Do not write new offsets into an existing anchor row.
 
 ## Done
 - Domain ladder with whitespace-only Persian matching and no Yeh/Kaf rewrite.
@@ -21,7 +21,7 @@ Run docs validation, then commit this slice. Next: repair flow with a fresh anch
 - Domain/data/app suites, both analyzes, format, and gateway regression pass.
 
 ## Remaining
-- Docs validation and commit.
+- None for docs; this slice committed in e52a638.
 - Fresh-anchor repair flow, annotation UI, sync transport, device/browser proof.
 
 ## Verification

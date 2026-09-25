@@ -1,7 +1,7 @@
 # Stage 27 highlight anchor engine
 
 - Task ID: `2026-09-25-stage-27-highlight-anchor-engine`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25T10:27:13
 - Language: fa
 

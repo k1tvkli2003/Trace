@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes
 
 ## Current State
-موتور rehydration در دامنه و repository پیاده و سبز است: evaluator مرتبه‌ای، `rehydrateAnchor` فقط‌خواندنی و `markDetached` صریح بدون migration. suite و analyze و format پاس؛ فقط docs validation و commit مان...[truncated]
+موتور rehydration در دامنه و repository پیاده و سبز است: evaluator مرتبه‌ای، `rehydrateAnchor` فقط‌خواندنی و `markDetached` صریح بدون migration. suite و analyze و format پاس؛ committed in e52a638 (ancestor of HEAD).
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -22,4 +22,4 @@
 - Domain ladder and repository rehydrate/detach implemented and green
 
 ## Remaining
-- Docs validation and commit
+- None for this slice; committed in e52a638.

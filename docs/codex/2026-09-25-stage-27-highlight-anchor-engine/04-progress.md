@@ -13,4 +13,4 @@
 - Domain evaluator and repository rehydrate/detach implemented and green
 
 ## Next
-- Docs validation and commit
+- Done; slice committed in e52a638.
