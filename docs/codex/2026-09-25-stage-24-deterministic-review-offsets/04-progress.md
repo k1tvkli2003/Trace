@@ -13,5 +13,5 @@
 - Task docs moved to ready-for-review.
 
 ## Next
-- Commit the Stage 24 slice.
+- Done; slice committed in ecb8e16.
 - Next stage can safely integrate Stage 23 actions, UI footer/inbox, and due-query work.

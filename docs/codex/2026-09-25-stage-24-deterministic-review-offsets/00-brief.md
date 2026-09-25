@@ -1,7 +1,7 @@
 # Stage 24 deterministic review offsets
 
 - Task ID: `2026-09-25-stage-24-deterministic-review-offsets`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

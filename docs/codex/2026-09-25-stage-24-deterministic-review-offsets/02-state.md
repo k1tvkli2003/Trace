@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -26,6 +26,5 @@
 - Bounded verification done: data 93/93, domain 106/106, gateway 50/50; both data/domain analyze checks clean and data format unchanged.
 
 ## Remaining
-- Record final verification output and validate task docs.
-- Commit this bounded scheduler slice.
-- Subsequent stage: wire Stage 23 state actions and UI/footer to review item creation in one transaction; no such flow exists yet.
+- None for this bounded slice; committed in ecb8e16 (ancestor of HEAD).
+- Subsequent stage: wire Stage 23 state actions and UI/footer to review item creation in one transaction.

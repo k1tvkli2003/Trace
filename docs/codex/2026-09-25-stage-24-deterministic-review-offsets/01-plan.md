@@ -10,7 +10,7 @@ Keep existing v1 interval semantics for persisted items. Add `fixed-offset-v2` u
 | 2 | completed | Added targeted failing offset and first-study tests before implementation. |
 | 3 | completed | Added `fixed-offset-v2` projection and first-study constructor; no migration. |
 | 4 | completed | Added late/again/easy/post-30/duplicate/version-mismatch coverage. |
-| 5 | completed | Package tests/analyze/format and docs validation passed; commit follows. |
+| 5 | completed | Package tests/analyze/format and docs validation passed; committed in ecb8e16. |
 
 ## Interfaces and Artifacts
 - Modify: `packages/trace_domain/lib/src/models/review_item.dart`, `packages/trace_data/lib/src/local/local_review_repository.dart`, `packages/trace_data/lib/src/local/trace_database.dart` (only if new persistence needed).
