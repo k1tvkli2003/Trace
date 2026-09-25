@@ -307,6 +307,23 @@ final class LocalOplogRepository {
           .map(_operationFromRow)
           .toList();
 
+  /// Read-only point-in-time counts per sync state.
+  ///
+  /// Local-only observability for worker/drain progress and dead-letter
+  /// backlog. Folds existing rows through the reviewed row mapping; no
+  /// transitions, clock, sleep, or network.
+  Future<Map<domain.SyncState, int>> countByState() async {
+    final counts = <domain.SyncState, int>{
+      for (final state in domain.SyncState.values) state: 0,
+    };
+    final rows = await database.select(database.syncOperations).get();
+    for (final row in rows) {
+      final operation = _operationFromRow(row);
+      counts[operation.syncState] = counts[operation.syncState]! + 1;
+    }
+    return counts;
+  }
+
   Future<List<domain.AiRunLedger>> listRuns() async =>
       (await database.select(database.aiRunLedgers).get())
           .map(_runFromRow)
