@@ -10,7 +10,7 @@
 | 2 | done | RED: capability gate + due-notice policy + resume-set؛ خروج غیرصفر به‌علت نبود API ثبت شد |
 | 3 | done | GREEN: قرارداد دامنه `platform_capabilities.dart` خالص |
 | 4 | done | GREEN: آداپتر اپ `platform_notifier.dart` و helper `render_resume.dart` با delivery صادقانه |
-| 5 | active | suite کامل، docs validation و commit باقی است |
+| 5 | done | suite کامل، docs validation و commit باقی است؛ committed slice `e18f516` |
 
 ## Interfaces and Artifacts
 - `packages/trace_domain/lib/src/models/platform_capabilities.dart`

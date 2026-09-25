@@ -18,5 +18,4 @@
 - No schema, native folder, dependency, or `StudyHub-Web` change.
 
 ## Next
-- Task docs validation and `git diff --check` clean.
-- Stage, commit, verify clean worktree, close Stage 29.
+- Done: record committed in `e18f516`; docs-only close pending validation/commit.

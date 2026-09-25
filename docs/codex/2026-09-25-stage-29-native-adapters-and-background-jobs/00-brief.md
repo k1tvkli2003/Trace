@@ -1,7 +1,7 @@
 # Stage 29 native adapters and background jobs
 
 - Task ID: `2026-09-25-stage-29-native-adapters-and-background-jobs`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25T11:24:17
 - Language: fa
 

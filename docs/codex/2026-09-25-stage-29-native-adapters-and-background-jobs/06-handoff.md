@@ -25,7 +25,7 @@ Stage 29 decision slice delivered: one shared platform contract, one honest fore
 - RED observed before each implementation; suites and analyze green.
 
 ## Remaining
-- Docs validation rerun, commit, clean-worktree confirmation.
+- None for this record; slice committed in `e18f516`.
 - Real OS scheduling/permission/PWA runtime proof (explicitly out of scope).
 - Stage 30 release-gate evidence.
 

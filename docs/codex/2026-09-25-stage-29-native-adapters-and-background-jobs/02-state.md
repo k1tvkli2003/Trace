@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes
 
@@ -23,4 +23,4 @@
 - Domain contract and app adapter implemented behind failing-first tests
 
 ## Remaining
-- Docs validation, `git diff --check`, commit, clean worktree
+- None for this bounded slice; committed in `e18f516` ancestor of HEAD. Follow-ups (real OS scheduling/permission/PWA, Stage 30 evidence) belong to later stages.
