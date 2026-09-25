@@ -1,0 +1,96 @@
+# CI foundation (Stage47). Checks only: no release, publish, deploy, signing,
+# secrets, environments, Supabase, benchmarks, E2E, or live-AI calls.
+# Mirrors the Stage30 local runbook (`docs/ops/runbook.md`).
+# A GitHub run has never been observed here (no remote/runner); this file is
+# versioned intent, not run evidence.
+name: ci
+
+"on":
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  domain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.0"
+          channel: stable
+      - name: Domain tests (mirrors runbook)
+        working-directory: packages/trace_domain
+        run: dart test
+
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.0"
+          channel: stable
+      - name: Data tests (mirrors runbook)
+        working-directory: packages/trace_data
+        run: dart test
+      - name: Data analyzer (mirrors runbook)
+        working-directory: packages/trace_data
+        run: dart analyze
+      - name: Targeted format check (mirrors runbook)
+        working-directory: packages/trace_data
+        run: dart format --output=none --set-exit-if-changed test/offline_vertical_slice_test.dart
+
+  gateway:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Gateway suite (mirrors runbook, 50 tests)
+        run: python -m unittest discover -s services/ai_gateway -p "test_*.py"
+
+  app-flutter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.0"
+          channel: stable
+      - name: App tests (mirrors runbook)
+        working-directory: apps/trace_flutter
+        run: flutter test --no-pub
+      - name: App analyzer (mirrors runbook)
+        working-directory: apps/trace_flutter
+        run: flutter analyze --no-pub
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Task-docs structure check (CI replicate of --structure-only)
+        run: python tool/check_task_docs_structure.py
+
+  diff-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Whitespace errors in working tree (mirrors runbook)
+        run: git diff --check
+      - name: Whitespace errors in HEAD commit
+        run: "git show --check --pretty=format: HEAD"
