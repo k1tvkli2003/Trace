@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
@@ -18,7 +18,7 @@ RED test confirmed the control-character hole (`\x00`, `\x01`, U+202E in `b2.tex
 
 ## Done
 - RED test added and confirmed RED.
-- GREEN fix applied; `test_page_extract -v` 13/13; gateway `discover` 60/60 OK.
+- GREEN fix applied (`_CONTROL_RANGES`/`_CONTROL_TEXT`); `test_page_extract -v` 13/13; gateway `discover` 60/60 OK; docs validated `OK`; feat `3a0d336` committed.
 
 ## Remaining
-- Validate docs; `diff --check`; feat + close commits.
+- None — stage closed at feat `3a0d336` + close commit.

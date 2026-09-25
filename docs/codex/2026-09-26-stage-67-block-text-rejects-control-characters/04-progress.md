@@ -12,4 +12,4 @@
 - RED confirmed; GREEN fix; full suite OK.
 
 ## Next
-- Validate docs; `diff --check`; feat + close commits.
+- None — stage closed at feat `3a0d336` + close commit.

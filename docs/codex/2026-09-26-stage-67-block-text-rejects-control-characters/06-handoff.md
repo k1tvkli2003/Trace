@@ -1,7 +1,7 @@
 # Handoff
 
 ## Outcome
-Block `text` carrying control/format-invisible characters now raises `INVALID_BLOCK_TEXT` (pending feat commit).
+Block `text` carrying control/format-invisible characters now raises `INVALID_BLOCK_TEXT`. Committed as feat `3a0d336`.
 
 ## Changed Artifacts
 - `services/ai_gateway/page_extract.py` (`_CONTROL_RANGES` + `_CONTROL_TEXT` in block-text check)
@@ -10,13 +10,13 @@ Block `text` carrying control/format-invisible characters now raises `INVALID_BL
 - `docs/codex/_index.md` (Stage67 row; status to `done` after close commit)
 
 ## How To Continue
-- Validate docs, `diff --check`, feat commit, flip Stage67 to `done`, close commit.
+- Docs validated; feat `3a0d336` committed. Close commit below ends Stage67.
 
 ## Done
-- RED confirmed + GREEN 13/13 page, 60/60 gateway.
+- RED confirmed + GREEN 13/13 page, 60/60 gateway + feat `3a0d336`.
 
 ## Remaining
-- Docs validation; `diff --check`; feat + close commits.
+- None — stage closed at feat `3a0d336` + close commit.
 
 ## Verification
-- Evidence GREEN (see `05-verification.md`); docs validation + commits pending.
+- Evidence GREEN + docs validated + feat `3a0d336` (see `05-verification.md`); close commit SHA recorded below after push.

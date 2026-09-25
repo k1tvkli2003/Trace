@@ -1,8 +1,9 @@
 # Stage 67 block text rejects control characters
 
 - Task ID: `2026-09-26-stage-67-block-text-rejects-control-characters`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
+- Feat commit: `3a0d336`
 - Language: en
 
 ## Request
