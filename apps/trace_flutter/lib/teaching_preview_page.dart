@@ -41,33 +41,51 @@ class TeachingPreviewPage extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Offline teaching preview')),
-    body: Column(
-      children: [
-        MaterialBanner(
-          content: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('AI artifact not generated'),
-              Text('Sample content only · no source linked'),
+  Widget build(BuildContext context) => Theme(
+    data: TraceTheme.dark(),
+    child: Scaffold(
+      backgroundColor: TraceColors.canvas,
+      appBar: AppBar(
+        title: const Text('Offline teaching preview'),
+        backgroundColor: TraceColors.canvas,
+        foregroundColor: TraceColors.onCanvas,
+      ),
+      body: Column(
+        children: [
+          MaterialBanner(
+            backgroundColor: TraceColors.panel,
+            content: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'AI artifact not generated',
+                  style: TextStyle(color: TraceColors.onCanvas),
+                ),
+                Text(
+                  'Sample content only · no source linked',
+                  style: TextStyle(color: TraceColors.muted),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  'Back',
+                  style: TextStyle(color: TraceColors.seaGlass),
+                ),
+              ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Back'),
+          Expanded(
+            child: LessonDocumentView(
+              document: _sample,
+              citationLocators: const {},
             ),
-          ],
-        ),
-        Expanded(
-          child: LessonDocumentView(
-            document: _sample,
-            citationLocators: const {},
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }

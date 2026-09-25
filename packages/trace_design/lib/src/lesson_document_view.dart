@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:trace_domain/trace_domain.dart';
 
 import 'typography.dart';
+import 'tokens.dart';
 
 /// Intent only. Caller owns authorization and durable local mutation.
 enum LessonStudyAction { studied, notLearned, later, mastered, skipped }
@@ -25,10 +26,11 @@ class LessonDocumentView extends StatelessWidget {
   final ValueChanged<String>? onOpenCitation;
   final ValueChanged<LessonStudyAction>? onStudyAction;
 
-  static const _ink = Color(0xff18292d);
-  static const _muted = Color(0xff637573);
-  static const _edge = Color(0xffdbe5e0);
-  static const _accent = Color(0xff1f665c);
+  static const _ink = TraceColors.onCanvas;
+  static const _muted = TraceColors.muted;
+  static const _edge = TraceColors.edge;
+  static const _accent = TraceColors.accent;
+  static const _panel = TraceColors.panel;
 
   @override
   Widget build(BuildContext context) => Directionality(
@@ -72,9 +74,9 @@ class LessonDocumentView extends StatelessWidget {
 
   Widget _block(BuildContext context, LessonBlock block) {
     final accent = switch (block.type) {
-      LessonBlockType.warningBox => const Color(0xffa25332),
-      LessonBlockType.mechanismBox => const Color(0xff3e557e),
-      LessonBlockType.keyTakeaway => const Color(0xff8b6134),
+      LessonBlockType.warningBox => const Color(0xfff0a35e),
+      LessonBlockType.mechanismBox => TraceColors.seaGlass,
+      LessonBlockType.keyTakeaway => const Color(0xffe9bc72),
       _ => _accent,
     };
     final label = switch (block.type) {
@@ -128,9 +130,9 @@ class LessonDocumentView extends StatelessWidget {
     if (block.type == LessonBlockType.paragraph) return content;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Color.alphaBlend(accent.withValues(alpha: .045), Colors.white),
+        color: Color.alphaBlend(accent.withValues(alpha: .09), _panel),
         border: BorderDirectional(start: BorderSide(color: accent, width: 3)),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(TraceRadius.panel),
       ),
       child: Padding(padding: const EdgeInsets.all(16), child: content),
     );
@@ -152,7 +154,7 @@ class LessonDocumentView extends StatelessWidget {
       ),
       style: OutlinedButton.styleFrom(
         visualDensity: VisualDensity.compact,
-        foregroundColor: _accent,
+        foregroundColor: TraceColors.seaGlass,
         side: const BorderSide(color: _edge),
       ),
     );

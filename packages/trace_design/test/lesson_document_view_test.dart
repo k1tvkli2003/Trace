@@ -210,4 +210,40 @@ void main() {
     expect(find.text('Source page 12'), findsWidgets);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('Signal Console lesson blocks render on graphite with warm ink', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: TraceTheme.dark(),
+        home: Scaffold(
+          backgroundColor: TraceColors.canvas,
+          body: LessonDocumentView(
+            document: lesson(),
+            citationLocators: const {'cite-1': 'Source page 12'},
+          ),
+        ),
+      ),
+    );
+    final lessonView = find.byType(LessonDocumentView);
+    final body = tester.widget<SelectableText>(
+      find
+          .descendant(of: lessonView, matching: find.byType(SelectableText))
+          .first,
+    );
+    expect(body.style?.color, TraceColors.onCanvas);
+    final box = tester.widget<DecoratedBox>(
+      find
+          .descendant(of: lessonView, matching: find.byType(DecoratedBox))
+          .first,
+    );
+    final boxColor = (box.decoration as BoxDecoration).color!;
+    expect(boxColor.computeLuminance(), lessThan(0.2));
+    final citation = tester.widget<OutlinedButton>(
+      find.widgetWithText(OutlinedButton, 'Source page 12').first,
+    );
+    expect(citation.style?.foregroundColor?.resolve({}), TraceColors.seaGlass);
+    expect(tester.takeException(), isNull);
+  });
 }
