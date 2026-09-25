@@ -1,7 +1,7 @@
 # Stage 53 figure block single ownership
 
 - Task ID: `2026-09-26-stage-53-figure-block-single-ownership`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
 - Language: en
 

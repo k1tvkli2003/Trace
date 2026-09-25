@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-Two figures sharing figure block `b3` are now rejected with `FIGURE_BLOCK_WITHOUT_FIGURE`. RED observed (`ContractFailure not raised`), GREEN applied (unique-`blockId` check), gateway suite 52/52 local. Code + test uncommitted.
+Single-ownership enforced and committed (`8186990`). Matrix row still cites 51; the 51 -> 52 refresh stays remaining.
 
 ## Decisions
 | Date | Decision | Reason | Source |
