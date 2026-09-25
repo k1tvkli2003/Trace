@@ -8,7 +8,7 @@ One RED test first, then minimal check inside block loop next to quarantine rule
 |---|---|---|
 | 1 | done | RED: new figure-text test failed first (`AssertionError: ContractFailure not raised`) |
 | 2 | done | GREEN: reject non-empty figure text with `FIGURE_BLOCK_MUST_BE_TEXTLESS` |
-| 3 | active | Full suite + validate + diff-check + commit |
+| 3 | done | Full suite + validate + diff-check + commit (`341a31b`) |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py`

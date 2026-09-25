@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-Figure-kind block with text now rejected (`FIGURE_BLOCK_MUST_BE_TEXTLESS`). RED observed first, then GREEN. Page-extract 7/7, gateway 54/54.
+Textless check committed (`341a31b`). Figure-kind block with text rejected. Matrix row still cites 53; 53 -> 54 refresh stays remaining. RED observed first, then GREEN. Page-extract 7/7, gateway 54/54.
 
 ## Decisions
 | Date | Decision | Reason | Source |

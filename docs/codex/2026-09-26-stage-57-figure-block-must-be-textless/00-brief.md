@@ -1,7 +1,7 @@
 # Stage 57 figure block must be textless
 
 - Task ID: `2026-09-26-stage-57-figure-block-must-be-textless`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
 - Language: en
 
