@@ -145,6 +145,149 @@ void main() {
     },
   );
 
+  test('first studied action creates one v2 review due the next day', () async {
+    final db = await seededDb();
+    addTearDown(db.close);
+    final lessons = LocalLessonRepository(db);
+    final reviews = LocalReviewRepository(db);
+
+    final receipt = await lessons.applyStateAction(request());
+
+    expect(receipt.replayed, isFalse);
+    final item = await reviews.readReviewItem('review:state-1');
+    expect(item, isNotNull);
+    expect(
+      item!.schedulerVersion,
+      LocalReviewRepository.offsetSchedulerVersion,
+    );
+    expect(item.targetType, ReviewTargetType.lessonBox);
+    expect(item.targetId, 'artifact-1');
+    expect(item.rawDueAt, '2026-09-26T10:00:00Z');
+    expect(item.intervalDays, 1);
+    expect(item.lapses, 0);
+    final artifact = await lessons.readArtifact('artifact-1');
+    expect(item.contentHash, artifact!.contentHash);
+    expect(
+      (await reviews.listDueItems('2026-09-26T10:00:00Z')).map((e) => e.id),
+      ['review:state-1'],
+    );
+  });
+
+  test('non-studied action does not create a review', () async {
+    final db = await seededDb();
+    addTearDown(db.close);
+    final lessons = LocalLessonRepository(db);
+    final reviews = LocalReviewRepository(db);
+
+    final receipt = await lessons.applyStateAction(
+      request(actionId: 'action-skip', action: LearnerStateAction.skipped),
+    );
+
+    expect(receipt.replayed, isFalse);
+    expect(await reviews.readReviewItem('review:state-1'), isNull);
+    expect(await reviews.listDueItems('2026-09-26T10:00:00Z'), isEmpty);
+  });
+
+  test('replay keeps exactly one review and one outbox row', () async {
+    final db = await seededDb();
+    addTearDown(db.close);
+    final lessons = LocalLessonRepository(db);
+    final reviews = LocalReviewRepository(db);
+
+    final applied = await lessons.applyStateAction(request());
+    final replay = await lessons.applyStateAction(request());
+
+    expect(replay.replayed, isTrue);
+    expect(replay.state.toJson(), applied.state.toJson());
+    expect(
+      (await reviews.readReviewItem('review:state-1'))?.rawDueAt,
+      '2026-09-26T10:00:00Z',
+    );
+    expect(await LocalOplogRepository(db).listOperations(), hasLength(1));
+  });
+
+  test('later studied action does not reset first review', () async {
+    final db = await seededDb();
+    addTearDown(db.close);
+    final lessons = LocalLessonRepository(db);
+    final reviews = LocalReviewRepository(db);
+
+    await lessons.applyStateAction(request());
+    await lessons.applyStateAction(
+      request(
+        actionId: 'action-2',
+        action: LearnerStateAction.notLearned,
+        occurredAt: '2026-09-26T10:00:00Z',
+      ),
+    );
+    await lessons.applyStateAction(
+      request(
+        actionId: 'action-3',
+        action: LearnerStateAction.studied,
+        occurredAt: '2026-09-27T10:00:00Z',
+      ),
+    );
+
+    final item = await reviews.readReviewItem('review:state-1');
+    expect(item?.rawDueAt, '2026-09-26T10:00:00Z');
+    expect(item?.intervalDays, 1);
+    expect(await LocalOplogRepository(db).listOperations(), hasLength(3));
+  });
+
+  test('review insert failure rolls back state and outbox write', () async {
+    final db = await seededDb();
+    addTearDown(db.close);
+    final lessons = LocalLessonRepository(db);
+    await db.customStatement('''
+      CREATE TRIGGER reject_review_insert BEFORE INSERT ON review_items
+      BEGIN SELECT RAISE(ABORT, 'injected review failure'); END;
+    ''');
+
+    await expectLater(
+      lessons.applyStateAction(request()),
+      throwsA(isA<Exception>()),
+    );
+
+    expect(
+      (await lessons.readState('state-1'))?.status,
+      LearnerStateStatus.inProgress,
+    );
+    expect(await LocalOplogRepository(db).listOperations(), isEmpty);
+    expect(
+      await LocalReviewRepository(db).readReviewItem('review:state-1'),
+      isNull,
+    );
+  });
+
+  test('conflicting review receipt rolls back state and outbox row', () async {
+    final db = await seededDb();
+    addTearDown(db.close);
+    final lessons = LocalLessonRepository(db);
+    final reviews = LocalReviewRepository(db);
+    final artifact = await lessons.readArtifact('artifact-1');
+
+    await reviews.putReviewItem(
+      LocalReviewRepository.firstStudyItem(
+        id: 'review:state-1',
+        targetId: 'artifact-1',
+        targetType: ReviewTargetType.lessonBox,
+        contentHash: artifact!.contentHash,
+        firstStudiedAt: DateTime.utc(2026, 9, 20, 10),
+      ),
+    );
+
+    await expectLater(lessons.applyStateAction(request()), throwsStateError);
+    expect(
+      (await lessons.readState('state-1'))?.status,
+      LearnerStateStatus.inProgress,
+    );
+    expect(await LocalOplogRepository(db).listOperations(), isEmpty);
+    expect(
+      (await reviews.readReviewItem('review:state-1'))?.rawDueAt,
+      '2026-09-21T10:00:00Z',
+    );
+  });
+
   test(
     'same action replays without duplicating mutation or outbox row',
     () async {

@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:trace_domain/trace_domain.dart' as domain;
 
 import 'local_oplog_repository.dart';
+import 'local_review_repository.dart';
 import 'trace_database.dart' as db;
 
 /// Atomic local lesson/state persistence; evidence is loaded from DB.
@@ -71,8 +72,9 @@ final class LocalLessonRepository {
     });
   }
 
-  /// Applies one footer action locally and queues its sync operation in the
-  /// same transaction. No scheduler or network call is made here.
+  /// Applies one footer action locally, queues its sync operation, and on
+  /// first STUDIED creates a deterministic review in the same transaction.
+  /// No network or AI call is made here.
   Future<domain.LearnerStateActionReceipt> applyStateAction(
     domain.LearnerStateActionRequest request,
   ) async {
@@ -120,6 +122,7 @@ final class LocalLessonRepository {
         state: current,
         nextState: next,
       );
+      final review = await _maybeFirstStudyReview(current, next, request);
       await database
           .into(database.learnerStates)
           .insert(
@@ -133,8 +136,48 @@ final class LocalLessonRepository {
             ),
           );
       await outbox.putBatch(operations: [operation], runs: []);
+      if (review != null) {
+        await LocalReviewRepository(database).putReviewItem(review);
+      }
       return domain.LearnerStateActionReceipt(state: next, replayed: false);
     });
+  }
+
+  Future<domain.ReviewItem?> _maybeFirstStudyReview(
+    domain.LearnerState current,
+    domain.LearnerState next,
+    domain.LearnerStateActionRequest request,
+  ) async {
+    if (current.status == domain.LearnerStateStatus.studied ||
+        next.status != domain.LearnerStateStatus.studied) {
+      return null;
+    }
+    final reviewId = 'review:${request.stateId}';
+    final artifact = await readArtifact(request.lessonArtifactId);
+    if (artifact == null || artifact.sliceId != next.sliceId) {
+      throw StateError('Studied lesson artifact is absent or outside slice');
+    }
+    final existing = await LocalReviewRepository(
+      database,
+    ).readReviewItem(reviewId);
+    if (existing != null) {
+      if (current.version == 1 ||
+          existing.targetType != domain.ReviewTargetType.lessonBox ||
+          existing.targetId != artifact.id ||
+          existing.contentHash != artifact.contentHash ||
+          existing.schedulerVersion !=
+              LocalReviewRepository.offsetSchedulerVersion) {
+        throw StateError('Review item $reviewId conflicts with studied lesson');
+      }
+      return null;
+    }
+    return LocalReviewRepository.firstStudyItem(
+      id: reviewId,
+      targetId: artifact.id,
+      targetType: domain.ReviewTargetType.lessonBox,
+      contentHash: artifact.contentHash,
+      firstStudiedAt: DateTime.parse(request.occurredAt),
+    );
   }
 
   Future<domain.LessonArtifact?> readArtifact(String id) async {
