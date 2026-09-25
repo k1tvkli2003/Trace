@@ -1,7 +1,7 @@
 # Stage 40 local outbox drain throw propagation
 
 - Task ID: `2026-09-25-stage-40-local-outbox-drain-throw-propagation`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

@@ -33,7 +33,7 @@ second stays `in_flight`, and `releaseClaim` returns it to `pending`.
 - Analyzers clean; format clean.
 
 ## Remaining
-- Validator + scans + commit (this verify step).
+- None for this record; committed in `5722e25` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and
   CI evidence remain open and out of scope.
 
