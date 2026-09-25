@@ -1,7 +1,7 @@
 # Stage 42 local outbox due-ready filtering
 
 - Task ID: `2026-09-25-stage-42-local-outbox-due-ready-filtering`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

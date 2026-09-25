@@ -19,7 +19,7 @@ Failed outbox rows now have deterministic caller-owned due filtering without any
 - Full suites GREEN (data 153, domain 114, app 41, Gateway 50); analyzers clean.
 
 ## Remaining
-- Independent review, docs validation, scans, commit.
+- None for this record; committed in `4f55712` ancestor of HEAD. Review `deleg_031e9984` already recorded.
 
 ## Verification
 - See `05-verification.md`: result passed for all executed checks.

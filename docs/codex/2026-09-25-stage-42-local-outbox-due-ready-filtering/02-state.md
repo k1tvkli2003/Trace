@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
+- Provenance: slice committed in `4f55712` ancestor of HEAD.
 
 ## Current State
-`listDueFailedWithinBudget` added and GREEN. Focused 3/3 pass. Full suites pass: data 153/153, domain 114/114, app 41/41, Gateway 50. Analyzers and format clean. Next: validator, scans, review, commit.
+`listDueFailedWithinBudget` added and GREEN. Focused 3/3 pass. Full suites pass: data 153/153, domain 114/114, app 41/41, Gateway 50. Analyzers and format clean. Record closes with validator OK; review `deleg_031e9984` already recorded.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -23,4 +24,4 @@
 - Full suites GREEN; analyzers and format clean.
 
 ## Remaining
-- Independent review, docs validation, secret/static scans, commit.
+- None for this record; committed in `4f55712` ancestor of HEAD.

@@ -6,10 +6,10 @@ Use strict TDD. Add a focused test describing caller-owned due-time filtering ov
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | active | Write Stage42 docs and focused RED test. |
-| 2 | planned | Add minimal due-ready repository method. |
-| 3 | planned | Run focused/full verification and independent review. |
-| 4 | planned | Finalize docs, validate, scan, commit. |
+| 1 | done | Stage42 docs and focused RED test written; committed `4f55712`. |
+| 2 | done | Minimal due-ready `listDueFailedWithinBudget` added; focused 3/3 GREEN. |
+| 3 | done | Focused/full verification and independent review `deleg_031e9984` recorded in `05-verification.md`. |
+| 4 | done | Docs finalized; validator OK; record closes with this commit. |
 
 ## Interfaces and Artifacts
 - `LocalOplogRepository.listDueFailedWithinBudget({required Map<String, String> dueAtUtcByOperationId, required String nowUtc, int maxRetries = 5})`.

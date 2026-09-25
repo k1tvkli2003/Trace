@@ -13,4 +13,4 @@
 - Full package suites clean.
 
 ## Next
-- Independent review, docs validation, secret/static scans, commit.
+- Done: slice committed in `4f55712` ancestor of HEAD; local-only record closes here.
