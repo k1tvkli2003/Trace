@@ -6,10 +6,10 @@ Use strict TDD. Add a focused test describing caller-owned due requeue over exis
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | active | Write Stage43 docs and focused RED test. |
-| 2 | planned | Add minimal due-requeue repository method. |
-| 3 | planned | Run focused/full verification and independent review. |
-| 4 | planned | Finalize docs, validate, scan, commit. |
+| 1 | done | Stage43 docs and focused RED test written; committed `bad9f27`. |
+| 2 | done | Minimal due-requeue `requeueDueFailedWithinBudget` added; focused 2/2 GREEN. |
+| 3 | done | Focused/full verification and independent review `deleg_07174870` recorded in `05-verification.md`. |
+| 4 | done | Docs finalized; validator OK; record closes with this commit. |
 
 ## Interfaces and Artifacts
 - `LocalOplogRepository.requeueDueFailedWithinBudget({required String nowUtc, required Map<String, String> dueAtUtcByOperationId, int maxRetries = 5})`.

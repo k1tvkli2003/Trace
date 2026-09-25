@@ -1,7 +1,7 @@
 # Stage 43 local outbox due requeue
 
 - Task ID: `2026-09-25-stage-43-local-outbox-due-requeue`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

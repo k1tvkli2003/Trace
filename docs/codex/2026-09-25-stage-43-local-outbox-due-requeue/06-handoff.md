@@ -19,7 +19,7 @@ Due failed rows now transition back to pending deterministically without any clo
 - Full suites GREEN (data 155, domain 114, app 41, Gateway 50); analyzers clean.
 
 ## Remaining
-- Independent review, docs validation, scans, commit.
+- None for this record; committed in `bad9f27` ancestor of HEAD. Review `deleg_07174870` already recorded.
 
 ## Verification
 - See `05-verification.md`: result passed for all executed checks.

@@ -13,4 +13,4 @@
 - Full data/domain/app/Gateway suites pass; format and analyzers clean.
 
 ## Next
-- Independent review, docs validation, scans, commit.
+- Done: slice committed in `bad9f27` ancestor of HEAD; local-only record closes here.
