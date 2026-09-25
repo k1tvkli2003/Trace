@@ -35,6 +35,18 @@ Future<LocalOutboxWorker> openDrainWorkerWith(
   return LocalOutboxWorker(oplog);
 }
 
+Future<({LocalOplogRepository oplog, LocalOutboxWorker worker})>
+openDrainRepoWith(List<Map<String, Object?>> rows) async {
+  final database = TraceDatabase(NativeDatabase.memory());
+  addTearDown(database.close);
+  final oplog = LocalOplogRepository(database);
+  await oplog.putBatch(
+    operations: rows.map(SyncOperation.fromJson).toList(),
+    runs: [],
+  );
+  return (oplog: oplog, worker: LocalOutboxWorker(oplog));
+}
+
 void main() {
   test('drain settles heads in createdAt then operationId order', () async {
     final worker = await openDrainWorkerWith([
@@ -112,4 +124,37 @@ void main() {
       throwsArgumentError,
     );
   });
+
+  test(
+    'drain propagates handler throw and keeps settled prefix in DB',
+    () async {
+      final (:oplog, :worker) = await openDrainRepoWith([
+        drainJson(id: 'throw-a', createdAt: '2026-09-25T12:01:00Z'),
+        drainJson(id: 'throw-b', createdAt: '2026-09-25T12:02:00Z'),
+      ]);
+      var calls = 0;
+      await expectLater(
+        worker.drain(
+          handler: (op) async {
+            calls++;
+            if (op.operationId == 'throw-b') {
+              throw StateError('boom-${op.operationId}');
+            }
+            return true;
+          },
+          maxPasses: 10,
+        ),
+        throwsA(
+          isA<StateError>().having((e) => e.message, 'message', 'boom-throw-b'),
+        ),
+      );
+      expect(calls, 2);
+      final first = await oplog.readOperation('throw-a');
+      expect(first?.syncState, SyncState.synced);
+      final second = await oplog.readOperation('throw-b');
+      expect(second?.syncState, SyncState.inFlight);
+      final released = await oplog.releaseClaim('throw-b');
+      expect(released.syncState, SyncState.pending);
+    },
+  );
 }
