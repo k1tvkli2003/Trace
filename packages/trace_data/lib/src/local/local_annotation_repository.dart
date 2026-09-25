@@ -75,6 +75,84 @@ final class LocalAnnotationRepository {
     return row == null ? null : _anchorFromRow(row);
   }
 
+  /// Read-only rehydration verdict for a stored anchor; never writes.
+  Future<domain.HighlightRehydration> rehydrateAnchor(String id) async {
+    final row =
+        await (database.select(database.highlightAnchors)..where(
+              (entry) => entry.id.equals(id) & entry.tombstone.equals(false),
+            ))
+            .getSingleOrNull();
+    if (row == null) {
+      throw StateError('Highlight $id is absent or already deleted');
+    }
+    if (row.status != domain.HighlightAnchorStatus.attached.wireName) {
+      return domain.HighlightRehydration(
+        attached: false,
+        reason: 'already-detached',
+        startOffset: row.startOffset,
+        endOffset: row.endOffset,
+        pageBboxFallback: false,
+      );
+    }
+    final block = await (database.select(
+      database.sourceBlocks,
+    )..where((entry) => entry.id.equals(row.sourceBlockId))).getSingleOrNull();
+    if (block == null || block.pageId != row.pageId) {
+      throw StateError('Highlight $id source locator is invalid');
+    }
+    final anchor = _anchorFromRow(row);
+    final blockBox =
+        block.bboxX != null &&
+            block.bboxY != null &&
+            block.bboxWidth != null &&
+            block.bboxHeight != null
+        ? domain.NormalizedBox(
+            x: block.bboxX!,
+            y: block.bboxY!,
+            width: block.bboxWidth!,
+            height: block.bboxHeight!,
+          )
+        : null;
+    return domain.rehydrateHighlight(
+      anchor: anchor,
+      blockId: block.id,
+      pageId: block.pageId,
+      sourceHash: block.sourceHash,
+      sourceText: '${block.rawText}\n${block.normalizedText}',
+      blockBbox: blockBox,
+    );
+  }
+
+  /// Explicit attached-to-detached transition; silent moves stay forbidden.
+  Future<void> markDetached(String id) async {
+    final row = await (database.select(
+      database.highlightAnchors,
+    )..where((entry) => entry.id.equals(id))).getSingleOrNull();
+    if (row == null || row.tombstone) {
+      throw StateError('Highlight $id is absent or already deleted');
+    }
+    if (row.status != domain.HighlightAnchorStatus.attached.wireName) {
+      throw StateError('Highlight $id is already detached');
+    }
+    final changed =
+        await (database.update(database.highlightAnchors)..where(
+              (entry) =>
+                  entry.id.equals(id) &
+                  entry.tombstone.equals(false) &
+                  entry.status.equals(
+                    domain.HighlightAnchorStatus.attached.wireName,
+                  ),
+            ))
+            .write(
+              db.HighlightAnchorsCompanion(
+                status: Value(domain.HighlightAnchorStatus.detached.wireName),
+              ),
+            );
+    if (changed == 0) {
+      throw StateError('Highlight $id could not be detached');
+    }
+  }
+
   Future<bool> isAnchorTombstoned(String id) async {
     final row = await (database.select(
       database.highlightAnchors,

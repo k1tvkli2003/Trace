@@ -25,6 +25,7 @@ export 'src/models/lesson_artifact.dart';
 export 'src/models/learner_state.dart';
 export 'src/models/learner_state_action.dart';
 export 'src/models/highlight_anchor.dart';
+export 'src/models/highlight_rehydration.dart';
 export 'src/models/study_note.dart';
 export 'src/models/review_item.dart';
 export 'src/models/review_event.dart';
