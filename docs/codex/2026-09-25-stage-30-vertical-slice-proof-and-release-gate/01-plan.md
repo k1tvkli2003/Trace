@@ -6,12 +6,12 @@ Use one offline tracer bullet. Seed a memory database with a Markdown source, ha
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | active | Freeze scope and inspect repository contracts. |
-| 2 | pending | Write one integration test before implementation. |
-| 3 | pending | Run RED and record expected missing path. |
-| 4 | pending | Add only missing production wiring, if any. |
-| 5 | pending | Run GREEN, full suites, analyzer, formatter, docs validator. |
-| 6 | pending | Record release-gate matrix and commit. |
+| 1 | done | Scope frozen; contracts inspected; proof committed in `339f1c3`. |
+| 2 | done | Integration test written first: `offline_vertical_slice_test.dart`. |
+| 3 | done | RED verified with temporary wrong-ID mutation (`TERMINAL_EXIT=1`); restored. |
+| 4 | done | No missing wiring; no production files changed. |
+| 5 | done | GREEN + full suites/analyzer/format/docs-validator recorded in `05-verification.md`. |
+| 6 | done | Release-gate inventory recorded as open; matrix/runbook gaps point to Stage46 `9d17f88`, evidence unchanged. |
 
 ## Interfaces and artifacts
 - Test: `packages/trace_data/test/offline_vertical_slice_test.dart`

@@ -1,7 +1,7 @@
 # Stage 30 vertical slice proof and release gate
 
 - Task ID: `2026-09-25-stage-30-vertical-slice-proof-and-release-gate`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

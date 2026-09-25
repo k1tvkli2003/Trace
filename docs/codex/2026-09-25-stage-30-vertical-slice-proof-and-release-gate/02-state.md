@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes
 
@@ -30,4 +30,4 @@ worktree clean at commit.
 - Full verification recorded.
 
 ## Remaining
-- Release gate is still open: real PDF Vision, persisted approved tree, live AI, sync/auth, platform and CI evidence.
+- None for this record; proof committed in `339f1c3` plus pointer `3059c46`. Release-gate follow-ups (real PDF Vision, persisted approved tree, live AI, sync/auth, platform/CI builds) belong to later stages.
