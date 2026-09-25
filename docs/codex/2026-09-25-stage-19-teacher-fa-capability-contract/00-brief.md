@@ -1,7 +1,7 @@
 # Stage 19 teacher-fa capability contract
 
 - Task ID: `2026-09-25-stage-19-teacher-fa-capability-contract`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25T02:28:56
 - Language: en
 

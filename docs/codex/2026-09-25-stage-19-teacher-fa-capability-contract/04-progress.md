@@ -17,7 +17,4 @@
 - Stage 17 review reproduction fixes verified but kept separate from Stage 19 commit.
 
 ## Next
-- Validate task docs structure.
-- Stage/commit Stage 19 files alone.
-- Update index row/state.
-- Handle Stage 17 fixes as their own commit after review.
+- None. Record closed 2026-09-25; validator OK, f8a84cd + e0d5e23 committed, worktree clean.

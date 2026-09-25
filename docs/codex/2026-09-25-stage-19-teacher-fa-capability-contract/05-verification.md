@@ -21,4 +21,4 @@
 
 ## Known Issues
 - None for the Stage 19 offline contract.
-- Stage 17 review reproduction changes remain uncommitted in the working tree and must ship separately.
+- 2026-09-25 addendum: Stage 17 review fixes committed separately as e0d5e23; no longer uncommitted. Stage19 evidence unchanged.

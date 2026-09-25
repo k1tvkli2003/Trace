@@ -10,7 +10,7 @@ Implement the teacher-fa contract offline with TDD: write scope/security regress
 | 2 | done | GREEN: add `teacher_fa.py` envelope builder, preference policies, scope guard, size guard, result validator |
 | 3 | done | Add policy reference `teacher-fa-v1.md` and update Gateway README contract language |
 | 4 | done | Run targeted + full Gateway + domain + data suites and record evidence |
-| 5 | active | Fill Stage 19 docs, validate structure, stage/commit separately from Stage 17 fixes |
+| 5 | done | Docs validated OK 2026-09-25; Stage 19 committed f8a84cd; Stage 17 fixes committed e0d5e23 separately |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/teacher_fa.py`: `build_teacher_fa_prompt`, `validate_teacher_fa_result`, `TeacherFaPreferences`, policy/version constants.

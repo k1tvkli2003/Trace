@@ -1,13 +1,13 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
 ## Current State
 Teacher-fa offline contract is implemented and green: prompt builder plus result validator enforce explicit authorized slice scope; preferences map to independent versioned policies; size guard runs before provider spend; source/figure checks reject foreign IDs; README plus policy reference record boundaries.
 
-Stage 17 review reproduction fixes are also implemented and green in the working tree but remain staged separately: planner earliest-missing-page priority, vision-required selection gate, planner-version forwarding on advance, and exact next-block page reporting. These are **not** part of the Stage 19 commit.
+Stage 17 review reproduction fixes were committed separately as e0d5e23: planner earliest-missing-page priority, vision-required selection gate, planner-version forwarding on advance, and exact next-block page reporting. These are **not** part of the Stage 19 commit f8a84cd.
 
 ## Decisions
 | Date | Decision | Reason | Source |

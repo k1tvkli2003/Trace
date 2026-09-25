@@ -19,7 +19,7 @@ Wire a server-only provider adapter only after confirming OpenCode Go endpoint/v
 
 ## Remaining
 - Real provider compatibility/cost pilot, Flutter renderer/UI integration, ingestion worker persistence, Sync/RLS, Android/Windows/Web E2E and release proof remain outside Stage 19.
-- Separate Stage 17 safety-fix commit remains pending.
+- 2026-09-25 addendum: Stage 17 safety-fix commit done as e0d5e23; no Stage19 code change.
 
 ## Verification
 - Gateway `41/41` tests passed; focused planner/cursor suite, full domain/data suites and analyze passed. No live AI, Vision, OCR, app runtime, sync or release claim.
