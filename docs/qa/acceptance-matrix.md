@@ -32,7 +32,7 @@ Scope: offline local-first vertical-slice proof only. Every `passed` below trace
 | PDF renderer / license spike beyond scaffold | NOT VERIFIED | Stage30 `Not Run` |
 | CI workflow | SCAFFOLD (unrun) | `.github/workflows/ci.yml` exists as CI-only intent (Stage47 `fcbecdd`); no pipeline has ever run — local-only validation |
 | Benchmarks | SCAFFOLD (local-only baseline) | `benchmarks/run_local_baseline.py` + `baseline-Keyvan-20260925.json` clock manifest/SHA-256/PDF-byte-scan on this host (N=20, medians 0.025-0.052 ms); machine-specific, never a release budget |
-| E2E (device/browser) | MISSING | No `test/e2e/` directory; app-level tests are unit/widget only |
+| E2E (device/browser) | SCAFFOLD (unrun) | `test/e2e/README.md` lists the §18 flows as `NOT RUN` (Stage50); no device, browser, Playwright, or Flutter integration run |
 | Test fixtures beyond placeholder | SCAFFOLD | `test/fixtures/synthetic/` holds one original PDF, Markdown twin, and SHA-256 manifest (Stage48); no ingestion or Vision run |
 
 ## Baseline references (not release proof)
