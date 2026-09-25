@@ -18,8 +18,8 @@ The `deleg_0892c1eb` release-gate audit is closed with truthful docs-only artifa
 - Both docs written; no production code touched.
 
 ## Remaining
-- Index update, docs validation, staged-diff scans, commit.
+- None. Genuine next steps (CI, benchmarks, E2E, Supabase, release builds, live Vision pilot) each need their own task with real runtime evidence.
 
 ## Verification
-- See `05-verification.md`: content checks passed by comparison; validator + scans run at commit time.
+- See `05-verification.md`: content checks passed by comparison; validator OK; staged diff scanned; committed in `9d17f88`.
 - `StudyHub-Web` untouched.

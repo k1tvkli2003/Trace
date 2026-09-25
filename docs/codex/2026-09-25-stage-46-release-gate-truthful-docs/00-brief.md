@@ -1,7 +1,7 @@
 # Stage 46 release gate truthful docs
 
 - Task ID: `2026-09-25-stage-46-release-gate-truthful-docs`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

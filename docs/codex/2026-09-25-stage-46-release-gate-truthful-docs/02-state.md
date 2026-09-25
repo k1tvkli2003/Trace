@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
 ## Current State
-Both truthful docs written; no production code touched. Pending index update, validator, scans, commit.
+Both truthful docs written and committed in `9d17f88`; validator OK; worktree clean; no production code touched.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -20,6 +20,7 @@ Both truthful docs written; no production code touched. Pending index update, va
 - Task docs scaffolded; brief/plan/state filled.
 - `docs/qa/acceptance-matrix.md` written from Stage30 verification evidence.
 - `docs/ops/runbook.md` written with local-only commands actually run.
+- Verification/handoff filled; `_index.md` row added; validator OK; committed in `9d17f88`.
 
 ## Remaining
-- Fill progress/verification/handoff, update index, validate, scan, commit.
+- None.

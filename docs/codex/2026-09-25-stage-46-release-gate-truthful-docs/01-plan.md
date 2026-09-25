@@ -8,10 +8,10 @@ Docs-only tracer bullet: write the two missing truthful docs from recorded evide
 |---|---|---|
 | 1 | completed | Task docs scaffolded via `create_task_docs.py` |
 | 2 | completed | Brief filled with audit evidence and scope |
-| 3 | in_progress | Write `docs/qa/acceptance-matrix.md` from Stage30 verification evidence |
-| 4 | planned | Write `docs/ops/runbook.md` with local-only commands actually run |
-| 5 | planned | Fill state/progress/verification/handoff, mark ready-for-review |
-| 6 | planned | Update `_index.md`, run validator, scan staged diff, commit |
+| 3 | completed | Wrote `docs/qa/acceptance-matrix.md` from Stage30 verification evidence |
+| 4 | completed | Wrote `docs/ops/runbook.md` with local-only commands actually run |
+| 5 | completed | State/progress/verification/handoff filled; verification passed |
+| 6 | completed | `_index.md` row added; validator OK; staged diff scanned; committed in `9d17f88` |
 
 ## Interfaces and Artifacts
 - `docs/qa/acceptance-matrix.md` (new, docs-only)
