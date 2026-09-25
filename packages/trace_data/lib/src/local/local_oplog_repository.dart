@@ -221,6 +221,14 @@ final class LocalOplogRepository {
     }
   }
 
+  static DateTime _parseUtc(String value, String field) {
+    final parsed = DateTime.tryParse(value);
+    if (parsed == null || !parsed.isUtc || !value.endsWith('Z')) {
+      throw FormatException('$field must be UTC ISO-8601');
+    }
+    return parsed;
+  }
+
   /// Pure UTC failure-time to next-retry mapping via [retryDelay].
   ///
   /// Local-only scheduling math: `failedAtUtc + retryDelay(retryCount)`,
@@ -234,11 +242,7 @@ final class LocalOplogRepository {
     Duration baseDelay = const Duration(seconds: 10),
     Duration maxDelay = const Duration(minutes: 5),
   }) {
-    if (!failedAtUtc.endsWith('Z') ||
-        DateTime.tryParse(failedAtUtc)?.isUtc != true) {
-      throw FormatException('failedAtUtc must be UTC ISO-8601');
-    }
-    final failedAt = DateTime.parse(failedAtUtc);
+    final failedAt = _parseUtc(failedAtUtc, 'failedAtUtc');
     final delay = retryDelay(
       retryCount,
       baseDelay: baseDelay,
@@ -361,6 +365,38 @@ final class LocalOplogRepository {
         .map(_operationFromRow)
         .where((operation) => operation.retryCount <= maxRetries)
         .toList();
+  }
+
+  /// Read-only failed rows whose caller-supplied due time has arrived.
+  ///
+  /// This method owns no clock: [nowUtc] and each due instant arrive from the
+  /// caller and must be UTC ISO-8601 values. Missing due entries are excluded
+  /// rather than treated as immediately due. Equality is ready (`dueAt <=
+  /// nowUtc`). Rows remain ordered by `createdAt`, then `operationId`, through
+  /// [listFailedWithinBudget]. No state transition, sleep, scheduler, or
+  /// network is involved.
+  Future<List<domain.SyncOperation>> listDueFailedWithinBudget({
+    required String nowUtc,
+    required Map<String, String> dueAtUtcByOperationId,
+    int maxRetries = 5,
+  }) async {
+    _requireRetryBudget(maxRetries);
+    final now = _parseUtc(nowUtc, 'nowUtc');
+    for (final entry in dueAtUtcByOperationId.entries) {
+      _parseUtc(entry.value, 'dueAtUtcByOperationId[${entry.key}]');
+    }
+    final candidates = await listFailedWithinBudget(maxRetries: maxRetries);
+    return candidates.where((operation) {
+      final dueText = dueAtUtcByOperationId[operation.operationId];
+      if (dueText == null) {
+        return false;
+      }
+      final due = _parseUtc(
+        dueText,
+        'dueAtUtcByOperationId[${operation.operationId}]',
+      );
+      return !due.isAfter(now);
+    }).toList();
   }
 
   /// Read-only point-in-time counts per sync state.
