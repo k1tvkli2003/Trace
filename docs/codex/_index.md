@@ -36,3 +36,4 @@
 | `2026-09-25-stage-40-local-outbox-drain-throw-propagation` | Stage 40 local outbox drain throw propagation | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-40-local-outbox-drain-throw-propagation/00-brief.md) |
 | `2026-09-25-stage-41-local-outbox-retry-due-query` | Stage 41 local outbox retry due query | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-41-local-outbox-retry-due-query/00-brief.md) |
 | `2026-09-25-stage-42-local-outbox-due-ready-filtering` | Stage 42 local outbox due-ready filtering | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-42-local-outbox-due-ready-filtering/00-brief.md) |
+| `2026-09-25-stage-43-local-outbox-due-requeue` | Stage 43 local outbox due requeue | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-43-local-outbox-due-requeue/00-brief.md) |

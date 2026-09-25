@@ -399,6 +399,34 @@ final class LocalOplogRepository {
     }).toList();
   }
 
+  /// Transition due failed rows back to pending, preserving queue order.
+  ///
+  /// Local-only composition of [listDueFailedWithinBudget] with the
+  /// single-row [requeueFailed]: input validation (budget, UTC `nowUtc`,
+  /// due parsing) runs inside the read-only filter before any transition,
+  /// so invalid input fails closed with no writes. Each selected row then
+  /// requeues through the same budget and wrong-state checks as a manual
+  /// single requeue; `retryCount` is untouched and over-budget rows stay
+  /// `failed`. No clock read, sleep, scheduler, schema, or network.
+  Future<List<domain.SyncOperation>> requeueDueFailedWithinBudget({
+    required String nowUtc,
+    required Map<String, String> dueAtUtcByOperationId,
+    int maxRetries = 5,
+  }) async {
+    final due = await listDueFailedWithinBudget(
+      nowUtc: nowUtc,
+      dueAtUtcByOperationId: dueAtUtcByOperationId,
+      maxRetries: maxRetries,
+    );
+    final requeued = <domain.SyncOperation>[];
+    for (final operation in due) {
+      requeued.add(
+        await requeueFailed(operation.operationId, maxRetries: maxRetries),
+      );
+    }
+    return requeued;
+  }
+
   /// Read-only point-in-time counts per sync state.
   ///
   /// Local-only observability for worker/drain progress and dead-letter
