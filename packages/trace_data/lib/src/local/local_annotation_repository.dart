@@ -242,6 +242,58 @@ final class LocalAnnotationRepository {
     return row == null ? null : _noteFromRow(row);
   }
 
+  /// Read-only backlink: live notes for one anchor, deterministic order.
+  Future<List<domain.StudyNote>> listNotesForAnchor(String anchorId) async {
+    final rows =
+        await (database.select(database.studyNotes)
+              ..where(
+                (entry) =>
+                    entry.anchorId.equals(anchorId) &
+                    entry.tombstone.equals(false),
+              )
+              ..orderBy([
+                (entry) => OrderingTerm(expression: entry.updatedAt),
+                (entry) => OrderingTerm(expression: entry.id),
+              ]))
+            .get();
+    return rows.map(_noteFromRow).toList();
+  }
+
+  /// Export a note as its valid JSON plus a display-only locator.
+  /// Never redefines identity: the locator is for humans, IDs are truth.
+  Future<Map<String, Object?>> exportNote(String id) async {
+    final note = await readNote(id);
+    if (note == null) {
+      throw StateError('Note $id is absent or already deleted');
+    }
+    final locator = <String, Object?>{
+      'anchorId': note.anchorId,
+      'sourceBlockId': note.sourceBlockId,
+      'figureId': note.figureId,
+      'lessonBlockId': note.lessonBlockId,
+    };
+    if (note.anchorId != null) {
+      final anchor = await (database.select(
+        database.highlightAnchors,
+      )..where((entry) => entry.id.equals(note.anchorId!))).getSingleOrNull();
+      if (anchor != null) {
+        locator['quote'] = anchor.quote;
+        locator['pageId'] = anchor.pageId;
+      }
+    }
+    if (note.sourceBlockId != null) {
+      final block =
+          await (database.select(database.sourceBlocks)
+                ..where((entry) => entry.id.equals(note.sourceBlockId!)))
+              .getSingleOrNull();
+      if (block != null) {
+        locator['pageId'] ??= block.pageId;
+        locator['documentId'] = block.documentId;
+      }
+    }
+    return {'note': note.toJson(), 'locator': locator};
+  }
+
   Future<void> deleteNote(String id, String deletedAt) async {
     _utc(deletedAt, 'deletedAt');
     final changed =

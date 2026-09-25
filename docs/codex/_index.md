@@ -21,3 +21,4 @@
 | `2026-09-25-stage-25-studied-review-atomic-wiring` | Stage 25 studied review atomic wiring | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-25-studied-review-atomic-wiring/00-brief.md) |
 | `2026-09-25-stage-26-review-inbox-cached-replay` | Stage 26 review inbox cached replay | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-26-review-inbox-cached-replay/00-brief.md) |
 | `2026-09-25-stage-27-highlight-anchor-engine` | Stage 27 highlight anchor engine | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-27-highlight-anchor-engine/00-brief.md) |
+| `2026-09-25-stage-28-notes-backlinks-and-export` | Stage 28 notes backlinks and export | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-28-notes-backlinks-and-export/00-brief.md) |
