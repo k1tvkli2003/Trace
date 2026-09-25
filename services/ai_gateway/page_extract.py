@@ -47,17 +47,21 @@ def _require_id(value: object, description: str) -> str:
     return value
 
 
+def _is_number(value: object) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
 def _check_box(box: object) -> None:
     if not isinstance(box, dict) or set(box) != {'x', 'y', 'w', 'h'}:
         raise ContractFailure('INVALID_BBOX')
     point = {key: box[key] for key in ('x', 'y')}
     size = {key: box[key] for key in ('w', 'h')}
     for key, value in point.items():
-        if not isinstance(value, (int, float)) or value != value or \
+        if not _is_number(value) or value != value or \
                 not 0.0 <= float(value) <= 1.0:
             raise ContractFailure('INVALID_BBOX')
     for key, value in size.items():
-        if not isinstance(value, (int, float)) or value != value or \
+        if not _is_number(value) or value != value or \
                 not 0.0 < float(value) <= 1.0:
             raise ContractFailure('INVALID_BBOX')
     if float(box['x']) + float(box['w']) > 1.0 or \
@@ -106,7 +110,8 @@ def validate_page_extract(
         if block_id in ids:
             raise ContractFailure('DUPLICATE_BLOCK_ID')
         ids.add(block_id)
-        if block.get('order') != index:
+        order = block.get('order')
+        if isinstance(order, bool) or order != index:
             raise ContractFailure('BLOCKS_NOT_ORDERED')
         kind = block.get('kind')
         if kind not in _ALLOWED_KINDS:
@@ -115,7 +120,7 @@ def validate_page_extract(
         if not isinstance(text, str) or len(text) > _MAX_TEXT or _UNSAFE.search(text):
             raise ContractFailure('INVALID_BLOCK_TEXT')
         confidence = block.get('confidence')
-        if not isinstance(confidence, (int, float)) or confidence != confidence or \
+        if not _is_number(confidence) or confidence != confidence or \
                 not 0.0 <= float(confidence) <= 1.0:
             raise ContractFailure('INVALID_CONFIDENCE')
         uncertain = block.get('uncertain')
@@ -151,7 +156,7 @@ def validate_page_extract(
                 len(caption) > _MAX_CAPTION or _UNSAFE.search(caption):
             raise ContractFailure('INVALID_FIGURE_CAPTION')
         confidence = figure.get('confidence')
-        if not isinstance(confidence, (int, float)) or confidence != confidence or \
+        if not _is_number(confidence) or confidence != confidence or \
                 not 0.0 <= float(confidence) <= 1.0:
             raise ContractFailure('INVALID_FIGURE_CONFIDENCE')
         if float(confidence) < _LOW_CONFIDENCE:

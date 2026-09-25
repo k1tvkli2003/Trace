@@ -167,6 +167,39 @@ class PageExtractTests(unittest.TestCase):
             )
         self.assertEqual(str(failure.exception), 'EMPTY_TEXT_BLOCK_REJECTED')
 
+    def test_rejects_boolean_order_confidence(self):
+        doc = extract()
+        order_case = {**doc, 'blocks': [
+            {**block, 'order': True} if block['id'] == 'b2' else block
+            for block in doc['blocks']
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                order_case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'BLOCKS_NOT_ORDERED')
+        conf_case = {**doc, 'blocks': [
+            {**block, 'confidence': True} if block['id'] == 'b2' else block
+            for block in doc['blocks']
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                conf_case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'INVALID_CONFIDENCE')
+
+    def test_rejects_boolean_figure_confidence(self):
+        doc = extract()
+        case = {**doc, 'figures': [{**doc['figures'][0], 'confidence': True}]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'INVALID_FIGURE_CONFIDENCE')
+
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()
         cases = (
