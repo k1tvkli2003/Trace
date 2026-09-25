@@ -8,7 +8,7 @@ Single-cell docs refresh. Re-run the gateway suite, update the one stale row, va
 |---|---|---|
 | 1 | done | Re-run gateway suite: 52/52 OK |
 | 2 | done | Update matrix gateway row to Stage53 evidence |
-| 3 | active | Validate docs, diff-check, commit |
+| 3 | done | Validate docs, diff-check, commit close |
 
 ## Interfaces and Artifacts
 - `docs/qa/acceptance-matrix.md`
