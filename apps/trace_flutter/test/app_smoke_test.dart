@@ -11,6 +11,26 @@ import 'package:trace_domain/trace_domain.dart';
 import 'package:trace_flutter/main.dart';
 
 void main() {
+  testWidgets('review inbox opens from selected workspace without AI', (
+    tester,
+  ) async {
+    final database = TraceDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    await LocalLibraryRepository(
+      database,
+    ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Review book'));
+    await tester.pumpWidget(MainApp(database: database));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Review book'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Open review inbox'));
+    await tester.tap(find.text('Open review inbox'));
+    await tester.pumpAndSettle();
+    expect(find.text('Review inbox · cached only'), findsOneWidget);
+    expect(find.byKey(const Key('review-inbox-empty')), findsOneWidget);
+    expect(find.text('AI artifact not generated'), findsNothing);
+  });
+
   testWidgets('creates a collection and shows it from SQLite', (tester) async {
     final database = TraceDatabase(NativeDatabase.memory());
     addTearDown(database.close);

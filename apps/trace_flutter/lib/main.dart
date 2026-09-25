@@ -7,6 +7,7 @@ import 'package:trace_domain/trace_domain.dart';
 import 'package:uuid/uuid.dart';
 
 import 'local_connection.dart';
+import 'review_inbox_page.dart';
 import 'text_picker.dart';
 import 'pdf_picker.dart';
 import 'source_reading_page.dart';
@@ -293,6 +294,15 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  Future<void> _openReviewInbox() async {
+    if (!mounted) return;
+    await Navigator.of(_navigator.currentContext!).push(
+      MaterialPageRoute<void>(
+        builder: (context) => ReviewInboxPage(database: _database),
+      ),
+    );
+  }
+
   Future<void> _openTeachingPreview() async {
     if (!mounted || _selectedId == null) return;
     await Navigator.of(_navigator.currentContext!).push(
@@ -487,6 +497,7 @@ class _MainAppState extends State<MainApp> {
               sourceFuture: _selectedSources,
               onReadSource: _startReading,
               onOpenTeachingStage: _openTeachingPreview,
+              onOpenReviewInbox: _openReviewInbox,
             );
           },
         ),

@@ -14,6 +14,7 @@ class ChatWorkspace extends StatefulWidget {
     required this.sourceFuture,
     required this.onReadSource,
     required this.onOpenTeachingStage,
+    required this.onOpenReviewInbox,
   });
 
   final List<LibraryEntrySummary> entries;
@@ -24,6 +25,7 @@ class ChatWorkspace extends StatefulWidget {
   final Future<List<SourceDocument>>? sourceFuture;
   final ValueChanged<SourceDocument> onReadSource;
   final VoidCallback onOpenTeachingStage;
+  final VoidCallback onOpenReviewInbox;
 
   @override
   State<ChatWorkspace> createState() => _ChatWorkspaceState();
@@ -383,6 +385,13 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                 ),
               ],
               if (widget.selectedId != null) ...[
+                const SizedBox(height: 12),
+                _action(
+                  Icons.history_outlined,
+                  'Open review inbox',
+                  'Due lessons from cache · no AI call',
+                  widget.onOpenReviewInbox,
+                ),
                 const SizedBox(height: 12),
                 _action(
                   Icons.school_outlined,

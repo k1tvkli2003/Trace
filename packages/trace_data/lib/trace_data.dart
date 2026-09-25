@@ -15,6 +15,7 @@ export 'src/local/local_figure_asset_repository.dart';
 export 'src/local/local_lesson_repository.dart';
 export 'src/local/local_annotation_repository.dart';
 export 'src/local/local_review_repository.dart';
+export 'src/local/local_review_inbox_repository.dart';
 export 'src/local/local_oplog_repository.dart';
 export 'src/local/local_vision_cache_repository.dart';
 export 'src/local/trace_database.dart'
