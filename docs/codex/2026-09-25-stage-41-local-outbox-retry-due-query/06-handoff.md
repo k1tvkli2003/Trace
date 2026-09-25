@@ -32,7 +32,7 @@ time. RED watched first (both members undefined), then minimal GREEN.
   analyzers clean.
 
 ## Remaining
-- Validator + scans + commit (this verify step).
+- None for this record; committed in `4e7f509` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and
   CI evidence remain open and out of scope.
 

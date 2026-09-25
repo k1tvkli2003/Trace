@@ -8,11 +8,11 @@ and docs. No refactor of existing paths.
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Fill task docs (brief/plan/state/previews/progress) |
-| 2 | planned | Write `local_oplog_retry_due_test.dart`; watch RED |
-| 3 | planned | Add `listFailedWithinBudget` + `nextRetryAtUtc`; GREEN |
-| 4 | planned | Data/domain/app/Gateway suites + analyzers + format |
-| 5 | planned | State/progress/verification/handoff + validator + commit |
+| 1 | done | Task docs filled; committed `4e7f509`. |
+| 2 | done | `local_oplog_retry_due_test.dart` written; RED watched (both members undefined). |
+| 3 | done | `listFailedWithinBudget` + `nextRetryAtUtc` added; focused 4/4 GREEN. |
+| 4 | done | Data/domain/app/Gateway suites + analyzers + format recorded in `05-verification.md`. |
+| 5 | done | State/progress/verification/handoff finalized; validator OK; record closes with this commit. |
 
 ## Interfaces and Artifacts
 - `LocalOplogRepository.listFailedWithinBudget({maxRetries = 5})`

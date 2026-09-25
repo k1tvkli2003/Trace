@@ -14,4 +14,4 @@
 - Pure UTC failure-time to next-retry mapping on the Stage34 ladder.
 
 ## Next
-- Validator, scans, commit.
+- Done: slice committed in `4e7f509` ancestor of HEAD; local-only record closes here.

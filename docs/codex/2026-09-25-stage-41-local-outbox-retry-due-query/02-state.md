@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -24,4 +24,4 @@ Analyzers and format clean. Next: validator, scans, commit.
 - Data 150/150, domain 114/114, app 41/41, Gateway 50; analyzers clean.
 
 ## Remaining
-- Validator, scans, commit.
+- None for this record; committed in `4e7f509` ancestor of HEAD.

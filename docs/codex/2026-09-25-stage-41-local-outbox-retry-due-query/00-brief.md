@@ -1,7 +1,7 @@
 # Stage 41 local outbox retry due query
 
 - Task ID: `2026-09-25-stage-41-local-outbox-retry-due-query`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 
