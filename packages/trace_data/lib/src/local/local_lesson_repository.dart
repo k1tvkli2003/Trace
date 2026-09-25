@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:trace_domain/trace_domain.dart' as domain;
 
+import 'local_oplog_repository.dart';
 import 'trace_database.dart' as db;
 
 /// Atomic local lesson/state persistence; evidence is loaded from DB.
@@ -70,6 +71,72 @@ final class LocalLessonRepository {
     });
   }
 
+  /// Applies one footer action locally and queues its sync operation in the
+  /// same transaction. No scheduler or network call is made here.
+  Future<domain.LearnerStateActionReceipt> applyStateAction(
+    domain.LearnerStateActionRequest request,
+  ) async {
+    _validateActionRequest(request);
+    final occurredAt = DateTime.parse(request.occurredAt);
+    final outbox = LocalOplogRepository(database);
+
+    return database.transaction(() async {
+      final existingOperation = await outbox.readOperation(request.actionId);
+      if (existingOperation != null) {
+        if (!_matchesAction(existingOperation, request)) {
+          throw StateError('Action ${request.actionId} is immutable');
+        }
+        final original = Map<String, Object?>.from(
+          (existingOperation.payload['nextState']! as Map).map(
+            (key, value) => MapEntry(key.toString(), value),
+          ),
+        );
+        return domain.LearnerStateActionReceipt(
+          state: domain.LearnerState.fromJson(original),
+          replayed: true,
+        );
+      }
+
+      final current = await _readStateInTransaction(request.stateId);
+      if (current == null) {
+        throw StateError('Learner state ${request.stateId} is absent');
+      }
+      if (current.sliceId != request.sliceId ||
+          current.lessonArtifactId != request.lessonArtifactId) {
+        throw const FormatException(
+          'Action identity does not match learner state',
+        );
+      }
+      if (current.lastActionAt != null &&
+          !occurredAt.isAfter(current.lastActionAt!)) {
+        throw StateError(
+          'Action time must be newer than current learner state',
+        );
+      }
+
+      final next = _nextState(current, request);
+      final operation = _operationForAction(
+        request: request,
+        state: current,
+        nextState: next,
+      );
+      await database
+          .into(database.learnerStates)
+          .insert(
+            db.LearnerStatesCompanion.insert(
+              id: next.id,
+              sliceId: next.sliceId,
+              lessonArtifactId: request.lessonArtifactId,
+              version: next.version,
+              contentHash: next.contentHash,
+              payloadJson: jsonEncode(next.toJson()),
+            ),
+          );
+      await outbox.putBatch(operations: [operation], runs: []);
+      return domain.LearnerStateActionReceipt(state: next, replayed: false);
+    });
+  }
+
   Future<domain.LessonArtifact?> readArtifact(String id) async {
     final row = await (database.select(
       database.lessonArtifacts,
@@ -81,13 +148,135 @@ final class LocalLessonRepository {
   }
 
   Future<domain.LearnerState?> readState(String id) async {
-    final row = await (database.select(
+    return _readStateInTransaction(id);
+  }
+
+  static bool _matchesAction(
+    domain.SyncOperation existing,
+    domain.LearnerStateActionRequest request,
+  ) {
+    final payload = existing.payload;
+    return existing.entityType == 'learner_state' &&
+        existing.entityId == request.stateId &&
+        existing.rawMutationType == 'update' &&
+        payload['action'] == request.action.wireName &&
+        payload['sliceId'] == request.sliceId &&
+        payload['lessonArtifactId'] == request.lessonArtifactId &&
+        payload['occurredAt'] == request.occurredAt &&
+        payload['deviceId'] == request.deviceId;
+  }
+
+  Future<domain.LearnerState?> _readStateInTransaction(String id) async {
+    final exact = await (database.select(
       database.learnerStates,
     )..where((entry) => entry.id.equals(id))).getSingleOrNull();
-    if (row == null) return null;
-    return domain.LearnerState.fromJson(
+    if (exact == null) return null;
+    final rows =
+        (await (database.select(
+              database.learnerStates,
+            )..where((entry) => entry.sliceId.equals(exact.sliceId))).get())
+            .where((row) => row.id == id || row.id.startsWith('$id:'))
+            .toList();
+    rows.sort((a, b) {
+      final versionOrder = b.version.compareTo(a.version);
+      return versionOrder != 0 ? versionOrder : b.id.compareTo(a.id);
+    });
+    return _stateFromRow(rows.first);
+  }
+
+  domain.LearnerState _stateFromRow(db.LearnerState row) {
+    final parsed = domain.LearnerState.fromJson(
       Map<String, Object?>.from(jsonDecode(row.payloadJson) as Map),
     );
+    if (parsed.id != row.id ||
+        parsed.sliceId != row.sliceId ||
+        parsed.version != row.version ||
+        parsed.contentHash != row.contentHash ||
+        parsed.lessonArtifactId != row.lessonArtifactId) {
+      throw const FormatException('Learner state row metadata mismatch');
+    }
+    return parsed;
+  }
+
+  static domain.LearnerState _nextState(
+    domain.LearnerState current,
+    domain.LearnerStateActionRequest request,
+  ) {
+    final nextId = '${current.id}:${request.actionId}';
+    final nextJson = {
+      ...current.toJson(),
+      'id': nextId,
+      'version': current.version + 1,
+      'status': request.action.wireName,
+      'lastReadAt': request.action == domain.LearnerStateAction.inProgress
+          ? current.rawLastReadAt
+          : request.occurredAt,
+      'lastActionAt': request.occurredAt,
+      'confidence': _confidenceFor(request.action),
+    };
+    final canonical = jsonEncode(nextJson);
+    return domain.LearnerState.fromJson({
+      ...nextJson,
+      'contentHash': sha256.convert(utf8.encode(canonical)).toString(),
+    });
+  }
+
+  static double _confidenceFor(domain.LearnerStateAction action) =>
+      switch (action) {
+        domain.LearnerStateAction.inProgress => 0.25,
+        domain.LearnerStateAction.studied => 0.65,
+        domain.LearnerStateAction.notLearned => 0.1,
+        domain.LearnerStateAction.mastered => 1.0,
+        domain.LearnerStateAction.skipped => 0.0,
+      };
+
+  static domain.SyncOperation _operationForAction({
+    required domain.LearnerStateActionRequest request,
+    required domain.LearnerState? state,
+    required domain.LearnerState? nextState,
+  }) {
+    if (state == null || nextState == null) {
+      throw StateError('Learner state is required for action receipt');
+    }
+    final payload = {
+      'stateId': request.stateId,
+      'sliceId': request.sliceId,
+      'lessonArtifactId': request.lessonArtifactId,
+      'action': request.action.wireName,
+      'occurredAt': request.occurredAt,
+      'deviceId': request.deviceId,
+      'previousState': state.toJson(),
+      'nextState': nextState.toJson(),
+    };
+    return domain.SyncOperation.fromJson({
+      'operationId': request.actionId,
+      'version': 1,
+      'contentHash': sha256
+          .convert(utf8.encode(jsonEncode(payload)))
+          .toString(),
+      'entityType': 'learner_state',
+      'entityId': request.stateId,
+      'mutationType': 'update',
+      'payload': payload,
+      'localVersion': nextState.version,
+      'syncState': 'pending',
+      'retryCount': 0,
+      'createdAt': request.occurredAt,
+    });
+  }
+
+  static void _validateActionRequest(domain.LearnerStateActionRequest request) {
+    if (request.actionId.trim().isEmpty ||
+        request.stateId.trim().isEmpty ||
+        request.sliceId.trim().isEmpty ||
+        request.lessonArtifactId.trim().isEmpty ||
+        request.deviceId.trim().isEmpty) {
+      throw const FormatException('Action identity fields must be nonempty');
+    }
+    final parsed = DateTime.tryParse(request.occurredAt);
+    if (parsed == null || !parsed.isUtc || !request.occurredAt.endsWith('Z')) {
+      throw const FormatException('Action occurredAt must be UTC ISO-8601');
+    }
   }
 
   Future<domain.LessonArtifact> _parseVerified(

@@ -23,6 +23,7 @@ export 'src/models/source_outline.dart';
 export 'src/models/lesson_ast.dart';
 export 'src/models/lesson_artifact.dart';
 export 'src/models/learner_state.dart';
+export 'src/models/learner_state_action.dart';
 export 'src/models/highlight_anchor.dart';
 export 'src/models/study_note.dart';
 export 'src/models/review_item.dart';
