@@ -8,7 +8,7 @@ One RED test first, then minimal floor check inside figure loop mirroring block 
 |---|---|---|
 | 1 | done | RED: new low-confidence figure test failed first (`AssertionError: ContractFailure not raised`) |
 | 2 | done | GREEN: reject figure below 0.5 with `LOW_CONFIDENCE_FIGURE_REJECTED` |
-| 3 | active | Full suite + validate + diff-check + commit |
+| 3 | done | Full suite + validate + diff-check + commit (`0e9415d`) |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py`

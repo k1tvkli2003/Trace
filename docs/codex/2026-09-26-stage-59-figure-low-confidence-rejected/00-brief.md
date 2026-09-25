@@ -1,7 +1,7 @@
 # Stage 59 figure low confidence rejected
 
 - Task ID: `2026-09-26-stage-59-figure-low-confidence-rejected`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
 - Language: en
 

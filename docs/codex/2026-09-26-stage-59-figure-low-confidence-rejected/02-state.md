@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-Figure below 0.5 now rejected (`LOW_CONFIDENCE_FIGURE_REJECTED`). RED observed first, then GREEN. Page-extract 8/8, gateway 55/55.
+Floor check committed (`0e9415d`). Figure below 0.5 rejected. Matrix row still cites 54; 54 -> 55 refresh stays remaining. RED observed first, then GREEN. Page-extract 8/8, gateway 55/55.
 
 ## Decisions
 | Date | Decision | Reason | Source |
