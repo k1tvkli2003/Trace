@@ -31,6 +31,10 @@ _MAX_FIGURES = 30
 _MAX_TEXT = 8000
 _MAX_CAPTION = 1000
 _LOW_CONFIDENCE = 0.5
+_TEXT_KINDS = frozenset({
+    'heading', 'paragraph', 'list', 'table',
+    'formula', 'caption', 'footnote',
+})
 
 
 def _valid_hash(value: object) -> bool:
@@ -121,6 +125,8 @@ def validate_page_extract(
             raise ContractFailure('UNKNOWN_BLOCK_MUST_BE_QUARANTINED')
         if kind == 'figure' and text.strip():
             raise ContractFailure('FIGURE_BLOCK_MUST_BE_TEXTLESS')
+        if kind in _TEXT_KINDS and not uncertain and not text.strip():
+            raise ContractFailure('EMPTY_TEXT_BLOCK_REJECTED')
         if float(confidence) < _LOW_CONFIDENCE and not uncertain:
             raise ContractFailure('LOW_CONFIDENCE_REQUIRES_UNCERTAIN')
         if uncertain and kind != 'unknown' and not text.strip():

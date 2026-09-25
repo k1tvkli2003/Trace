@@ -154,6 +154,19 @@ class PageExtractTests(unittest.TestCase):
             )
         self.assertEqual(str(failure.exception), 'LOW_CONFIDENCE_FIGURE_REJECTED')
 
+    def test_rejects_certain_text_block_without_text(self):
+        doc = extract()
+        case = {**doc, 'blocks': [
+            {**block, 'text': ''} if block['id'] == 'b2' else block
+            for block in doc['blocks']
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'EMPTY_TEXT_BLOCK_REJECTED')
+
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()
         cases = (
