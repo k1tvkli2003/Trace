@@ -221,6 +221,32 @@ final class LocalOplogRepository {
     }
   }
 
+  /// Pure UTC failure-time to next-retry mapping via [retryDelay].
+  ///
+  /// Local-only scheduling math: `failedAtUtc + retryDelay(retryCount)`,
+  /// returned as UTC ISO-8601. No clock read, no DB, no network. Callers
+  /// supply the failure instant (a future slice may store `failedAt` per
+  /// row); non-UTC input fails closed with [FormatException] and a negative
+  /// count fails closed via [retryDelay].
+  static String nextRetryAtUtc({
+    required String failedAtUtc,
+    required int retryCount,
+    Duration baseDelay = const Duration(seconds: 10),
+    Duration maxDelay = const Duration(minutes: 5),
+  }) {
+    if (!failedAtUtc.endsWith('Z') ||
+        DateTime.tryParse(failedAtUtc)?.isUtc != true) {
+      throw FormatException('failedAtUtc must be UTC ISO-8601');
+    }
+    final failedAt = DateTime.parse(failedAtUtc);
+    final delay = retryDelay(
+      retryCount,
+      baseDelay: baseDelay,
+      maxDelay: maxDelay,
+    );
+    return failedAt.add(delay).toIso8601String();
+  }
+
   Future<domain.SyncOperation> _transition(
     String id, {
     required domain.SyncState from,
@@ -306,6 +332,36 @@ final class LocalOplogRepository {
       (await database.select(database.syncOperations).get())
           .map(_operationFromRow)
           .toList();
+
+  /// Read-only failed rows within retry budget, deterministic order.
+  ///
+  /// Local-only retry-candidate listing: rows whose `retryCount` exceeds
+  /// [maxRetries] are the local dead-letter set and stay excluded, mirroring
+  /// [canRequeue] `<=` budget semantics. Order matches the queue ownership:
+  /// `createdAt` ascending, then row id ascending (the `operationId`).
+  /// `retryCount` lives inside `payloadJson` (no DB column), so the budget
+  /// filter applies after the reviewed row mapping. Negative budgets fail
+  /// closed via [_requireRetryBudget].
+  Future<List<domain.SyncOperation>> listFailedWithinBudget({
+    int maxRetries = 5,
+  }) async {
+    _requireRetryBudget(maxRetries);
+    final rows =
+        await (database.select(database.syncOperations)
+              ..where(
+                (entry) =>
+                    entry.syncState.equals(domain.SyncState.failed.wireName),
+              )
+              ..orderBy([
+                (entry) => OrderingTerm.asc(entry.createdAt),
+                (entry) => OrderingTerm.asc(entry.id),
+              ]))
+            .get();
+    return rows
+        .map(_operationFromRow)
+        .where((operation) => operation.retryCount <= maxRetries)
+        .toList();
+  }
 
   /// Read-only point-in-time counts per sync state.
   ///
