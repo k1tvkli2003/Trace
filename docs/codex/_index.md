@@ -44,3 +44,4 @@
 | `2026-09-25-stage-48-licensed-synthetic-fixture-contract` | Stage 48 licensed synthetic fixture contract | done | 2026-09-25 | [Open](2026-09-25-stage-48-licensed-synthetic-fixture-contract/00-brief.md) |
 | `2026-09-25-stage-49-local-benchmark-baseline` | Stage 49 local benchmark baseline | done | 2026-09-25 | [Open](2026-09-25-stage-49-local-benchmark-baseline/00-brief.md) |
 | `2026-09-25-stage-50-e2e-scaffold-contract` | Stage 50 e2e scaffold contract | done | 2026-09-25 | [Open](2026-09-25-stage-50-e2e-scaffold-contract/00-brief.md) |
+| `2026-09-26-stage-51-figure-block-must-own-figure` | Stage 51 figure block must own figure | active | 2026-09-26 | [Open](2026-09-26-stage-51-figure-block-must-own-figure/00-brief.md) |

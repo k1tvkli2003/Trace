@@ -45,9 +45,18 @@ def extract():
             {
                 'id': 'b3',
                 'order': 2,
-                'kind': 'unknown',
+                'kind': 'figure',
                 'text': '',
                 'bbox': {'x': 0.1, 'y': 0.3, 'w': 0.2, 'h': 0.04},
+                'confidence': 0.9,
+                'uncertain': False,
+            },
+            {
+                'id': 'b4',
+                'order': 3,
+                'kind': 'unknown',
+                'text': '',
+                'bbox': {'x': 0.1, 'y': 0.4, 'w': 0.2, 'h': 0.04},
                 'confidence': 0.1,
                 'uncertain': True,
             },
@@ -55,7 +64,7 @@ def extract():
         'figures': [
             {
                 'id': 'fig-1',
-                'blockId': 'b2',
+                'blockId': 'b3',
                 'bbox': {'x': 0.2, 'y': 0.5, 'w': 0.4, 'h': 0.2},
                 'caption': 'شکل ۱',
                 'confidence': 0.7,
@@ -74,9 +83,23 @@ class PageExtractTests(unittest.TestCase):
             ),
             valid,
         )
-        unknown = valid['blocks'][2]
+        unknown = valid['blocks'][3]
         self.assertTrue(unknown['uncertain'])
         self.assertEqual(unknown['text'], '')
+
+    def test_rejects_figure_attached_to_non_figure_block(self):
+        doc = extract()
+        self.assertEqual(
+            next(block['kind'] for block in doc['blocks'] if block['id'] == 'b2'),
+            'paragraph',
+        )
+        case = {**doc, 'figures': [{**doc['figures'][0], 'blockId': 'b2'}]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'FIGURE_BLOCK_WITHOUT_FIGURE')
 
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()

@@ -149,7 +149,8 @@ def validate_page_extract(
         _check_box(figure.get('bbox'))
 
     figure_blocks = {b['id'] for b in blocks if isinstance(b, dict) and b.get('kind') == 'figure'}
-    if figure_blocks and not set(figure_blocks) <= set(figure_ids):
+    owned = {figure.get('blockId') for figure in figures if isinstance(figure, dict)}
+    if not figure_blocks <= owned or not owned <= figure_blocks:
         raise ContractFailure('FIGURE_BLOCK_WITHOUT_FIGURE')
 
     return document
