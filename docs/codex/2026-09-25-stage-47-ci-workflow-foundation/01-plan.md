@@ -9,7 +9,7 @@ TDD RED: add one failing contract test for the missing workflow; GREEN: add a mi
 | 1 | done | RED: `tool/test_ci_workflow_contract.py` failed on missing `.github/workflows/ci.yml` (`FileNotFoundError` + failed existence assert) |
 | 2 | done | GREEN: `.github/workflows/ci.yml` + `tool/check_task_docs_structure.py` (CI docs job); contract 2/2 pass |
 | 3 | done | Verify: YAML parse + contract OK; docs-structure 39 tasks OK; full validator pending final fill |
-| 4 | active | Fill state/progress/verification/handoff + `_index.md`; commit |
+| 4 | done | Fill state/progress/verification/handoff + `_index.md`; commit `fcbecdd` |
 
 ## Interfaces and Artifacts
 - `.github/workflows/ci.yml` (new, CI checks only)

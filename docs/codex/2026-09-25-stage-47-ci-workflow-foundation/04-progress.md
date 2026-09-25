@@ -12,4 +12,4 @@
 - RED→GREEN verified locally with real command output.
 
 ## Next
-- Fill `05-verification.md` + `06-handoff.md`, final full validator + `diff --check`, then commit.
+- Commit the status-sync (brief/plan/index `ready-for-review`); Stage47 then awaits review, not more implementation.

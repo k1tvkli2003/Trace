@@ -1,7 +1,7 @@
 # Stage 47 CI workflow foundation
 
 - Task ID: `2026-09-25-stage-47-ci-workflow-foundation`
-- Status: `active`
+- Status: `ready-for-review`
 - Created: 2026-09-25T23:01:02
 - Language: en
 

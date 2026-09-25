@@ -24,5 +24,4 @@ RED→GREEN complete locally: `tool/test_ci_workflow_contract.py` failed on the 
 - Docs-structure check: 39 tasks OK; `diff --check` clean.
 
 ## Remaining
-- Fill `03-previews.md` (no previews required), `04-progress.md`, `05-verification.md`, `06-handoff.md`.
-- Final `validate_task_docs.py` (full) + commit.
+- Actual GitHub Actions run (needs remote + runner; explicitly out of scope here).
