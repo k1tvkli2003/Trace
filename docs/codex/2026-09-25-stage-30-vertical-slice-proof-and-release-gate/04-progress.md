@@ -13,6 +13,7 @@
 | 2026-09-25 | active | App tests passed with `--no-pub`; analyzer clean. | `flutter test --no-pub`, `flutter analyze --no-pub` |
 | 2026-09-25 | active | App formatter has pre-existing SDK-version drift in unrelated PDF files; reverted to keep slice clean. | `git checkout -- lib test` from app package |
 | 2026-09-25 | ready-for-review | Proof committed; release gate remains open. | `339f1c3`; clean worktree after commit |
+| 2026-09-25 | ready-for-review | Matrix/runbook gap closed by Stage46 (`9d17f88`); Stage30 evidence unchanged. | docs/qa/acceptance-matrix.md, docs/ops/runbook.md |
 
 ## Done So Far
 - Offline vertical-slice integration test added and green.

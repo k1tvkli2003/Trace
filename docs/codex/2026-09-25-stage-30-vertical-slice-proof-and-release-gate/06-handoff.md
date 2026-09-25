@@ -25,7 +25,7 @@ highlight/note backlink.
 - No AvalAI/OpenHUB use; `StudyHub-Web` untouched.
 
 ## Remaining
-- CI workflow, acceptance matrix, runbook, benchmarks, E2E fixtures.
+- CI workflow, benchmarks, E2E fixtures. (Acceptance matrix + runbook now exist via Stage46 `9d17f88`; Stage30 evidence unchanged.)
 - Supabase/auth/sync proof.
 - Android/Windows/Web release builds and persistence/device evidence.
 - PDF Vision fidelity and live AI route pilot.

@@ -32,8 +32,8 @@
 ## Known Issues
 - App `dart format` reports changes in unrelated pre-existing PDF files under
   the installed Dart SDK; they were reverted and left unchanged.
-- `docs/qa/acceptance-matrix.md` is absent.
-- `docs/ops/runbook.md` is absent.
+- `docs/qa/acceptance-matrix.md` absence closed by Stage46 (`9d17f88`): file now exists as truthful offline-only matrix; Stage30 evidence above unchanged.
+- `docs/ops/runbook.md` absence closed by Stage46 (`9d17f88`): file now exists as local-only runbook; Stage30 evidence above unchanged.
 - `.github/workflows/ci.yml` is absent.
 - `benchmarks/` is absent.
 - `test/e2e/` is absent.

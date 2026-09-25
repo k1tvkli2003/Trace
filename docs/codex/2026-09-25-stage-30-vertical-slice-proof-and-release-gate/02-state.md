@@ -8,6 +8,7 @@
 Offline vertical-slice proof is GREEN with no production changes required.
 Docs and release-gate inventory are recorded. Committed as `339f1c3`;
 worktree clean at commit.
+2026-09-25 addendum: `docs/qa/acceptance-matrix.md` and `docs/ops/runbook.md` now exist via Stage46 (`9d17f88`); Stage30 evidence cells are unchanged.
 
 ## Decisions
 | Date | Decision | Reason | Source |
