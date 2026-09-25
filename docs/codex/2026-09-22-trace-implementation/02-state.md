@@ -1,11 +1,12 @@
 # State
 
 - Current status: `active`
-- Last updated: 2026-09-23
+- Last updated: 2026-09-25
 - Owner: Hermes (single model)
+- Provenance: stages 10-45 record-closed `done` on `master`; slices `98f14da` (20), `a434743` (21), outbox chain to `04ca2f7` (45); index clean `8e2af48`.
 
 ## Current State
-Stages 1–3 have bounded baseline evidence. Stage 4 core Drift + `file_picker` integration now builds Web/Windows/Android; optional secure-storage/notification Windows plugins remain unintegrated, with earlier ATL failure. Stage 5 has two HTML mock directions and an Evidence Atelier-inspired **real** Flutter library/source workbench; original imagegen-specific mock gate is bypassed under the user's later own-model-only and skip-nonblocking-problems direction, not falsely marked fulfilled. Library uses Drift v3: collection CRUD, hash-bound immutable original TXT/Markdown bytes, strict UTF-8/no OCR, migration from v1, and Web pinned `sharedIndexedDb` persistence. Chrome CDP created a collection, imported Markdown through the actual picker, read exact stored bytes, and verified both after reload. Native file reopen/migration, widget tests, analyzer, and Web/Windows/APK builds passed. Stage 7 still lacks remaining canonical entities, codegen, PDF page rendering/Vision, lesson, reviews, and sync. Inter/Vazirmatn remain bundled; app is **not** a complete learning product.
+Stages 1–45 record-closed `done` on `master` (`8e2af48` clean). Stage 20 shell (`98f14da`) and Stage 21 teaching renderer (`a434743`) are committed reskins over the earlier honest shell. Stages 22-30 are prior offline/deterministic/proof records. Stages 31-45 form the local-only outbox lifecycle chain, ending at `04ca2f7` health snapshot. Stage 46 truthful docs remain `done` as the release-gate doc record. Umbrella Trace implementation stays `active` because the full learning loop is NOT DONE: missing gates are `benchmarks/`, `test/e2e/`, `.github/workflows/ci.yml`, plus PDF render/Vision pilot, live AI route, sync/auth/Storage/RLS, background/device runtime, and release identity.
 
 ## Decisions
 | Date | Decision | Reason | Source |
