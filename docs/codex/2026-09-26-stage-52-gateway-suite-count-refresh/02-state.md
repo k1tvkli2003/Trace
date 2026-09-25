@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-Matrix gateway row updated to the Stage51 run (51 tests OK). Suite re-run locally, still 51/51. Only the gateway row changed in the matrix.
+Matrix gateway row refreshed and committed (`a919b4a`).
 
 ## Decisions
 | Date | Decision | Reason | Source |
