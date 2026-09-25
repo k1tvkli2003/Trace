@@ -13,7 +13,7 @@ Mock previews, fake states, and generated assets are labeled as previews until v
 - Source: approved 05/06 concept images and live Stage 20 shell
 - Assumptions: Lesson boxes sit on graphite canvas/panel with warm ink, amber block markers, sea-glass reserved for real source state
 - Limitations: Concept images contain sample counts/progress that are not product evidence; no runtime screenshot yet
-- Verified: no
+- Verified: not verified - mock only, no runtime evidence
 - Asset: `docs/design/previews/workbench-10/05-signal-console-worktree.webp`
 
 Lesson renderer must join the console visually while staying honest: validated AST only, missing evidence shown as unavailable, actions typed and owner-authorized.
