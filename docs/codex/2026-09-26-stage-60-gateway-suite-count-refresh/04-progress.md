@@ -3,7 +3,7 @@
 ## Log
 | Time | Status | Entry | Evidence |
 |---|---|---|---|
-| 2026-09-26 | active | Docs created; suite re-run 55/55; matrix row refreshed to Stage59. | unittest output, `docs/qa/acceptance-matrix.md` |
+| 2026-09-26 | done | Docs closed; refresh committed (`1aeb32c`); final validate + close. | `git log --oneline`, `validate_task_docs.py --structure-only` |
 
 ## Done So Far
 - Scope fixed, suite re-run, one row updated.
