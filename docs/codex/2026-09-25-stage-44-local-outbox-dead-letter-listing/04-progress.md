@@ -11,4 +11,4 @@
 - Dead-letter listing implemented read-only with deterministic order and fail-closed budget.
 
 ## Next
-- Verification/handoff/index, validation, scans, commit, independent review.
+- Done: slice committed in `b50f36c` ancestor of HEAD; local-only record closes here.

@@ -6,9 +6,9 @@ TDD tracer bullet: failing test first for the dead-letter complement of `listFai
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write `local_oplog_dead_letter_test.dart`; watch RED (method missing) |
-| 2 | planned | Add `listFailedOverBudget({maxRetries = 5})`; watch focused GREEN |
-| 3 | planned | Run full suites + analyzers; fill state/progress/verification/handoff; validate; scan; commit |
+| 1 | done | `local_oplog_dead_letter_test.dart` written; RED captured; committed `b50f36c`. |
+| 2 | done | `listFailedOverBudget` added; focused 2/2 GREEN. |
+| 3 | done | Full suites + independent review `deleg_45868dcf` recorded in `05-verification.md`; validator OK; record closes with this commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_oplog_repository.dart`: new `listFailedOverBudget`.

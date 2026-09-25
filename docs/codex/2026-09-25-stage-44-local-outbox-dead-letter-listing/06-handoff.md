@@ -19,7 +19,7 @@ Exhausted failed rows are now listable read-only without any transition, clock, 
 - Full suites GREEN (data 157, domain 114, app 41, Gateway 50); analyzers clean.
 
 ## Remaining
-- Independent review, docs validation, scans, commit.
+- None for this record; committed in `b50f36c` ancestor of HEAD. Review `deleg_45868dcf` already recorded.
 
 ## Verification
 - See `05-verification.md`: result passed for all executed checks.

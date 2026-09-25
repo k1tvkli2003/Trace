@@ -1,7 +1,7 @@
 # Stage 44 local outbox dead-letter listing
 
 - Task ID: `2026-09-25-stage-44-local-outbox-dead-letter-listing`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

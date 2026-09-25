@@ -37,6 +37,6 @@
 | `2026-09-25-stage-41-local-outbox-retry-due-query` | Stage 41 local outbox retry due query | done | 2026-09-25 | [Open](2026-09-25-stage-41-local-outbox-retry-due-query/00-brief.md) |
 | `2026-09-25-stage-42-local-outbox-due-ready-filtering` | Stage 42 local outbox due-ready filtering | done | 2026-09-25 | [Open](2026-09-25-stage-42-local-outbox-due-ready-filtering/00-brief.md) |
 | `2026-09-25-stage-43-local-outbox-due-requeue` | Stage 43 local outbox due requeue | done | 2026-09-25 | [Open](2026-09-25-stage-43-local-outbox-due-requeue/00-brief.md) |
-| `2026-09-25-stage-44-local-outbox-dead-letter-listing` | Stage 44 local outbox dead-letter listing | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-44-local-outbox-dead-letter-listing/00-brief.md) |
+| `2026-09-25-stage-44-local-outbox-dead-letter-listing` | Stage 44 local outbox dead-letter listing | done | 2026-09-25 | [Open](2026-09-25-stage-44-local-outbox-dead-letter-listing/00-brief.md) |
 | `2026-09-25-stage-45-local-outbox-health-snapshot` | Stage 45 local outbox health snapshot | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-45-local-outbox-health-snapshot/00-brief.md) |
 | `2026-09-25-stage-46-release-gate-truthful-docs` | Stage 46 release gate truthful docs | done | 2026-09-25 | [Open](2026-09-25-stage-46-release-gate-truthful-docs/00-brief.md) |

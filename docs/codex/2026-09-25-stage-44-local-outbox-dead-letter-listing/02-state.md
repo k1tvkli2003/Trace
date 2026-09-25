@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
+- Provenance: slice committed in `b50f36c` ancestor of HEAD.
 
 ## Current State
-Implementation GREEN. Full suites pass: data 157/157, domain 114/114, app 41/41, Gateway 50 OK. Analyzers clean, format clean.
+Implementation GREEN. Full suites pass: data 157/157, domain 114/114, app 41/41, Gateway 50 OK. Analyzers clean, format clean. Record closes with validator OK; review `deleg_45868dcf` already recorded.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -22,4 +23,4 @@ Implementation GREEN. Full suites pass: data 157/157, domain 114/114, app 41/41,
 - Full suites + analyzers GREEN.
 
 ## Remaining
-- Verification doc, handoff, index update, validation, scans, commit, independent review.
+- None for this record; committed in `b50f36c` ancestor of HEAD.
