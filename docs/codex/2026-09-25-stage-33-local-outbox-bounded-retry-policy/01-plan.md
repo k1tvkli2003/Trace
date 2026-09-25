@@ -6,10 +6,10 @@ Vertical tracer bullet on `LocalOplogRepository`: one RED retry-policy test, the
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write `test/local_oplog_retry_policy_test.dart` (RED: uses `requeueFailed(id, maxRetries:)` and `canRequeue` which do not exist yet). |
-| 2 | planned | Run focused test, confirm failure is missing-API not typo. |
-| 3 | planned | Implement `requeueFailed(id, {maxRetries = 5})` bound + `canRequeue(operation, {maxRetries})` pure helper. |
-| 4 | planned | GREEN focused test, then full suites, analyzers, format, validator, commit. |
+| 1 | done | `test/local_oplog_retry_policy_test.dart` written RED; committed slice `7ad54cc`. |
+| 2 | done | Focused test failed on missing-API not typo. |
+| 3 | done | `requeueFailed(id, {maxRetries = 5})` bound + `canRequeue` helper implemented. |
+| 4 | done | GREEN focused test, then full suites, analyzers, format, validator recorded in `05-verification.md`; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `LocalOplogRepository.requeueFailed(String id, {int maxRetries = 5})`: `failed -> pending` only when `retryCount <= maxRetries`; otherwise throws `StateError` and leaves the row `failed`.

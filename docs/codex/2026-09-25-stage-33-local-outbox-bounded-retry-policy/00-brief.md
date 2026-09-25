@@ -1,7 +1,7 @@
 # Stage 33 local outbox bounded retry policy
 
 - Task ID: `2026-09-25-stage-33-local-outbox-bounded-retry-policy`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

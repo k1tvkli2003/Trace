@@ -20,7 +20,7 @@ Local outbox retry loop is now bounded: `LocalOplogRepository.requeueFailed(id, 
 - Analyzers clean; format and diff checks clean.
 
 ## Remaining
-- Validator + commit (this verify step).
+- None for this record; committed in `7ad54cc` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope.
 
 ## Verification

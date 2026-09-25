@@ -26,7 +26,7 @@
 | `2026-09-25-stage-30-vertical-slice-proof-and-release-gate` | Stage 30 vertical slice proof and release gate | done | 2026-09-25 | [Open](2026-09-25-stage-30-vertical-slice-proof-and-release-gate/00-brief.md) |
 | `2026-09-25-stage-31-local-outbox-lifecycle-replay-safety` | Stage 31 local outbox lifecycle replay safety | done | 2026-09-25 | [Open](2026-09-25-stage-31-local-outbox-lifecycle-replay-safety/00-brief.md) |
 | `2026-09-25-stage-32-local-outbox-pending-queue-ordering` | Stage 32 local outbox pending queue ordering | done | 2026-09-25 | [Open](2026-09-25-stage-32-local-outbox-pending-queue-ordering/00-brief.md) |
-| `2026-09-25-stage-33-local-outbox-bounded-retry-policy` | Stage 33 local outbox bounded retry policy | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-33-local-outbox-bounded-retry-policy/00-brief.md) |
+| `2026-09-25-stage-33-local-outbox-bounded-retry-policy` | Stage 33 local outbox bounded retry policy | done | 2026-09-25 | [Open](2026-09-25-stage-33-local-outbox-bounded-retry-policy/00-brief.md) |
 | `2026-09-25-stage-34-local-outbox-retry-backoff-policy` | Stage 34 local outbox retry backoff policy | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-34-local-outbox-retry-backoff-policy/00-brief.md) |
 | `2026-09-25-stage-35-local-outbox-atomic-claim-next` | Stage 35 local outbox atomic claim next | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-35-local-outbox-atomic-claim-next/00-brief.md) |
 | `2026-09-25-stage-36-local-outbox-release-claim` | Stage 36 local outbox release claim | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-36-local-outbox-release-claim/00-brief.md) |

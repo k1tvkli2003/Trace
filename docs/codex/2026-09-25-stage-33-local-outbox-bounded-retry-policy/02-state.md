@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Hermes
 
@@ -27,4 +27,4 @@ Bounded local retry policy is GREEN in `LocalOplogRepository`: `requeueFailed(id
 - Analyzers clean; format 0 changed after fix; diff check clean.
 
 ## Remaining
-- Validator, commit, handoff.
+- None for this record; slice committed in `7ad54cc` ancestor of HEAD. Backoff/transport/RLS/Storage/background/CI remain later stages.

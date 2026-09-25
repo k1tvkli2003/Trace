@@ -14,4 +14,4 @@
 - Wider suites, analyzers, format verified.
 
 ## Next
-- Validator, commit, handoff.
+- Done: slice committed in `7ad54cc` ancestor of HEAD; local-only record closes here.
