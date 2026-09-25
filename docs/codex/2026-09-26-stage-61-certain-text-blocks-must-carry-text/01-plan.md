@@ -9,7 +9,7 @@ TDD vertical slice: RED test first for certain empty text blocks, verify RED, th
 | 1 | done | Added `test_rejects_certain_text_block_without_text`; RED confirmed (`ContractFailure not raised`) |
 | 2 | done | Added `_TEXT_KINDS` + `EMPTY_TEXT_BLOCK_REJECTED` rule for certain text kinds with empty `text.strip()` |
 | 3 | done | GREEN: `test_page_extract -v` 9/9, gateway `discover` 56/56, no regressions |
-| 4 | active | Fill Stage61 state/progress/verification/handoff/previews; validate docs; `diff --check`; feat commit + close commit |
+| 4 | done | Stage61 docs validated; `diff --check` clean; feat commit `e4540a7`; close commit pending |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py` (`validate_page_extract`)

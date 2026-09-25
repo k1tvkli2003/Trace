@@ -10,13 +10,13 @@ Certain text-bearing blocks (`heading`, `paragraph`, `list`, `table`, `formula`,
 - `docs/codex/_index.md` (Stage61 row; status to `done` after close commit)
 
 ## How To Continue
-- Run `validate_task_docs.py <Stage61 dir> --structure-only` and `git diff --check`, then feat-commit validator+test+Stage61+`_index.md`, flip Stage61 docs to `done`, validate again, and close-commit.
+- Next: Stage62 gateway suite count refresh (matrix still cites Stage59 55 tests; suite is now 56 after Stage61).
 
 ## Done
-- RED test + RED verification + GREEN rule + GREEN suites (9/9 page, 56/56 gateway).
+- RED test + RED verification + GREEN rule + GREEN suites (9/9 page, 56/56 gateway) + feat `e4540a7`.
 
 ## Remaining
-- Docs validation, `diff --check`, feat commit + close commit.
+- None.
 
 ## Verification
-- Code GREEN (see `05-verification.md`); doc/commit proof pending in the close step.
+- Code GREEN + docs validated + `diff --check` clean (see `05-verification.md`); close commit SHA recorded below after push.

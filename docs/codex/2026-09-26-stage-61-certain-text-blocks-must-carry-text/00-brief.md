@@ -1,7 +1,7 @@
 # Stage 61 certain text blocks must carry text
 
 - Task ID: `2026-09-26-stage-61-certain-text-blocks-must-carry-text`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
 - Language: en
 

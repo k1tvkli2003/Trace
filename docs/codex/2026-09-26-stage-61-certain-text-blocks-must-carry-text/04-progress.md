@@ -14,4 +14,4 @@
 - GREEN full page + gateway suites.
 
 ## Next
-- Validate docs, `diff --check`, feat commit + close commit.
+- None — stage closed at feat `e4540a7` + close commit.

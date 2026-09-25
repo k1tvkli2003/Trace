@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
@@ -22,4 +22,4 @@ RED confirmed then GREEN: `test_rejects_certain_text_block_without_text` failed 
 - GREEN: `test_page_extract -v` 9/9, gateway `discover` 56/56.
 
 ## Remaining
-- Validate Stage61 docs, `diff --check`, feat commit + close commit, `_index.md` to `done`.
+- None
