@@ -139,6 +139,42 @@ final class LocalOplogRepository {
     );
   }
 
+  /// Atomically pick the queue head and mark it in-flight.
+  ///
+  /// Local-only: closes the list-then-claim race by selecting the oldest
+  /// pending row and transitioning it inside one transaction. Returns `null`
+  /// when no pending row exists.
+  Future<domain.SyncOperation?> claimNext() async {
+    return database.transaction(() async {
+      final head =
+          await (database.select(database.syncOperations)
+                ..where(
+                  (entry) =>
+                      entry.syncState.equals(domain.SyncState.pending.wireName),
+                )
+                ..orderBy([
+                  (entry) => OrderingTerm.asc(entry.createdAt),
+                  (entry) => OrderingTerm.asc(entry.id),
+                ])
+                ..limit(1))
+              .getSingleOrNull();
+      if (head == null) {
+        return null;
+      }
+      final current = _operationFromRow(head);
+      if (current.syncState != domain.SyncState.pending) {
+        throw StateError(
+          'Sync operation ${current.operationId} changed during claim',
+        );
+      }
+      return _writeTransition(
+        current,
+        to: domain.SyncState.inFlight,
+        retryDelta: 0,
+      );
+    });
+  }
+
   /// Pure retry eligibility without a DB hit.
   static bool canRequeue(domain.SyncOperation operation, {int maxRetries = 5}) {
     _requireRetryBudget(maxRetries);
