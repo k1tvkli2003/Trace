@@ -20,7 +20,7 @@ Local outbox gains a read-only snapshot: `LocalOplogRepository.countByState()` r
 - Analyzers clean; format clean.
 
 ## Remaining
-- Validator + scans + review + commit (this verify step).
+- None for this record; committed in `671923c` ancestor of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope.
 
 ## Verification

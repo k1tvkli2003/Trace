@@ -14,4 +14,4 @@
 - Data/domain/app/Gateway suites GREEN; analyzers clean.
 
 ## Next
-- Validator, scans, review, commit.
+- Done: slice committed in `671923c` ancestor of HEAD; local-only record closes here.

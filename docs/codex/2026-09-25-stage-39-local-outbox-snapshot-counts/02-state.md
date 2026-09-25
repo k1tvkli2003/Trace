@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -22,4 +22,4 @@
 - Wider suites GREEN; analyzers clean; format 0 changed.
 
 ## Remaining
-- Validator, scans, review, commit.
+- None for this record; slice committed in `671923c` ancestor of HEAD. Transport/RLS/Storage/background/CI remain later stages.

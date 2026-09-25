@@ -6,10 +6,10 @@ TDD tracer: RED with a focused snapshot-counts test calling a missing repository
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write `local_oplog_snapshot_counts_test.dart`; run and capture RED (`countByState` undefined). |
-| 2 | planned | Implement read-only `countByState()` on `LocalOplogRepository`; rerun focused test to GREEN. |
-| 3 | planned | Run wider suites (data/domain/app/Gateway) + analyzers + format. |
-| 4 | planned | Docs (state/progress/verification/handoff), validator, scans, independent review, commit. |
+| 1 | done | `local_oplog_snapshot_counts_test.dart` written; RED captured; committed `671923c`. |
+| 2 | done | Read-only `countByState()` implemented on `LocalOplogRepository`; focused 3/3 GREEN. |
+| 3 | done | Wider suites GREEN recorded in `05-verification.md` (data 145, domain 114, app 41, Gateway 50). |
+| 4 | done | Docs, validator, scans, independent review `deleg_b4a2bfde`, commit; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `LocalOplogRepository.countByState()` → `Future<Map<domain.SyncState, int>>` covering all six `SyncState` values, zero-filled.

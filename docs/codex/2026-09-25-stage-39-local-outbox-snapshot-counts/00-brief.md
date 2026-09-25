@@ -1,7 +1,7 @@
 # Stage 39 local outbox snapshot counts
 
 - Task ID: `2026-09-25-stage-39-local-outbox-snapshot-counts`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 
