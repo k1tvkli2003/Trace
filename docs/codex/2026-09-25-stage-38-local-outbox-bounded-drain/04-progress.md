@@ -16,4 +16,4 @@
 - Reviewer `deleg_05e06418` findings addressed.
 
 ## Next
-- Final scans, validator re-run, commit.
+- Done: slices committed in `7a1cb2f` + `5722e25`, both ancestors of HEAD; local-only record closes here.

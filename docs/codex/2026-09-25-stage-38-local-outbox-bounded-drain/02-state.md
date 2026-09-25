@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -25,4 +25,4 @@
 - Reviewer findings addressed and recorded in `05-verification.md`.
 
 ## Remaining
-- Final scans, validator re-run, commit.
+- None for this record; slices committed in `7a1cb2f` + `5722e25`, both ancestors of HEAD. Transport/RLS/Storage/background/CI remain later stages.

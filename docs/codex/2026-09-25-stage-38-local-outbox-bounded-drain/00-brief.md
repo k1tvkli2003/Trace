@@ -1,7 +1,7 @@
 # Stage 38 local outbox bounded drain
 
 - Task ID: `2026-09-25-stage-38-local-outbox-bounded-drain`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25T15:18:33
 - Language: en
 

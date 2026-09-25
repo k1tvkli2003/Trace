@@ -20,7 +20,7 @@ Local outbox now has a bounded drain: `LocalOutboxWorker.drain({handler, maxRetr
 - Analyzers clean; format clean.
 
 ## Remaining
-- Validator + scans + review + commit (this verify step).
+- None for this record; committed in `7a1cb2f` + `5722e25`, both ancestors of HEAD.
 - Real sync transport, RLS, Storage, background workers, platform and CI evidence remain open and out of scope.
 
 ## Verification

@@ -6,10 +6,10 @@ TDD tracer bullet: one focused RED test for a bounded `drain` composed only of r
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write `local_oplog_bounded_drain_test.dart` (4 cases); run and capture RED (`drain` undefined). |
-| 2 | planned | Implement `drain({handler, maxRetries, maxPasses})` on `LocalOutboxWorker`; GREEN focused test. |
-| 3 | planned | Run wider suites: data `dart test` + `dart analyze`, domain `dart test` + `dart analyze`, app `flutter test --no-pub` + `flutter analyze --no-pub`, Gateway `python -m unittest`. |
-| 4 | planned | `dart format`, docs validator, secret/static scans, independent review, commit. |
+| 1 | done | `local_oplog_bounded_drain_test.dart` written; RED captured; committed `7a1cb2f` + throw-pin `5722e25`. |
+| 2 | done | `drain({handler, maxRetries, maxPasses})` implemented on `LocalOutboxWorker`; GREEN focused test (6/6 with tie-break + throw pin). |
+| 3 | done | Wider suites GREEN recorded in `05-verification.md` (data 142, domain 114, app 41, Gateway 50). |
+| 4 | done | `dart format`, docs validator, secret/static scans, independent review `deleg_05e06418`, commit; record close pending commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_outbox_worker.dart`: add `Future<List<domain.SyncOperation>> drain({...})`.
