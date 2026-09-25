@@ -6,9 +6,9 @@ TDD tracer bullet: failing test first for the single-call health split, then min
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Write `local_oplog_health_snapshot_test.dart`; watch RED (record missing) |
-| 2 | planned | Add `OutboxHealth` + `outboxHealth({maxRetries = 5})`; watch focused GREEN |
-| 3 | planned | Run full suites + analyzers; fill state/progress/verification/handoff; validate; scan; commit |
+| 1 | done | `local_oplog_health_snapshot_test.dart` written; RED captured; committed `04ca2f7`. |
+| 2 | done | `OutboxHealth` + `outboxHealth` added; focused 3/3 GREEN. |
+| 3 | done | Full suites + independent review `deleg_a9a9d0f4` recorded in `05-verification.md`; validator OK; record closes with this commit. |
 
 ## Interfaces and Artifacts
 - `packages/trace_data/lib/src/local/local_oplog_repository.dart`: new `OutboxHealth` record + `outboxHealth`.

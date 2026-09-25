@@ -11,4 +11,4 @@
 - Health snapshot implemented read-only, single scan, `canRequeue` failed split.
 
 ## Next
-- Verification/handoff/index, validation, scans, commit, independent review.
+- Done: slice committed in `04ca2f7` ancestor of HEAD; local-only record closes here.

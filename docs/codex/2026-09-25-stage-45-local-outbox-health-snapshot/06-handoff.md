@@ -20,7 +20,7 @@ Actionable outbox backlog is now observable in one read-only call without any tr
 - Independent review `deleg_a9a9d0f4` `passed=true` with 2 applied suggestions.
 
 ## Remaining
-- Independent review recorded (`deleg_a9a9d0f4` `passed=true`); docs validation, scans, commit remain.
+- None for this record; committed in `04ca2f7` ancestor of HEAD. Review `deleg_a9a9d0f4` already recorded.
 
 ## Verification
 - See `05-verification.md`: result passed for all executed checks.
