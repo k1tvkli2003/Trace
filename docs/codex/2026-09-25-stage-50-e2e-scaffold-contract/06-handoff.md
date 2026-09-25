@@ -15,7 +15,7 @@
 - RED->GREEN contract cycle with no runtime claim.
 
 ## Remaining
-- Validate, diff-check, commit.
+- None (committed `52bf97f`).
 
 ## Verification
 - Local contract RED 2/2 then GREEN 2/2. No device/browser/runner evidence exists or is claimed.

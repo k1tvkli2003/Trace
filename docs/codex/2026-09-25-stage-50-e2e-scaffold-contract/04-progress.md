@@ -12,4 +12,4 @@
 - Matrix row updated with an explicit no-run caveat.
 
 ## Next
-- Validate docs, diff-check, commit.
+- None (Stage50 closed).

@@ -1,6 +1,6 @@
 # State
 
-- Current status: `active`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -23,4 +23,4 @@ RED->GREEN complete locally. `tool/test_e2e_scaffold_contract.py` failed 2/2 wit
 - Matrix E2E row `MISSING` -> `SCAFFOLD (unrun)`.
 
 ## Remaining
-- Validate docs, diff-check, commit (`9890d47`-style trail stays local-only).
+- None (committed `52bf97f`).

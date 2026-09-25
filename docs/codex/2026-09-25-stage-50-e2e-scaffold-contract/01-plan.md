@@ -6,10 +6,10 @@ TDD RED->GREEN. Contract test first (fails: no `test/e2e/README.md`). Then a mar
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | RED contract `tool/test_e2e_scaffold_contract.py` fails: missing `test/e2e/README.md` |
-| 2 | planned | GREEN `test/e2e/README.md` lists §18 flows as `NOT RUN` |
-| 3 | planned | Matrix `MISSING` -> `SCAFFOLD (unrun)` |
-| 4 | planned | Validate docs, diff-check, commit |
+| 1 | done | RED contract `tool/test_e2e_scaffold_contract.py` failed 2/2, no `test/e2e/README.md` |
+| 2 | done | GREEN `test/e2e/README.md` lists §18 flows as `NOT RUN` |
+| 3 | done | Matrix `MISSING` -> `SCAFFOLD (unrun)`; contract GREEN 2/2, validator OK, diff-check clean |
+| 4 | done | Validated OK, diff-check clean, committed `52bf97f` |
 
 ## Interfaces and Artifacts
 - `tool/test_e2e_scaffold_contract.py` (new, unittest contract)

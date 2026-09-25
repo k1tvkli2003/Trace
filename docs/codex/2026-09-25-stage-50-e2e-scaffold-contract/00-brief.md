@@ -1,7 +1,7 @@
 # Stage 50 e2e scaffold contract
 
 - Task ID: `2026-09-25-stage-50-e2e-scaffold-contract`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-25T23:54:49
 - Language: en
 
