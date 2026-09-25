@@ -146,6 +146,27 @@ final class LocalOplogRepository {
         operation.retryCount <= maxRetries;
   }
 
+  /// Pure deterministic retry delay: [baseDelay] doubled per attempt,
+  /// capped at [maxDelay]. No clock, no DB, no network.
+  static Duration retryDelay(
+    int retryCount, {
+    Duration baseDelay = const Duration(seconds: 10),
+    Duration maxDelay = const Duration(minutes: 5),
+  }) {
+    if (retryCount < 0) {
+      throw ArgumentError.value(retryCount, 'retryCount', 'must be at least 0');
+    }
+    var delay = baseDelay;
+    for (var attempt = 0; attempt < retryCount; attempt++) {
+      final doubled = delay.inMicroseconds * 2;
+      delay = doubled >= maxDelay.inMicroseconds
+          ? maxDelay
+          : Duration(microseconds: doubled);
+      if (delay == maxDelay) break;
+    }
+    return delay;
+  }
+
   static void _requireRetryBudget(int maxRetries) {
     if (maxRetries < 0) {
       throw ArgumentError.value(maxRetries, 'maxRetries', 'must be at least 0');

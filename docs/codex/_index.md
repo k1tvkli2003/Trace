@@ -27,3 +27,4 @@
 | `2026-09-25-stage-31-local-outbox-lifecycle-replay-safety` | Stage 31 local outbox lifecycle replay safety | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-31-local-outbox-lifecycle-replay-safety/00-brief.md) |
 | `2026-09-25-stage-32-local-outbox-pending-queue-ordering` | Stage 32 local outbox pending queue ordering | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-32-local-outbox-pending-queue-ordering/00-brief.md) |
 | `2026-09-25-stage-33-local-outbox-bounded-retry-policy` | Stage 33 local outbox bounded retry policy | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-33-local-outbox-bounded-retry-policy/00-brief.md) |
+| `2026-09-25-stage-34-local-outbox-retry-backoff-policy` | Stage 34 local outbox retry backoff policy | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-34-local-outbox-retry-backoff-policy/00-brief.md) |
