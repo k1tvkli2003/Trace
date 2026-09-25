@@ -10,7 +10,7 @@ Extend Stage 23 local transaction using Stage 24 scheduler factory. Preserve bac
 | 2 | done | First studied test failed on absent ReviewItem, then passed. |
 | 3 | done | Stable review identity and source-verified artifact binding added within action transaction. |
 | 4 | done | Replay, later actions, non-study and conflict/injected insert rollback passed. |
-| 5 | active | Data/domain/gateway suites, analyze and format passed; docs validation and commit follow. |
+| 5 | done | Data/domain/gateway suites, analyze and format passed; docs validation passed; committed in 9c33f6c. |
 
 ## Interfaces and Artifacts
 - `LocalLessonRepository.applyStateAction` remains public entry point.

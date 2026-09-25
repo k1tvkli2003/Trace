@@ -18,7 +18,7 @@
 | `2026-09-25-stage-22-chat-tool-router-offline-contract` | Stage 22 chat tool router offline contract | done | 2026-09-25 | [Open](2026-09-25-stage-22-chat-tool-router-offline-contract/00-brief.md) |
 | `2026-09-25-stage-23-deterministic-lesson-state-actions` | Stage 23 deterministic lesson state actions | done | 2026-09-25 | [Open](2026-09-25-stage-23-deterministic-lesson-state-actions/00-brief.md) |
 | `2026-09-25-stage-24-deterministic-review-offsets` | Stage 24 deterministic review offsets | done | 2026-09-25 | [Open](2026-09-25-stage-24-deterministic-review-offsets/00-brief.md) |
-| `2026-09-25-stage-25-studied-review-atomic-wiring` | Stage 25 studied review atomic wiring | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-25-studied-review-atomic-wiring/00-brief.md) |
+| `2026-09-25-stage-25-studied-review-atomic-wiring` | Stage 25 studied review atomic wiring | done | 2026-09-25 | [Open](2026-09-25-stage-25-studied-review-atomic-wiring/00-brief.md) |
 | `2026-09-25-stage-26-review-inbox-cached-replay` | Stage 26 review inbox cached replay | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-26-review-inbox-cached-replay/00-brief.md) |
 | `2026-09-25-stage-27-highlight-anchor-engine` | Stage 27 highlight anchor engine | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-27-highlight-anchor-engine/00-brief.md) |
 | `2026-09-25-stage-28-notes-backlinks-and-export` | Stage 28 notes backlinks and export | ready-for-review | 2026-09-25 | [Open](2026-09-25-stage-28-notes-backlinks-and-export/00-brief.md) |

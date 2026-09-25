@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
@@ -24,5 +24,5 @@ Data-only first-STUDIED atomic wiring implemented. Verification partial: data, d
 - Data 99, domain 106, gateway 50 tests pass; data analyze and format clean.
 
 ## Remaining
-- Documentation validation and commit.
+- None for this data-only slice; committed in 9c33f6c (ancestor of HEAD).
 - Next task: Review Inbox and cached replay, real action footer, sync/event outbox, device tests.

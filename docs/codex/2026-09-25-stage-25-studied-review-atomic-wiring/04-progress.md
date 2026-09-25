@@ -11,4 +11,4 @@
 - Data 99, domain 106, gateway 50 pass; data analyze and format clean.
 
 ## Next
-- Run docs validation and commit, unless a new blocker appears.
+- Done; slice committed in 9c33f6c.

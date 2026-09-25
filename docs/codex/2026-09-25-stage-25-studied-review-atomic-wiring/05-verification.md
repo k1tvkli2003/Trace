@@ -13,7 +13,7 @@
 | Gateway regression | `python -m unittest discover -s services/ai_gateway -p 'test_*.py'` | passed | 50 tests, OK. |
 | Data analyze | `flutter analyze --no-pub` in `packages/trace_data` | passed | No issues found. |
 | Data format | `dart format --output=none --set-exit-if-changed <two touched files>` | passed | 0 changed. |
-| Docs validation | `python validate_task_docs.py <stage-25 folder>` | not run | Run before commit; current gate. |
+| Docs validation | `python validate_task_docs.py <stage-25 folder>` | passed | `OK`; exit 0. |
 
 ## Not Run
 - App, design and Flutter integration/browser/device tests after data-only seam.
