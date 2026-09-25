@@ -12,7 +12,7 @@ Scope: offline local-first vertical-slice proof only. Every `passed` below trace
 | Highlight/note source backlink | passed | Same targeted slice run |
 | Full data suite | passed | Stage30 verification: `dart test` from `packages/trace_data`, `TERMINAL_EXIT=0` |
 | Full domain suite | passed | Stage30 verification: `dart test` from `packages/trace_domain`, `TERMINAL_EXIT=0` |
-| Gateway suite (offline routing) | passed | Stage55 verification: `python -m unittest discover -s services/ai_gateway -p 'test_*.py'`, 53 tests OK (was 50 at Stage30; Stage51 added the figure-ownership rejection case, Stage53 added the single-owner rejection case, Stage55 split the ownership error into three codes and added the lonely-block case) |
+| Gateway suite (offline routing) | passed | Stage57 verification: `python -m unittest discover -s services/ai_gateway -p 'test_*.py'`, 54 tests OK (was 50 at Stage30; Stage51 added the figure-ownership rejection case, Stage53 added the single-owner rejection case, Stage55 split the ownership error into three codes and added the lonely-block case, Stage57 added the textless figure-block rejection case) |
 | App tests | passed | Stage30 verification: `flutter test --no-pub` from `apps/trace_flutter`, `TERMINAL_EXIT=0` |
 | App analyzer | passed | Stage30 verification: `flutter analyze --no-pub` from `apps/trace_flutter`, no issues found |
 | Data analyzer | passed | Stage30 verification: `dart analyze` from `packages/trace_data`, no issues found |

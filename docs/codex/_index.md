@@ -51,3 +51,4 @@
 | `2026-09-26-stage-55-distinct-figure-ownership-errors` | Stage 55 distinct figure ownership errors | done | 2026-09-26 | [Open](2026-09-26-stage-55-distinct-figure-ownership-errors/00-brief.md) |
 | `2026-09-26-stage-56-gateway-suite-count-refresh` | Stage 56 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-56-gateway-suite-count-refresh/00-brief.md) |
 | `2026-09-26-stage-57-figure-block-must-be-textless` | Stage 57 figure block must be textless | done | 2026-09-26 | [Open](2026-09-26-stage-57-figure-block-must-be-textless/00-brief.md) |
+| `2026-09-26-stage-58-gateway-suite-count-refresh` | Stage 58 gateway suite count refresh | planned | 2026-09-26 | [Open](2026-09-26-stage-58-gateway-suite-count-refresh/00-brief.md) |
