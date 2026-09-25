@@ -6,11 +6,11 @@ TDD vertical tracer: one failing test for a valid read-only receipt, then minima
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | Fill task docs (brief/plan/state/progress) |
-| 2 | planned | RED: `test_tool_router.py` with allowlist/validation/idempotency cases |
-| 3 | planned | GREEN: `tool_router.py` minimal offline router |
-| 4 | planned | Run gateway unit suite and docs validation; record evidence |
-| 5 | planned | Update state/progress/verification/handoff/_index.md; commit |
+| 1 | done | Fill task docs (brief/plan/state/progress) |
+| 2 | done | RED: `test_tool_router.py` with allowlist/validation/idempotency cases |
+| 3 | done | GREEN: `tool_router.py` minimal offline router |
+| 4 | done | Run gateway unit suite and docs validation; record evidence |
+| 5 | done | Gateway suite 50 tests, docs validation, diff check passed; committed `6069ee6` |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/tool_router.py` (new)

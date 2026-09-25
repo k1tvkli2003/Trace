@@ -7,10 +7,11 @@
 | 2026-09-25 | active | RED offline tool-router tests added. | services/ai_gateway/test_tool_router.py |
 | 2026-09-25 | active | GREEN offline router implemented; gateway suite passes with 50 tests; README boundary added. | services/ai_gateway/tool_router.py; services/ai_gateway/README.md |
 | 2026-09-25 | ready-for-review | Final gateway suite, full docs validation, and diff check passed. | trace-s22-gateway-final.log; trace-s22-docs-final.log |
+| 2026-09-25 | done | Router provenance reconciled: dangling `457f7ce` is a same-parent pre-commit tree; real commit is `6069ee6`; state/handoff provenance corrected; gateway 50 tests, docs validation, diff check re-passed. | gateway suite; validate_task_docs; git diff --check |
 
 ## Done So Far
 - Task folder created with brief, plan, state, previews.
 - RED/GREEN offline tool-router contract complete.
 
 ## Next
-- No remaining work in this slice; commit is the final repository action.
+- No remaining work in this slice; provenance correction commit is the final repository action.

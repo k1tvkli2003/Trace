@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
 ## Current State
-Stage 22 GREEN complete. Offline `ToolRouter` validates one proposed tool call and returns an inert receipt. Gateway suite passes with 50 tests. Full docs validation and diff check passed. Committed as `457f7ce`.
+Stage 22 GREEN complete. Offline `ToolRouter` validates one proposed tool call and returns an inert receipt. Gateway suite passes with 50 tests. Full docs validation and diff check passed. Committed as `6069ee6`.
 
 ## Decisions
 | Date | Decision | Reason | Source |

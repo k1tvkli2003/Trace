@@ -1,7 +1,7 @@
 # Stage 22 chat tool router offline contract
 
 - Task ID: `2026-09-25-stage-22-chat-tool-router-offline-contract`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25
 - Language: en
 

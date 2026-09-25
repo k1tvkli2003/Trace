@@ -11,7 +11,7 @@ Stage 22 delivers the offline chat tool-router contract. One proposed tool call 
 - `docs/codex/_index.md`
 
 ## How To Continue
-- Committed as `457f7ce` (`feat: add offline chat tool router contract`).
+- Provenance reconciled on 2026-09-25: `457f7ce` is a dangling same-parent pre-commit tree, not on any branch; real history commit is `6069ee6` (`feat: add offline chat tool router contract`).
 - Next only on user order: authorization/durable mutation wiring, chat UI integration, or live pipeline work.
 
 ## Done
