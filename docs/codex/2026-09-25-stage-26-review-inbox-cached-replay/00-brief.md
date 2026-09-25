@@ -1,7 +1,7 @@
 # Stage 26 review inbox cached replay
 
 - Task ID: `2026-09-25-stage-26-review-inbox-cached-replay`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-25T09:34:31
 - Language: fa
 

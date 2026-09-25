@@ -26,7 +26,7 @@ Start the app, open a collection, choose `Open review inbox`; due items open the
 ## Remaining
 - Review event recording, snooze/reset, outgoing sync/review transport and device/browser runs.
 - Book-scoped inbox only after valid ownership mapping is designed.
-- Docs validation and commit.
+- None for docs; this slice committed in 63927f7.
 
 ## Verification
 - Result partial: data 101/101, domain 106/106, app 39/39, gateway 50/50; both Flutter analyzes and web build pass.

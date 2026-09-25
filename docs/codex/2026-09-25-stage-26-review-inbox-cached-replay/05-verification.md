@@ -16,7 +16,7 @@
 | App analyze | `flutter analyze --no-pub` in `apps/trace_flutter` | passed | No issues found. |
 | Format gate | `dart format --output=none --set-exit-if-changed <touched files>` | passed | 0 changed for 10 touched data/app files. |
 | Web build | `flutter build web --no-pub` in `apps/trace_flutter` | passed | `build\web`, 59.1s compile; only icon tree-shake notice. |
-| Docs validation | `python validate_task_docs.py <stage-26 folder>` | not run | Run before commit; current gate. |
+| Docs validation | `python validate_task_docs.py <stage-26 folder>` | passed | `OK`; exit 0. |
 
 ## Not Run
 - Flutter integration/browser/device runs beyond unit and widget tests.

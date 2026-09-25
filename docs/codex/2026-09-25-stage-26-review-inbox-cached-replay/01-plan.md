@@ -10,7 +10,7 @@ Inbox را روی endpoint دادهٔ موجود `listDueItems` و replay روی
 | 2 | done | RED: missing inbox repository, fractional-clock empty due, citation dialog absent. |
 | 3 | done | Inbox repository + ViewModel + cache-only page with citation evidence. |
 | 4 | done | Shell entry plus app navigation/widget coverage. |
-| 5 | active | Suites, analyzes, web build passed; docs validation and commit follow. |
+| 5 | done | Suites, analyzes, web build passed; docs validation passed; committed in 63927f7. |
 
 ## Interfaces and Artifacts
 - Viewer input: UTC `nowUtc`, DB repositories; output: due rows, artifact, locators, failed-replay error.

@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-25
 - Owner: Codex
 
 ## Current State
-Review Inbox displays due reviews and replays the cached artifact offline with source evidence. Implementation and verification for this slice are complete except docs validation and commit.
+Review Inbox displays due reviews and replays the cached artifact offline with source evidence. Implementation and verification for this slice are complete; committed in 63927f7 (ancestor of HEAD).
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -16,11 +16,11 @@ Review Inbox displays due reviews and replays the cached artifact offline with s
 | 2026-09-25 | replay هیچ شبکه/AI نداشته باشد. | تعریف Stage: cached replay، همان خروجی محلی. | Plan §25 acceptance |
 
 ## Blockers
-- None for this slice; only docs validation and commit remain.
+- None for this slice; docs-only close, no code change.
 
 ## Done
 - RED/GREEN repository, ViewModel, page, shell wiring and widget navigation/evidence tests.
 - Data 101, domain 106, app 39, gateway 50 pass; both analyzes, format and web build pass.
 
 ## Remaining
-- Docs validation and commit.
+- None for this slice; committed in 63927f7.

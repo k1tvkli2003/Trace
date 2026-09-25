@@ -15,4 +15,4 @@
 - ViewModel، صفحهٔ آفلاین، entry point shell، dialog شاهد، navigation و آزمون‌های SQLite/widget آماده است.
 
 ## Next
-- Run docs validation and commit, unless a new blocker appears.
+- Done; slice committed in 63927f7.
