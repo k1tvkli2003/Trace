@@ -1,27 +1,17 @@
-"""Offline OpenCode Go-only route contract; not a network client.
-
-Models below have endpoint mappings in the official Go documentation. Routing a
-request is not authorization to send private books or to run non-coding traffic.
-No key, SDK, fallback or user-set URL belongs in this module.
-"""
+"""Trace 9Router MiMo-only routing policy. Offline; no provider call."""
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Mapping
+from typing import Iterable
 
 
-_GO_BASE = 'https://opencode.ai/zen/go/v1/'
-# Intentionally small, documented subset. No implicit model selection.
-_MODEL_ENDPOINTS: dict[str, tuple[str, bool]] = {
-    'glm-5.3-flash': ('chat/completions', False),
-    'deepseek-v4-flash-vision-exp': ('chat/completions', True),
-    'gpt-5.6-luna': ('responses', False),  # Vision not verified for Go route.
-}
 _CAPABILITIES = frozenset({
     'structure_scan', 'page_vision_extract', 'slice_planner', 'teacher_fa',
     'coach', 'review_generator_optional',
 })
 _VISION_CAPABILITIES = frozenset({'structure_scan', 'page_vision_extract'})
+_ALLOWED_MODELS = ('oc/mimo-v2.6-flash-free', 'ocz/mimo-v2.6-flash-free')
+_ENDPOINT = 'http://127.0.0.1:20128/v1/chat/completions'
 
 
 class RouteFailure(Exception):
@@ -31,32 +21,37 @@ class RouteFailure(Exception):
 
 
 @dataclass(frozen=True)
-class GoRoute:
+class NineRouterRoute:
     provider: str
     model: str
     endpoint: str
     accepts_images: bool
+    accepts_pdf: bool
 
 
-class GoRouting:
-    def __init__(self, configured: Mapping[str, str] | None = None,
-                 *, endpoint_override: str | None = None):
-        if endpoint_override is not None:
+class NineRouterRouting:
+    """Fail-closed local route with deterministic oc/ocz round-robin."""
+
+    def __init__(self, *, models: Iterable[str] = _ALLOWED_MODELS,
+                 endpoint_override: str | None = None):
+        configured = tuple(models)
+        if endpoint_override is not None or configured != _ALLOWED_MODELS:
             raise RouteFailure('AI_ROUTE_NOT_ALLOWED')
-        self._configured = dict(configured or {})
-        if any(capability not in _CAPABILITIES for capability in self._configured):
-            raise RouteFailure('AI_CAPABILITY_NOT_ALLOWED')
+        self._next_index = 0
 
-    def resolve(self, capability: str) -> GoRoute:
+    def resolve(self, capability: str) -> NineRouterRoute:
         if capability not in _CAPABILITIES:
             raise RouteFailure('AI_CAPABILITY_NOT_ALLOWED')
-        selected = self._configured.get(capability)
-        if selected is None:
-            raise RouteFailure('GO_MODEL_NOT_CONFIGURED')
-        if not isinstance(selected, str) or not selected.startswith('opencode-go/'):
-            raise RouteFailure('AI_ROUTE_NOT_ALLOWED')
-        model = selected.removeprefix('opencode-go/')
-        spec = _MODEL_ENDPOINTS.get(model)
-        if spec is None or (capability in _VISION_CAPABILITIES and not spec[1]):
-            raise RouteFailure('AI_ROUTE_NOT_ALLOWED')
-        return GoRoute('opencode-go', model, _GO_BASE + spec[0], spec[1])
+        model = _ALLOWED_MODELS[self._next_index]
+        self._next_index = (self._next_index + 1) % len(_ALLOWED_MODELS)
+        return NineRouterRoute(
+            provider='9router',
+            model=model,
+            endpoint=_ENDPOINT,
+            accepts_images=capability in _VISION_CAPABILITIES,
+            accepts_pdf=False,
+        )
+
+
+# Compatibility alias for callers that only need the generic route type.
+Route = NineRouterRoute
