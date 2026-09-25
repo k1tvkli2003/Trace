@@ -1,7 +1,7 @@
 # Stage 55 distinct figure ownership errors
 
 - Task ID: `2026-09-26-stage-55-distinct-figure-ownership-errors`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
 - Language: en
 

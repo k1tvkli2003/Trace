@@ -1,11 +1,11 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-Three ownership codes enforced and green: lonely keeps `FIGURE_BLOCK_WITHOUT_FIGURE`, wrong-kind raises `FIGURE_ATTACHED_TO_NON_FIGURE_BLOCK`, shared raises `DUPLICATE_FIGURE_BLOCK`. Page-extract 6/6, gateway 53/53.
+Split committed (`abc4cbb`). Three codes green: lonely, wrong-kind, shared. Matrix row still cites 52; 52 -> 53 refresh remains.
 
 ## Decisions
 | Date | Decision | Reason | Source |

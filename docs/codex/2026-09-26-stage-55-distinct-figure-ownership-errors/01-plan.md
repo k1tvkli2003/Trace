@@ -10,7 +10,7 @@ Split one boolean into three rejects. Order: duplicates first (exact code), then
 | 2 | done | RED observed for both directions |
 | 3 | done | GREEN: split check into three codes |
 | 4 | done | Added lonely-block rejection test (missing direction), `FIGURE_BLOCK_WITHOUT_FIGURE` |
-| 5 | active | Full suite + validate + diff-check + commit |
+| 5 | done | Full suite + validate + diff-check + commit (`abc4cbb`) |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py`
