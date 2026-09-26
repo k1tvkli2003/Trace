@@ -1,9 +1,9 @@
 # Stage 71 entity IDs must be clean
 
 - Task ID: `2026-09-26-stage-71-entity-ids-must-be-clean`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
-- Feat commit: pending
+- Feat commit: `0c0da7b`
 - Language: en
 
 ## Request

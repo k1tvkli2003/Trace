@@ -1,11 +1,11 @@
 # State
 
-- Current status: `active`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
 
 ## Current State
-RED passed (5/5 dirty IDs accepted pre-fix), GREEN applied in `_require_id`, full suite 62/62 OK. Docs fill + validate + feat commit remain.
+RED passed (5/5 dirty IDs accepted pre-fix), GREEN applied in `_require_id`, full suite 62/62 OK. Feat `0c0da7b` landed (code + test + matrix + docs). Close commit remains.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -21,5 +21,4 @@ RED passed (5/5 dirty IDs accepted pre-fix), GREEN applied in `_require_id`, ful
 - Full gateway suite 62/62 OK
 
 ## Remaining
-- Fill 01-plan steps, 03-previews, 04-progress, 05-verification, 06-handoff
-- `validate_task_docs.py --structure-only`, feat + close commits
+- Close commit

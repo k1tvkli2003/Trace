@@ -6,9 +6,9 @@ TDD slice: add one failing ID-hygiene test (RED), harden `_require_id` with the 
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | planned | RED test: padded/control/HTML IDs rejected |
-| 2 | planned | GREEN `_require_id` hardening |
-| 3 | planned | 15/15 + 62/62 evidence; docs validated; feat + close commits |
+| 1 | done | RED test: 5/5 fail pre-fix as expected |
+| 2 | done | GREEN landed in feat `0c0da7b` |
+| 3 | done | 62/62 OK; validate OK; feat done, close next |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py` (`_require_id`)

@@ -11,4 +11,4 @@
 - RED + GREEN + 62/62 suite evidence
 
 ## Next
-- Validate docs, feat commit, flip to done, close commit
+- Feat commit `0c0da7b` landed; validate OK; flip to done, close commit

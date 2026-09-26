@@ -12,7 +12,7 @@
 | diff check | `git diff --check` | passed | clean |
 
 ## Not Run
-- `validate_task_docs.py --structure-only` (runs next)
+- None
 
 ## Known Issues
 - None known

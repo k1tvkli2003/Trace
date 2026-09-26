@@ -9,13 +9,13 @@ Entity IDs hardened: padded/control/markup IDs rejected via `_require_id`.
 - docs/codex/2026-09-26-stage-71-entity-ids-must-be-clean/
 
 ## How To Continue
-- Run `validate_task_docs.py --structure-only`, feat commit, flip docs to done, close commit.
+- Close commit only.
 
 ## Done
 - RED + GREEN + 62/62 suite evidence
 
 ## Remaining
-- Validate + feat + close commits
+- Close commit
 
 ## Verification
 - Full gateway suite 62/62 OK; `git diff --check` clean.
