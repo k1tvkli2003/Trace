@@ -9,7 +9,7 @@ TDD vertical slice: one RED test first (control chars in figure `caption`), veri
 | 1 | done | Added RED test `test_rejects_figure_caption_with_control_characters`; RED confirmed (3 subtests fail with `ContractFailure not raised`) |
 | 2 | done | Applied `_CONTROL_TEXT.search(caption)` to the caption check (reuse existing code `INVALID_FIGURE_CAPTION`, no other path touched) |
 | 3 | done | GREEN: `test_page_extract -v` 14/14 + gateway `discover` 61/61 OK |
-| 4 | planned | Fill Stage69 state/progress/verification/handoff/previews; validate docs; `diff --check`; feat commit + close commit |
+| 4 | done | Feat committed `c00449a`; close flips (brief/state/plan/`_index` → done) staged; validated OK; `diff --check` clean |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_extract.py` (caption check)

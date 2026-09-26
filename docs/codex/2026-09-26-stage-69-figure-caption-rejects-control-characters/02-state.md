@@ -1,13 +1,14 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
+- Evidence: feat `c00449a`; GREEN 61/61 (`discover -s services/ai_gateway`)
 
 ## Current State
 RED test confirmed the caption control-character hole (`NUL`, `DEL`, U+202E in `fig-1.caption` accepted). GREEN fix applied (`_CONTROL_TEXT.search(caption)` in the caption check, reusing `INVALID_FIGURE_CAPTION`).
 
-Full gateway suite GREEN 61/61. Feat commit pending.
+Full gateway suite GREEN 61/61. Feat commit `c00449a` landed; close commit next.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -21,7 +22,7 @@ Full gateway suite GREEN 61/61. Feat commit pending.
 - None.
 
 ## Next
-- Validate docs; `diff --check`; feat commit + close commit.
+- Validate docs; `diff --check`; feat committed `c00449a`; close commit next.
 
 ## Remaining
-- Fill progress/verification/handoff/previews; validate docs; `diff --check`; feat commit + close commit.
+- Close commit only.

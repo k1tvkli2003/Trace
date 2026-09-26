@@ -1,7 +1,7 @@
 # Stage 69 figure caption rejects control characters
 
 - Task ID: `2026-09-26-stage-69-figure-caption-rejects-control-characters`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
 - Language: en
 
