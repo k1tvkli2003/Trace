@@ -164,7 +164,8 @@ def validate_page_extract(
             raise ContractFailure('FOREIGN_FIGURE_BLOCK')
         caption = figure.get('caption')
         if not isinstance(caption, str) or not caption.strip() or \
-                len(caption) > _MAX_CAPTION or _UNSAFE.search(caption):
+                len(caption) > _MAX_CAPTION or _UNSAFE.search(caption) or \
+                _CONTROL_TEXT.search(caption):
             raise ContractFailure('INVALID_FIGURE_CAPTION')
         confidence = figure.get('confidence')
         if not _is_number(confidence) or confidence != confidence or \

@@ -229,6 +229,21 @@ class PageExtractTests(unittest.TestCase):
                     )
                 self.assertEqual(str(failure.exception), 'INVALID_BLOCK_TEXT')
 
+    def test_rejects_figure_caption_with_control_characters(self):
+        doc = extract()
+        for caption in ('a' + chr(0) + 'b', 'a' + chr(0x7f) + 'b',
+                        'a' + chr(0x202e) + 'b'):
+            with self.subTest(caption=ascii(caption)):
+                case = {**doc, 'figures': [
+                    {**doc['figures'][0], 'caption': caption},
+                ]}
+                with self.assertRaises(ContractFailure) as failure:
+                    validate_page_extract(
+                        case, source_hash=SOURCE, pixel_hash=PIXEL,
+                        render_profile=PROFILE, page_ref=PAGE,
+                    )
+                self.assertEqual(str(failure.exception), 'INVALID_FIGURE_CAPTION')
+
     def test_rejects_ocr_text_layer_hash_mismatch_and_partial_coverage(self):
         valid = extract()
         cases = (
