@@ -52,7 +52,9 @@ def _valid_hash(value: object) -> bool:
 
 
 def _require_id(value: object, description: str) -> str:
-    if not isinstance(value, str) or not value.strip() or len(value) > 512:
+    if not isinstance(value, str) or not value.strip() or len(value) > 512 or \
+            value != value.strip() or _UNSAFE.search(value) or \
+            _CONTROL_TEXT.search(value):
         raise ContractFailure(f'INVALID_{description}')
     return value
 

@@ -271,6 +271,37 @@ class PageExtractTests(unittest.TestCase):
                         render_profile=PROFILE, page_ref=PAGE,
                     )
 
+    def test_rejects_entity_ids_with_whitespace_control_or_markup(self):
+        doc = extract()
+        cases = (
+            ({'block': ' b2 '}, 'INVALID_BLOCK_ID'),
+            ({'block': 'b' + chr(0) + '2'}, 'INVALID_BLOCK_ID'),
+            ({'block': '<b>b2'}, 'INVALID_BLOCK_ID'),
+            ({'figure': '<i>fig-1'}, 'INVALID_FIGURE_ID'),
+            ({'page': ' page-1 '}, 'INVALID_PAGE_REF'),
+        )
+        for mutate, expected in cases:
+            with self.subTest(mutate={k: ascii(v) for k, v in mutate.items()}):
+                case = {**doc}
+                if 'block' in mutate:
+                    case['blocks'] = [
+                        {**block, 'id': mutate['block']}
+                        if block['id'] == 'b2' else block
+                        for block in doc['blocks']
+                    ]
+                if 'figure' in mutate:
+                    case['figures'] = [
+                        {**doc['figures'][0], 'id': mutate['figure']},
+                    ]
+                page = mutate.get('page', PAGE)
+                with self.assertRaises(ContractFailure) as failure:
+                    validate_page_extract(
+                        {**case, 'pageRef': page},
+                        source_hash=SOURCE, pixel_hash=PIXEL,
+                        render_profile=PROFILE, page_ref=page,
+                    )
+                self.assertEqual(str(failure.exception), expected)
+
     def test_schema_file_matches_runtime_acceptance(self):
         path = Path(__file__).resolve().parents[2] / 'docs/contracts/page-extract-v1.json'
         schema = json.loads(path.read_text(encoding='utf-8'))
