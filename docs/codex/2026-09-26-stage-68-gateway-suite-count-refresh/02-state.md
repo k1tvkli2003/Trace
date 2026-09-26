@@ -1,11 +1,12 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
+- Refresh commit: `ad7a551`
 
 ## Current State
-Matrix gateway row now cites Stage67 verification with 60 tests OK, including the Stage67 control-character block-text case. Refresh commit pending.
+Matrix gateway row now cites Stage67 verification with 60 tests OK, including the Stage67 control-character block-text case. Committed as refresh `ad7a551`.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -20,4 +21,4 @@ Matrix gateway row now cites Stage67 verification with 60 tests OK, including th
 - Matrix gateway row patched (Stage65 59 → Stage67 60, control-character case named).
 
 ## Remaining
-- Validate docs; `diff --check`; refresh commit + close commit.
+- None — stage closed at refresh `ad7a551` + close commit.

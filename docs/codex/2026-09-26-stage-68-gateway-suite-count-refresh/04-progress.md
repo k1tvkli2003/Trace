@@ -11,4 +11,4 @@
 - Fresh 60/60 evidence + matrix patch.
 
 ## Next
-- Docs validation; `diff --check`; refresh commit + close commit.
+- None — stage closed at refresh `ad7a551` + close commit.
