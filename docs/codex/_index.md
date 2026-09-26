@@ -65,3 +65,4 @@
 | `2026-09-26-stage-69-figure-caption-rejects-control-characters` | Stage 69 figure caption rejects control characters | done | 2026-09-26 | [Open](2026-09-26-stage-69-figure-caption-rejects-control-characters/00-brief.md) |
 | `2026-09-26-stage-70-gateway-suite-count-refresh` | Stage 70 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-70-gateway-suite-count-refresh/00-brief.md) |
 | `2026-09-26-stage-71-entity-ids-must-be-clean` | Stage 71 entity IDs must be clean | done | 2026-09-26 | [Open](2026-09-26-stage-71-entity-ids-must-be-clean/00-brief.md) |
+| `2026-09-26-stage-72-page-extract-id-namespace-and-reserved-ids` | Stage 72 page extract ID namespace and reserved IDs | done | 2026-09-26 | [Open](2026-09-26-stage-72-page-extract-id-namespace-and-reserved-ids/00-brief.md) |
