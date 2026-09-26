@@ -13,7 +13,7 @@
 | Working tree | `git diff --check` | passed | clean |
 
 ## Not Run
-- Refresh + close commits (next).
+- Close commit (next).
 
 ## Known Issues
 - None.

@@ -8,7 +8,7 @@ Docs-only refresh: re-run the gateway suite for fresh evidence, patch the matrix
 |---|---|---|
 | 1 | done | Fresh `discover` evidence: `Ran 61 tests ... OK` |
 | 2 | done | Matrix gateway row patch (Stage67 60 → Stage69 61, caption control-character case named) |
-| 3 | planned | Stage70 docs validated; refresh commit; status flipped to `done` |
+| 3 | done | Stage70 docs validated (`OK`); refresh commit `06adb54`; status flipped to `done` |
 
 ## Interfaces and Artifacts
 - `docs/qa/acceptance-matrix.md` (gateway row)

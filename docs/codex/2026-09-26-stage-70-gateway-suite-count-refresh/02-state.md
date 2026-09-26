@@ -1,9 +1,9 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-26
 - Owner: Codex
-- Refresh commit: pending
+- Refresh commit: `06adb54`
 
 ## Current State
 Matrix gateway row now cites Stage69 verification with 61 tests OK, including the Stage69 control-character figure-caption case. Fresh `discover` evidence `Ran 61 tests ... OK` taken in this stage.
@@ -21,4 +21,4 @@ Matrix gateway row now cites Stage69 verification with 61 tests OK, including th
 - Matrix gateway row patched (Stage67 60 → Stage69 61, caption control-character case named).
 
 ## Remaining
-- Validate docs; `diff --check`; refresh + close commits.
+- Close commit only.

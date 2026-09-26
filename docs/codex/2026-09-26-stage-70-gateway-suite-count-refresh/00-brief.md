@@ -1,9 +1,9 @@
 # Stage 70 gateway suite count refresh
 
 - Task ID: `2026-09-26-stage-70-gateway-suite-count-refresh`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-26
-- Refresh commit: pending
+- Refresh commit: `06adb54`
 - Language: en
 
 ## Request
