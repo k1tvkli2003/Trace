@@ -302,6 +302,44 @@ class PageExtractTests(unittest.TestCase):
                     )
                 self.assertEqual(str(failure.exception), expected)
 
+    def test_rejects_figure_id_colliding_with_block_id(self):
+        doc = extract()
+        case = {**doc, 'figures': [
+            {**doc['figures'][0], 'id': 'b3'},
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref=PAGE,
+            )
+        self.assertEqual(str(failure.exception), 'FIGURE_ID_COLLIDES_BLOCK_ID')
+
+    def test_rejects_reserved_prototype_entity_ids(self):
+        doc = extract()
+        cases = (
+            ({'block': '__proto__'}, 'INVALID_BLOCK_ID'),
+            ({'figure': '__proto__'}, 'INVALID_FIGURE_ID'),
+        )
+        for mutate, expected in cases:
+            with self.subTest(mutate=expected):
+                case = {**doc}
+                if 'block' in mutate:
+                    case['blocks'] = [
+                        {**block, 'id': mutate['block']}
+                        if block['id'] == 'b2' else block
+                        for block in doc['blocks']
+                    ]
+                if 'figure' in mutate:
+                    case['figures'] = [
+                        {**doc['figures'][0], 'id': mutate['figure']},
+                    ]
+                with self.assertRaises(ContractFailure) as failure:
+                    validate_page_extract(
+                        case, source_hash=SOURCE, pixel_hash=PIXEL,
+                        render_profile=PROFILE, page_ref=PAGE,
+                    )
+                self.assertEqual(str(failure.exception), expected)
+
     def test_schema_file_matches_runtime_acceptance(self):
         path = Path(__file__).resolve().parents[2] / 'docs/contracts/page-extract-v1.json'
         schema = json.loads(path.read_text(encoding='utf-8'))

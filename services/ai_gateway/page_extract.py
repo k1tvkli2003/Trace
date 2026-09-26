@@ -25,6 +25,7 @@ _DOC_KEYS = frozenset({
 _BLOCK_KEYS = frozenset({'id', 'order', 'kind', 'text', 'bbox', 'confidence', 'uncertain'})
 _FIGURE_KEYS = frozenset({'id', 'blockId', 'bbox', 'caption', 'confidence'})
 _SHA256 = re.compile(r'^[0-9a-f]{64}$')
+_RESERVED_IDS = frozenset({'__proto__', 'constructor', 'prototype'})
 _UNSAFE = re.compile(r'<\s*/?\s*[a-z!][^>]*>|\b(?:javascript|data):', re.I)
 _MAX_BLOCKS = 300
 _MAX_FIGURES = 30
@@ -52,7 +53,8 @@ def _valid_hash(value: object) -> bool:
 
 
 def _require_id(value: object, description: str) -> str:
-    if not isinstance(value, str) or not value.strip() or len(value) > 512 or \
+    if not isinstance(value, str) or value in _RESERVED_IDS or \
+            not value.strip() or len(value) > 512 or \
             value != value.strip() or _UNSAFE.search(value) or \
             _CONTROL_TEXT.search(value):
         raise ContractFailure(f'INVALID_{description}')
@@ -161,6 +163,8 @@ def validate_page_extract(
         figure_id = _require_id(figure.get('id'), 'FIGURE_ID')
         if figure_id in figure_ids:
             raise ContractFailure('DUPLICATE_FIGURE_ID')
+        if figure_id in ids:
+            raise ContractFailure('FIGURE_ID_COLLIDES_BLOCK_ID')
         figure_ids.add(figure_id)
         if figure.get('blockId') not in ids:
             raise ContractFailure('FOREIGN_FIGURE_BLOCK')
