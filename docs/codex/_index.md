@@ -66,3 +66,4 @@
 | `2026-09-26-stage-70-gateway-suite-count-refresh` | Stage 70 gateway suite count refresh | done | 2026-09-26 | [Open](2026-09-26-stage-70-gateway-suite-count-refresh/00-brief.md) |
 | `2026-09-26-stage-71-entity-ids-must-be-clean` | Stage 71 entity IDs must be clean | done | 2026-09-26 | [Open](2026-09-26-stage-71-entity-ids-must-be-clean/00-brief.md) |
 | `2026-09-26-stage-72-page-extract-id-namespace-and-reserved-ids` | Stage 72 page extract ID namespace and reserved IDs | done | 2026-09-26 | [Open](2026-09-26-stage-72-page-extract-id-namespace-and-reserved-ids/00-brief.md) |
+| `2026-09-27-stage-73-reject-page-ref-entity-collisions` | Stage 73 reject page ref entity collisions | done | 2026-09-27 | [Open](2026-09-27-stage-73-reject-page-ref-entity-collisions/00-brief.md) |

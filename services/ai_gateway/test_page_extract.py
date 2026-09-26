@@ -302,6 +302,28 @@ class PageExtractTests(unittest.TestCase):
                     )
                 self.assertEqual(str(failure.exception), expected)
 
+    def test_rejects_entity_id_colliding_with_page_ref(self):
+        doc = extract()
+        block_case = {**doc, 'pageRef': 'b2', 'blocks': [
+            {**block, 'id': 'b2'} if block['id'] == 'b2' else block
+            for block in doc['blocks']
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                block_case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref='b2',
+            )
+        self.assertEqual(str(failure.exception), 'ENTITY_ID_COLLIDES_PAGE_REF')
+        figure_case = {**doc, 'pageRef': 'fig-1', 'figures': [
+            {**doc['figures'][0], 'id': 'fig-1'},
+        ]}
+        with self.assertRaises(ContractFailure) as failure:
+            validate_page_extract(
+                figure_case, source_hash=SOURCE, pixel_hash=PIXEL,
+                render_profile=PROFILE, page_ref='fig-1',
+            )
+        self.assertEqual(str(failure.exception), 'ENTITY_ID_COLLIDES_PAGE_REF')
+
     def test_rejects_figure_id_colliding_with_block_id(self):
         doc = extract()
         case = {**doc, 'figures': [

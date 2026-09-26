@@ -153,6 +153,9 @@ def validate_page_extract(
             raise ContractFailure('EMPTY_TRANSCRIPTION_REJECTED')
         _check_box(block.get('bbox'))
 
+    if page_ref in ids:
+        raise ContractFailure('ENTITY_ID_COLLIDES_PAGE_REF')
+
     figures = document['figures']
     if not isinstance(figures, list) or len(figures) > _MAX_FIGURES:
         raise ContractFailure('INVALID_FIGURES')
@@ -165,6 +168,8 @@ def validate_page_extract(
             raise ContractFailure('DUPLICATE_FIGURE_ID')
         if figure_id in ids:
             raise ContractFailure('FIGURE_ID_COLLIDES_BLOCK_ID')
+        if figure_id == page_ref:
+            raise ContractFailure('ENTITY_ID_COLLIDES_PAGE_REF')
         figure_ids.add(figure_id)
         if figure.get('blockId') not in ids:
             raise ContractFailure('FOREIGN_FIGURE_BLOCK')
