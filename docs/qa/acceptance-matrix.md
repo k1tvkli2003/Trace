@@ -1,6 +1,6 @@
 # Acceptance matrix (Stage30 vertical slice)
 
-Scope: offline local-first vertical-slice proof only. Every `passed` below traces to the recorded Stage30 verification run (`docs/codex/2026-09-25-stage-30-vertical-slice-proof-and-release-gate/05-verification.md`). Anything without such a run is marked `NOT VERIFIED` or `MISSING` with its reason. No CI, benchmark, E2E, device, browser, deploy, or live-AI claim is made here.
+Scope: offline local-first vertical-slice proof plus the Stage74 local release-build and Chrome persistence checks. Every `passed`/`VERIFIED` below traces to a recorded verification run in the named stage folder. Anything without such a run is marked `NOT VERIFIED` or `MISSING` with its reason. No CI, benchmark, E2E, device, deploy, or live-AI claim is made here.
 
 ## Offline learning loop (verified local)
 
@@ -24,8 +24,8 @@ Scope: offline local-first vertical-slice proof only. Every `passed` below trace
 
 | Surface | Status | Reason |
 |---|---|---|
-| Android/Windows/Web release builds | NOT VERIFIED | Stage30 `Not Run`: no release builds in the verification run |
-| Browser persistence and multi-tab behavior | NOT VERIFIED | Stage30 `Not Run` |
+| Android/Windows/Web release builds | LOCAL BUILD VERIFIED — NOT RELEASED | Stage74 `flutter build web/apk/windows --release --no-pub`: `WEB_EXIT=0`, `APK_EXIT=0`, `WIN_EXIT=0` on HEAD `58fe085`; APK debug-signed `CN=Android Debug`, package `com.example.trace_flutter`. No install/upgrade or store publication proof. |
+| Browser persistence and multi-tab behavior | CHROME PERSISTENCE VERIFIED; MULTI-TAB NOT VERIFIED | Stage74 `tool/smoke_web_library.py` on real Chrome + COOP/COEP: exact collection bytes in IndexedDB `trace_local_v1` `hit:true` before/after reload; multi-tab, no-OPFS, private mode and eviction untested. |
 | Device/emulator smoke | NOT VERIFIED | Stage30 `Not Run` |
 | Supabase / auth / RLS / storage | NOT VERIFIED | Stage30 `Not Run`; no Supabase project exists in this slice |
 | Live AI Vision / cost pilot | NOT VERIFIED | Stage30 `Not Run`; Vision compatibility and cost of the personal route remain unproven |

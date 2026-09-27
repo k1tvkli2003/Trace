@@ -75,8 +75,13 @@ def run() -> None:
                 call("Page.setInterceptFileChooserDialog", {"enabled": True})
                 call("Runtime.enable")
                 for _ in range(200):
-                    if evaluate("!!document.querySelector('flt-glass-pane')"):
-                        break
+                    try:
+                        if evaluate("!!document.querySelector('flt-glass-pane')"):
+                            break
+                    except RuntimeError as error:
+                        # Chrome can expose CDP before committing navigation.
+                        if "Cannot find default execution context" not in str(error):
+                            raise
                     time.sleep(.2)
                 else:
                     raise RuntimeError("Flutter did not mount")
@@ -84,12 +89,17 @@ def run() -> None:
                 viewport = evaluate("({w: innerWidth, h: innerHeight})")
                 new_x = int(viewport["w"] * 0.14)
                 new_y = int(viewport["h"] * 0.51)
-                for kind in ("mousePressed", "mouseReleased"):
-                    call("Input.dispatchMouseEvent", {
-                        "type": kind, "x": new_x, "y": new_y, "button": "left", "clickCount": 1,
-                    })
-                time.sleep(.4)
-                if not evaluate("!!document.querySelector('.flt-text-editing')"):
+                # WASM DB opening can delay the first library-frame button.
+                # Retry bounded click until its dialog field exists.
+                for _ in range(40):
+                    for kind in ("mousePressed", "mouseReleased"):
+                        call("Input.dispatchMouseEvent", {
+                            "type": kind, "x": new_x, "y": new_y, "button": "left", "clickCount": 1,
+                        })
+                    time.sleep(.5)
+                    if evaluate("!!document.querySelector('.flt-text-editing')"):
+                        break
+                else:
                     raise RuntimeError("New collection dialog did not open")
                 call("Input.insertText", {"text": TITLE})
                 for kind in ("keyDown", "keyUp"):
