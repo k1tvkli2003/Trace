@@ -25,7 +25,7 @@ Scope: offline local-first vertical-slice proof plus the Stage74 local release-b
 | Surface | Status | Reason |
 |---|---|---|
 | Android/Windows/Web release builds | LOCAL BUILD VERIFIED — NOT RELEASED | Stage74 `flutter build web/apk/windows --release --no-pub`: `WEB_EXIT=0`, `APK_EXIT=0`, `WIN_EXIT=0` on HEAD `58fe085`; APK debug-signed `CN=Android Debug`, package `com.example.trace_flutter`. No install/upgrade or store publication proof. |
-| Browser persistence and multi-tab behavior | CHROME PERSISTENCE VERIFIED; MULTI-TAB NOT VERIFIED | Stage74 `tool/smoke_web_library.py` on real Chrome + COOP/COEP: exact collection bytes in IndexedDB `trace_local_v1` `hit:true` before/after reload; multi-tab, no-OPFS, private mode and eviction untested. |
+| Browser persistence and multi-tab behavior | CHROME PERSISTENCE AND NATIVE IMPORT VERIFIED; MULTI-TAB NOT VERIFIED | Stage74 `tool/smoke_web_library.py` on real Chrome + COOP/COEP: exact collection bytes in IndexedDB `trace_local_v1` `hit:true` before/after reload. Stage75 adds real native file-chooser import of `.pdf` and `.md` while the collection is selected, original bytes verified before and after reload, plus `tool/test_smoke_web_library.py` (3 tests). Multi-tab, no-OPFS, private mode and eviction untested. |
 | Device/emulator smoke | NOT VERIFIED | Stage30 `Not Run` |
 | Supabase / auth / RLS / storage | NOT VERIFIED | Stage30 `Not Run`; no Supabase project exists in this slice |
 | Live AI Vision / cost pilot | NOT VERIFIED | Stage30 `Not Run`; Vision compatibility and cost of the personal route remain unproven |

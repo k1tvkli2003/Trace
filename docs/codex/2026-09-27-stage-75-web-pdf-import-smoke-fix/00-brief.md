@@ -1,7 +1,7 @@
 # Stage 75 web pdf import smoke fix
 
 - Task ID: `2026-09-27-stage-75-web-pdf-import-smoke-fix`
-- Status: `ready-for-review`
+- Status: `done`
 - Created: 2026-09-27T04:20:00+03:30
 - Language: en
 

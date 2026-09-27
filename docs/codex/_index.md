@@ -68,4 +68,4 @@
 | `2026-09-26-stage-72-page-extract-id-namespace-and-reserved-ids` | Stage 72 page extract ID namespace and reserved IDs | done | 2026-09-26 | [Open](2026-09-26-stage-72-page-extract-id-namespace-and-reserved-ids/00-brief.md) |
 | `2026-09-27-stage-73-reject-page-ref-entity-collisions` | Stage 73 reject page ref entity collisions | done | 2026-09-27 | [Open](2026-09-27-stage-73-reject-page-ref-entity-collisions/00-brief.md) |
 | `2026-09-27-stage-74-cross-platform-release-build-and-web-smoke-proof` | Stage 74 cross platform release build and web smoke proof | done | 2026-09-27 | [Open](2026-09-27-stage-74-cross-platform-release-build-and-web-smoke-proof/00-brief.md) |
-| `2026-09-27-stage-75-web-pdf-import-smoke-fix` | Stage 75 web pdf import smoke fix | ready-for-review | 2026-09-27 | [Open](2026-09-27-stage-75-web-pdf-import-smoke-fix/00-brief.md) |
+| `2026-09-27-stage-75-web-pdf-import-smoke-fix` | Stage 75 web pdf import smoke fix | done | 2026-09-27 | [Open](2026-09-27-stage-75-web-pdf-import-smoke-fix/00-brief.md) |
