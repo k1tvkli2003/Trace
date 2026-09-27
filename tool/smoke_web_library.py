@@ -115,46 +115,50 @@ def run() -> None:
                 if os.environ.get('TRACE_SMOKE_SCREENSHOT'):
                     import base64
                     Path(os.environ['TRACE_SMOKE_SCREENSHOT']).write_bytes(base64.b64decode(call('Page.captureScreenshot', {'format':'png'})['data']))
-                call("Page.reload", {"ignoreCache": True})
-                time.sleep(3)
-                probe_raw_after = evaluate(probe)
-                if not probe_raw_after or '"hit":true' not in probe_raw_after:
-                    raise RuntimeError("Exact title lost after reload")
-                print(f"STORAGE: {storage_sig} -> {probe_raw_after}")
                 if os.environ.get('TRACE_SMOKE_IMPORT') or os.environ.get('TRACE_SMOKE_PDF'):
                     pdf_mode = bool(os.environ.get('TRACE_SMOKE_PDF'))
                     source = Path(__file__).resolve().parent.parent / 'apps/trace_flutter/test/fixtures/dummy.pdf' if pdf_mode else Path(profile) / 'chapter.md'
                     if not pdf_mode:
                         source.write_text('# First chapter\nPersian source.\n', encoding='utf-8')
+                    # Collection selection is in-memory UI state; import while selected.
+                    # Context bar's Manage button is near the right edge at y~82.
+                    manage_x = int(viewport['w'] - 72)
                     for kind in ("mousePressed", "mouseReleased"):
-                        call("Input.dispatchMouseEvent", {"type": kind, "x": 110, "y": 138, "button": "left", "clickCount": 1})
+                        call("Input.dispatchMouseEvent", {"type": kind, "x": manage_x, "y": 82, "button": "left", "clickCount": 1})
                     time.sleep(1)
                     if os.environ.get('TRACE_SMOKE_SCREENSHOT'):
                         import base64
                         Path(os.environ['TRACE_SMOKE_SCREENSHOT']).write_bytes(base64.b64decode(call('Page.captureScreenshot', {'format':'png'})['data']))
+                    source_x = int(viewport['w'] * (0.60 if pdf_mode else 0.40))
+                    source_y = int(viewport['h'] * 0.285)
                     for kind in ("mousePressed", "mouseReleased"):
-                        call("Input.dispatchMouseEvent", {"type": kind, "x": 590 if pdf_mode else 438, "y": 93, "button": "left", "clickCount": 1})
-                    call('Runtime.evaluate', {'expression': 'document.querySelectorAll("input[type=file]").length'})
+                        call("Input.dispatchMouseEvent", {"type": kind, "x": source_x, "y": source_y, "button": "left", "clickCount": 1})
                     if not chooser_events:
                         for _ in range(20):
-                            event = json.loads(ws.recv(timeout=2))
-                            if event.get('method') == 'Page.fileChooserOpened':
-                                chooser_events.append(event['params'])
+                            evaluate('document.querySelectorAll("input[type=file]").length')
+                            if chooser_events:
                                 break
+                            time.sleep(.2)
                     if not chooser_events:
                         raise RuntimeError('Real file picker did not open')
                     call('DOM.setFileInputFiles', {'files': [str(source)], 'backendNodeId': chooser_events[-1]['backendNodeId']})
                     time.sleep(2)
                     expected = '%PDF-1.4' if pdf_mode else 'First chapter'
                     source_probe = probe.replace('Trace browser persistence', expected)
-                    if not evaluate(source_probe):
+                    if not json.loads(evaluate(source_probe))['hit']:
                         raise RuntimeError(f'Picked {source.suffix} bytes not stored in SQLite')
-                    call('Page.reload', {'ignoreCache': True})
-                    time.sleep(3)
-                    if not evaluate(source_probe):
+                call("Page.reload", {"ignoreCache": True})
+                time.sleep(3)
+                probe_raw_after = evaluate(probe)
+                if not probe_raw_after or not json.loads(probe_raw_after)['hit']:
+                    raise RuntimeError("Exact title lost after reload")
+                print(f"STORAGE: {storage_sig} -> {probe_raw_after}")
+                if os.environ.get('TRACE_SMOKE_IMPORT') or os.environ.get('TRACE_SMOKE_PDF'):
+                    if not json.loads(evaluate(source_probe))['hit']:
                         raise RuntimeError(f'Picked {source.suffix} original lost on reload')
                     print(f'PASS: native Chrome chooser imported {source.suffix} and original survived reload')
                 print("PASS: exact collection persisted in IndexedDB across Chrome reload")
+                call("Browser.close")
         finally:
             proc.terminate()
             try:
