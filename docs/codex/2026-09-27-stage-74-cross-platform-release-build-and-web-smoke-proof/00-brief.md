@@ -1,7 +1,7 @@
 # Stage 74 cross platform release build and web smoke proof
 
 - Task ID: `2026-09-27-stage-74-cross-platform-release-build-and-web-smoke-proof`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-27T01:25:13
 - Language: en
 

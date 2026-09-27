@@ -1,15 +1,14 @@
 # State
 
-- Current status: `active`
-- Last updated: 2026-09-27T02:25:00+03:30
+- Current status: `done`
+- Last updated: 2026-09-27T03:10:00+03:30
 - Owner: Codex
 
 ## Current State
 
-Stage 74 is in release-proof execution. Previous artifacts existed, but web
-`main.dart.js` was stale relative to current HEAD; fresh rebuild remains
-required before close. Baseline smoke now passes exact collection persistence
-across Chrome reload after bounded tooling retry.
+Stage 74 is closed in commit `101b051`. Fresh web, APK, and Windows builds
+passed on HEAD `58fe085`. Real Chrome smoke persisted the exact collection
+across reload. This is local build proof, not a production release.
 
 ## Decisions
 
@@ -21,8 +20,8 @@ across Chrome reload after bounded tooling retry.
 
 ## Blockers
 
-- Fresh three-target rebuild still pending.
-- PDF chooser leg is a follow-up tooling task, not release proof.
+- None for this stage. PDF chooser, device install, and production signing are
+  separate follow-ups, not concealed release claims.
 
 ## Done
 
@@ -30,9 +29,9 @@ across Chrome reload after bounded tooling retry.
 - Collection persisted in IndexedDB before and after reload.
 - Gateway 65/65, data 160, domain 114, app 41 passed.
 - Secret pattern checks clean; `.kotlin` compiler session ignored.
+- Fresh three-target builds, smoke, validation and commit `101b051`.
 
 ## Remaining
 
-- Fresh build and artifact metadata.
-- Fresh smoke on rebuilt web.
-- Final docs/index/commit and critic refinement.
+- None within Stage 74. Device, PDF chooser, AI and sync proofs remain in the
+  product backlog; see `06-handoff.md`.
