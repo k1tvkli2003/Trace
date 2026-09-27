@@ -74,17 +74,53 @@ def run() -> None:
                 call("Page.enable")
                 call("Page.setInterceptFileChooserDialog", {"enabled": True})
                 call("Runtime.enable")
-                for _ in range(200):
-                    try:
-                        if evaluate("!!document.querySelector('flt-glass-pane')"):
-                            break
-                    except RuntimeError as error:
-                        # Chrome can expose CDP before committing navigation.
-                        if "Cannot find default execution context" not in str(error):
-                            raise
-                    time.sleep(.2)
-                else:
+
+                def wait_mounted(evaluate_fn):
+                    for _ in range(200):
+                        try:
+                            if evaluate_fn("!!document.querySelector('flt-glass-pane')"):
+                                return
+                        except RuntimeError as error:
+                            # Chrome can expose CDP before committing navigation.
+                            if "Cannot find default execution context" not in str(error):
+                                raise
+                        time.sleep(.2)
                     raise RuntimeError("Flutter did not mount")
+
+                def make_evaluator(send_recv):
+                    def evaluate(expression):
+                        result = send_recv("Runtime.evaluate", {
+                            "expression": expression, "returnByValue": True, "awaitPromise": True,
+                        })
+                        if "exceptionDetails" in result:
+                            raise RuntimeError(str(result["exceptionDetails"]))
+                        return result["result"].get("value")
+                    return evaluate
+
+                def new_tab_caller(url):
+                    """Open a second tab and return its WebSocket controls."""
+                    with urlopen(Request(f"http://127.0.0.1:{port}/json/new?{url}", method="PUT"), timeout=5) as response:
+                        second = json.load(response)
+                    ws2 = connect(second["webSocketDebuggerUrl"], origin="http://localhost")
+                    serial2 = 0
+
+                    def call2(method, params=None):
+                        nonlocal serial2
+                        serial2 += 1
+                        current = serial2
+                        ws2.send(json.dumps({"id": current, "method": method, "params": params or {}}))
+                        while True:
+                            result = json.loads(ws2.recv(timeout=25))
+                            if result.get("id") == current:
+                                if "error" in result:
+                                    raise RuntimeError(f"{method}: {result['error']}")
+                                return result["result"]
+                    call2("Page.enable")
+                    call2("Runtime.enable")
+                    return ws2, call2, make_evaluator(call2)
+
+                evaluate = make_evaluator(call)
+                wait_mounted(evaluate)
                 time.sleep(1)
                 viewport = evaluate("({w: innerWidth, h: innerHeight})")
                 new_x = int(viewport["w"] * 0.14)
@@ -158,6 +194,24 @@ def run() -> None:
                         raise RuntimeError(f'Picked {source.suffix} original lost on reload')
                     print(f'PASS: native Chrome chooser imported {source.suffix} and original survived reload')
                 print("PASS: exact collection persisted in IndexedDB across Chrome reload")
+                if os.environ.get('TRACE_SMOKE_MULTITAB'):
+                    # Second live tab in the same profile must read committed
+                    # IndexedDB bytes; this does not test simultaneous writes.
+                    ws2, call2, evaluate2 = new_tab_caller(URL)
+                    try:
+                        wait_mounted(evaluate2)
+                        time.sleep(3)
+                        second_raw = evaluate2(probe)
+                        if not second_raw or not json.loads(second_raw)['hit']:
+                            raise RuntimeError('Second tab did not see the saved collection')
+                        print(f'PASS: second tab read the same collection ({second_raw})')
+                        if os.environ.get('TRACE_SMOKE_SCREENSHOT'):
+                            import base64
+                            tab2_shot = Path(os.environ['TRACE_SMOKE_SCREENSHOT']).with_suffix('.tab2.png')
+                            tab2_shot.write_bytes(base64.b64decode(call2('Page.captureScreenshot', {'format': 'png'})['data']))
+                            print(f'TAB2-SCREENSHOT: {tab2_shot}')
+                    finally:
+                        ws2.close()
                 call("Browser.close")
         finally:
             proc.terminate()

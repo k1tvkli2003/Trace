@@ -29,6 +29,20 @@ class SmokeWebLibraryContractTest(unittest.TestCase):
         self.assertIn("original lost on reload", after_reload)
         self.assertIn("source_probe", after_reload)
 
+    def test_multitab_probe_runs_after_reload_and_fails_closed(self):
+        block = SCRIPT[
+            SCRIPT.index("if os.environ.get('TRACE_SMOKE_MULTITAB'):"):
+            SCRIPT.index('call("Browser.close")')
+        ]
+        self.assertIn("new_tab_caller(URL)", block)
+        self.assertIn("Second tab did not see the saved collection", block)
+        self.assertIn("this does not test simultaneous writes", block)
+        # Multi-tab proof must come after the reload proof, not instead of it.
+        self.assertLess(
+            SCRIPT.index('call("Page.reload"'),
+            SCRIPT.index("if os.environ.get('TRACE_SMOKE_MULTITAB'):"),
+        )
+
     def test_chrome_closes_before_temporary_profile_cleanup(self):
         self.assertIn('call("Browser.close")', SCRIPT)
         self.assertLess(SCRIPT.index('call("Browser.close")'), SCRIPT.index('proc.terminate()'))

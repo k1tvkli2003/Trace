@@ -69,3 +69,4 @@
 | `2026-09-27-stage-73-reject-page-ref-entity-collisions` | Stage 73 reject page ref entity collisions | done | 2026-09-27 | [Open](2026-09-27-stage-73-reject-page-ref-entity-collisions/00-brief.md) |
 | `2026-09-27-stage-74-cross-platform-release-build-and-web-smoke-proof` | Stage 74 cross platform release build and web smoke proof | done | 2026-09-27 | [Open](2026-09-27-stage-74-cross-platform-release-build-and-web-smoke-proof/00-brief.md) |
 | `2026-09-27-stage-75-web-pdf-import-smoke-fix` | Stage 75 web pdf import smoke fix | done | 2026-09-27 | [Open](2026-09-27-stage-75-web-pdf-import-smoke-fix/00-brief.md) |
+| `2026-09-28-stage-76-web-same-profile-second-tab-read` | Stage 76 web same-profile second-tab read | done | 2026-09-28 | [Open](2026-09-28-stage-76-web-same-profile-second-tab-read/00-brief.md) |

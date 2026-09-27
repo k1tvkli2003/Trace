@@ -1,0 +1,4 @@
+STORAGE: {"hit":true,"names":["blocks","files"],"storeMode":"raw"} -> {"hit":true,"names":["blocks","files"],"storeMode":"raw"}
+PASS: native Chrome chooser imported .pdf and original survived reload
+PASS: exact collection persisted in IndexedDB across Chrome reload
+PASS: second tab read the same collection ({"hit":true,"names":["blocks","files"],"storeMode":"raw"})
