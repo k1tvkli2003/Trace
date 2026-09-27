@@ -1,14 +1,15 @@
 # State
 
 - Current status: `ready-for-review`
-- Last updated: 2026-09-27T04:20:00+03:30
+- Last updated: 2026-09-27T04:35:00+03:30
 - Owner: Hermes
 
 ## Current State
 
-Stage 75 proves both Markdown and PDF originals survive a real Chrome reload in the
-Stage 74 web build. This is test-harness proof, not production release or PDF
-Vision fidelity proof. No product code changed.
+Stage 75 work is committed as `3f68437`. Both Markdown and PDF originals survive a
+real Chrome reload in the Stage 74 web build, with byte-level IndexedDB proof. This
+is test-harness proof, not production release or PDF Vision fidelity proof. No
+product code changed.
 
 ## Decisions
 
@@ -27,6 +28,7 @@ Vision fidelity proof. No product code changed.
 - Reproduced and fixed `Real file picker did not open`.
 - Real native chooser imported `.pdf` and `.md`, with exact original bytes present before and after reload.
 - Tests: harness contract 3/3; tool suite 11/11; gateway suite 65/65.
+- Committed `3f68437` with docs and validator passing.
 
 ## Remaining
 
