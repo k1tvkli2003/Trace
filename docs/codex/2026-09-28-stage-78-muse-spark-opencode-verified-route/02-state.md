@@ -5,7 +5,7 @@
 - Owner: Codex
 
 ## Current State
-کد policy به مسير تأييدشده تغيير کرد و suite کامل سبز است. فقط مستندات قرارداد/README/matrix و ثبت نهايي شواهد مانده است. فايلهاي Stage77 دست نخوردهاند.
+کد policy به مسير تأييدشده تغيير کرد و در `70a5963` commit شد. suite کامل سبز است و مستندات قرارداد/README/matrix همسو شدند. ثبت نهايي اين مرحله با commit جدا انجام مي‌شود. فايلهاي Stage77 دست نخورده‌اند.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -28,5 +28,4 @@
 - suite کامل: `Ran 66 tests ... OK`.
 
 ## Remaining
-- بهروزرساني `README.md`، `learning-ai-v1.md`، `decision-log.md` و `acceptance-matrix.md`.
-- اجراي validator ساختار تسک و ثبت نهايي diff/commit.
+- ثبت نهايي diff/commit اين مرحله (بدون لمس Stage77).

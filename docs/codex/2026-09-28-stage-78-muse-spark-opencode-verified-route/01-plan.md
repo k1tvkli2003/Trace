@@ -11,7 +11,7 @@
 | 3 | done | Vision مصنوعي `oc` + High دو بار `VISION:42`؛ `oc` + Xhigh يک بار `VISION:42`؛ `ocz` سقف مصرف |
 | 4 | done | RED: تست مسير واحد تأييدشده + رد `ocz`/MiMo/override نوشته شد |
 | 5 | done | GREEN: `go_routing.py` فقط `oc` + High + endpoint `/v1/responses` شد (Xhigh فقط fallback زنده، نه پيشفرض) |
-| 6 | active | مستندات قرارداد/README/acceptance و ثبت شواهد کامل شود |
+| 6 | done | مستندات قرارداد/README/acceptance و ثبت شواهد کامل شد |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/go_routing.py`, `services/ai_gateway/test_go_routing.py`
