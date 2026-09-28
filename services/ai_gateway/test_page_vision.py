@@ -287,6 +287,24 @@ class PageVisionAdapterTests(unittest.TestCase):
             self.assertEqual(caught.exception.code, 'AI_RATE_LIMITED')
         self.assertEqual(len(calls), 1)
 
+    def test_deeply_nested_json_maps_to_schema_rejected_and_replays(self):
+        calls = []
+        nested = '[' * 1100 + ']' * 1100
+
+        def transport(**_kwargs):
+            calls.append(1)
+            return {'status': 'completed', 'text': nested,
+                    'usage': {'input_tokens': 1}, 'elapsed_seconds': 1.0,
+                    'provider_request_id': None}
+
+        adapter = VisionAdapter(transport=transport,
+                                authorized_pages={'op-1': scope()})
+        for _ in range(2):
+            with self.assertRaises(VisionFailure) as caught:
+                adapter.extract(request())
+            self.assertEqual(caught.exception.code, 'AI_SCHEMA_REJECTED')
+        self.assertEqual(len(calls), 1)
+
     def test_transport_receives_complete_role_separated_prompt(self):
         calls = []
         adapter = VisionAdapter(transport=completed_transport(calls),

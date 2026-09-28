@@ -20,8 +20,9 @@ _FIXED_ENDPOINT = "http://127.0.0.1:20128/v1/responses"
 _FIXED_PATH = "/v1/responses"
 _FIXED_MODEL = "oc/muse-spark-1.3-contributor-free"
 _FIXED_EFFORTS = ("high", "xhigh")
-_MAX_TEXT_CHARS = 262_144
 _MAX_STREAM_BYTES = 262_144
+_KEY_CHARS = frozenset(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~+/=")
 
 
 def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
@@ -50,7 +51,8 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
     if parsed.scheme != "http" or parsed.path != _FIXED_PATH:
         raise ValueError("AI_ROUTE_NOT_ALLOWED")
     api_key = os.environ.get("NINEROUTER_API_KEY")
-    if not api_key:
+    if (not api_key or not 16 <= len(api_key) <= 256
+            or any(char not in _KEY_CHARS for char in api_key)):
         raise RuntimeError("AI_TRANSPORT_NOT_CONFIGURED")
     uri = "data:image/png;base64," + base64.b64encode(image_png).decode("ascii")
     messages = envelope.get('messages')
@@ -122,6 +124,7 @@ def _read_sse(response, *, deadline: float, max_output_tokens: int) -> tuple[str
     status = "incomplete"
     usage: dict[str, Any] = {}
     buffer = b""
+    total_read = 0
     terminal_seen = False
     while True:
         if time.monotonic() >= deadline:
@@ -132,6 +135,9 @@ def _read_sse(response, *, deadline: float, max_output_tokens: int) -> tuple[str
             raise TimeoutError("AI_TRANSPORT_TIMEOUT") from None
         if not chunk:
             break
+        total_read += len(chunk)
+        if total_read > _MAX_STREAM_BYTES:
+            raise ValueError("AI_OUTPUT_TOO_LARGE")
         buffer += chunk
         if len(buffer) > _MAX_STREAM_BYTES:
             raise ValueError("AI_OUTPUT_TOO_LARGE")
@@ -141,10 +147,14 @@ def _read_sse(response, *, deadline: float, max_output_tokens: int) -> tuple[str
             frame, buffer = buffer.split(b"\n\n", 1)
             for line in frame.split(b"\n"):
                 line = line.strip()
-                if not line.startswith(b"data: "):
+                if line.startswith(b"data:"):
+                    payload = line[5:].strip()
+                elif line == b"data":
+                    payload = b""
+                else:
                     continue
                 try:
-                    event = json.loads(line[6:].decode("utf-8"))
+                    event = json.loads(payload.decode("utf-8"))
                 except (ValueError, UnicodeDecodeError):
                     continue
                 if not isinstance(event, dict):
@@ -176,6 +186,8 @@ def _read_sse(response, *, deadline: float, max_output_tokens: int) -> tuple[str
                         return "".join(text_parts), status, usage
                     assembled = _output_text(payload.get("output"))
                     if assembled is not None:
+                        if len(assembled) > max_output_tokens * 64:
+                            raise ValueError("AI_OUTPUT_TOO_LARGE")
                         if text_parts and assembled != "".join(text_parts):
                             raise ValueError("AI_RESPONSE_INVALID")
                         text_parts = [assembled]

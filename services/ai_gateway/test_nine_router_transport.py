@@ -56,7 +56,7 @@ class Connection:
 class ResponsesTransportTests(unittest.TestCase):
     def setUp(self):
         Connection.instances.clear()
-        self.environment = patch.dict(os.environ, {'NINEROUTER_API_KEY': 'test-secret'}, clear=False)
+        self.environment = patch.dict(os.environ, {'NINEROUTER_API_KEY': 'test-secret-0123456789abcdef'}, clear=False)
         self.environment.start()
         self.addCleanup(self.environment.stop)
         self.network = patch('http.client.HTTPConnection', Connection)
@@ -87,8 +87,8 @@ class ResponsesTransportTests(unittest.TestCase):
         self.assertEqual(body['model'], 'oc/muse-spark-1.3-contributor-free')
         self.assertEqual(body['reasoning'], {'effort': 'high'})
         self.assertEqual(body['max_output_tokens'], 100)
-        self.assertEqual(headers['Authorization'], 'Bearer test-secret')
-        self.assertNotIn('test-secret', json.dumps(body))
+        self.assertEqual(headers['Authorization'], 'Bearer test-secret-0123456789abcdef')
+        self.assertNotIn('test-secret-0123456789abcdef', json.dumps(body))
         self.assertTrue(connection.closed)
 
     def test_http_status_maps_to_transport_failure(self):
@@ -121,15 +121,34 @@ class ResponsesTransportTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.call(**bad)
 
-    def test_secret_never_in_body_or_errors(self):
+    def test_ignored_sse_frames_cannot_evade_stream_ceiling(self):
+        frames = [b': ' + b'x' * 60_000 + b'\n\n'] * 6
+        frames.append(event('response.completed', response={'status': 'completed'}))
+        Connection.response = Response(frames)
+        with self.assertRaises(ValueError) as caught:
+            self.call()
+        self.assertEqual(str(caught.exception), 'AI_OUTPUT_TOO_LARGE')
+
+    def test_hostile_api_key_rejected_without_secret_echo(self):
         def fail_request(self, method, path, body, headers):
             raise OSError('boom')
 
-        Connection.response = Response([event('response.completed', response={'status': 'completed'})])
+        hostile = 'bad\r\nkey'
+        with patch.dict(os.environ, {'NINEROUTER_API_KEY': hostile}):
+            with self.assertRaises(RuntimeError) as caught:
+                self.call()
+        self.assertEqual(str(caught.exception), 'AI_TRANSPORT_NOT_CONFIGURED')
+        self.assertNotIn(hostile, str(caught.exception))
+        self.assertEqual(Connection.instances, [])
+
+    def test_secret_never_in_body_or_errors(self):
+        def fail_request(inner_self, method, path, body, headers):
+            raise OSError('boom')
+
         with patch.object(Connection, 'request', fail_request):
             with self.assertRaises(TimeoutError) as caught:
                 self.call()
-        self.assertNotIn('test-secret', str(caught.exception))
+        self.assertNotIn('test-secret-0123456789abcdef', str(caught.exception))
         self.assertTrue(Connection.instances[-1].closed)
 
     def test_terminal_failure_and_invalid_route_rejected(self):
@@ -149,6 +168,19 @@ class ResponsesTransportTests(unittest.TestCase):
         result = self.call()
         self.assertEqual(result['status'], 'completed')
         self.assertEqual(result['text'], '{"final":true}')
+
+    def test_final_only_output_respects_token_cap_and_sse_prefix(self):
+        Connection.response = Response([
+            event('response.completed', response={
+                'status': 'completed', 'output': [{'type': 'message', 'content': [
+                    {'type': 'output_text', 'text': 'x' * 65}]}]})])
+        with self.assertRaises(ValueError):
+            self.call(max_output_tokens=1)
+        Connection.response = Response([
+            b'data:{"type":"response.completed","response":{"status":"completed",'
+            b'"output":[]}}\n\n'])
+        with self.assertRaises(ValueError):
+            self.call()
 
     def test_completed_status_requires_valid_content_type_and_assembly(self):
         Connection.response = Response([

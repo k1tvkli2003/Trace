@@ -232,7 +232,7 @@ class VisionAdapter:
                 document, source_hash=page.source_hash,
                 pixel_hash=page.pixel_hash, render_profile=page.render_profile,
                 page_ref=page.page_ref)
-        except (ValueError, UnicodeError, ContractFailure):
+        except (ValueError, UnicodeError, ContractFailure, RecursionError):
             state.failure = 'AI_SCHEMA_REJECTED'
             raise VisionFailure(state.failure) from None
         elapsed = response.get('elapsed_seconds')
