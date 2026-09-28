@@ -9,7 +9,10 @@ final class LocalAnnotationRepository {
 
   final db.TraceDatabase database;
 
-  Future<void> putAnchor(domain.HighlightAnchor anchor) async {
+  Future<void> putAnchor(domain.HighlightAnchor anchor) =>
+      database.transaction(() => _putAnchor(anchor));
+
+  Future<void> _putAnchor(domain.HighlightAnchor anchor) async {
     if (anchor.status == domain.HighlightAnchorStatus.attached) {
       final block = await (database.select(
         database.sourceBlocks,
@@ -26,45 +29,80 @@ final class LocalAnnotationRepository {
       }
     }
 
-    await database.transaction(() async {
-      final existing = await (database.select(
-        database.highlightAnchors,
-      )..where((row) => row.id.equals(anchor.id))).getSingleOrNull();
-      if (existing != null) {
-        if (existing.tombstone) {
-          throw StateError('Highlight ${anchor.id} is tombstoned');
-        }
-        final saved = _anchorFromRow(existing);
-        if (!_sameJson(saved.toJson(), anchor.toJson())) {
-          throw StateError('Highlight ${anchor.id} is immutable');
-        }
-        return;
+    final existing = await (database.select(
+      database.highlightAnchors,
+    )..where((row) => row.id.equals(anchor.id))).getSingleOrNull();
+    if (existing != null) {
+      if (existing.tombstone) {
+        throw StateError('Highlight ${anchor.id} is tombstoned');
       }
-      await database
-          .into(database.highlightAnchors)
-          .insert(
-            db.HighlightAnchorsCompanion.insert(
-              id: anchor.id,
-              version: anchor.version,
-              contentHashAtCreation: anchor.contentHashAtCreation,
-              sourceBlockId: anchor.sourceBlockId,
-              pageId: anchor.pageId,
-              lessonBlockId: Value(anchor.lessonBlockId),
-              quote: anchor.quote,
-              prefix: anchor.prefix,
-              suffix: anchor.suffix,
-              startOffset: anchor.startOffset,
-              endOffset: anchor.endOffset,
-              bboxX: Value(anchor.bbox?.x),
-              bboxY: Value(anchor.bbox?.y),
-              bboxW: Value(anchor.bbox?.width),
-              bboxH: Value(anchor.bbox?.height),
-              color: anchor.color,
-              status: anchor.rawStatus,
-            ),
-          );
-    });
+      final saved = _anchorFromRow(existing);
+      if (!_sameJson(saved.toJson(), anchor.toJson())) {
+        throw StateError('Highlight ${anchor.id} is immutable');
+      }
+      return;
+    }
+    await database
+        .into(database.highlightAnchors)
+        .insert(
+          db.HighlightAnchorsCompanion.insert(
+            id: anchor.id,
+            version: anchor.version,
+            contentHashAtCreation: anchor.contentHashAtCreation,
+            sourceBlockId: anchor.sourceBlockId,
+            pageId: anchor.pageId,
+            lessonBlockId: Value(anchor.lessonBlockId),
+            quote: anchor.quote,
+            prefix: anchor.prefix,
+            suffix: anchor.suffix,
+            startOffset: anchor.startOffset,
+            endOffset: anchor.endOffset,
+            bboxX: Value(anchor.bbox?.x),
+            bboxY: Value(anchor.bbox?.y),
+            bboxW: Value(anchor.bbox?.width),
+            bboxH: Value(anchor.bbox?.height),
+            color: anchor.color,
+            status: anchor.rawStatus,
+          ),
+        );
   }
+
+  /// Explicit repair: preserve old anchor/notes, verify exact quote at the
+  /// chosen offsets in the immutable source block, and insert a fresh ID.
+  Future<void> repairAnchor(String oldId, domain.HighlightAnchor replacement) =>
+      database.transaction(() async {
+        final old = await (database.select(
+          database.highlightAnchors,
+        )..where((row) => row.id.equals(oldId))).getSingleOrNull();
+        if (old == null ||
+            old.tombstone ||
+            old.status != domain.HighlightAnchorStatus.detached.wireName ||
+            replacement.id == oldId ||
+            replacement.status != domain.HighlightAnchorStatus.attached ||
+            replacement.quote != old.quote) {
+          throw StateError(
+            'Highlight repair requires a detached source and unchanged quote',
+          );
+        }
+        final block =
+            await (database.select(database.sourceBlocks)
+                  ..where((row) => row.id.equals(replacement.sourceBlockId)))
+                .getSingleOrNull();
+        if (block == null ||
+            block.pageId != replacement.pageId ||
+            block.sourceHash != replacement.contentHashAtCreation ||
+            replacement.endOffset > block.rawText.length ||
+            block.rawText.substring(
+                  replacement.startOffset,
+                  replacement.endOffset,
+                ) !=
+                replacement.quote) {
+          throw StateError(
+            'Highlight repair must match the exact raw source span',
+          );
+        }
+        await _putAnchor(replacement);
+      });
 
   Future<domain.HighlightAnchor?> readAnchor(String id) async {
     final row =

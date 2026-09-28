@@ -70,5 +70,5 @@
 | `2026-09-27-stage-74-cross-platform-release-build-and-web-smoke-proof` | Stage 74 cross platform release build and web smoke proof | done | 2026-09-27 | [Open](2026-09-27-stage-74-cross-platform-release-build-and-web-smoke-proof/00-brief.md) |
 | `2026-09-27-stage-75-web-pdf-import-smoke-fix` | Stage 75 web pdf import smoke fix | done | 2026-09-27 | [Open](2026-09-27-stage-75-web-pdf-import-smoke-fix/00-brief.md) |
 | `2026-09-28-stage-76-web-same-profile-second-tab-read` | Stage 76 web same-profile second-tab read | done | 2026-09-28 | [Open](2026-09-28-stage-76-web-same-profile-second-tab-read/00-brief.md) |
-| `2026-09-28-stage-77-highlight-repair-fresh-anchor` | Stage 77 highlight repair with fresh anchor | active | 2026-09-28 | [Open](2026-09-28-stage-77-highlight-repair-fresh-anchor/00-brief.md) |
+| `2026-09-28-stage-77-highlight-repair-fresh-anchor` | Stage 77 highlight repair with fresh anchor | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-77-highlight-repair-fresh-anchor/00-brief.md) |
 | `2026-09-28-stage-78-muse-spark-opencode-verified-route` | Stage 78 muse spark opencode verified route | active | 2026-09-28 | [Open](2026-09-28-stage-78-muse-spark-opencode-verified-route/00-brief.md) |
