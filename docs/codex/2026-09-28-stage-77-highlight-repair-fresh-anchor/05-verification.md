@@ -23,5 +23,5 @@
 
 ## Known Issues
 
-- Stage77 implementation remains uncommitted at HEAD `70a5963`; no commit claimed.
+- Stage77 implementation committed in `9794db8`.
 - Stage77 is not release-complete; see Remaining in handoff.

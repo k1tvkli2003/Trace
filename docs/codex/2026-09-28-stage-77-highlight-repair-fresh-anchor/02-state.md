@@ -6,7 +6,7 @@
 
 ## Current State
 
-Stage77 docs filled in English and ready for review. Implementation already exists uncommitted (`repairAnchor` with fresh-ID insert, exact raw span/hash/page checks, old anchor untouched, failure-closed `StateError` paths) and was preserved untouched by this docs pass. Recorded verification from this continuation: 11 targeted tests passed, 163 full `trace_data` tests passed, analyze passed. Code remains uncommitted at HEAD `70a5963`. Stage77 is not release-complete.
+Stage77 docs filled in English and ready for review. Implementation committed in `9794db8` (`repairAnchor` with fresh-ID insert, exact raw span/hash/page checks, old anchor untouched, failure-closed `StateError` paths). Recorded verification from this continuation: 11 targeted tests passed, 163 full `trace_data` tests passed, analyze passed. Stage77 is not release-complete.
 
 ## Decisions
 
@@ -31,5 +31,5 @@ Stage77 docs filled in English and ready for review. Implementation already exis
 ## Remaining
 
 - Review of these docs by owner.
-- Commit decision by owner (not claimed by this pass).
+- Code and docs committed in `9794db8`; no further commit pending for this stage.
 - Outside this stage: simultaneous-write proof, real PDF/Farsi extraction, release signing.

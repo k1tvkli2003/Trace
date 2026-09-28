@@ -32,9 +32,9 @@ Referenced but intentionally unmodified: `packages/trace_data/lib/src/local/loca
 
 ## Remaining
 
-- Docs review and commit decision by owner.
+- Docs review by owner; code and docs committed in `9794db8`.
 - Outside this stage (Stage77 not release-complete): simultaneous-write proof, real PDF/Farsi extraction, release signing.
 
 ## Verification
 
-- Docs pass; test results recorded from this continuation, not re-run here. Implementation remains uncommitted at HEAD `70a5963`.
+- Docs pass; test results recorded from this continuation, not re-run here. Implementation committed in `9794db8` after this pass.
