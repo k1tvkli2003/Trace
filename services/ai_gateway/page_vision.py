@@ -29,6 +29,8 @@ _REQUEST_FIELDS = frozenset({
 })
 _POLICY_LIMITS = (1, 4_194_304, 4_096)
 _USAGE_FIELDS = frozenset({'input_tokens', 'output_tokens', 'total_tokens'})
+_MAX_OPERATIONS = 1_024
+_TRANSIENT_FAILURES = frozenset({'AI_RUN_IN_FLIGHT', 'AI_RETRY_NOT_READY'})
 
 
 class VisionFailure(Exception):
@@ -165,6 +167,8 @@ class VisionAdapter:
         with self._lock:
             state = self._operations.get(operation)
             if state is None:
+                if len(self._operations) >= _MAX_OPERATIONS:
+                    raise VisionFailure('AI_OPERATION_LIMIT_EXCEEDED')
                 limits = RunLimits(_POLICY_LIMITS[0], _POLICY_LIMITS[1],
                                    _POLICY_LIMITS[2], seconds)
                 run = (BudgetedRun(limits, clock=self._clock) if self._clock
@@ -184,6 +188,11 @@ class VisionAdapter:
         finally:
             state.lock.release()
 
+    def _fail(self, state, code: str) -> VisionFailure:
+        with self._lock:
+            state.failure = code
+        return VisionFailure(code)
+
     def _perform(self, state, operation, page, image, effort, tokens, seconds):
         route = NineRouterRouting(reasoning_effort=effort).resolve('page_vision_extract')
         try:
@@ -193,8 +202,7 @@ class VisionAdapter:
                 'pageImageHandle': 'asset_' + page.pixel_hash,
             }, source_context=[])
         except PromptFailure:
-            state.failure = 'AI_VISION_REQUEST_INVALID'
-            raise VisionFailure(state.failure) from None
+            raise self._fail(state, 'AI_VISION_REQUEST_INVALID') from None
         envelope = {
             **prompt,
             'page': {'sourceHash': page.source_hash, 'pixelHash': page.pixel_hash,
@@ -219,11 +227,12 @@ class VisionAdapter:
         try:
             raw = state.run.call(image, tokens, send)
         except GatewayFailure as error:
-            state.failure = error.code
+            if error.code not in _TRANSIENT_FAILURES:
+                with self._lock:
+                    state.failure = error.code
             raise VisionFailure(error.code) from None
         if response.get('status') != 'completed':
-            state.failure = 'AI_INCOMPLETE_RESPONSE'
-            raise VisionFailure(state.failure)
+            raise self._fail(state, 'AI_INCOMPLETE_RESPONSE')
         try:
             document = json.loads(raw.decode('utf-8'),
                                   object_pairs_hook=_no_duplicate_keys,
@@ -233,18 +242,17 @@ class VisionAdapter:
                 pixel_hash=page.pixel_hash, render_profile=page.render_profile,
                 page_ref=page.page_ref)
         except (ValueError, UnicodeError, ContractFailure, RecursionError):
-            state.failure = 'AI_SCHEMA_REJECTED'
-            raise VisionFailure(state.failure) from None
+            raise self._fail(state, 'AI_SCHEMA_REJECTED') from None
         elapsed = response.get('elapsed_seconds')
         if (type(elapsed) not in (int, float) or not math.isfinite(elapsed)
                 or not 0 <= elapsed <= seconds):
-            state.failure = 'AI_SCHEMA_REJECTED'
-            raise VisionFailure(state.failure)
+            raise self._fail(state, 'AI_SCHEMA_REJECTED')
         result = VisionResult(
             operation=operation, request_id=state.request_id,
             model=route.model, reasoning_effort=effort, extract=document,
             usage=_safe_usage(response.get('usage')),
             elapsed_seconds=float(elapsed),
             provider_request_id=_safe_provider_id(response.get('provider_request_id')))
-        state.result = result
+        with self._lock:
+            state.result = result
         return copy.deepcopy(result)

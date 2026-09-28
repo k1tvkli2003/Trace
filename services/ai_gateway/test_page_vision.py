@@ -315,6 +315,73 @@ class PageVisionAdapterTests(unittest.TestCase):
         self.assertIn('entire supplied raster page', envelope['messages'][0]['content'])
         self.assertEqual(envelope['messages'][1]['content']['task']['sourceHash'], SOURCE)
 
+    def test_in_flight_transient_never_cached_as_terminal(self):
+        started, release = threading.Event(), threading.Event()
+        submissions = []
+
+        def blocking(**_kwargs):
+            submissions.append(1)
+            started.set()
+            if not release.wait(timeout=3):
+                raise TimeoutError()
+            return {'status': 'completed', 'text': json.dumps(valid_doc()),
+                    'usage': {}, 'elapsed_seconds': 1,
+                    'provider_request_id': None}
+
+        adapter = VisionAdapter(transport=blocking,
+                                authorized_pages={'op-1': scope()})
+        outcomes = []
+
+        def worker():
+            try:
+                outcomes.append(adapter.extract(request()))
+            except VisionFailure as error:
+                outcomes.append(error.code)
+
+        thread = threading.Thread(target=worker)
+        thread.start()
+        try:
+            self.assertTrue(started.wait(timeout=2))
+            with self.assertRaises(VisionFailure) as caught:
+                adapter.extract(request())
+            self.assertEqual(caught.exception.code, 'AI_RUN_IN_FLIGHT')
+        finally:
+            release.set()
+            thread.join(timeout=3)
+        self.assertFalse(thread.is_alive())
+        self.assertEqual(outcomes[0].extract, valid_doc())
+        # Transient IN_FLIGHT must not linger: the post-completion replay
+        # succeeds on the same single submission.
+        replay = adapter.extract(request())
+        self.assertEqual(replay.extract, valid_doc())
+        self.assertEqual(len(submissions), 1)
+
+    def test_retry_not_ready_never_cached_as_terminal(self):
+        inner = []
+        adapter = VisionAdapter(
+            transport=completed_transport(inner),
+            authorized_pages={'op-1': scope()},
+            clock=lambda: 1000.0)
+        # Simulate a BudgetedRun that already hit its attempts ceiling and is
+        # now inside the retry window: NOT_READY must surface without caching.
+        import budget as budget_module
+        real_call = budget_module.BudgetedRun.call
+
+        def not_ready(self, payload, max_output_tokens, provider):
+            raise budget_module.GatewayFailure('AI_RETRY_NOT_READY')
+
+        budget_module.BudgetedRun.call = not_ready
+        try:
+            with self.assertRaises(VisionFailure) as caught:
+                adapter.extract(request())
+        finally:
+            budget_module.BudgetedRun.call = real_call
+        self.assertEqual(caught.exception.code, 'AI_RETRY_NOT_READY')
+        # No terminal failure cached: the real path still submits exactly once.
+        result = adapter.extract(request())
+        self.assertEqual(result.extract, valid_doc())
+        self.assertEqual(len(inner), 1)
+
 
 if __name__ == '__main__':
     unittest.main()

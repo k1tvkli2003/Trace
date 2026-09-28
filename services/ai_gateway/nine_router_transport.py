@@ -96,6 +96,9 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
         provider_request_id = response.getheader("x-request-id")
         if response.status != 200:
             raise HttpFailure(response.status)
+        content_type = (response.getheader("Content-Type") or "")
+        if "text/event-stream" not in content_type:
+            raise ValueError("AI_RESPONSE_INVALID")
         text, status, usage = _read_sse(
             response, deadline=started + float(timeout_seconds),
             max_output_tokens=max_output_tokens)

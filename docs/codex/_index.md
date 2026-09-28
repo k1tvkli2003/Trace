@@ -75,3 +75,4 @@
 | `2026-09-28-stage-79-muse-spark-high-xhigh-vision-pool-proof` | Stage 79 muse spark high xhigh vision pool proof | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-79-muse-spark-high-xhigh-vision-pool-proof/00-brief.md) |
 | `2026-09-28-stage-80-server-side-bounded-page-vision-adapter` | Stage 80 server-side bounded page Vision adapter | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-80-server-side-bounded-page-vision-adapter/00-brief.md) |
 | `2026-09-29-stage-81-vision-hardening-recursion-stream-key-sse` | Stage 81 vision hardening recursion stream key sse | planned | 2026-09-29 | [Open](2026-09-29-stage-81-vision-hardening-recursion-stream-key-sse/00-brief.md) |
+| `2026-09-29-stage-82-vision-concurrency-transient-content-type-mapbound` | Stage 82 vision concurrency transient content-type mapbound | active | 2026-09-29 | [Open](2026-09-29-stage-82-vision-concurrency-transient-content-type-mapbound/00-brief.md) |

@@ -206,6 +206,20 @@ class ResponsesTransportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.call(timeout_seconds=float('nan'))
 
+    def test_wrong_content_type_rejected_fail_closed(self):
+        class WrongType(Response):
+            def getheader(self, key, default=None):
+                if key == 'Content-Type':
+                    return 'application/json'
+                return super().getheader(key, default)
+
+        Connection.response = WrongType([
+            event('response.output_text.delta', delta='{}'),
+            event('response.completed', response={'status': 'completed'})])
+        with self.assertRaises(ValueError) as caught:
+            self.call()
+        self.assertEqual(str(caught.exception), 'AI_RESPONSE_INVALID')
+
 
 if __name__ == '__main__':
     unittest.main()
