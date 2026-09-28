@@ -25,6 +25,17 @@ class NineRouterRoutingTests(unittest.TestCase):
         self.assertEqual(vision_route.reasoning_effort, 'high')
         self.assertEqual(text_route.reasoning_effort, 'high')
 
+    def test_xhigh_is_allowed_explicitly(self):
+        vision_route = NineRouterRouting(reasoning_effort='xhigh').resolve('page_vision_extract')
+        text_route = NineRouterRouting(reasoning_effort='xhigh').resolve('teacher_fa')
+        self.assertEqual(vision_route.reasoning_effort, 'xhigh')
+        self.assertEqual(text_route.reasoning_effort, 'xhigh')
+
+    def test_invalid_reasoning_effort_fails_closed(self):
+        with self.assertRaises(RouteFailure) as caught:
+            NineRouterRouting(reasoning_effort='low')
+        self.assertEqual(caught.exception.code, 'AI_ROUTE_NOT_ALLOWED')
+
     def test_vision_input_is_allowed_as_page_image_not_pdf(self):
         route = NineRouterRouting().resolve('page_vision_extract')
         self.assertTrue(route.accepts_images)

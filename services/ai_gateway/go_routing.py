@@ -11,6 +11,7 @@ _CAPABILITIES = frozenset({
 })
 _VISION_CAPABILITIES = frozenset({'structure_scan', 'page_vision_extract'})
 _ALLOWED_MODELS = ('oc/muse-spark-1.3-contributor-free',)
+_ALLOWED_EFFORTS = ('high', 'xhigh')
 _ENDPOINT = 'http://127.0.0.1:20128/v1/responses'
 
 
@@ -34,10 +35,13 @@ class NineRouterRouting:
     """Fail closed on model/provider overrides; 9Router rotates OpenCode proxies."""
 
     def __init__(self, *, models: Iterable[str] = _ALLOWED_MODELS,
-                 endpoint_override: str | None = None):
+                 endpoint_override: str | None = None,
+                 reasoning_effort: str = 'high'):
         configured = tuple(models)
-        if endpoint_override is not None or configured != _ALLOWED_MODELS:
+        if (endpoint_override is not None or configured != _ALLOWED_MODELS
+                or reasoning_effort not in _ALLOWED_EFFORTS):
             raise RouteFailure('AI_ROUTE_NOT_ALLOWED')
+        self.reasoning_effort = reasoning_effort
 
     def resolve(self, capability: str) -> NineRouterRoute:
         if capability not in _CAPABILITIES:
@@ -47,7 +51,7 @@ class NineRouterRouting:
             provider='9router',
             model=model,
             endpoint=_ENDPOINT,
-            reasoning_effort='high',
+            reasoning_effort=self.reasoning_effort,
             accepts_images=capability in _VISION_CAPABILITIES,
             accepts_pdf=False,
         )
