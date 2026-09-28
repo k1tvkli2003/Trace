@@ -1,29 +1,33 @@
 # Plan
 
 ## Approach
-اول catalog/admin/pool زنده و Vision مصنوعي `oc` + High/Xhigh را با شواهد جدا بررسي کن؛ بعد policy آفلاين را با RED/GREEN به هر دو effort مجاز محدود کن و با TDD قفل نگه دار.
+رفتار و invariantهاي موجود حفظ شد: routing در `go_routing.py` فقط selector آفلاين است؛ 9Router مالک transport و proxy rotation است. بعد يک PDF واقعي کوتاه رندوم انتخاب و صفحه فقط به raster تبديل شد. همان raster، بدون text layer و OCR، با route ثابت و دو effort live probe شد.
 
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | done | catalog زنده `/v1/models` + admin pool/strategy خوانده شد |
-| 2 | done | Vision مصنوعي `oc` + High و `oc` + Xhigh هر دو `VISION:42` دادند |
-| 3 | done | RED: تست `xhigh` صريح + رد effort نامعتبر نوشته شد |
-| 4 | done | GREEN: `go_routing.py` فقط `high`/`xhigh` با پيشفرض `high` شد |
-| 5 | done | مستندات قرارداد/README/matrix و ثبت شواهد کامل شد |
+| 1 | done | catalog، admin pool و scheduler زنده بررسي شد |
+| 2 | done | policy با RED/GREEN به model واحد و `high`/`xhigh` fail-closed محدود شد |
+| 3 | done | PDF واقعي کوتاه انتخاب شد: 11 صفحه؛ صفحه 10؛ source hash و pixel hash ثبت شد |
+| 4 | done | High با `max_output_tokens=1800`: `response.completed` و `PDFVISION:` |
+| 5 | done | Xhigh با `max_output_tokens=4096`: `response.completed` و `PDFVISION:` |
+| 6 | done | failure نخست با `max_output_tokens=1800` و `reason=max_output_tokens` ثبت و علت رفع شد |
+| 7 | in_progress | همگام‌سازي docs/matrix، validator، suite و commit |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/go_routing.py`, `services/ai_gateway/test_go_routing.py`
 - `services/ai_gateway/README.md`, `docs/contracts/learning-ai-v1.md`
 - `docs/qa/acceptance-matrix.md`, `docs/architecture/decision-log.md`
-- `docs/codex/2026-09-28-stage-79-muse-spark-high-xhigh-vision-pool-proof/`
+- `assets/real-pdf-page.png`, `assets/real-pdf-vision-proof.json`
+- `logs/real-pdf-vision-high-1800.json`, `logs/real-pdf-vision-xhigh-4096.json`
 
 ## Risks
-- ادعاي High/Xhigh بدون پروب جداگانه — با پروب زنده هر دو effort مهار شد.
-- effort نامعتبر ممکن بود ساکت قبول شود — با fail-closed `AI_ROUTE_NOT_ALLOWED` کنترل شد.
-- چرخش پروکسي ممکن بود به کد نسبت داده شود — مالکيت با خود 9Router ماند.
+- يک catalog live در تکرار بعدي `oc` را نشان نداد، اما همان request به `oc` پاسخ کامل داد؛ اين drift بايد monitor شود و fallback همچنان ممنوع است.
+- Xhigh با سقف 1800 ناقص شد؛ receipt نگه داشته شد و با سقف ايمن policy (`4096`) دوباره کامل شد.
+- پاسخ فقط يک جمله بود؛ اين اثبات سلامت route و Vision است، نه accuracy کامل transcription.
 
 ## Acceptance Checks
-- `python -m unittest discover -s services/ai_gateway -p "test_*.py"` سبز (68 تست).
-- همه capabilityها فقط `oc/muse-spark-1.3-contributor-free` با High/Xhigh برگردانند.
-- docs قرارداد و matrix بهروزرساني و validator ساختار سبز باشد.
+- `python -m unittest discover -s services/ai_gateway -p "test_*.py"` سبز.
+- هر دو effort روي يک صفحه واقعي PDF پاسخ `response.completed` و متن قابل تشخيص بدهند.
+- input فقط PNG raster باشد؛ `text_layer_read=false` و `ocr_used=false` ثبت شود.
+- task validator و `git diff --check` سبز باشند.

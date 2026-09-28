@@ -1,0 +1,43 @@
+{
+  "model": "oc/muse-spark-1.3-contributor-free",
+  "endpoint": "http://127.0.0.1:20128/v1/responses",
+  "source_basename": "Lesson_1_Genome_and_Gene_Expression_Regulation_quiz_dark.pdf",
+  "source_path": "C:\\Users\\K1\\Desktop\\Projects\\StudyHub-Web\\output_pdf_extract\\Lesson_1_Genome_and_Gene_Expression_Regulation_quiz_dark.pdf",
+  "source_size_bytes": 1958713,
+  "source_sha256": "4acf83aef76ce05908d4006bb54bf480fd462f81fcfe5ac46dabcc9d4bf29113",
+  "page_index_zero_based": 9,
+  "page_number_one_based": 10,
+  "page_count": 11,
+  "render_profile": "PyMuPDF Matrix(1.6,1.6), PNG, alpha=false",
+  "pixel_width": 952,
+  "pixel_height": 1348,
+  "pixel_sha256": "0ad9fdfceab37b8dc6cfa9583624864415fc07de0fb7938e41ffadc3761bbcde",
+  "text_layer_read": false,
+  "ocr_used": false,
+  "results": [
+    {
+      "effort": "high",
+      "http": 200,
+      "completed": false,
+      "text": "",
+      "vision_ok": false,
+      "end_events": [
+        "response.incomplete"
+      ],
+      "error": null,
+      "elapsed_s": 20.88
+    },
+    {
+      "effort": "xhigh",
+      "http": 200,
+      "completed": false,
+      "text": "",
+      "vision_ok": false,
+      "end_events": [
+        "response.incomplete"
+      ],
+      "error": null,
+      "elapsed_s": 10.77
+    }
+  ]
+}

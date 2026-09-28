@@ -1,6 +1,6 @@
 # Trace learning AI v1 — offline contract, not connected
 
-Runtime owner: `services/ai_gateway/learning_contract.py`. Transport/provider adapter absent. All five stages below are **design + deterministic contract tests only**. No model output, PDF transcript, lesson, cost or accuracy has been proven. If later enabled, Trace uses only the single verified 9Router Muse Spark 1.3 route `oc/muse-spark-1.3-contributor-free` with reasoning `high` (default) or explicit `xhigh` over the existing OpenCode proxy pool; no provider/model switch or implicit fallback.
+Runtime owner: `services/ai_gateway/learning_contract.py`. Transport/provider adapter absent. All five stages below are **design + deterministic contract tests only**. No lesson, cost accounting, or product integration has been proven. A bounded Stage79 pilot did prove the approved single 9Router Muse Spark 1.3 route (`oc/muse-spark-1.3-contributor-free`, `high` default / explicit `xhigh`) returns `response.completed` on the same real PDF page raster without text-layer read or OCR. If later enabled, Trace uses only that route over the existing OpenCode proxy pool; no provider/model switch or implicit fallback.
 
 ## Learning path and expected behavior
 
