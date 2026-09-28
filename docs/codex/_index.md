@@ -73,3 +73,4 @@
 | `2026-09-28-stage-77-highlight-repair-fresh-anchor` | Stage 77 highlight repair with fresh anchor | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-77-highlight-repair-fresh-anchor/00-brief.md) |
 | `2026-09-28-stage-78-muse-spark-opencode-verified-route` | Stage 78 muse spark opencode verified route | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-78-muse-spark-opencode-verified-route/00-brief.md) |
 | `2026-09-28-stage-79-muse-spark-high-xhigh-vision-pool-proof` | Stage 79 muse spark high xhigh vision pool proof | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-79-muse-spark-high-xhigh-vision-pool-proof/00-brief.md) |
+| `2026-09-28-stage-80-server-side-bounded-page-vision-adapter` | Stage 80 server-side bounded page Vision adapter | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-80-server-side-bounded-page-vision-adapter/00-brief.md) |

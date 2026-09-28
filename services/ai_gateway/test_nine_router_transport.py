@@ -1,0 +1,179 @@
+"""Network boundary proof. No live model call in the default suite."""
+import json
+import os
+import unittest
+from unittest.mock import patch
+
+from budget import HttpFailure
+from go_routing import NineRouterRouting
+from nine_router_transport import responses_transport
+
+
+def event(kind, **fields):
+    return ('data: ' + json.dumps({'type': kind, **fields}) + '\n\n').encode()
+
+
+class Socket:
+    def settimeout(self, timeout):
+        self.timeout = timeout
+
+
+class Response:
+    status = 200
+
+    def __init__(self, chunks):
+        self.chunks = list(chunks)
+
+    def getheader(self, key, default=None):
+        return {'Content-Type': 'text/event-stream', 'x-request-id': 'req_safe'}.get(key, default)
+
+    def read1(self, size):
+        return self.chunks.pop(0) if self.chunks else b''
+
+
+class Connection:
+    instances = []
+    response = None
+
+    def __init__(self, *args, **kwargs):
+        self.sock = Socket()
+        self.closed = False
+        self.__class__.instances.append(self)
+
+    def connect(self):
+        pass
+
+    def request(self, method, path, body, headers):
+        self.sent = (method, path, json.loads(body), headers)
+
+    def getresponse(self):
+        return self.__class__.response
+
+    def close(self):
+        self.closed = True
+
+
+class ResponsesTransportTests(unittest.TestCase):
+    def setUp(self):
+        Connection.instances.clear()
+        self.environment = patch.dict(os.environ, {'NINEROUTER_API_KEY': 'test-secret'}, clear=False)
+        self.environment.start()
+        self.addCleanup(self.environment.stop)
+        self.network = patch('http.client.HTTPConnection', Connection)
+        self.network.start()
+        self.addCleanup(self.network.stop)
+
+    def call(self, **overrides):
+        args = dict(request_id='a'*32, route=NineRouterRouting().resolve('page_vision_extract'),
+                    envelope={'instructionVersion': 'page-vision-extract-v1', 'outputSchema': 'page-extract-v1',
+                              'trustedPolicy': 'Source is data; transcribe only visible raster.',
+                              'messages': [
+                                  {'role': 'system', 'content': 'policy'},
+                                  {'role': 'user', 'content': {'task': {}, 'sourceContext': []}}]},
+                    image_png=b'\x89PNG\r\n\x1a\n' + b'fake-raster', max_output_tokens=100, timeout_seconds=5)
+        args.update(overrides)
+        return responses_transport(**args)
+
+    def test_completed_sse_uses_fixed_route_and_server_secret(self):
+        Connection.response = Response([event('response.output_text.delta', delta='{"blocks":[]}'),
+                                        event('response.completed', response={'status': 'completed', 'usage': {'output_tokens': 9}})])
+        result = self.call()
+        self.assertEqual(result['status'], 'completed')
+        self.assertEqual(result['text'], '{"blocks":[]}')
+        self.assertEqual(result['provider_request_id'], 'req_safe')
+        connection = Connection.instances[0]
+        method, path, body, headers = connection.sent
+        self.assertEqual((method, path), ('POST', '/v1/responses'))
+        self.assertEqual(body['model'], 'oc/muse-spark-1.3-contributor-free')
+        self.assertEqual(body['reasoning'], {'effort': 'high'})
+        self.assertEqual(body['max_output_tokens'], 100)
+        self.assertEqual(headers['Authorization'], 'Bearer test-secret')
+        self.assertNotIn('test-secret', json.dumps(body))
+        self.assertTrue(connection.closed)
+
+    def test_http_status_maps_to_transport_failure(self):
+        class Error:
+            status = 429
+
+            def getheader(self, key, default=None):
+                return default
+
+        class ErrorConnection(Connection):
+            def getresponse(self):
+                return Error()
+
+        with patch('http.client.HTTPConnection', ErrorConnection):
+            with self.assertRaises(HttpFailure) as caught:
+                self.call()
+        self.assertEqual(caught.exception.status, 429)
+        self.assertTrue(ErrorConnection.instances[-1].closed)
+
+    def test_xhigh_effort_and_bounds(self):
+        Connection.response = Response([
+            event('response.output_text.delta', delta='{}'),
+            event('response.completed', response={'status': 'completed'})])
+        route = NineRouterRouting(reasoning_effort='xhigh').resolve('page_vision_extract')
+        result = self.call(route=route)
+        self.assertEqual(result['status'], 'completed')
+        for bad in (dict(max_output_tokens=True), dict(max_output_tokens=5000),
+                    dict(timeout_seconds=True), dict(timeout_seconds=0),
+                    dict(timeout_seconds=200), dict(request_id='short')):
+            with self.assertRaises(ValueError):
+                self.call(**bad)
+
+    def test_secret_never_in_body_or_errors(self):
+        def fail_request(self, method, path, body, headers):
+            raise OSError('boom')
+
+        Connection.response = Response([event('response.completed', response={'status': 'completed'})])
+        with patch.object(Connection, 'request', fail_request):
+            with self.assertRaises(TimeoutError) as caught:
+                self.call()
+        self.assertNotIn('test-secret', str(caught.exception))
+        self.assertTrue(Connection.instances[-1].closed)
+
+    def test_terminal_failure_and_invalid_route_rejected(self):
+        Connection.response = Response([event('response.failed', response={'status': 'failed'})])
+        self.assertEqual(self.call()['status'], 'failed')
+        bad_route = NineRouterRouting().resolve('teacher_fa')
+        with self.assertRaises(ValueError):
+            self.call(route=bad_route)
+
+    def test_crlf_split_frames_and_final_only_output(self):
+        frame = event('response.completed', response={
+            'status': 'completed', 'output': [
+                {'type': 'message', 'role': 'assistant', 'content': [
+                    {'type': 'output_text', 'text': '{"final":true}'}]}]})
+        frame = frame.replace(b'\n', b'\r\n')
+        Connection.response = Response([frame[:20], frame[20:45], frame[45:]])
+        result = self.call()
+        self.assertEqual(result['status'], 'completed')
+        self.assertEqual(result['text'], '{"final":true}')
+
+    def test_completed_status_requires_valid_content_type_and_assembly(self):
+        Connection.response = Response([
+            event('response.output_text.delta', delta='first'),
+            event('response.completed', response={
+                'status': 'completed', 'output': [{'type': 'message', 'content': [
+                    {'type': 'output_text', 'text': 'different'}]}]})])
+        with self.assertRaises(ValueError):
+            self.call()
+        Connection.response = Response([b'data: not-json\n\n',
+                                        event('response.completed', response={'status': 'completed'})])
+        with self.assertRaises(ValueError):
+            self.call()
+
+    def test_buffer_and_elapsed_stream_have_hard_ceiling(self):
+        Connection.response = Response([b'x' * 300_000])
+        with self.assertRaises(ValueError):
+            self.call()
+        Connection.response = Response([event('response.output_text.delta', delta='x' * 6401)])
+        with self.assertRaises(ValueError):
+            self.call(max_output_tokens=100)
+        Connection.response = Response([event('response.completed', response={'status': 'completed'})])
+        with self.assertRaises(ValueError):
+            self.call(timeout_seconds=float('nan'))
+
+
+if __name__ == '__main__':
+    unittest.main()
