@@ -33,7 +33,7 @@ with a 1s budget. No provider call.
   `[3.0, 2.0]`, late completion rejected; targeted 16/16, full 99/99.
 
 ## Remaining
-- Validate docs, review staged check, and commit the correction diff only.
+- Correction committed at `93f5c21`; validator `OK`, workdir/cached `diff --check` clean.
 - Deadline clock granularity, response-header correlation, and provider SSE
   timing remain open; not claimed by this slice.
 - Separate tasks: cross-process idempotency, operation retention policy,

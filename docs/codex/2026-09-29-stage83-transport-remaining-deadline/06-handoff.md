@@ -21,8 +21,7 @@ No provider call or real-PDF extraction occurred.
 - No change to `page_vision.py`, `budget.py`, retry rules, or provider route.
 
 ## How To Continue
-- Validator and staged diff check, then commit only transport, its tests,
-  and the Stage83 task docs correction.
+- Correction already committed at `93f5c21`; no further commit in this slice.
 - Wait for explicit user order before live model capture or operation
   eviction. Stage84, if needed, is a separate scope decision.
 
@@ -33,7 +32,7 @@ No provider call or real-PDF extraction occurred.
   out at 1.00s for a 1s budget.
 
 ## Remaining
-- Validator, staged diff check, and correction commit.
+- Correction committed at `93f5c21`; validator `OK`, workdir/cached `diff --check` clean.
 - Critic v11 lane-1 evidence missing; lanes 2-5 exist. Merge separately
   only when complete and HEAD-aware.
 - Product lines still open: schema-valid real-PDF pilot, operation eviction,

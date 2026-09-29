@@ -18,4 +18,4 @@
 - Local loopback HTTP proof and 99/99 gateway suite, no provider call.
 
 ## Next
-- Validate updated docs, run staged diff check, commit correction only.
+- Correction committed at `93f5c21` with gateway suite `99/99 OK`; no open docs action in this slice.
