@@ -1,38 +1,45 @@
 # Handoff
 
 ## Outcome
-Stage83 closes the carried F20 deadline slice at the transport layer: a new
-regression test first showed that after 2 seconds of elapsed call time, the
-old socket wait stayed `[5.0, 5.0]`; transport now refreshes socket waits as
-`[3.0, 2.0]` under the same single 5-second budget. Suites passed 13/13 and
-96/96.
+Initial Stage83 commit `e5a1802` corrected per-phase socket waits from
+`[5.0, 5.0]` to `[3.0, 2.0]` under one 5-second deadline (13/13 transport,
+96/96 gateway). Follow-up tests found exhausted-deadline, detached response
+socket, and late-terminal-frame gaps. Corrected paths now pass 16/16
+transport and 99/99 gateway. A local stdlib HTTP loopback completed one
+healthy SSE call and timed out a stalled header in 1.00s for a 1s budget.
+No provider call or real-PDF extraction occurred.
 
 ## Changed Artifacts
-- `services/ai_gateway/nine_router_transport.py`: remaining-deadline hook
-  around request, `getresponse`, and `read1`.
-- `services/ai_gateway/test_nine_router_transport.py`: regression test plus
-  initial-timeout recording in the shared connection stub.
+- `services/ai_gateway/nine_router_transport.py`: remaining-deadline
+  timeout per phase, detached response socket, fail-closed expiry check,
+  and late-frame rejection.
+- `services/ai_gateway/test_nine_router_transport.py`: four new tests
+  across Stage83, including three follow-up edge tests.
 - Task docs
   `docs/codex/2026-09-29-stage83-transport-remaining-deadline/` plus
   `_index.md` row.
 - No change to `page_vision.py`, `budget.py`, retry rules, or provider route.
 
 ## How To Continue
-- Validator passed `OK`; run staged diff check, then commit the four owned
-  paths only.
-- Await explicit user order for live capture, eviction policy, cross-tab
-  runtime proof, signing, and any Stage84 slice.
+- Validator and staged diff check, then commit only transport, its tests,
+  and the Stage83 task docs correction.
+- Wait for explicit user order before live model capture or operation
+  eviction. Stage84, if needed, is a separate scope decision.
 
 ## Done
-- RED-first regression: old waits `[5.0, 5.0]`.
-- GREEN minimal fix, targeted 13/13, full 96/96, unstaged diff clean.
-- Docs written truthfully; commit blocked only until validator passes.
+- Initial `e5a1802` commit with RED-first `[5.0, 5.0]` regression.
+- Three edge RED/GREEN cases, targeted 16/16 and full gateway 99/99.
+- Local real-socket loopback: healthy SSE completed; stalled header timed
+  out at 1.00s for a 1s budget.
 
 ## Remaining
-- Validator, staged check, commit, and v11 critic merge when workers finish.
-- Known open product lines: schema-valid real-PDF pilot, eviction,
+- Validator, staged diff check, and correction commit.
+- Critic v11 lane-1 evidence missing; lanes 2-5 exist. Merge separately
+  only when complete and HEAD-aware.
+- Product lines still open: schema-valid real-PDF pilot, operation eviction,
   concurrent-tab proof, app signing, idempotency across restarts.
 
 ## Verification
-- Code proof is local stub evidence only. It does not claim provider latency,
-  PDF fidelity, Flutter state, sync, browser persistence, or build readiness.
+- Code proof uses fake socket + real local loopback, not provider traffic.
+  It does not claim provider latency, PDF fidelity, Flutter state, sync,
+  browser persistence, or release readiness.

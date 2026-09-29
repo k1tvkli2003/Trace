@@ -15,8 +15,10 @@ route, single attempt, fail-closed codes, and no live model probe.
 - RED: one regression test pins remaining-deadline socket waits across
   `getresponse` and `read1`, and fails on the old code (`[5.0, 5.0]` vs
   expected `[3.0, 2.0]`).
-- GREEN: `test_nine_router_transport` 13/13 OK and full gateway suite
-  96/96 OK, with `git diff --check` clean.
+- GREEN at initial commit `e5a1802`: targeted 13/13 and full gateway 96/96.
+- Follow-up RED/GREEN covers deadline exhaustion before headers, detached
+  response socket, and late terminal frame; current targeted 16/16 and full
+  gateway 99/99 OK, with local loopback healthy+stalled HTTP proof.
 - Docs validated and committed with honest counts and limits.
 
 ## Context
@@ -31,9 +33,20 @@ route, single attempt, fail-closed codes, and no live model probe.
 
 ## In Scope
 - Narrow transport change: remaining-deadline socket timeout before
-  request, before `getresponse`, and before every `read1`.
+  request, before `getresponse`, and before/after every `read1`; a helper
+  raises `AI_DEADLINE_EXCEEDED` when the deadline has passed before
+  another network wait.
+- Response-detached socket handling: when `connection.sock` is absent,
+  the helper refreshes `response.fp.raw._sock` if present, otherwise it
+  updates `connection.timeout` as a bounded fallback.
+- Late completion policy: a terminal SSE frame that becomes available at
+  or after the deadline is discarded with `AI_DEADLINE_EXCEEDED`, not
+  treated as success.
 - One regression test plus one shared stub fix that records the
   initial socket timeout.
+- Three boundary regression checks now: deadline-expired before headers,
+  detached response socket, and a late terminal frame returning after
+  deadline.
 - Stage83 task docs under
   `docs/codex/2026-09-29-stage83-transport-remaining-deadline/`.
 
@@ -45,3 +58,6 @@ route, single attempt, fail-closed codes, and no live model probe.
 ## Assumptions
 - The local stub socket honors `settimeout`; real `http.client` socket
   honors the same timeout on blocking read.
+- Local loopback with one healthy and one stalled HTTP body proves socket
+  timeout and connection cleanup behavior; it does not emulate provider
+  SSE timing, token usage, or PDF/Vision fidelity.

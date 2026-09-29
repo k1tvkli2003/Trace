@@ -232,6 +232,72 @@ class ResponsesTransportTests(unittest.TestCase):
         self.assertEqual(waits, [3.0, 2.0])
         self.assertTrue(Connection.instances[-1].closed)
 
+    def test_detached_response_socket_uses_remaining_deadline(self):
+        clock = [100.0]
+        waits = []
+
+        class RecordingSocket:
+            def settimeout(self, timeout):
+                waits.append(timeout)
+
+        class DetachedResponse(Response):
+            def __init__(self):
+                super().__init__([event('response.output_text.delta', delta='{}'),
+                                  event('response.completed', response={'status': 'completed'})])
+                self.fp = type('File', (), {'raw': type('Raw', (), {'_sock': RecordingSocket()})()})()
+
+            def read1(self, size):
+                clock[0] += 1.0
+                return super().read1(size)
+
+        class DetachedConnection(Connection):
+            response = DetachedResponse()
+
+            def getresponse(self):
+                clock[0] += 2.0
+                self.sock = None
+                return self.response
+
+        with patch('http.client.HTTPConnection', DetachedConnection), \
+             patch('nine_router_transport.time.monotonic', side_effect=lambda: clock[0]):
+            self.assertEqual(self.call()['status'], 'completed')
+        self.assertEqual(waits, [3.0, 2.0])
+
+    def test_late_terminal_frame_is_rejected_after_read(self):
+        clock = [100.0]
+
+        class LateResponse(Response):
+            def read1(self, size):
+                clock[0] = 106.0
+                return event('response.output_text.delta', delta='{}') + event(
+                    'response.completed', response={'status': 'completed'})
+
+        class LateConnection(Connection):
+            response = LateResponse([])
+
+        with patch('http.client.HTTPConnection', LateConnection), \
+             patch('nine_router_transport.time.monotonic', side_effect=lambda: clock[0]):
+            with self.assertRaises(TimeoutError):
+                self.call(timeout_seconds=5)
+
+    def test_deadline_expired_before_response_rejects_without_waiting(self):
+        clock = [100.0]
+        calls = []
+
+        class ExpiredConnection(Connection):
+            def request(inner_self, *args, **kwargs):
+                clock[0] = 106.0
+
+            def getresponse(inner_self):
+                calls.append('waited')
+                return Response([])
+
+        with patch('http.client.HTTPConnection', ExpiredConnection), \
+             patch('nine_router_transport.time.monotonic', side_effect=lambda: clock[0]):
+            with self.assertRaises(TimeoutError):
+                self.call()
+        self.assertEqual(calls, [])
+
     def test_wrong_content_type_rejected_fail_closed(self):
         class WrongType(Response):
             def getheader(self, key, default=None):

@@ -102,7 +102,6 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
         if "text/event-stream" not in content_type:
             raise ValueError("AI_RESPONSE_INVALID")
         deadline = started + float(timeout_seconds)
-        _set_remaining_timeout(connection, deadline)
         text, status, usage = _read_sse(
             response, connection=connection, deadline=deadline,
             max_output_tokens=max_output_tokens)
@@ -125,9 +124,17 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
             "provider_request_id": provider_request_id}
 
 
-def _set_remaining_timeout(connection: http.client.HTTPConnection, deadline: float) -> None:
-    remaining = max(deadline - time.monotonic(), 0.001)
+def _set_remaining_timeout(
+    connection: http.client.HTTPConnection, deadline: float,
+    response: Any = None,
+) -> None:
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError("AI_DEADLINE_EXCEEDED")
     sock = getattr(connection, 'sock', None)
+    if sock is None and response is not None:
+        inner = getattr(getattr(response, 'fp', None), 'raw', None)
+        sock = getattr(inner, '_sock', None)
     setter = getattr(sock, 'settimeout', None)
     if callable(setter):
         setter(remaining)
@@ -146,11 +153,13 @@ def _read_sse(response, *, connection, deadline: float, max_output_tokens: int) 
     while True:
         if time.monotonic() >= deadline:
             raise TimeoutError("AI_DEADLINE_EXCEEDED")
+        _set_remaining_timeout(connection, deadline, response=response)
         try:
-            _set_remaining_timeout(connection, deadline)
             chunk = response.read1(65536)
         except (OSError, http.client.HTTPException):
             raise TimeoutError("AI_TRANSPORT_TIMEOUT") from None
+        if time.monotonic() >= deadline:
+            raise TimeoutError("AI_DEADLINE_EXCEEDED")
         if not chunk:
             break
         total_read += len(chunk)
