@@ -17,17 +17,19 @@ and the operation map is bounded.
   verification/handoff) + `_index.md` row.
 
 ## How To Continue
-- Commit this stage, then await explicit user order for: dead-branch cleanup
+- Await explicit user order for: dead-branch cleanup
   (`HttpFailure`/`TimeoutError` in adapter), post-deadline completion policy,
   operation eviction policy, and live diagnostic capture.
 
 ## Done
 - RED-first tests watched fail, GREEN minimal fix, targeted `27/27`,
-  full `95/95`.
+  full `95/95`, committed at `2006021`.
 
 ## Remaining
-- Commit; remaining review polish items need a follow-up stage on explicit order.
+- Eviction policy, post-deadline completion, and live diagnostic capture need
+  a follow-up stage on explicit user order. Dead `HttpFailure`/`TimeoutError`
+  adapter branches are already absent from `page_vision.py`.
 
 ## Verification
-- Targeted `27/27 OK` and full `95/95 OK` from live unittest runs; validator
-  and `git diff --check` rerun at commit time.
+- Targeted `27/27 OK` and full `95/95 OK`. Validator `OK`. `git diff --check`
+  clean before commit `2006021`. Live model proof not run.

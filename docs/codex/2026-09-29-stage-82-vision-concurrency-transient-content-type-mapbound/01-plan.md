@@ -9,10 +9,10 @@ second submit gate; the adapter owns first-gate locking and failure caching.
 ## Steps
 | Step | Status | Notes |
 |---|---|---|
-| 1 | in_progress | RED: transient + concurrency + content-type tests |
-| 2 | planned | GREEN: adapter transient guard + locked writes; transport Content-Type |
-| 3 | planned | Full suite + validator + diffcheck |
-| 4 | planned | Docs to ready-for-review + commit |
+| 1 | done | RED: transient + concurrency + content-type tests |
+| 2 | done | GREEN: adapter transient guard + locked writes; transport Content-Type |
+| 3 | done | Full suite + validator + diffcheck |
+| 4 | done | Docs to ready-for-review + commit `2006021` |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_vision.py` (`extract`, `_perform`, failure cache)
