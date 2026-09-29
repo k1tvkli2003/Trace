@@ -88,10 +88,12 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
     started = time.monotonic()
     try:
         connection.connect()
+        _set_remaining_timeout(connection, started + float(timeout_seconds))
         connection.request(
             "POST", _FIXED_PATH, body=raw,
             headers={"Content-Type": "application/json",
                      "Authorization": "Bearer " + api_key})
+        _set_remaining_timeout(connection, started + float(timeout_seconds))
         response = connection.getresponse()
         provider_request_id = response.getheader("x-request-id")
         if response.status != 200:
@@ -99,8 +101,10 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
         content_type = (response.getheader("Content-Type") or "")
         if "text/event-stream" not in content_type:
             raise ValueError("AI_RESPONSE_INVALID")
+        deadline = started + float(timeout_seconds)
+        _set_remaining_timeout(connection, deadline)
         text, status, usage = _read_sse(
-            response, deadline=started + float(timeout_seconds),
+            response, connection=connection, deadline=deadline,
             max_output_tokens=max_output_tokens)
     except HttpFailure:
         raise
@@ -121,7 +125,17 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
             "provider_request_id": provider_request_id}
 
 
-def _read_sse(response, *, deadline: float, max_output_tokens: int) -> tuple[str, str, dict[str, Any]]:
+def _set_remaining_timeout(connection: http.client.HTTPConnection, deadline: float) -> None:
+    remaining = max(deadline - time.monotonic(), 0.001)
+    sock = getattr(connection, 'sock', None)
+    setter = getattr(sock, 'settimeout', None)
+    if callable(setter):
+        setter(remaining)
+    else:
+        connection.timeout = remaining
+
+
+def _read_sse(response, *, connection, deadline: float, max_output_tokens: int) -> tuple[str, str, dict[str, Any]]:
     text_parts: list[str] = []
     text_len = 0
     status = "incomplete"
@@ -133,6 +147,7 @@ def _read_sse(response, *, deadline: float, max_output_tokens: int) -> tuple[str
         if time.monotonic() >= deadline:
             raise TimeoutError("AI_DEADLINE_EXCEEDED")
         try:
+            _set_remaining_timeout(connection, deadline)
             chunk = response.read1(65536)
         except (OSError, http.client.HTTPException):
             raise TimeoutError("AI_TRANSPORT_TIMEOUT") from None

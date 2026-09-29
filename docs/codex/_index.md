@@ -76,3 +76,4 @@
 | `2026-09-28-stage-80-server-side-bounded-page-vision-adapter` | Stage 80 server-side bounded page Vision adapter | ready-for-review | 2026-09-28 | [Open](2026-09-28-stage-80-server-side-bounded-page-vision-adapter/00-brief.md) |
 | `2026-09-29-stage-81-vision-hardening-recursion-stream-key-sse` | Stage 81 vision hardening recursion stream key sse | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage-81-vision-hardening-recursion-stream-key-sse/00-brief.md) |
 | `2026-09-29-stage-82-vision-concurrency-transient-content-type-mapbound` | Stage 82 vision concurrency transient content-type mapbound | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage-82-vision-concurrency-transient-content-type-mapbound/00-brief.md) |
+| `2026-09-29-stage83-transport-remaining-deadline` | Stage83 transport remaining deadline | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage83-transport-remaining-deadline/00-brief.md) |

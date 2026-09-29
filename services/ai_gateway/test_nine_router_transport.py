@@ -37,6 +37,7 @@ class Connection:
 
     def __init__(self, *args, **kwargs):
         self.sock = Socket()
+        self.sock.settimeout(kwargs.get('timeout'))
         self.closed = False
         self.__class__.instances.append(self)
 
@@ -205,6 +206,31 @@ class ResponsesTransportTests(unittest.TestCase):
         Connection.response = Response([event('response.completed', response={'status': 'completed'})])
         with self.assertRaises(ValueError):
             self.call(timeout_seconds=float('nan'))
+
+    def test_stream_read_uses_remaining_deadline_not_initial_timeout(self):
+        now = [100.0]
+        waits = []
+
+        class SlowResponse(Response):
+            def read1(inner_self, size):
+                waits.append(Connection.instances[-1].sock.timeout)
+                now[0] += 1.0
+                return super().read1(size)
+
+        class SlowConnection(Connection):
+            def getresponse(inner_self):
+                now[0] += 2.0
+                return super().getresponse()
+
+        Connection.response = SlowResponse([
+            event('response.output_text.delta', delta='{}'),
+            event('response.completed', response={'status': 'completed'})])
+        with patch('http.client.HTTPConnection', SlowConnection), \
+                patch('nine_router_transport.time.monotonic', lambda: now[0]):
+            result = self.call(timeout_seconds=5)
+        self.assertEqual(result['status'], 'completed')
+        self.assertEqual(waits, [3.0, 2.0])
+        self.assertTrue(Connection.instances[-1].closed)
 
     def test_wrong_content_type_rejected_fail_closed(self):
         class WrongType(Response):
