@@ -77,3 +77,4 @@
 | `2026-09-29-stage-81-vision-hardening-recursion-stream-key-sse` | Stage 81 vision hardening recursion stream key sse | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage-81-vision-hardening-recursion-stream-key-sse/00-brief.md) |
 | `2026-09-29-stage-82-vision-concurrency-transient-content-type-mapbound` | Stage 82 vision concurrency transient content-type mapbound | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage-82-vision-concurrency-transient-content-type-mapbound/00-brief.md) |
 | `2026-09-29-stage83-transport-remaining-deadline` | Stage83 transport remaining deadline | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage83-transport-remaining-deadline/00-brief.md) |
+| `2026-09-29-stage84-vision-operation-retention-eviction` | Stage84 vision operation retention eviction | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage84-vision-operation-retention-eviction/00-brief.md) |

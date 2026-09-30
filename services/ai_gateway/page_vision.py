@@ -69,6 +69,7 @@ class _Operation:
     result: VisionResult | None = None
     failure: str | None = None
     lock: threading.Lock = field(default_factory=threading.Lock)
+    active: int = 0
 
 
 def _is_sha256_hex(value: object) -> bool:
@@ -119,6 +120,15 @@ class VisionAdapter:
         self._operations: dict[str, _Operation] = {}
         self._lock = threading.Lock()
 
+    def _evict_oldest_terminal_locked(self) -> bool:
+        for name, entry in self._operations.items():
+            if (entry.result is not None or entry.failure is not None) \
+                    and entry.active == 0 \
+                    and not entry.lock.locked():
+                del self._operations[name]
+                return True
+        return False
+
     def _scope(self, request: Mapping[str, Any]) -> PageScope:
         if not isinstance(request, Mapping) or set(request) != _REQUEST_FIELDS:
             raise VisionFailure('AI_VISION_REQUEST_INVALID')
@@ -168,7 +178,8 @@ class VisionAdapter:
             state = self._operations.get(operation)
             if state is None:
                 if len(self._operations) >= _MAX_OPERATIONS:
-                    raise VisionFailure('AI_OPERATION_LIMIT_EXCEEDED')
+                    if not self._evict_oldest_terminal_locked():
+                        raise VisionFailure('AI_OPERATION_LIMIT_EXCEEDED')
                 limits = RunLimits(_POLICY_LIMITS[0], _POLICY_LIMITS[1],
                                    _POLICY_LIMITS[2], seconds)
                 run = (BudgetedRun(limits, clock=self._clock) if self._clock
@@ -177,7 +188,10 @@ class VisionAdapter:
                 self._operations[operation] = state
             elif fingerprint != state.fingerprint:
                 raise VisionFailure('AI_RUN_CONFLICT')
+            state.active += 1
         if not state.lock.acquire(blocking=False):
+            with self._lock:
+                state.active -= 1
             raise VisionFailure('AI_RUN_IN_FLIGHT')
         try:
             if state.result is not None:
@@ -187,6 +201,8 @@ class VisionAdapter:
             return self._perform(state, operation, page, image, effort, tokens, seconds)
         finally:
             state.lock.release()
+            with self._lock:
+                state.active -= 1
 
     def _fail(self, state, code: str) -> VisionFailure:
         with self._lock:

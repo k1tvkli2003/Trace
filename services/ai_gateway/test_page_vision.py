@@ -382,6 +382,90 @@ class PageVisionAdapterTests(unittest.TestCase):
         self.assertEqual(result.extract, valid_doc())
         self.assertEqual(len(inner), 1)
 
+    def test_bounded_map_evicts_oldest_completed_for_new_operation(self):
+        import page_vision as vision_module
+        old_bound = vision_module._MAX_OPERATIONS
+        vision_module._MAX_OPERATIONS = 2
+        try:
+            calls = []
+            adapter = VisionAdapter(
+                transport=completed_transport(calls),
+                authorized_pages={'op-a': scope(), 'op-b': scope(),
+                                  'op-c': scope()})
+            first_a = adapter.extract(request(operation='op-a'))
+            first_b = adapter.extract(request(operation='op-b'))
+            self.assertEqual(len(calls), 2)
+            third = adapter.extract(request(operation='op-c'))
+            self.assertEqual(third.extract, valid_doc())
+            self.assertEqual(len(calls), 3)
+            # op-b retained: exact replay, no resubmit.
+            replay_b = adapter.extract(request(operation='op-b'))
+            self.assertEqual(replay_b.request_id, first_b.request_id)
+            self.assertEqual(len(calls), 3)
+            # Evicted entry resubmits with fresh request_id (RAM-only retention
+            # loss documented in brief: FIFO terminal-first, no tombstone).
+            replay_a = adapter.extract(request(operation='op-a'))
+            self.assertEqual(replay_a.extract, valid_doc())
+            self.assertNotEqual(replay_a.request_id, first_a.request_id)
+            self.assertEqual(len(calls), 4)
+        finally:
+            vision_module._MAX_OPERATIONS = old_bound
+
+    def test_in_flight_entry_never_evicted_at_bound(self):
+        import page_vision as vision_module
+        old_bound = vision_module._MAX_OPERATIONS
+        vision_module._MAX_OPERATIONS = 1
+        started, release = threading.Event(), threading.Event()
+        submissions, outcomes = [], []
+        try:
+            def transport(**kwargs):
+                submissions.append(kwargs['request_id'])
+                if len(submissions) == 1:
+                    started.set()
+                    if not release.wait(timeout=3):
+                        raise TimeoutError()
+                return {'status': 'completed', 'text': json.dumps(valid_doc()),
+                        'usage': {}, 'elapsed_seconds': 1,
+                        'provider_request_id': None}
+
+            adapter = VisionAdapter(
+                transport=transport,
+                authorized_pages={'op-a': scope(), 'op-c': scope()})
+
+            def worker():
+                try:
+                    outcomes.append(adapter.extract(request(operation='op-a')))
+                except VisionFailure as error:
+                    outcomes.append(error.code)
+
+            thread = threading.Thread(target=worker)
+            thread.start()
+            try:
+                self.assertTrue(started.wait(timeout=2))
+                with self.assertRaises(VisionFailure) as caught:
+                    adapter.extract(request(operation='op-c'))
+                self.assertEqual(caught.exception.code,
+                                 'AI_OPERATION_LIMIT_EXCEEDED')
+                with self.assertRaises(VisionFailure) as caught:
+                    adapter.extract(request(operation='op-a'))
+                self.assertEqual(caught.exception.code, 'AI_RUN_IN_FLIGHT')
+                self.assertEqual(len(submissions), 1)
+            finally:
+                release.set()
+                thread.join(timeout=3)
+            self.assertFalse(thread.is_alive())
+            self.assertEqual(outcomes[0].extract, valid_doc())
+            replay_a = adapter.extract(request(operation='op-a'))
+            self.assertEqual(replay_a.request_id, outcomes[0].request_id)
+            self.assertEqual(len(submissions), 1)
+            # Once terminal, entry may be evicted for a new operation.
+            adapter.extract(request(operation='op-c'))
+            self.assertEqual(len(submissions), 2)
+            self.assertNotEqual(submissions[0], submissions[1])
+        finally:
+            release.set()
+            vision_module._MAX_OPERATIONS = old_bound
+
 
 if __name__ == '__main__':
     unittest.main()
