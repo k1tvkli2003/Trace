@@ -1,8 +1,9 @@
 # Verification
 
 ## Summary
-- Result: passed (commit open)
+- Result: passed
 - Last verified: 2026-09-30
+- Commit: `9dbd008`
 
 ## Checks
 | Check | Command/Method | Result | Evidence |
@@ -15,7 +16,7 @@
 | Independent review | `review-agent` pass on diff + docs | passed | `No findings` |
 
 ## Not Run
-- Commit.
+- None.
 
 ## Known Issues
 - None known. `AI_OPERATION_REPLAY_EXPIRED` appears only in the pre-fix test history; no product path ever emitted it.

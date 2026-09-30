@@ -1,6 +1,6 @@
 # State
 
-- Current status: `ready-for-review`
+- Current status: `done`
 - Last updated: 2026-09-30
 - Owner: Codex
 
@@ -28,4 +28,4 @@ Remaining: validator, `git diff --check`, independent review, one commit.
 - Targeted suite `101/101 OK`, full gateway `discover` `101/101 OK`.
 
 ## Remaining
-- One commit.
+- None. Committed as `9dbd008`.

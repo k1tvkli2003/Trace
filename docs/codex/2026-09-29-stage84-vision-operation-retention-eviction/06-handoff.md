@@ -13,14 +13,14 @@ exactly. Suite `101/101 OK`.
 - `docs/codex/_index.md`: one Stage84 row (already present).
 
 ## How To Continue
-- Run one commit.
+- Closed at `9dbd008`. No further action.
 
 ## Done
 - RED/GREEN for eviction and in-flight guard; semantic aligned to brief.
 - Docs current; state `ready-for-review`.
 
 ## Remaining
-- One commit.
+- None. Committed as `9dbd008`.
 
 ## Verification
-- Green: full gateway suite `101/101 OK`; validator `OK`; `diff --check` clean; review `No findings`. Open: one commit.
+- Green: full gateway suite `101/101 OK`; validator `OK`; `diff --check` clean; review `No findings`; committed `9dbd008`.

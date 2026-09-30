@@ -1,7 +1,7 @@
 # Stage84 vision operation retention eviction
 
 - Task ID: `2026-09-29-stage84-vision-operation-retention-eviction`
-- Status: `active`
+- Status: `done`
 - Created: 2026-09-29
 - Language: en
 

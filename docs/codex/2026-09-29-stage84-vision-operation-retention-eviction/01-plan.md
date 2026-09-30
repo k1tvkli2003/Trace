@@ -14,7 +14,7 @@ safety second.
 | 2 | done | GREEN: `active` counter + `_evict_oldest_terminal_locked` |
 | 3 | done | RED test2: in-flight entry never evicted at bound (`_MAX_OPERATIONS = 1`) |
 | 4 | done | GREEN confirm + targeted and full suites: `101/101 OK` |
-| 5 | done | Docs, validator, diff-check, review, commit staging (commit runs next) |
+| 5 | done | Docs, validator, diff-check, review, commit `9dbd008` |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/page_vision.py`: `_Operation.active`,
