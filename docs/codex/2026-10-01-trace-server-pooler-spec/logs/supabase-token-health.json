@@ -1,0 +1,22 @@
+{
+  "check": "supabase_management_projects",
+  "credential_values_stored": false,
+  "results": [
+    {
+      "source": "windows_user",
+      "present": true,
+      "len": 44,
+      "matches_inherited": false,
+      "http": 200,
+      "project_count": 1,
+      "projects": [
+        {
+          "id": "ayfhpbzuuuyraeveatrr",
+          "name": "EveryThing",
+          "region": "eu-west-1",
+          "status": "ACTIVE_HEALTHY"
+        }
+      ]
+    }
+  ]
+}

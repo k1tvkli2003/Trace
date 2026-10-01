@@ -11,8 +11,8 @@
 | 3 | done | suite `Ran 101 tests OK`؛ commit `889afe7` تکی |
 | 4 | done | rerun پایلوت Harrison صفحه 1: `http 200, bytes 121392, deltas 400, elapsed 43.4` |
 | 5 | done | سه poll کاربر: A pooler سروری، Supabase Edge، sub از env سرور، بعد تایید نوشتن spec |
-| 6 | active | نوشتن فایل‌های spec + validator + commit تکی |
-| 7 | pending | Supabase: منتظر توکن تازه + مشخصات پروژه؛ با توکن فعلی کاری انجام نمی‌شود |
+| 6 | done | فایل‌های spec در commit `2815afe` ثبت شد؛ بررسی ساختار آن در همان نوبت `OK` بود |
+| 7 | done | توکن تازه از HKCU خوانده شد؛ `GET /v1/projects` با `200` برگشت و پروژه `EveryThing` با ref `ayfhpbzuuuyraeveatrr` و وضعیت `ACTIVE_HEALTHY` تأیید شد |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/budget.py` — سقف `max_output_tokens 16_384`، `max_elapsed_seconds 300`
@@ -32,4 +32,4 @@
 - `git diff --check` تمیز
 - receipt پایلوت `http 200` با `terminal response.completed`
 - validator `check_task_docs_structure.py --structure-only` سبز
-- تک‌commit شامل کد + تست + رکورد
+- commit کد `889afe7` و commit spec `2815afe` جدا ثبت شده‌اند؛ بررسی توکن تازه در یک commit مستندات جدا ثبت می‌شود.

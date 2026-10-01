@@ -1,7 +1,7 @@
 # Verification
 
 ## Summary
-- Result: passed (code + pilot + probes; spec record pending final validator + commit)
+- Result: passed (code + pilot + Supabase credential recheck + spec record)
 - Last verified: 2026-10-01
 
 ## Checks
@@ -13,13 +13,14 @@
 | pilot rerun | `raw_vision_16k.py` صفحه 1 Harrison با high و 16384 | passed | `http 200, bytes 121392, deltas 400, elapsed 43.4` + `response.completed` |
 | pool live read-only | `refresh_cycle.api GET /api/proxy-pools` | passed | `http 200, total 36, active 36` |
 | rotator untouched | `refresh.log` tail | passed | `preserving running pool` + `Last Result 0` |
-| Supabase probe | `curl api.supabase.com/v1/projects` با توکن env | failed (قرمز موردانتظار) | `http 401 Unauthorized` |
+| Supabase old process env | inherited process metadata + management probe | failed/stale | old process had `len=47`, `http 401` |
+| Supabase refreshed Windows env | read HKCU `Environment` + metadata-only live management request | passed | `http 200`, 1 project: `ayfhpbzuuuyraeveatrr` / `EveryThing` / `eu-west-1` / `ACTIVE_HEALTHY`; receipt: `logs/supabase-token-health.json` |
 | diff check | `git diff --check` | passed | `CHECK-EXIT:0` |
 
 ## Not Run
-- validator ساختار task docs و commit نهایی رکورد (در ادامه همین تسک).
-- هیچ پیاده‌سازی Supabase/Edge (منتظر توکن تازه + مشخصات پروژه).
+- Supabase URL REST probe and database migration/application: project URL still needs confirmation from project details; implementation belongs to next task.
+- No Edge/egress implementation in this spec task.
 
 ## Known Issues
-- توکن Supabase فعلی معتبر نیست (`401`)؛ بدون توکن تازه هیچ کدنویسی Edge مجاز نیست.
+- Existing process inherited old env; this probe read fresh HKCU value directly. No Hermes configuration was changed. No secret was echoed or stored.
 - Edge نمی‌تواند xray نگه دارد؛ egress جدا لازم است (در 06-handoff).

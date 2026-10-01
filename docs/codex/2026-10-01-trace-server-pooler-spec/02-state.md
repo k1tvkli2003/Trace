@@ -1,11 +1,11 @@
 # State
 
-- Current status: `active`
-- Last updated: 2026-10-01
+- Current status: `ready-for-review`
+- Last updated: 2026-10-01 (Supabase token refresh rechecked)
 - Owner: Codex
 
 ## Current State
-سقف‌ها بالا رفت و commit شد (`889afe7`). پایلوت Harrison صفحه 1 با high و 16384 دوباره `http 200` داد. کاربر سه poll را جواب داد: pooler سروری Trace، اجرا روی Supabase Edge، sub از env سرور، و تایید نوشتن spec. فایل‌های spec در حال تکمیل است. Supabase با توکن فعلی `401` است و پیاده‌سازی‌اش منتظر توکن تازه است.
+سقف‌ها بالا رفت و commit شد (`889afe7`). پایلوت Harrison صفحه 1 با high و 16384 دوباره `http 200` داد. کاربر سه poll را جواب داد: pooler سروری Trace، اجرا روی Supabase Edge، sub از env سرور، و تایید نوشتن spec. فایل‌های spec در commit `2815afe` ثبت شد؛ طرح هنوز پیاده‌سازی یا deploy نشده است. توکن تازه در Windows user env دیده شد و Management API با آن `200` برگشت؛ پروژه `EveryThing` با ref `ayfhpbzuuuyraeveatrr`، region `eu-west-1`، status `ACTIVE_HEALTHY`.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -15,10 +15,11 @@
 | 2026-10-01 | A pooler سروری Trace | کاربر می‌خواهد سرور داخل اپ باشد نه وابسته به این سیستم | poll |
 | 2026-10-01 | محل اجرا Supabase Edge؛ sub از env سرور | انتخاب کاربر در poll دوم | poll |
 | 2026-10-01 | تایید نوشتن spec با control روی Supabase و egress جدا | انتخاب کاربر در poll سوم؛ Edge نمی‌تواند xray نگه دارد پس egress جدا صادقانه ثبت می‌شود | poll + ماهیت Edge |
-| 2026-10-01 | Supabase با توکن فعلی 401 قرمز؛ بدون توکن تازه پیاده‌سازی نیست | probe مدیریتی `Unauthorized` داد | curl api.supabase.com/v1/projects |
+| 2026-10-01 | توکن تازه Supabase سالم است | Windows user env مقدار تازه دارد؛ API مدیریت پروژه `200` برگشت | registry read + `GET https://api.supabase.com/v1/projects` |
 
 ## Blockers
-- Supabase: توکن فعلی `401 Unauthorized`؛ مالک: کاربر؛ شرط رفع: توکن تازه + مشخصات پروژه (URL/ref). تا آن زمان هیچ کدنویسی Edge انجام نمی‌شود.
+- برای بررسی توکن بلاکری باقی نمانده است؛ Management API `200` و پروژه سالم تأیید شد.
+- برای پیاده‌سازی آینده، میزبان egress مستقل هنوز انتخاب نشده است. Edge به تنهایی xray چند-inbound را نگه نمی‌دارد؛ URL پروژه و مجوزهای runtime باید در همان مرحله بررسی شوند.
 
 ## Done
 - RED واقعی دیده شد (`ValueError: Run policy exceeds hard safety ceiling` برای 16384/300).
@@ -27,7 +28,8 @@
 - commit تکی `889afe7`.
 - rerun پایلوت Harrison صفحه 1: `http 200, bytes 121392, deltas 400, elapsed 43.4`.
 - سه poll کاربر با پاسخ A / Supabase Edge / sub از env / تایید spec.
+- توکن تازه در registry خوانده شد؛ Management API `200` و project `ACTIVE_HEALTHY`.
 
 ## Remaining
-- تکمیل فایل‌های spec (02 تا 06) + validator + commit تکی رکورد.
-- پیاده‌سازی pooler فقط بعد از توکن تازه Supabase (کار آینده، نه این تسک).
+- پیاده‌سازی control-plane Edge و egress worker در تسک بعدی، با project ref تاییدشده و secretهای server-side.
+- انتخاب/provision هاست egress مستقل؛ Supabase Edge به‌تنهایی کافی نیست.

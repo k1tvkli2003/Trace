@@ -1,7 +1,7 @@
 # Handoff
 
 ## Outcome
-سقف‌های Vision به کف اثبات‌شده رسید و commit شد. پایلوت Harrison rerun شد. جهت pooler سروری با سه poll قفل شد و spec نوشته شد. Supabase قرمز ماند و پیاده‌سازی‌اش به توکن تازه موکول شد.
+سقف‌های Vision به کف اثبات‌شده رسید و commit شد. پایلوت Harrison rerun شد. جهت pooler سروری با سه poll قفل شد و spec در commit `2815afe` ثبت شد. کاربر env ویندوز را تازه کرد؛ registry-aware probe با توکن تازه `200` برگشت و پروژه سالم پیدا شد.
 
 ## سه راه صادقانه (فقط A تایید شد)
 
@@ -22,7 +22,7 @@
 2. egress: یک سرویس جدا (VPS یا هاست کاربر) با همان چرخه fetch→parse→build→test→restart→probe→reconcile.
 3. gateway Trace فقط از لیست `pool_state` می‌خواند و round-robin می‌کند؛ هیچ‌وقت مستقیم به sub دست نمی‌زند.
 4. گارد fail-safe مثل امروز: pool کوچک‌تر جایگزین pool سالم نمی‌شود.
-5. پیش‌نیاز: توکن تازه Supabase + مشخصات پروژه (URL/ref). بدون آن هیچ‌کدام شروع نمی‌شود.
+5. پیش‌نیاز انجام‌شده: توکن تازه Supabase و project ref=`ayfhpbzuuuyraeveatrr`، project=`EveryThing`، region=`eu-west-1`، status=`ACTIVE_HEALTHY`. URL REST هنوز باید از project details تایید شود.
 
 ## Changed Artifacts
 - `services/ai_gateway/budget.py`, `nine_router_transport.py`, `page_vision.py` + سه تست (commit `889afe7`).
@@ -30,15 +30,15 @@
 - پایلوت بیرون repo: `C:/Users/K1/AppData/Local/Temp/harrison-pilot/raw-vision-16k.json`.
 
 ## How To Continue
-- validator ساختار + commit تکی رکورد (باقی‌مانده همین تسک).
-- بعد: با توکن تازه Supabase، تسک جدا برای control-plane؛ egress جدا را هم باید هاستش مشخص شود.
+- بررسی توکن تازه کامل است؛ شواهد بدون secret در `logs/supabase-token-health.json` ثبت شده است.
+- پیاده‌سازی control-plane تسک جدا است؛ میزبان egress مستقل باید انتخاب شود. در این نوبت هیچ deploy یا migration انجام نشد.
 
 ## Done
 - سقف‌ها + suite + commit + rerun پایلوت + سه poll + نوشتن spec.
 
 ## Remaining
-- validator + commit نهایی همین رکورد.
-- پیاده‌سازی pooler (تسک آینده، مشروط به توکن تازه).
+- برای بررسی توکن: None.
+- برای محصول آینده: پیاده‌سازی pooler و انتخاب میزبان egress مستقل. تأیید Management API به معنی آماده بودن database، RLS یا Edge Functions نیست.
 
 ## Verification
-- suite `101 OK`، پایلوت `http 200`، pool `36/36`، Supabase `401` (قرمز موردانتظار)، `diff --check` تمیز.
+- شواهد کد و پایلوت از نوبت قبل: suite `101 OK`، پایلوت `http 200`، pool `36/36`. شواهد این نوبت: Supabase refreshed-token `200` با project سالم؛ بدون تغییر کد محصول یا منابع ابری.

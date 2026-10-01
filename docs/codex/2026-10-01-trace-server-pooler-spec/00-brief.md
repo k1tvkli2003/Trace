@@ -1,7 +1,7 @@
 # Trace server pooler spec
 
 - Task ID: `2026-10-01-trace-server-pooler-spec`
-- Status: `active`
+- Status: `ready-for-review`
 - Created: 2026-10-01T08:53:07
 - Language: fa
 
@@ -12,7 +12,7 @@
 - سقف‌های Vision به کف اثبات‌شده (16384 توکن، 300 ثانیه) رسیده و suite سبز است (commit `889afe7`).
 - پایلوت Harrison صفحه 1 با raster کامل و high و 16384 دوباره `http 200` داده و receipt دارد.
 - spec معماری pooler سروری Trace با control روی Supabase و egress جدا نوشته شده و trade-off صادقانه Edge ثبت شده است.
-- Supabase با توکن فعلی `401` قرمز اعلام شده و تا توکن تازه هیچ پیاده‌سازی انجام نشده است.
+- بررسی اولیه با توکن قدیمی `401` بود؛ توکن تازه از Windows user env با Management API `200` تأیید شد. مقدار secret نمایش داده یا ذخیره نشد و هیچ منبع ابری تغییر نکرد.
 
 ## Context
 - Repo: `C:/Users/K1/Desktop/Projects/Trace`، HEAD پس از `889afe7`.
@@ -29,7 +29,7 @@
 
 ## Out of Scope
 - پیاده‌سازی pooler، کدنویسی Edge Function، ساخت egress worker، تغییر Flutter، دست‌زدن به 9Router/rotator، استخراج متن با OCR/text-layer، هرگونه ذخیره secret در repo/log/DB.
-- اجرای Supabase تا رسیدن توکن تازه + مشخصات پروژه.
+- اجرای migration یا deploy روی Supabase؛ این مرحله فقط خواندن وضعیت پروژه و تأیید توکن است.
 
 ## Assumptions
 - sub کاربر در env سمت سرور می‌ماند و هرگز وارد باندل Flutter یا repo نمی‌شود.

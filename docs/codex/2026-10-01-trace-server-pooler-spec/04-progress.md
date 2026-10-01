@@ -11,11 +11,13 @@
 | 2026-10-01 | active | pool زنده خوانده شد: `total 36 / active 36`؛ rotator دست نخورد. | /api/proxy-pools + refresh.log |
 | 2026-10-01 | active | سه poll: A pooler سروری، Supabase Edge، sub از env سرور، تایید نوشتن spec. | clarify |
 | 2026-10-01 | active | Supabase probe: `http 401 Unauthorized`؛ پیاده‌سازی منتظر توکن تازه. | curl api.supabase.com/v1/projects |
+| 2026-10-01 | ready-for-review | env ویندوز به‌روز شد؛ registry جدا از process env خوانده شد و توکن تازه با Management API `200` معتبر شد؛ project=`ayfhpbzuuuyraeveatrr`, `EveryThing`, `eu-west-1`, `ACTIVE_HEALTHY`. مقدار secret ذخیره/نمایش داده نشد. | `logs/supabase-token-health.json` |
 
 ## Done So Far
 - سقف‌های Vision به کف اثبات‌شده رسید + suite سبز + commit.
 - پایلوت Harrison rerun شد با receipt زنده.
 - جهت معماری با poll کاربر قفل شد.
+- بررسی توکن تازه و وضعیت پروژه انجام شد؛ فقط read-only، بدون deploy یا migration.
 
 ## Next
-- تکمیل فایل‌های spec + validator + commit تکی رکورد.
+- تسک بعد: ساخت control-plane Supabase Edge + egress worker مستقل؛ انتخاب هاست egress هنوز لازم است.
