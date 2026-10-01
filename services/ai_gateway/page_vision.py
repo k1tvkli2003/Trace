@@ -27,7 +27,7 @@ _REQUEST_FIELDS = frozenset({
     'render_profile', 'page_png', 'reasoning_effort', 'max_output_tokens',
     'max_elapsed_seconds',
 })
-_POLICY_LIMITS = (1, 4_194_304, 4_096)
+_POLICY_LIMITS = (1, 4_194_304, 16_384)
 _USAGE_FIELDS = frozenset({'input_tokens', 'output_tokens', 'total_tokens'})
 _MAX_OPERATIONS = 1_024
 _TRANSIENT_FAILURES = frozenset({'AI_RUN_IN_FLIGHT', 'AI_RETRY_NOT_READY'})
@@ -155,9 +155,9 @@ class VisionAdapter:
             raise VisionFailure('AI_VISION_REQUEST_INVALID')
         tokens = request['max_output_tokens']
         seconds = request['max_elapsed_seconds']
-        if (type(tokens) is not int or not 1 <= tokens <= 4_096
+        if (type(tokens) is not int or not 1 <= tokens <= 16_384
                 or type(seconds) not in (int, float) or not math.isfinite(seconds)
-                or not 0 < seconds <= 120):
+                or not 0 < seconds <= 300):
             raise VisionFailure('AI_VISION_REQUEST_INVALID')
         image = request['page_png']
         if (not isinstance(image, bytes) or not 16 <= len(image) <= 4_194_304

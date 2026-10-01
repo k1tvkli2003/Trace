@@ -116,9 +116,9 @@ class ResponsesTransportTests(unittest.TestCase):
         route = NineRouterRouting(reasoning_effort='xhigh').resolve('page_vision_extract')
         result = self.call(route=route)
         self.assertEqual(result['status'], 'completed')
-        for bad in (dict(max_output_tokens=True), dict(max_output_tokens=5000),
+        for bad in (dict(max_output_tokens=True), dict(max_output_tokens=20000),
                     dict(timeout_seconds=True), dict(timeout_seconds=0),
-                    dict(timeout_seconds=200), dict(request_id='short')):
+                    dict(timeout_seconds=400), dict(request_id='short')):
             with self.assertRaises(ValueError):
                 self.call(**bad)
 

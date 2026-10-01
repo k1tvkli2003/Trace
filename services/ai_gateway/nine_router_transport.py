@@ -33,11 +33,11 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
             or not isinstance(envelope, dict) or not isinstance(image_png, bytes)
             or not image_png or not isinstance(max_output_tokens, int)
             or isinstance(max_output_tokens, bool)
-            or not 0 < max_output_tokens <= 4096
+            or not 0 < max_output_tokens <= 16384
             or not isinstance(timeout_seconds, (int, float))
             or isinstance(timeout_seconds, bool)
             or timeout_seconds != timeout_seconds
-            or not 0 < float(timeout_seconds) <= 120):
+            or not 0 < float(timeout_seconds) <= 300):
         raise ValueError("AI_VISION_REQUEST_INVALID")
     if len(image_png) > 4_194_304:
         raise ValueError("AI_VISION_REQUEST_INVALID")
@@ -117,7 +117,7 @@ def responses_transport(*, request_id: str, route, envelope: dict[str, Any],
         except Exception:  # noqa: BLE001 - close must not mask result
             pass
     elapsed = time.monotonic() - started
-    if not (elapsed == elapsed and 0 <= elapsed <= 120):
+    if not (elapsed == elapsed and 0 <= elapsed <= 300):
         raise ValueError("AI_VISION_REQUEST_INVALID")
     return {"status": status, "text": text, "usage": usage,
             "elapsed_seconds": elapsed,

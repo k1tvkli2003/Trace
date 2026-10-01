@@ -112,9 +112,9 @@ class PageVisionAdapterTests(unittest.TestCase):
         for override in ({'capability': 'teacher_fa'},
                          {'reasoning_effort': 'low'},
                          {'max_output_tokens': 0},
-                         {'max_output_tokens': 5000},
+                         {'max_output_tokens': 20000},
                          {'max_elapsed_seconds': 0},
-                         {'max_elapsed_seconds': 200}):
+                         {'max_elapsed_seconds': 400}):
             with self.assertRaises(VisionFailure) as caught:
                 adapter.extract(request(**override))
             self.assertEqual(caught.exception.code, 'AI_VISION_REQUEST_INVALID')

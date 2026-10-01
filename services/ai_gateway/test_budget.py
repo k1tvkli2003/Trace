@@ -9,7 +9,7 @@ class BudgetedRunTests(unittest.TestCase):
     def test_policy_cannot_disable_guard_with_unbounded_limits(self):
         for attempts, size, tokens, seconds in [
             (3, 16, 8, 5), (2, 4_194_305, 8, 5),
-            (2, 16, 4_097, 5), (2, 16, 8, 121),
+            (2, 16, 16_385, 5), (2, 16, 8, 301),
         ]:
             with self.assertRaises(ValueError):
                 RunLimits(attempts, size, tokens, seconds)
