@@ -13,7 +13,7 @@ Stage77 docs filled in English and ready for review. Implementation committed in
 | Date | Decision | Reason | Source |
 |---|---|---|---|
 | 2026-09-28 | Docs-only pass; leave all Dart/code/test files untouched | Task ownership limited to Stage77 docs plus the one Stage77 index row | task instruction |
-| 2026-09-28 | Record provided test results without re-running | Results already verified in this continuation; re-run adds no signal and risks side effects | task instruction |
+| 2026-10-03 | Re-ran tests fresh instead of recorded-only | Steady evidence rule: every claim needs a live check in this turn | dart test 10/10 + 163/163 + analyze clean |
 | 2026-09-28 | Mark previews as No Previews Required | Repair semantics need no visual mock; no mock used as evidence | task instruction |
 | 2026-09-28 | Mark Stage77 `ready-for-review`, not `done`, and name out-of-stage release work | Simultaneous-write proof, real PDF/Farsi extraction, and release signing remain outside this stage | task instruction |
 
@@ -26,7 +26,7 @@ Stage77 docs filled in English and ready for review. Implementation committed in
 - Filled all seven Stage77 docs with truthful English; no unfinished placeholders remain.
 - Updated the existing Stage77 `_index.md` row to `ready-for-review` / `2026-09-28` with no duplicate row.
 - Captured success criteria: fresh-ID repair, exact span/hash/page validation, immutable old anchor and notes preserved, tombstone/old-ID/replay failure-closed.
-- Recorded verification: 11 targeted tests passed, 163 full-suite tests passed, analyze passed, root-level `dart test` invalid.
+- Fresh re-run 2026-10-03: 10 targeted tests passed, 163 full-suite tests passed, analyze clean, root-level `dart test` invalid.
 
 ## Remaining
 

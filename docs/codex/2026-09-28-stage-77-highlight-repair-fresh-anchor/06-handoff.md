@@ -28,7 +28,7 @@ Referenced but intentionally unmodified: `packages/trace_data/lib/src/local/loca
 - Fresh-ID repair semantics documented: detached old anchor plus attached fresh-ID replacement with unchanged quote.
 - Exact validation documented: raw-text substring span, bounds, page ID, and source hash.
 - Preservation and failure-closed behavior documented: old anchor/notes immutable; tombstone, old-ID reuse, replay, and mismatch paths throw.
-- Recorded 11 targeted tests passed, 163 full-suite tests passed, analyze passed; root-level `dart test` invalid (no pubspec).
+- Recorded 10 targeted tests passed (fresh re-run 2026-10-03), 163 full-suite tests passed, analyze clean; root-level `dart test` invalid (no pubspec).
 
 ## Remaining
 
@@ -37,4 +37,4 @@ Referenced but intentionally unmodified: `packages/trace_data/lib/src/local/loca
 
 ## Verification
 
-- Docs pass; test results recorded from this continuation, not re-run here. Implementation committed in `9794db8` after this pass.
+- Docs pass; test results fresh re-run 2026-10-03 (targeted 10/10, full 163/163, analyze clean). Implementation committed in `9794db8` after this pass.

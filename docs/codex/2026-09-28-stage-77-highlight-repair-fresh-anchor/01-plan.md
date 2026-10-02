@@ -29,6 +29,6 @@ Docs-only pass. Read scaffold docs and existing implementation diff read-only, t
 
 - All seven Stage77 docs contain truthful English, no unfinished placeholders.
 - Success criteria recorded: fresh-ID repair, exact span/hash/page validation, immutable old anchor and notes preserved, tombstone/old-ID/replay failure-closed.
-- Verification records 11 targeted tests passed, 163 full-suite tests passed, analyze passed, root-level `dart test` invalid (no pubspec), no commit claimed.
+- Verification records fresh re-run 2026-10-03: 10 targeted tests passed, 163 full-suite tests passed, analyze clean, root-level `dart test` invalid (no pubspec), no commit claimed.
 - `03-previews.md` states No Previews Required.
 - Stage77 marked `ready-for-review`, explicitly not release-complete (simultaneous-write proof, real PDF/Farsi extraction, release signing outside stage).
