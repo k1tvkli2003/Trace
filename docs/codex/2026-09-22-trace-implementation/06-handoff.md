@@ -19,7 +19,7 @@ Trace now has a bounded, **working** local-first library/import slice, not a com
 - Drift v3 source/library slice, real Flutter UI, native migration/reopen, Web storage pin and actual browser import/reload.
 
 ## Remaining
-- Umbrella NOT DONE: missing gates `benchmarks/`, `test/e2e/`, `.github/workflows/ci.yml` plus PDF/Vision/cache, source lesson renderer, agent, review, notes, auth/private Supabase sync, PWA/install/offline, production identity/signing and device-level app/runtime parity. TXT/Markdown importer currently limits each file to 8 MiB; large books need streaming/content-addressed binary store.
+- Umbrella NOT DONE: missing gates are PDF/Vision/cache, source lesson renderer, agent, review, notes, auth/private Supabase sync, PWA/install/offline, production identity/signing and device-level app/runtime parity. Scaffold gates already closed: CI foundation `fcbecdd` (Stage47), benchmark baseline `9890d47` (Stage49, medians manifest 0.0337ms/sha-pdf 0.0285ms/sha-md 0.0254ms/scan 0.0515ms), E2E scaffold plan `52bf97f` (Stage50, §18 flows NOT RUN). TXT/Markdown importer currently limits each file to 8 MiB; large books need streaming/content-addressed binary store.
 
 ## Verification
 - `dart test && dart analyze` in data/domain, `flutter analyze && flutter test`, Web/Windows/APK builds; Chrome CDP both with and without COOP/COEP. See `05-verification.md`. Stage 5 code-native previews not imagegen; no user model switched.
