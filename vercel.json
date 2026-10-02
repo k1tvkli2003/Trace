@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/trace-ai-run.py": {
+      "runtime": "python3.11",
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/trace-ai-run",
+      "dest": "/api/trace-ai-run.py",
+      "methods": ["POST"]
+    }
+  ]
+}

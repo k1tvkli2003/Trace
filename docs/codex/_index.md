@@ -79,3 +79,4 @@
 | `2026-09-29-stage83-transport-remaining-deadline` | Stage83 transport remaining deadline | ready-for-review | 2026-09-29 | [Open](2026-09-29-stage83-transport-remaining-deadline/00-brief.md) |
 | `2026-09-29-stage84-vision-operation-retention-eviction` | Stage84 vision operation retention eviction | done | 2026-09-29 | [Open](2026-09-29-stage84-vision-operation-retention-eviction/00-brief.md) |
 | `2026-10-01-trace-server-pooler-spec` | Trace server pooler spec | ready-for-review | 2026-10-01 | [Open](2026-10-01-trace-server-pooler-spec/00-brief.md) |
+| `2026-10-01-trace-on-demand-gateway` | Trace on-demand gateway | active | 2026-10-01 | [Open](2026-10-01-trace-on-demand-gateway/00-brief.md) |
