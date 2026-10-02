@@ -120,7 +120,7 @@ class OnDemandGateway:
         return image, tokens, seconds
 
     def handle(self, request: Mapping[str, Any], *,
-               authorization: object) -> dict[str, Any]:
+               authorization: str | None) -> dict[str, Any]:
         try:
             owner = self._verify_owner(authorization)
         except OnDemandFailure:
