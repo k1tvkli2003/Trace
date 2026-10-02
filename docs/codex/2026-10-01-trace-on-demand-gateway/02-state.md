@@ -1,6 +1,6 @@
 # State
 
-- Current status: `active`
+- Current status: `done`
 - Last updated: 2026-10-02
 - Owner: Codex
 
@@ -32,6 +32,6 @@ slice محلی کامل است: handler خالص on-demand با idempotency ما
 - adapter `api/trace-ai-run.py` به `handler(BaseHTTPRequestHandler)` اصلاح شد تا شکل entrypoint معتبر بماند.
 
 ## Remaining
-- اجرای migration/RLS روی Supabase واقعی با دستور صریح جداگانه.
-- deploy/preview و smoke روی cloud با env واقعی و JWT واقعی.
-- ثبت رکورد نهایی docs همین cleanup در commit بعدی docs.
+- اجرای migration/RLS روی Supabase واقعی با دستور صریح جداگانه (follow-up جدا).
+- deploy/preview و smoke روی cloud با env واقعی و JWT واقعی (follow-up جدا).
+- رکورد نهایی docs همین close در commit همین turn.

@@ -11,7 +11,7 @@
 | 3 | done | GREEN: minimal handler+route/service در سبک repo با همان قرارداد |
 | 4 | done-local | Supabase migration حداقلی receipt + RLS owner-scoped، server-only service role (SQL نوشته شد، اجرا روی cloud نشده) |
 | 5 | done | Flutter-facing client boundary بدون credential، قرارداد mock-labeled در preview |
-| 6 | active | local smoke + focused suite + static checks + validator/docs/record/commit |
+| 6 | done | local smoke + focused suite + static checks + validator/docs/record/commit (cloud جدا) |
 
 ## Interfaces and Artifacts
 - `api/trace-ai-run.py` فعلی Python serverless adapter برای `POST /api/trace-ai-run` است (`handler(BaseHTTPRequestHandler)` با `do_POST` و `do_GET → 405`)، نه معادل Node/TS.

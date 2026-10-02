@@ -14,6 +14,7 @@
 | 2026-10-02 | active | suite کامل محلی و smoke مستقیم Flutter سبز ماند. | `125 tests OK` + `flutter test ... → All tests passed` + `flutter analyze → No issues found` |
 | 2026-10-02 | active | entrypoint adapter به شکل معتبر `handler(BaseHTTPRequestHandler)` اصلاح شد. | `api/trace-ai-run.py` + `py_compile OK` + `125 tests OK` |
 | 2026-10-02 | done | cleanup تایپ `authorization` انجام و commit شد: `str | None` به‌جای `object`. | `557e6af` + `125 tests OK` + structure `OK: 78 tasks` |
+| 2026-10-02 | done | close تسک: `01-plan` گام 6 done، `02-state`/`_index` به done، suite و Flutter و structure سبز. | `125 tests OK` + Flutter `4 passed` + structure `OK: 78 tasks` |
 
 ## Done So Far
 - اسکلت docs و brief/plan/state اولیه.
@@ -22,5 +23,4 @@
 - migration append-only و RLS مالک‌محور به‌صورت فایل آماده شد (اجرا نشده).
 
 ## Next
-- اجرای migration/RLS و smoke ابری فقط با دستور صریح جداگانه.
-- ثبت رکورد نهایی docs همین cleanup در commit بعدی docs.
+- اجرای migration/RLS و smoke ابری فقط با دستور صریح در follow-up جداگانه.
