@@ -13,6 +13,7 @@
 | 2026-10-02 | active | slice B محلی کامل شد: wire یازده‌فیلدی، receipt durable، adapter نازک Vercel، client بدون secret. | `cloud_gateway.py` (`7 OK`) + `supabase_backend.py` (`6 OK`) + `api/trace-ai-run.py` (`5 OK`) + Flutter client (`4 OK`) |
 | 2026-10-02 | active | suite کامل محلی و smoke مستقیم Flutter سبز ماند. | `125 tests OK` + `flutter test ... → All tests passed` + `flutter analyze → No issues found` |
 | 2026-10-02 | active | entrypoint adapter به شکل معتبر `handler(BaseHTTPRequestHandler)` اصلاح شد. | `api/trace-ai-run.py` + `py_compile OK` + `125 tests OK` |
+| 2026-10-02 | done | cleanup تایپ `authorization` انجام و commit شد: `str | None` به‌جای `object`. | `557e6af` + `125 tests OK` + structure `OK: 78 tasks` |
 
 ## Done So Far
 - اسکلت docs و brief/plan/state اولیه.
@@ -22,4 +23,4 @@
 
 ## Next
 - اجرای migration/RLS و smoke ابری فقط با دستور صریح جداگانه.
-- commit slice محلی پس از review نهایی diff.
+- ثبت رکورد نهایی docs همین cleanup در commit بعدی docs.

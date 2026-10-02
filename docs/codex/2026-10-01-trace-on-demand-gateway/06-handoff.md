@@ -13,17 +13,18 @@ slice محلی on-demand کامل و سبز است: handler، wire، receipt dur
 - docs همین تسک: `01-plan.md`، `02-state.md`، `04-progress.md`، `05-verification.md`، `06-handoff.md`
 
 ## How To Continue
-- review نهایی diff و سپس commit همین slice محلی.
+- ثبت رکورد نهایی docs همین cleanup در commit بعدی docs.
 - migration/deploy/JWT واقعی فقط با credential و دستور صریح جداگانه.
 - smoke ابری را بعد از deploy با endpoint واقعی و payload bounded اجرا کن.
 
 ## Done
 - قرارداد frozen، handler، wire، receipt durable، adapter، client، migration به‌صورت فایل، و verification محلی.
+- cleanup تایپ `authorization: str | None` در `557e6af` commit شد.
 
 ## Remaining
 - اجرای migration/RLS روی Supabase واقعی.
 - deploy/preview و smoke ابری.
-- cleanup تایپ `authorization: object` جدا از behavior.
+- ثبت رکورد نهایی docs همین cleanup در commit بعدی docs.
 
 ## Verification
 - `125 tests OK`، `flutter test ... All tests passed`، `flutter analyze No issues found`، `py_compile OK`، `git diff --check` clean؛ cloud اجرا نشده و ریسک‌ها در `05-verification.md` ثبت است.

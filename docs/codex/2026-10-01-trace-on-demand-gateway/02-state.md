@@ -5,7 +5,7 @@
 - Owner: Codex
 
 ## Current State
-slice محلی کامل است: handler خالص on-demand با idempotency مالک‌محور، wire validation یازده‌فیلدی، adapter نازک Vercel (`api/trace-ai-run.py` با `handler(BaseHTTPRequestHandler)`)، مرز durable receipt در `SupabaseReceiptStore` با migration append-only و RLS مالک‌محور، و client بدون secret در Flutter. اجرای cloud (migration/deploy/JWT واقعی) انجام نشده و جزو scope این turn نیست.
+slice محلی کامل است: handler خالص on-demand با idempotency مالک‌محور، wire validation یازده‌فیلدی، adapter نازک Vercel (`api/trace-ai-run.py` با `handler(BaseHTTPRequestHandler)`)، مرز durable receipt در `SupabaseReceiptStore` با migration append-only و RLS مالک‌محور، و client بدون secret در Flutter. cleanup تایپ `authorization` (`str | None`) در `557e6af` commit شد. اجرای cloud (migration/deploy/JWT واقعی) انجام نشده و جزو scope این turn نیست.
 
 ## Decisions
 | Date | Decision | Reason | Source |
@@ -34,4 +34,4 @@ slice محلی کامل است: handler خالص on-demand با idempotency ما
 ## Remaining
 - اجرای migration/RLS روی Supabase واقعی با دستور صریح جداگانه.
 - deploy/preview و smoke روی cloud با env واقعی و JWT واقعی.
-- commit slice محلی پس از review نهایی diff.
+- ثبت رکورد نهایی docs همین cleanup در commit بعدی docs.
