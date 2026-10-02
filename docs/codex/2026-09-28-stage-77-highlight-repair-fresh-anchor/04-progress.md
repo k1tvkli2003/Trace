@@ -18,5 +18,4 @@
 
 ## Next
 
-- Owner reviews these docs.
-- Owner decides on commit; nothing committed by this pass.
+- Owner reviews these docs (fresh evidence already re-run 2026-10-03; nothing further pending from this pass).
