@@ -27,5 +27,5 @@ Stage80 implementation is complete locally. A server-only page Vision adapter ac
 - Work-doc validator passed.
 
 ## Remaining
-- Commit is pending review.
+- Feat committed at `f9c0e89`; this docs-close names it and records parent review.
 - Stage81 must capture raw provider response only in a protected local diagnostic path if schema mismatch investigation is authorized; normal logs remain safe receipt-only.

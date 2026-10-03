@@ -10,7 +10,7 @@
 | 2 | done | قرارداد پذیرش و ownership تثبیت شد |
 | 3 | done | RED/GREEN برای استخراج، replay و concurrency؛ 12 تست adapter |
 | 4 | done | scope، PNG/hash، budget، stream، schema، HTTP و deadline guards |
-| 5 | done | final suite و docs آماده؛ live route محدود fail-closed؛ commit f9c0e89 ثبت شد، verdict ریویو باقی است |
+| 5 | done | final suite و docs آماده؛ live route محدود fail-closed؛ commit f9c0e89 ثبت شد، parent review task-scoped approved |
 
 ## Live Proof Policy
 پروب فقط با همان raster واقعی Stage79، همان مدل و همان endpoint انجام شد. سقف `1800` به `AI_INCOMPLETE_RESPONSE` رسید؛ سقف `4096` به `AI_SCHEMA_REJECTED` رسید. این شکست‌ها source نساختند و adapter رفتار fail-closed نشان داد. تلاش بیشتر بدون raw response مجاز نیست.

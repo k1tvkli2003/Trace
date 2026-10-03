@@ -19,5 +19,5 @@
 - Safe failure receipts; no raw provider payload in normal output.
 
 ## Next
-- Review implementation, then commit if accepted.
+- Parent review task-scoped approved at `f9c0e89`; docs-close names it.
 - Keep product integration and source fidelity explicitly open for next stage.
