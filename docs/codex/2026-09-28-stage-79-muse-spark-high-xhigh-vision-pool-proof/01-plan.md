@@ -12,7 +12,7 @@
 | 4 | done | High با `max_output_tokens=1800`: `response.completed` و `PDFVISION:` |
 | 5 | done | Xhigh با `max_output_tokens=4096`: `response.completed` و `PDFVISION:` |
 | 6 | done | failure نخست با `max_output_tokens=1800` و `reason=max_output_tokens` ثبت و علت رفع شد |
-| 7 | in_progress | همگام‌سازي docs/matrix، validator، suite و commit |
+| 7 | done | همگام‌سازي docs/matrix، validator، suite و commit (docs `846a94f`؛ plan flip در close جدا) |
 
 ## Interfaces and Artifacts
 - `services/ai_gateway/go_routing.py`, `services/ai_gateway/test_go_routing.py`
