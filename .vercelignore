@@ -1,0 +1,13 @@
+work/
+.superpowers/
+.hermes/
+.pytest_cache/
+benchmarks/
+assets/
+apps/
+packages/
+test/
+tool/
+docs/
+*.log
+__pycache__/
