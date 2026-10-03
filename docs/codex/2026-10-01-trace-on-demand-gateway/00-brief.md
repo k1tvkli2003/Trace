@@ -1,7 +1,7 @@
 # Trace on-demand gateway
 
 - Task ID: `2026-10-01-trace-on-demand-gateway`
-- Status: `active`
+- Status: `done`
 - Created: 2026-10-01
 - Language: fa
 

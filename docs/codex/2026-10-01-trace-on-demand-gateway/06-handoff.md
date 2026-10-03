@@ -13,7 +13,7 @@ slice محلی on-demand کامل و سبز است: handler، wire، receipt dur
 - docs همین تسک: `01-plan.md`، `02-state.md`، `04-progress.md`، `05-verification.md`، `06-handoff.md`
 
 ## How To Continue
-- رکورد نهایی docs همین close در commit همین turn.
+- رکورد نهایی docs در `3192d11` ثبت شد.
 - migration/deploy/JWT واقعی فقط با credential و دستور صریح در follow-up جداگانه.
 - smoke ابری را بعد از deploy با endpoint واقعی و payload bounded اجرا کن.
 
@@ -25,7 +25,7 @@ slice محلی on-demand کامل و سبز است: handler، wire، receipt dur
 ## Remaining
 - اجرای migration/RLS روی Supabase واقعی (follow-up جدا).
 - deploy/preview و smoke ابری (follow-up جدا).
-- رکورد نهایی docs همین close در commit همین turn.
+- رکورد نهایی docs در `3192d11` ثبت شد.
 
 ## Verification
 - `125 tests OK`، `flutter test ... All tests passed`، `flutter analyze No issues found`، `py_compile OK`، `git diff --check` clean؛ cloud اجرا نشده و ریسک‌ها در `05-verification.md` ثبت است.

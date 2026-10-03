@@ -34,4 +34,4 @@ slice محلی کامل است: handler خالص on-demand با idempotency ما
 ## Remaining
 - اجرای migration/RLS روی Supabase واقعی با دستور صریح جداگانه (follow-up جدا).
 - deploy/preview و smoke روی cloud با env واقعی و JWT واقعی (follow-up جدا).
-- رکورد نهایی docs همین close در commit همین turn.
+- رکورد نهایی docs در `3192d11` ثبت شد.
