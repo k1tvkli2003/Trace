@@ -15,7 +15,8 @@ SSE token cap, spec-tolerant SSE `data:` parsing.
   `OK` for this task directory; `git diff --check` clean.
 
 ## Remaining
-- Commit this stage; remaining review items (lock refactor, dead branches,
+- Feat committed at `bf1f83b`; this docs-close records parent review of that snapshot.
+- Remaining review items (lock refactor, dead branches,
   Content-Type, operation-map bounds) need a follow-up stage on explicit order.
 
 ## Next

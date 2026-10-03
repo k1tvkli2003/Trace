@@ -26,6 +26,6 @@ delta path. The SSE parser accepts both `data:` and `data: ` prefixes per spec.
   spec-tolerant SSE prefix — all covered by new RED-first tests.
 
 ## Remaining
-- Commit this stage; rerun validator and `git diff --check` at commit time.
+- Feat committed at `bf1f83b`; this docs-close names it and records parent review.
 - Deferred review items (lock refactor, dead branches, Content-Type, operation-map
   bounds) need a follow-up stage with explicit user order.

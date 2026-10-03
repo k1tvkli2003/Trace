@@ -6,7 +6,7 @@
 | 1 | done | audit: critic findings `deleg_84e1109a`, Stage80 HEAD `f9c0e89`, suite baseline `88/88` |
 | 2 | done | RED: nested-JSON, stream-aggregate, hostile-key, final-cap, SSE-prefix tests |
 | 3 | done | GREEN: RecursionError mapping, aggregate counter, key charset, final cap, SSE prefix |
-| 4 | done | full suite `92/92`, docs ready, commit pending |
+| 4 | done | full suite `92/92`, feat commit `bf1f83b`, docs-close review pending |
 
 ## Acceptance Gates
 | Gate | Command/Proof | Expected |
