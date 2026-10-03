@@ -127,9 +127,13 @@ class handler(BaseHTTPRequestHandler):  # Vercel Python runtime: api/trace-ai-ru
         import json
         length = int(self.headers.get('Content-Length', 0) or 0)
         raw = self.rfile.read(length)
+        try:
+            from cloud_wiring import build_wiring
+            wiring = build_wiring()
+        except Exception:
+            wiring = {}
         status, body = handle_request(
-            raw, self.headers.get('Authorization'),
-            verify_owner=None, run_vision=None, receipt_insert=None)
+            raw, self.headers.get('Authorization'), **wiring)
         payload = json.dumps(body).encode()
         self.send_response(status)
         self.send_header('Content-Type', 'application/json')
