@@ -13,7 +13,7 @@ from http.server import BaseHTTPRequestHandler
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'services', 'ai_gateway'))
 
-from cloud_gateway import parse_wire_body
+from cloud_gateway import MAX_WIRE_BYTES, parse_wire_body
 from on_demand_run import OnDemandFailure, OnDemandGateway
 from supabase_backend import SupabaseReceiptStore
 
@@ -120,12 +120,41 @@ def handle_request(raw: bytes, authorization, *, verify_owner=None,
     return 200, {'receipt': receipt}
 
 
+def _framing_length(headers) -> int | None:
+    """Decimal Content-Length within the wire cap, else None.
+
+    No provider, auth, or receipt side effect. Rejects absent/garbled/
+    negative/over-cap values before the body is read.
+    """
+    declared = headers.get('Content-Length') if headers else None
+    if declared is None:
+        return None
+    text = str(declared).strip()
+    if not text.isascii() or not text.isdigit():
+        return None
+    try:
+        length = int(text, 10)
+    except (TypeError, ValueError):
+        return None
+    if 0 <= length <= MAX_WIRE_BYTES:
+        return length
+    return None
+
+
 class handler(BaseHTTPRequestHandler):  # Vercel Python runtime: api/trace-ai-run.py -> POST /api/trace-ai-run
     """Vercel entrypoint. Wiring only; all checks live in handle_request."""
 
     def do_POST(self):  # pragma: no cover - runtime entrypoint
         import json
-        length = int(self.headers.get('Content-Length', 0) or 0)
+        length = _framing_length(self.headers)
+        if length is None:
+            payload = json.dumps(_error('AI_VISION_REQUEST_INVALID')).encode()
+            self.send_response(400)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(payload)))
+            self.end_headers()
+            self.wfile.write(payload)
+            return
         raw = self.rfile.read(length)
         try:
             from cloud_wiring import build_wiring

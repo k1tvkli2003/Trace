@@ -10,6 +10,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import math
+import re
 import threading
 import uuid
 from collections.abc import Callable, Mapping
@@ -25,6 +26,34 @@ _REQUEST_FIELDS = frozenset({
 _USAGES = frozenset({'input_tokens', 'output_tokens', 'total_tokens'})
 _KEY_CHARS = frozenset(
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.')
+_RESERVED_IDS = frozenset({'__proto__', 'constructor', 'prototype'})
+_UNSAFE = re.compile(r'<\s*/?\s*[a-z!][^>]*>|\b(?:javascript|data):', re.I)
+_CONTROL_RANGES = (
+    (0x00, 0x08), (0x0B, 0x0C), (0x0E, 0x1F), (0x7F, 0x9F),
+    (0x202A, 0x202E), (0x2066, 0x2069),
+)
+_CONTROL_TEXT = re.compile(
+    '[' + ''.join(
+        chr(code) for start, end in _CONTROL_RANGES
+        for code in range(start, end + 1)
+    ) + ']'
+)
+
+
+def _require_identity(value: object, *, limit: int) -> str:
+    """Literal identifier the extract schema can accept; no silent fix.
+
+    Mirrors the page-extract identity rule that would otherwise reject
+    the page only after provider work. Fail-closed before any spend or
+    receipt: reserved tokens, surrounding whitespace, markup/URL schemes,
+    and bidi/control characters are rejected here, never normalized.
+    """
+    if (not isinstance(value, str) or not value or len(value) > limit
+            or value in _RESERVED_IDS or value != value.strip()
+            or not value.isascii() or _UNSAFE.search(value)
+            or _CONTROL_TEXT.search(value)):
+        raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
+    return value
 
 
 class OnDemandFailure(Exception):
@@ -85,20 +114,17 @@ class OnDemandGateway:
     def _check(self, request: Mapping[str, Any]) -> tuple[bytes, int, float]:
         if not isinstance(request, Mapping) or set(request) != _REQUEST_FIELDS:
             raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
-        operation = request['operation']
-        if (not isinstance(operation, str) or not operation
-                or len(operation) > 128):
-            raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
+        operation = _require_identity(request['operation'], limit=91)
         if request['capability'] != 'page_vision_extract':
             raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
         if request['reasoning_effort'] not in ('high', 'xhigh'):
             raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
-        if (not isinstance(request['page_ref'], str)
-                or not request['page_ref'] or len(request['page_ref']) > 256
-                or not isinstance(request['render_profile'], str)
+        page_ref = request['page_ref']
+        if (not isinstance(request['render_profile'], str)
                 or not request['render_profile'].strip()
                 or len(request['render_profile']) > 128):
             raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
+        _require_identity(page_ref, limit=256)
         if not _sha(request['source_hash']) or not _sha(request['pixel_hash']):
             raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
         tokens = request['max_output_tokens']

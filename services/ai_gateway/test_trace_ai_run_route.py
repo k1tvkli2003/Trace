@@ -134,6 +134,34 @@ class RouteTests(unittest.TestCase):
         route = load_route()
         self.assertEqual(route.ALLOWED_METHOD, 'POST')
 
+    def test_framing_length_matrix_rejects_before_read(self):
+        from cloud_gateway import MAX_WIRE_BYTES
+        route = load_route()
+        body = wire()
+        valid = len(body)
+        cases = {
+            None: None,
+            '': None,
+            '0': 0,
+            '00': 0,
+            f' {valid} ': valid,
+            str(valid): valid,
+            'abc': None,
+            '12.5': None,
+            '+12': None,
+            '-1': None,
+            '  -1  ': None,
+            str(MAX_WIRE_BYTES): MAX_WIRE_BYTES,
+            str(MAX_WIRE_BYTES + 1): None,
+            '9999999999999999': None,
+        }
+        for declared, expected in cases.items():
+            headers = {} if declared is None else {'Content-Length': declared}
+            self.assertEqual(
+                route._framing_length(headers), expected,
+                msg=f'header={declared!r}',
+            )
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -137,6 +137,45 @@ class OnDemandGatewayTests(unittest.TestCase):
         self.assertNotEqual(first['requestId'], second['requestId'])
         self.assertEqual(len(calls), 2)
 
+    def test_control_page_ref_rejected_before_vision(self):
+        gateway, calls = self.make()
+        for marker in ('\u202e', '\u2066'):
+            with self.assertRaises(OnDemandFailure) as caught:
+                gateway.handle(
+                    valid_request(page_ref=f'page{marker}-1'),
+                    authorization='Bearer good',
+                )
+            self.assertEqual(caught.exception.code, 'AI_VISION_REQUEST_INVALID')
+        self.assertEqual(calls, [])
+
+    def test_control_operation_rejected_before_vision(self):
+        gateway, calls = self.make()
+        with self.assertRaises(OnDemandFailure) as caught:
+            gateway.handle(
+                valid_request(operation='op\u202e-1'),
+                authorization='Bearer good',
+            )
+        self.assertEqual(caught.exception.code, 'AI_VISION_REQUEST_INVALID')
+        self.assertEqual(calls, [])
+
+    def test_long_operation_rejected_before_composed_adapter(self):
+        # Owner prefix adds len(owner)+1 at composition; composed identity
+        # stays within the adapter 128 bound only when raw operation <= 91.
+        gateway, calls = self.make()
+        with self.assertRaises(OnDemandFailure) as caught:
+            gateway.handle(
+                valid_request(operation='o' * 92),
+                authorization='Bearer good',
+            )
+        self.assertEqual(caught.exception.code, 'AI_VISION_REQUEST_INVALID')
+        self.assertEqual(calls, [])
+        receipt = gateway.handle(
+            valid_request(operation='o' * 91),
+            authorization='Bearer good',
+        )
+        self.assertEqual(receipt['status'], 'completed')
+        self.assertEqual(len(calls), 1)
+
 
 if __name__ == '__main__':
     unittest.main()
