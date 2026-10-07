@@ -16,6 +16,7 @@ dependencies:
   trace_design:
     path: ../../packages/trace_design
   drift_flutter: 0.3.1
+  http: ^1.2.0
   uuid: ^4.6.0
   drift: 2.35.0
   file_picker: 13.1.0

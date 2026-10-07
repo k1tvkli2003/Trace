@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:trace_design/trace_design.dart';
 import 'package:trace_domain/trace_domain.dart';
 
-/// Chat-first shell. No generated message or AI request exists in this phase.
+import 'services/ai_route.dart';
+import 'services/ai_route_live.dart';
+
+/// Chat-first shell. Composer badge reflects the live dual AI route.
+/// Pass [routeProbe] in tests to avoid live localhost probes; production
+/// uses the device-local dual-route probe.
 class ChatWorkspace extends StatefulWidget {
   const ChatWorkspace({
     super.key,
@@ -15,6 +20,7 @@ class ChatWorkspace extends StatefulWidget {
     required this.onReadSource,
     required this.onOpenTeachingStage,
     required this.onOpenReviewInbox,
+    this.routeProbe,
   });
 
   final List<LibraryEntrySummary> entries;
@@ -26,6 +32,7 @@ class ChatWorkspace extends StatefulWidget {
   final ValueChanged<SourceDocument> onReadSource;
   final VoidCallback onOpenTeachingStage;
   final VoidCallback onOpenReviewInbox;
+  final AiRouteProbe? routeProbe;
 
   @override
   State<ChatWorkspace> createState() => _ChatWorkspaceState();
@@ -35,10 +42,25 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
   final _scaffold = GlobalKey<ScaffoldState>();
   final _draft = TextEditingController();
   bool _showEvidenceRail = false;
+  AiRouteStatus? _route;
   static const _ink = TraceColors.onCanvas;
   static const _surface = TraceColors.canvas;
   static const _muted = TraceColors.muted;
   static const _accent = TraceColors.accent;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshRoute();
+  }
+
+  Future<void> _refreshRoute() async {
+    final probe =
+        widget.routeProbe ?? const LiveAiRouteFetchers().probe();
+    final status = await probe.detect();
+    if (!mounted) return;
+    setState(() => _route = status);
+  }
 
   @override
   void dispose() {
@@ -578,16 +600,20 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Align(
+              Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Padding(
-                  padding: EdgeInsetsDirectional.only(start: 5, bottom: 9),
-                  child: Text(
-                    'AI offline',
-                    style: TextStyle(
-                      color: _accent,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
+                  padding:
+                      const EdgeInsetsDirectional.only(start: 5, bottom: 9),
+                  child: GestureDetector(
+                    onTap: _refreshRoute,
+                    child: Text(
+                      _route?.label ?? 'AI …',
+                      style: const TextStyle(
+                        color: _accent,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ),
@@ -629,12 +655,19 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                           tooltip: 'Add source',
                         ),
                         const Spacer(),
-                        const Tooltip(
-                          message: 'AI gateway is offline in this build',
+                        Tooltip(
+                          message: _route == null
+                              ? 'Probing AI routes on this device'
+                              : _route!.online
+                                  ? '${_route!.detail} Chat send is not wired to a durable thread yet.'
+                                  : _route!.detail,
                           child: IconButton(
-                            key: Key('chat-send'),
+                            key: const Key('chat-send'),
+                            // Truthful dead end: no chat thread/message
+                            // repository exists yet, so send stays disabled
+                            // instead of pretending an AI reply will arrive.
                             onPressed: null,
-                            icon: Icon(Icons.arrow_upward),
+                            icon: const Icon(Icons.arrow_upward),
                             tooltip: 'Send message',
                           ),
                         ),

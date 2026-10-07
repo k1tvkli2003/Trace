@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import 'local_connection.dart';
 import 'review_inbox_page.dart';
+import 'services/ai_route.dart';
 import 'text_picker.dart';
 import 'pdf_picker.dart';
 import 'source_reading_page.dart';
@@ -23,7 +24,9 @@ void main() {
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key, this.database, this.pickText, this.pickPdf});
+  const MainApp({super.key, this.database, this.pickText, this.pickPdf, this.routeProbe});
+
+  final AiRouteProbe? routeProbe;
 
   /// Injected for tests; production opens an app-private database lazily.
   final TraceDatabase? database;
@@ -498,6 +501,7 @@ class _MainAppState extends State<MainApp> {
               onReadSource: _startReading,
               onOpenTeachingStage: _openTeachingPreview,
               onOpenReviewInbox: _openReviewInbox,
+              routeProbe: widget.routeProbe,
             );
           },
         ),
