@@ -10,7 +10,7 @@ _CAPABILITIES = frozenset({
     'coach', 'review_generator_optional',
 })
 _VISION_CAPABILITIES = frozenset({'structure_scan', 'page_vision_extract'})
-_ALLOWED_MODELS = ('oc/muse-spark-1.3-contributor-free',)
+_ALLOWED_MODELS = ('ocz/muse-spark-1.3-contributor-free',)
 _ALLOWED_EFFORTS = ('high', 'xhigh')
 _ENDPOINT = 'http://127.0.0.1:20128/v1/responses'
 

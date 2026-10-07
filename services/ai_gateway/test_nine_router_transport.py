@@ -85,7 +85,7 @@ class ResponsesTransportTests(unittest.TestCase):
         connection = Connection.instances[0]
         method, path, body, headers = connection.sent
         self.assertEqual((method, path), ('POST', '/v1/responses'))
-        self.assertEqual(body['model'], 'oc/muse-spark-1.3-contributor-free')
+        self.assertEqual(body['model'], 'ocz/muse-spark-1.3-contributor-free')
         self.assertEqual(body['reasoning'], {'effort': 'high'})
         self.assertEqual(body['max_output_tokens'], 100)
         self.assertEqual(headers['Authorization'], 'Bearer test-secret-0123456789abcdef')

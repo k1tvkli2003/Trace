@@ -69,7 +69,7 @@ def completed_transport(calls, doc=None, usage=None, elapsed=1.0):
                   max_output_tokens, timeout_seconds):
         calls.append((request_id, route, envelope, image_png,
                       max_output_tokens, timeout_seconds))
-        assert route.model == 'oc/muse-spark-1.3-contributor-free'
+        assert route.model == 'ocz/muse-spark-1.3-contributor-free'
         assert route.endpoint == 'http://127.0.0.1:20128/v1/responses'
         assert image_png == PNG
         assert envelope['outputSchema'] == 'page-extract-v1'
@@ -140,7 +140,7 @@ class PageVisionAdapterTests(unittest.TestCase):
         first = adapter.extract(request())
         self.assertEqual(first.operation, 'op-1')
         self.assertEqual(first.model,
-                         'oc/muse-spark-1.3-contributor-free')
+                         'ocz/muse-spark-1.3-contributor-free')
         self.assertEqual(first.reasoning_effort, 'high')
         self.assertEqual(first.extract, valid_doc())
         self.assertEqual(first.usage, {'input_tokens': 10,

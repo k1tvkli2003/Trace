@@ -18,7 +18,7 @@ from budget import HttpFailure
 
 _FIXED_ENDPOINT = "http://127.0.0.1:20128/v1/responses"
 _FIXED_PATH = "/v1/responses"
-_FIXED_MODEL = "oc/muse-spark-1.3-contributor-free"
+_FIXED_MODEL = "ocz/muse-spark-1.3-contributor-free"
 _FIXED_EFFORTS = ("high", "xhigh")
 _MAX_STREAM_BYTES = 262_144
 _KEY_CHARS = frozenset(
