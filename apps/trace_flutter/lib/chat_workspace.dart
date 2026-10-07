@@ -62,6 +62,16 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
     setState(() => _route = status);
   }
 
+  /// One truth for every route surface: top-bar dot, composer badge, and
+  /// footnote all read the same [_route]. No hardcoded 'Local'/offline copy.
+  String get _routeTruth {
+    final route = _route;
+    if (route == null) return 'probing';
+    if (route.kind == AiRouteKind.nineRouter) return 'nineRouter';
+    if (route.kind == AiRouteKind.localRuntime) return 'localRuntime';
+    return 'offline';
+  }
+
   @override
   void dispose() {
     _draft.dispose();
@@ -677,11 +687,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                 ),
               ),
               const SizedBox(height: 9),
-              const Text(
-                'Works offline · AI needs a connection · Draft stays',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 11, color: _muted),
-              ),
+              _ComposerFootnote(truth: _routeTruth),
             ],
           ),
         ),
@@ -768,12 +774,10 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                                       : Icons.view_sidebar_outlined,
                                 ),
                               ),
-                            const Padding(
-                              padding: EdgeInsetsDirectional.only(start: 10),
-                              child: Text(
-                                '● Local',
-                                style: TextStyle(color: _accent, fontSize: 12),
-                              ),
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.only(start: 10),
+                              child: _RouteDot(truth: _routeTruth),
                             ),
                           ],
                         ),
@@ -798,4 +802,46 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
       );
     },
   );
+}
+
+/// Top-bar dot mirrors the composer badge truth: probing / nineRouter /
+/// localRuntime / offline. No independent 'Local' claim.
+final class _RouteDot extends StatelessWidget {
+  const _RouteDot({required this.truth});
+  final String truth;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = switch (truth) {
+      'nineRouter' => '● 9Router',
+      'localRuntime' => '● Local',
+      'offline' => '○ Offline',
+      _ => '● …',
+    };
+    return Text(
+      label,
+      style: const TextStyle(color: TraceColors.accent, fontSize: 12),
+    );
+  }
+}
+
+/// Footnote mirrors the same truth; offline copy never claims AI online.
+final class _ComposerFootnote extends StatelessWidget {
+  const _ComposerFootnote({required this.truth});
+  final String truth;
+
+  @override
+  Widget build(BuildContext context) {
+    final copy = switch (truth) {
+      'nineRouter' => 'Online via 9Router · Draft stays on this device',
+      'localRuntime' => 'Online via local runtime · Draft stays on this device',
+      'offline' => 'Offline · Draft stays on this device',
+      _ => 'Checking AI route… · Draft stays on this device',
+    };
+    return Text(
+      copy,
+      textAlign: TextAlign.center,
+      style: const TextStyle(fontSize: 11, color: TraceColors.muted),
+    );
+  }
 }

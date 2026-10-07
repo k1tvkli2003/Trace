@@ -85,7 +85,7 @@ void main() {
 
   for (final width in [375.0, 1280.0]) {
     testWidgets(
-      'chat workspace keeps draft without claiming AI reply at $width',
+      'offline route truth agrees on badge, dot, and footnote at $width',
       (tester) async {
         tester.view.physicalSize = Size(width, 844);
         tester.view.devicePixelRatio = 1;
@@ -111,7 +111,8 @@ void main() {
               .onPressed,
           isNull,
         );
-        expect(find.textContaining('Works offline'), findsWidgets);
+        expect(find.text('Offline · Draft stays on this device'), findsWidgets);
+        expect(find.text('○ Offline'), findsOneWidget);
         expect(find.text('سلام، از این فصل شروع کنیم'), findsOneWidget);
         expect(tester.takeException(), isNull);
       },
@@ -171,6 +172,70 @@ void main() {
       expect(find.textContaining('Source evidence.'), findsOneWidget);
     },
   );
+
+  for (final routeCase in ['nineRouter', 'localRuntime', 'offline']) {
+    testWidgets(
+      'route surfaces agree on badge, dot, and footnote: $routeCase',
+      (tester) async {
+      final probes = {
+        'nineRouter': AiRouteProbe(
+          nineRouterModels: () async => const ['AMuse'],
+          localHealth: () async => (false, ''),
+        ),
+        'localRuntime': AiRouteProbe(
+          nineRouterModels: () async => const [],
+          localHealth: () async => (true, '1.18.34'),
+        ),
+        'offline': offlineProbe,
+      };
+      final expected = {
+        'nineRouter': (
+          badge: 'AI: 9Router AMuse',
+          dot: '● 9Router',
+          foot: 'Online via 9Router · Draft stays on this device',
+        ),
+        'localRuntime': (
+          badge: 'AI: local runtime',
+          dot: '● Local',
+          foot: 'Online via local runtime · Draft stays on this device',
+        ),
+        'offline': (
+          badge: 'AI offline',
+          dot: '○ Offline',
+          foot: 'Offline · Draft stays on this device',
+        ),
+      };
+      tester.view.physicalSize = const Size(1280, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+      final entries = probes.entries.toList();
+        final entry = entries.firstWhere((e) => e.key == routeCase);
+        final db = TraceDatabase(NativeDatabase.memory());
+        addTearDown(db.close);
+        await tester.pumpWidget(
+          MainApp(database: db, routeProbe: entry.value),
+        );
+        await tester.pumpAndSettle();
+        final want = expected[entry.key]!;
+        expect(find.text(want.badge), findsOneWidget);
+        expect(find.text(want.dot), findsOneWidget);
+        expect(find.text(want.foot), findsOneWidget);
+        // No stale independent truth may survive alongside.
+        for (final other in expected.values) {
+          if (other.badge != want.badge) {
+            expect(find.text(other.badge), findsNothing);
+          }
+          if (other.dot != want.dot) {
+            expect(find.text(other.dot), findsNothing);
+          }
+        }
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
 
   testWidgets('wide workspace can reveal and hide honest source rail', (
     tester,
