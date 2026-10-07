@@ -1,4 +1,4 @@
-package com.example.trace_flutter
+package com.trace.flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
