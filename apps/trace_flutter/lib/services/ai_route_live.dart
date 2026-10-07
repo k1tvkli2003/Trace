@@ -23,14 +23,12 @@ final class LiveAiRouteFetchers {
   final Duration timeout;
 
   AiRouteProbe probe({http.Client? client}) {
-    final owned = client == null;
-    final httpClient = client ?? http.Client();
-    Future<void> close() async {
-      if (owned) httpClient.close();
-    }
-
+    // Ownership: injected client is shared and never closed here (tests).
+    // Owned path creates one client per leg so the 9Router leg can never
+    // close the local-runtime leg's transport (lane-4 P1 / lane-5 F48).
     return AiRouteProbe(
       nineRouterModels: () async {
+        final httpClient = client ?? http.Client();
         try {
           final response = await httpClient
               .get(Uri.parse(nineRouterModelsUrl))
@@ -52,10 +50,11 @@ final class LiveAiRouteFetchers {
           if (e is AiRouteFailure) rethrow;
           throw const AiRouteFailure('AI_PROVIDER_FAILURE');
         } finally {
-          await close();
+          if (client == null) httpClient.close();
         }
       },
       localHealth: () async {
+        final httpClient = client ?? http.Client();
         try {
           final response = await httpClient
               .get(Uri.parse(localHealthUrl))
@@ -74,7 +73,7 @@ final class LiveAiRouteFetchers {
           if (e is AiRouteFailure) rethrow;
           throw const AiRouteFailure('AI_PROVIDER_FAILURE');
         } finally {
-          await close();
+          if (client == null) httpClient.close();
         }
       },
     );
