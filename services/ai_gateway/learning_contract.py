@@ -40,9 +40,13 @@ _SPECS = {
         '"complete"), blocks, figures. Each block has exactly id, order, kind, text, '
         'bbox, confidence, uncertain; kind is one of heading, paragraph, list, table, '
         'formula, caption, footnote, figure, unknown; bbox is an object with x, y, w, h '
-        'in 0..1; order counts 0,1,2 in reading order. Each figure has exactly id, '
-        'blockId, bbox, caption, confidence and attaches to a block of kind figure. '
-        'No extra keys, no markdown, no prose outside the JSON object.'),
+        'in 0..1; order counts 0,1,2 in reading order. A block of kind figure MUST have '
+        'empty text (""); put any visible caption words in a separate block of kind '
+        'caption, never inside a figure block. Each figure has exactly id, '
+        'blockId, bbox, caption, confidence and attaches to a block of kind figure; '
+        'every figure caption MUST be non-empty visible text (transcribe the printed '
+        'caption; when no printed caption exists, describe the figure subject in a '
+        'few words). No extra keys, no markdown, no prose outside the JSON object.'),
     'slice_planner': ('slice-planner-v1', 'slice-plan-v1', 'nodeId',
         'Order bounded learning slices using only supplied source blocks and figures. '
         'Give a concept, source IDs, boundary reason, cursor and nextVisionRequiredAt. '

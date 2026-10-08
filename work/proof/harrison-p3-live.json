@@ -1,0 +1,1 @@
+{"status": "completed", "blocks": 20, "usage": {"input_tokens": 5669, "output_tokens": 5619, "total_tokens": 11288, "input_tokens_details": {"cached_tokens": 1393}, "output_tokens_details": {"reasoning_tokens": 2910}}}
