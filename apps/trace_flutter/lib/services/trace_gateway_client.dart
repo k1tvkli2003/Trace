@@ -75,9 +75,8 @@ final class TraceGatewayRequest {
         !_sha.hasMatch(pixelHash) ||
         (reasoningEffort != 'high' && reasoningEffort != 'xhigh') ||
         maxOutputTokens < 1 ||
-        maxOutputTokens > 16384 ||
         maxElapsedSeconds <= 0 ||
-        maxElapsedSeconds > 300 ||
+        maxElapsedSeconds > 600 ||
         !_keyChars.hasMatch(idempotencyKey) ||
         pagePngBase64.isEmpty ||
         pagePngBase64.length > 5592408) {
@@ -148,7 +147,7 @@ final class TraceGatewayReceipt {
         (effort != 'high' && effort != 'xhigh') ||
         elapsed is! num ||
         elapsed < 0 ||
-        elapsed > 300) {
+        elapsed > 600) {
       throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
     }
     return TraceGatewayReceipt(

@@ -92,6 +92,70 @@ class RouteTests(unittest.TestCase):
         self.assertEqual(len(calls), 1)
         self.assertEqual(len(inserts), 1)
 
+    def test_transient_failure_maps_rate_limit_to_429(self):
+        from on_demand_run import OnDemandFailure
+        route = load_route()
+        self.assertEqual(route._status_for('AI_RATE_LIMITED'), 429)
+        self.assertEqual(route._status_for('AI_RUN_IN_FLIGHT'), 429)
+        self.assertIn('rate limited',
+                      route._safe_message('AI_RATE_LIMITED').lower())
+        status, body = route.handle_request(
+            wire(), 'Bearer good',
+            verify_owner=good_owner,
+            run_vision=lambda request: (_ for _ in ()).throw(
+                OnDemandFailure('AI_RATE_LIMITED')),
+            receipt_insert=lambda row: dict(row),
+        )
+        self.assertEqual(status, 429)
+        self.assertEqual(body['error']['code'], 'AI_RATE_LIMITED')
+
+    def test_transient_failure_can_complete_same_key_without_failed_receipt(self):
+        from on_demand_run import OnDemandFailure
+
+        class Conflict(Exception):
+            def __init__(self, existing):
+                self.existing = existing
+
+        for code in ('AI_RATE_LIMITED', 'AI_PROVIDER_UNAVAILABLE',
+                     'AI_RETRY_NOT_READY'):
+            with self.subTest(code=code):
+                route = load_route()
+                rows = {}
+                calls = []
+                success = completed_vision(calls)
+
+                def vision(request):
+                    if not calls:
+                        calls.append(request)
+                        raise OnDemandFailure(code)
+                    return success(request)
+
+                def insert(row):
+                    key = (row['owner'], row['idempotency_key'])
+                    if key in rows:
+                        raise Conflict(rows[key])
+                    rows[key] = dict(row)
+                    return dict(row)
+
+                wiring = dict(
+                    verify_owner=good_owner, run_vision=vision,
+                    receipt_insert=insert,
+                    receipt_lookup=lambda owner, key: rows.get((owner, key)),
+                    receipt_conflict=Conflict,
+                )
+                first_status, first_body = route.handle_request(
+                    wire(), 'Bearer good', **wiring)
+                self.assertEqual(first_body['error']['code'], code)
+                self.assertGreaterEqual(first_status, 400)
+                self.assertEqual(rows, {}, 'transient failure poisoned durable key')
+                status, body = route.handle_request(
+                    wire(), 'Bearer good', **wiring)
+                self.assertEqual(status, 200)
+                self.assertEqual(body['receipt']['status'], 'completed')
+                self.assertEqual(len(calls), 2)
+                self.assertEqual(len(rows), 1)
+                self.assertEqual(next(iter(rows.values()))['status'], 'completed')
+
     def test_bad_auth_fails_closed_without_spend(self):
         route = load_route()
         calls = []

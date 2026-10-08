@@ -73,8 +73,8 @@ class WireTests(unittest.TestCase):
 
     def test_wire_checks_all_eleven_fields_before_claim(self):
         for overrides in ({'pixel_hash': 'b' * 64}, {'max_output_tokens': True},
-                          {'max_output_tokens': 16385}, {'reasoning_effort': 'low'},
-                          {'max_elapsed_seconds': 301}, {'capability': 'teacher_fa'},
+                          {'max_output_tokens': 0}, {'reasoning_effort': 'low'},
+                          {'max_elapsed_seconds': 601}, {'capability': 'teacher_fa'},
                           {'idempotency_key': 'bad key'}):
             with self.subTest(overrides=overrides):
                 with self.assertRaises(OnDemandFailure):

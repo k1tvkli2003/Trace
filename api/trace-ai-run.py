@@ -36,6 +36,8 @@ def _status_for(code: str) -> int:
         return 409
     if code == 'AI_RUN_IN_FLIGHT':
         return 429
+    if code == 'AI_RATE_LIMITED':
+        return 429
     if code == 'AI_GATEWAY_NOT_CONFIGURED':
         return 503
     return 502
@@ -50,6 +52,7 @@ def _safe_message(code: str) -> str:
         'AI_REQUEST_TOO_LARGE': 'Request too large.',
         'AI_RUN_CONFLICT': 'Idempotency key already used with different payload.',
         'AI_RUN_IN_FLIGHT': 'Run already in flight. Retry later.',
+        'AI_RATE_LIMITED': 'Provider is rate limited. Retry later.',
         'AI_GATEWAY_NOT_CONFIGURED': 'AI gateway not configured.',
     }.get(code, 'Upstream vision run failed.')
 
@@ -63,6 +66,8 @@ _NO_FAILED_STORE = frozenset({
     'AI_UNAUTHORIZED', 'AI_VISION_REQUEST_INVALID', 'AI_PAGE_IMAGE_INVALID',
     'AI_PAGE_IMAGE_MISMATCH', 'AI_REQUEST_TOO_LARGE', 'AI_RUN_CONFLICT',
     'AI_RUN_IN_FLIGHT', 'AI_GATEWAY_NOT_CONFIGURED',
+    'AI_RATE_LIMITED', 'AI_PROVIDER_UNAVAILABLE', 'AI_PROVIDER_FAILURE',
+    'AI_RETRY_NOT_READY',
 })
 
 

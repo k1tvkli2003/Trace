@@ -10,6 +10,7 @@ import threading
 import unittest
 
 from budget import HttpFailure
+from learning_contract import build_prompt
 from page_vision import VisionAdapter, VisionFailure
 
 
@@ -112,9 +113,9 @@ class PageVisionAdapterTests(unittest.TestCase):
         for override in ({'capability': 'teacher_fa'},
                          {'reasoning_effort': 'low'},
                          {'max_output_tokens': 0},
-                         {'max_output_tokens': 20000},
+                         {'max_output_tokens': -1},
                          {'max_elapsed_seconds': 0},
-                         {'max_elapsed_seconds': 400}):
+                         {'max_elapsed_seconds': 700}):
             with self.assertRaises(VisionFailure) as caught:
                 adapter.extract(request(**override))
             self.assertEqual(caught.exception.code, 'AI_VISION_REQUEST_INVALID')
@@ -131,6 +132,29 @@ class PageVisionAdapterTests(unittest.TestCase):
         with self.assertRaises(VisionFailure) as caught:
             adapter.extract(request(pixel_hash='e' * 64))
         self.assertEqual(caught.exception.code, 'AI_PAGE_NOT_AUTHORIZED')
+
+    def test_prompt_names_exact_page_extract_shape(self):
+        prompt = build_prompt(
+            capability='page_vision_extract',
+            task={'pageRef': 'page-1', 'sourceHash': 'a' * 64,
+                  'pixelHash': PIXEL, 'renderProfile': 'test-v1',
+                  'pageImageHandle': 'asset_page_1'},
+            source_context=[],
+        )
+        system = prompt['messages'][0]['content']
+        for key in ('schemaVersion', 'page-extract-v1', 'extractionVersion',
+                    'blocks', 'figures', 'order', 'kind', 'bbox',
+                    'confidence', 'uncertain'):
+            self.assertIn(key, system)
+
+    def test_large_output_budget_reaches_transport_uncapped(self):
+        calls = []
+        adapter = VisionAdapter(
+            transport=completed_transport(calls),
+            authorized_pages={'op-1': scope()})
+        result = adapter.extract(request(max_output_tokens=100_000))
+        self.assertEqual(result.extract, valid_doc())
+        self.assertEqual(calls[0][4], 100_000)
 
     def test_happy_path_returns_typed_result_and_replays_duplicate(self):
         calls = []
@@ -281,10 +305,14 @@ class PageVisionAdapterTests(unittest.TestCase):
             calls.append(1)
             raise HttpFailure(429)
         adapter = VisionAdapter(transport=failing, authorized_pages={'op-1': scope()})
-        for _ in range(2):
-            with self.assertRaises(VisionFailure) as caught:
-                adapter.extract(request())
-            self.assertEqual(caught.exception.code, 'AI_RATE_LIMITED')
+        with self.assertRaises(VisionFailure) as caught:
+            adapter.extract(request())
+        self.assertEqual(caught.exception.code, 'AI_RATE_LIMITED')
+        # 429 sets a retry window, so the immediate replay is NOT_READY and
+        # stays transient: no terminal failure is cached.
+        with self.assertRaises(VisionFailure) as caught:
+            adapter.extract(request())
+        self.assertEqual(caught.exception.code, 'AI_RETRY_NOT_READY')
         self.assertEqual(len(calls), 1)
 
     def test_deeply_nested_json_maps_to_schema_rejected_and_replays(self):

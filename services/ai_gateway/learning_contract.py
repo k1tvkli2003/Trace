@@ -33,7 +33,16 @@ _SPECS = {
         'Transcribe the entire supplied raster page in reading order, including headings, '
         'paragraphs, lists, tables, formulas, captions and figure regions. '
         'Report normalized bounding boxes, uncertainty and coverage. Never use a PDF '
-        'text layer or OCR result as accepted transcription. Mark unreadable content unknown.'),
+        'text layer or OCR result as accepted transcription. Mark unreadable content unknown. '
+        'Return one JSON object with exactly these keys: schemaVersion (const '
+        '"page-extract-v1"), sourceHash, pixelHash, renderProfile, pageRef, '
+        'extractionVersion (const "page-vision-extract-v1"), coverage (const '
+        '"complete"), blocks, figures. Each block has exactly id, order, kind, text, '
+        'bbox, confidence, uncertain; kind is one of heading, paragraph, list, table, '
+        'formula, caption, footnote, figure, unknown; bbox is an object with x, y, w, h '
+        'in 0..1; order counts 0,1,2 in reading order. Each figure has exactly id, '
+        'blockId, bbox, caption, confidence and attaches to a block of kind figure. '
+        'No extra keys, no markdown, no prose outside the JSON object.'),
     'slice_planner': ('slice-planner-v1', 'slice-plan-v1', 'nodeId',
         'Order bounded learning slices using only supplied source blocks and figures. '
         'Give a concept, source IDs, boundary reason, cursor and nextVisionRequiredAt. '

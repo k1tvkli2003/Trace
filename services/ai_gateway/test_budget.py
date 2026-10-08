@@ -8,15 +8,20 @@ from budget import BudgetedRun, GatewayFailure, HttpFailure, RunLimits
 class BudgetedRunTests(unittest.TestCase):
     def test_policy_cannot_disable_guard_with_unbounded_limits(self):
         for attempts, size, tokens, seconds in [
-            (3, 16, 8, 5), (2, 4_194_305, 8, 5),
-            (2, 16, 16_385, 5), (2, 16, 8, 301),
+            (4, 16, 8, 5), (3, 4_194_305, 8, 5),
+            (3, 16, 8, 601),
         ]:
             with self.assertRaises(ValueError):
                 RunLimits(attempts, size, tokens, seconds)
 
+    def test_policy_does_not_cap_reasoning_output_tokens(self):
+        for tokens in (16_385, 32_768, 100_000):
+            limits = RunLimits(3, 16, tokens, 5)
+            self.assertEqual(limits.max_output_tokens, tokens)
+
     def setUp(self):
         self.clock_value = 100.0
-        self.run = BudgetedRun(RunLimits(max_attempts=2, max_input_bytes=16,
+        self.run = BudgetedRun(RunLimits(max_attempts=3, max_input_bytes=16,
                                           max_output_tokens=8, max_elapsed_seconds=5),
                                clock=lambda: self.clock_value)
         self.calls = []
@@ -37,7 +42,7 @@ class BudgetedRunTests(unittest.TestCase):
             self.assertEqual(caught.exception.code, 'AI_BUDGET_EXCEEDED')
         self.assertEqual(self.calls, [])
 
-    def test_429_can_retry_once_only_after_retry_after_and_then_stops(self):
+    def test_429_can_retry_twice_only_after_retry_after_and_then_stops(self):
         def rate_limited(*_):
             self.calls.append('429')
             raise HttpFailure(429, retry_after_seconds=2)
@@ -53,17 +58,22 @@ class BudgetedRunTests(unittest.TestCase):
         with self.assertRaises(GatewayFailure) as caught:
             self.run.call(b'x', 1, rate_limited)
         self.assertEqual(caught.exception.code, 'AI_RATE_LIMITED')
+        self.assertTrue(caught.exception.retryable)
+        self.clock_value = 104.0
+        with self.assertRaises(GatewayFailure) as caught:
+            self.run.call(b'x', 1, rate_limited)
+        self.assertEqual(caught.exception.code, 'AI_RATE_LIMITED')
         self.assertFalse(caught.exception.retryable)
         with self.assertRaises(GatewayFailure):
             self.run.call(b'x', 1, rate_limited)
-        self.assertEqual(self.calls, ['429', '429'])
+        self.assertEqual(self.calls, ['429', '429', '429'])
 
     def test_validation_auth_and_unknown_outcome_do_not_retry(self):
         for failure, expected in [(HttpFailure(400), 'AI_BAD_REQUEST'),
                                   (HttpFailure(401), 'AI_UNAUTHORIZED'),
                                   (HttpFailure(403), 'AI_FORBIDDEN'),
                                   (TimeoutError(), 'AI_OUTCOME_UNKNOWN')]:
-            run = BudgetedRun(RunLimits(max_attempts=2, max_input_bytes=16,
+            run = BudgetedRun(RunLimits(max_attempts=3, max_input_bytes=16,
                            max_output_tokens=8, max_elapsed_seconds=5), clock=lambda: 100.)
             def broken(*_):
                 raise failure
@@ -79,7 +89,7 @@ class BudgetedRunTests(unittest.TestCase):
             self.run.call(b'x', 1, lambda *_: b'x' * 65)
         self.assertEqual(caught.exception.code, 'AI_OUTPUT_TOO_LARGE')
         self.clock_value = 106.
-        expired = BudgetedRun(RunLimits(max_attempts=2, max_input_bytes=16,
+        expired = BudgetedRun(RunLimits(max_attempts=3, max_input_bytes=16,
                                max_output_tokens=8, max_elapsed_seconds=5),
                               clock=lambda: self.clock_value - 6)
         expired.clock = lambda: self.clock_value

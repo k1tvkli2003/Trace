@@ -88,9 +88,8 @@ class OnDemandGatewayTests(unittest.TestCase):
             valid_request(capability='teacher_fa'),
             valid_request(reasoning_effort='low'),
             valid_request(max_output_tokens=0),
-            valid_request(max_output_tokens=20000),
             valid_request(max_elapsed_seconds=0),
-            valid_request(max_elapsed_seconds=400),
+            valid_request(max_elapsed_seconds=700),
             valid_request(page_png=b'not-a-png'),
             valid_request(pixel_hash='e' * 64),
             valid_request(idempotency_key=''),
@@ -120,6 +119,41 @@ class OnDemandGatewayTests(unittest.TestCase):
         with self.assertRaises(OnDemandFailure) as caught:
             gateway.handle(valid_request(), authorization='Bearer good')
         self.assertEqual(caught.exception.code, 'AI_INCOMPLETE_RESPONSE')
+
+    def test_retryable_upstream_failure_does_not_block_same_key(self):
+        calls = []
+
+        def flaky(_request):
+            calls.append(1)
+            if len(calls) == 1:
+                raise OnDemandFailure('AI_RATE_LIMITED')
+            return {
+                'model': 'm', 'reasoning_effort': 'high',
+                'usage': {}, 'elapsed_seconds': 1.0,
+                'provider_request_id': None,
+            }
+
+        gateway, _ = self.make(run=flaky)
+        with self.assertRaises(OnDemandFailure) as caught:
+            gateway.handle(valid_request(), authorization='Bearer good')
+        self.assertEqual(caught.exception.code, 'AI_RATE_LIMITED')
+        receipt = gateway.handle(valid_request(), authorization='Bearer good')
+        self.assertEqual(receipt['status'], 'completed')
+        self.assertEqual(len(calls), 2)
+
+    def test_retryable_gateway_set_matches_route_no_failed_store(self):
+        import importlib.util
+        from on_demand_run import _RETRYABLE_FAILURES
+        path = 'C:/Users/K1/Desktop/Projects/Trace/api/trace-ai-run.py'
+        spec = importlib.util.spec_from_loader('trace_ai_run_probe', loader=None)
+        module = importlib.util.module_from_spec(spec)
+        module.__file__ = path
+        with open(path, encoding='utf-8') as handle:
+            exec(compile(handle.read(), path, 'exec'), module.__dict__)
+        for code in _RETRYABLE_FAILURES:
+            self.assertIn(
+                code, module._NO_FAILED_STORE,
+                msg=f'{code} must not write a durable failed row')
 
     def test_owner_isolation_same_key(self):
         def owners(authorization):

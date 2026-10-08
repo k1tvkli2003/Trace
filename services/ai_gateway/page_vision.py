@@ -27,10 +27,11 @@ _REQUEST_FIELDS = frozenset({
     'render_profile', 'page_png', 'reasoning_effort', 'max_output_tokens',
     'max_elapsed_seconds',
 })
-_POLICY_LIMITS = (1, 4_194_304, 16_384)
+_POLICY_LIMITS = (3, 4_194_304)
 _USAGE_FIELDS = frozenset({'input_tokens', 'output_tokens', 'total_tokens'})
 _MAX_OPERATIONS = 1_024
-_TRANSIENT_FAILURES = frozenset({'AI_RUN_IN_FLIGHT', 'AI_RETRY_NOT_READY'})
+_TRANSIENT_FAILURES = frozenset({'AI_RUN_IN_FLIGHT', 'AI_RETRY_NOT_READY',
+                                    'AI_RATE_LIMITED', 'AI_PROVIDER_UNAVAILABLE'})
 
 
 class VisionFailure(Exception):
@@ -155,9 +156,9 @@ class VisionAdapter:
             raise VisionFailure('AI_VISION_REQUEST_INVALID')
         tokens = request['max_output_tokens']
         seconds = request['max_elapsed_seconds']
-        if (type(tokens) is not int or not 1 <= tokens <= 16_384
+        if (type(tokens) is not int or tokens < 1
                 or type(seconds) not in (int, float) or not math.isfinite(seconds)
-                or not 0 < seconds <= 300):
+                or not 0 < seconds <= 600):
             raise VisionFailure('AI_VISION_REQUEST_INVALID')
         image = request['page_png']
         if (not isinstance(image, bytes) or not 16 <= len(image) <= 4_194_304
@@ -181,7 +182,7 @@ class VisionAdapter:
                     if not self._evict_oldest_terminal_locked():
                         raise VisionFailure('AI_OPERATION_LIMIT_EXCEEDED')
                 limits = RunLimits(_POLICY_LIMITS[0], _POLICY_LIMITS[1],
-                                   _POLICY_LIMITS[2], seconds)
+                                   tokens, seconds)
                 run = (BudgetedRun(limits, clock=self._clock) if self._clock
                        else BudgetedRun(limits))
                 state = _Operation(fingerprint, run, uuid.uuid4().hex)

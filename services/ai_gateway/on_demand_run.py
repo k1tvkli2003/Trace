@@ -74,6 +74,14 @@ class _Entry:
     active: int = 0
 
 
+# Transient failures stay RAM-only and durable-free: the same idempotency
+# key must reach Vision again, never read a cached error or a failed row.
+_RETRYABLE_FAILURES = frozenset({
+    'AI_RATE_LIMITED', 'AI_PROVIDER_UNAVAILABLE', 'AI_PROVIDER_FAILURE',
+    'AI_RUN_IN_FLIGHT', 'AI_RETRY_NOT_READY',
+})
+
+
 def _sha(value: object) -> bool:
     return (isinstance(value, str) and len(value) == 64
             and all(c in '0123456789abcdef' for c in value))
@@ -129,9 +137,9 @@ class OnDemandGateway:
             raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
         tokens = request['max_output_tokens']
         seconds = request['max_elapsed_seconds']
-        if (type(tokens) is not int or not 1 <= tokens <= 16_384
+        if (type(tokens) is not int or tokens < 1
                 or type(seconds) not in (int, float)
-                or not math.isfinite(seconds) or not 0 < seconds <= 300):
+                or not math.isfinite(seconds) or not 0 < seconds <= 600):
             raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
         image = request['page_png']
         if (not isinstance(image, bytes) or not 16 <= len(image) <= 4_194_304
@@ -195,8 +203,9 @@ class OnDemandGateway:
             try:
                 result = self._run_vision(adapter_request)
             except OnDemandFailure as error:
-                with self._lock:
-                    entry.failure = error.code
+                if error.code not in _RETRYABLE_FAILURES:
+                    with self._lock:
+                        entry.failure = error.code
                 raise
             receipt = {
                 'requestId': entry.request_id,
@@ -224,7 +233,8 @@ class OnDemandGateway:
                 entry.receipt = copy.deepcopy(receipt)
             return copy.deepcopy(receipt)
         except OnDemandFailure as error:
-            if error.code not in ('AI_RUN_IN_FLIGHT',):
+            if (error.code not in ('AI_RUN_IN_FLIGHT',)
+                    and error.code not in _RETRYABLE_FAILURES):
                 with self._lock:
                     if entry.receipt is None and entry.failure is None:
                         entry.failure = error.code

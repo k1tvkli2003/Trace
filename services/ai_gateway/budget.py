@@ -26,8 +26,10 @@ class RunLimits:
             raise ValueError('Run limits must be positive')
         if not math.isfinite(self.max_elapsed_seconds) or self.max_elapsed_seconds <= 0:
             raise ValueError('Run deadline must be finite and positive')
-        if (self.max_attempts > 2 or self.max_input_bytes > 4_194_304 or
-                self.max_output_tokens > 16_384 or self.max_elapsed_seconds > 300):
+        # Token/thinking budget is provider-owned. Attempts, input bytes,
+        # and the deadline keep fail-closed guards here; output tokens do not.
+        if (self.max_attempts > 3 or self.max_input_bytes > 4_194_304 or
+                self.max_elapsed_seconds > 600):
             raise ValueError('Run policy exceeds hard safety ceiling')
 
 
