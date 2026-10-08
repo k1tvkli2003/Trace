@@ -4,6 +4,7 @@
 library;
 
 export 'src/trace_data_base.dart';
+export 'src/local/local_auth_session_repository.dart';
 export 'src/local/local_library_repository.dart';
 export 'src/local/local_source_import_repository.dart';
 export 'src/local/local_text_source_repository.dart';
@@ -32,6 +33,7 @@ export 'src/local/trace_database.dart'
         ReviewItem,
         ReviewEvent,
         SyncOperation,
-        AiRunLedger;
+        AiRunLedger,
+        AuthSession;
 
 // TODO: Export any libraries intended for clients of this package.

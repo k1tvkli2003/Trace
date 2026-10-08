@@ -1,5 +1,7 @@
 import 'package:drift/drift.dart';
 
+import 'auth_session_table.dart';
+
 part 'trace_database.g.dart';
 
 /// First local table: only the library summary, not imported source bytes.
@@ -282,13 +284,14 @@ class VisionCacheEntries extends Table {
     SyncOperations,
     AiRunLedgers,
     VisionCacheEntries,
+    AuthSessions,
   ],
 )
 class TraceDatabase extends _$TraceDatabase {
   TraceDatabase(super.executor);
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -367,6 +370,9 @@ class TraceDatabase extends _$TraceDatabase {
           CREATE UNIQUE INDEX IF NOT EXISTS vision_cache_key_unique
           ON vision_cache_entries (cache_key, pixel_hash)
         ''');
+      }
+      if (from < 12) {
+        await m.createTable(authSessions);
       }
     },
     beforeOpen: (_) async => customStatement('PRAGMA foreign_keys = ON'),

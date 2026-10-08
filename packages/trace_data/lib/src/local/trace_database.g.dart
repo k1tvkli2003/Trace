@@ -8816,6 +8816,438 @@ class VisionCacheEntriesCompanion extends UpdateCompanion<VisionCacheEntry> {
   }
 }
 
+class $AuthSessionsTable extends AuthSessions
+    with TableInfo<$AuthSessionsTable, AuthSession> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AuthSessionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+    'email',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _accessTokenMeta = const VerificationMeta(
+    'accessToken',
+  );
+  @override
+  late final GeneratedColumn<String> accessToken = GeneratedColumn<String>(
+    'access_token',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _refreshTokenMeta = const VerificationMeta(
+    'refreshToken',
+  );
+  @override
+  late final GeneratedColumn<String> refreshToken = GeneratedColumn<String>(
+    'refresh_token',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _expiresAtEpochSecondsMeta =
+      const VerificationMeta('expiresAtEpochSeconds');
+  @override
+  late final GeneratedColumn<int> expiresAtEpochSeconds = GeneratedColumn<int>(
+    'expires_at_epoch_seconds',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    email,
+    accessToken,
+    refreshToken,
+    expiresAtEpochSeconds,
+    userId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'auth_sessions';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AuthSession> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+        _emailMeta,
+        email.isAcceptableOrUnknown(data['email']!, _emailMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    if (data.containsKey('access_token')) {
+      context.handle(
+        _accessTokenMeta,
+        accessToken.isAcceptableOrUnknown(
+          data['access_token']!,
+          _accessTokenMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_accessTokenMeta);
+    }
+    if (data.containsKey('refresh_token')) {
+      context.handle(
+        _refreshTokenMeta,
+        refreshToken.isAcceptableOrUnknown(
+          data['refresh_token']!,
+          _refreshTokenMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_refreshTokenMeta);
+    }
+    if (data.containsKey('expires_at_epoch_seconds')) {
+      context.handle(
+        _expiresAtEpochSecondsMeta,
+        expiresAtEpochSeconds.isAcceptableOrUnknown(
+          data['expires_at_epoch_seconds']!,
+          _expiresAtEpochSecondsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_expiresAtEpochSecondsMeta);
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AuthSession map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AuthSession(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      )!,
+      accessToken: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}access_token'],
+      )!,
+      refreshToken: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}refresh_token'],
+      )!,
+      expiresAtEpochSeconds: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}expires_at_epoch_seconds'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_id'],
+      )!,
+    );
+  }
+
+  @override
+  $AuthSessionsTable createAlias(String alias) {
+    return $AuthSessionsTable(attachedDatabase, alias);
+  }
+}
+
+class AuthSession extends DataClass implements Insertable<AuthSession> {
+  final String id;
+  final String email;
+  final String accessToken;
+  final String refreshToken;
+  final int expiresAtEpochSeconds;
+  final String userId;
+  const AuthSession({
+    required this.id,
+    required this.email,
+    required this.accessToken,
+    required this.refreshToken,
+    required this.expiresAtEpochSeconds,
+    required this.userId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['email'] = Variable<String>(email);
+    map['access_token'] = Variable<String>(accessToken);
+    map['refresh_token'] = Variable<String>(refreshToken);
+    map['expires_at_epoch_seconds'] = Variable<int>(expiresAtEpochSeconds);
+    map['user_id'] = Variable<String>(userId);
+    return map;
+  }
+
+  AuthSessionsCompanion toCompanion(bool nullToAbsent) {
+    return AuthSessionsCompanion(
+      id: Value(id),
+      email: Value(email),
+      accessToken: Value(accessToken),
+      refreshToken: Value(refreshToken),
+      expiresAtEpochSeconds: Value(expiresAtEpochSeconds),
+      userId: Value(userId),
+    );
+  }
+
+  factory AuthSession.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AuthSession(
+      id: serializer.fromJson<String>(json['id']),
+      email: serializer.fromJson<String>(json['email']),
+      accessToken: serializer.fromJson<String>(json['accessToken']),
+      refreshToken: serializer.fromJson<String>(json['refreshToken']),
+      expiresAtEpochSeconds: serializer.fromJson<int>(
+        json['expiresAtEpochSeconds'],
+      ),
+      userId: serializer.fromJson<String>(json['userId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'email': serializer.toJson<String>(email),
+      'accessToken': serializer.toJson<String>(accessToken),
+      'refreshToken': serializer.toJson<String>(refreshToken),
+      'expiresAtEpochSeconds': serializer.toJson<int>(expiresAtEpochSeconds),
+      'userId': serializer.toJson<String>(userId),
+    };
+  }
+
+  AuthSession copyWith({
+    String? id,
+    String? email,
+    String? accessToken,
+    String? refreshToken,
+    int? expiresAtEpochSeconds,
+    String? userId,
+  }) => AuthSession(
+    id: id ?? this.id,
+    email: email ?? this.email,
+    accessToken: accessToken ?? this.accessToken,
+    refreshToken: refreshToken ?? this.refreshToken,
+    expiresAtEpochSeconds: expiresAtEpochSeconds ?? this.expiresAtEpochSeconds,
+    userId: userId ?? this.userId,
+  );
+  AuthSession copyWithCompanion(AuthSessionsCompanion data) {
+    return AuthSession(
+      id: data.id.present ? data.id.value : this.id,
+      email: data.email.present ? data.email.value : this.email,
+      accessToken: data.accessToken.present
+          ? data.accessToken.value
+          : this.accessToken,
+      refreshToken: data.refreshToken.present
+          ? data.refreshToken.value
+          : this.refreshToken,
+      expiresAtEpochSeconds: data.expiresAtEpochSeconds.present
+          ? data.expiresAtEpochSeconds.value
+          : this.expiresAtEpochSeconds,
+      userId: data.userId.present ? data.userId.value : this.userId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AuthSession(')
+          ..write('id: $id, ')
+          ..write('email: $email, ')
+          ..write('accessToken: $accessToken, ')
+          ..write('refreshToken: $refreshToken, ')
+          ..write('expiresAtEpochSeconds: $expiresAtEpochSeconds, ')
+          ..write('userId: $userId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    email,
+    accessToken,
+    refreshToken,
+    expiresAtEpochSeconds,
+    userId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AuthSession &&
+          other.id == this.id &&
+          other.email == this.email &&
+          other.accessToken == this.accessToken &&
+          other.refreshToken == this.refreshToken &&
+          other.expiresAtEpochSeconds == this.expiresAtEpochSeconds &&
+          other.userId == this.userId);
+}
+
+class AuthSessionsCompanion extends UpdateCompanion<AuthSession> {
+  final Value<String> id;
+  final Value<String> email;
+  final Value<String> accessToken;
+  final Value<String> refreshToken;
+  final Value<int> expiresAtEpochSeconds;
+  final Value<String> userId;
+  final Value<int> rowid;
+  const AuthSessionsCompanion({
+    this.id = const Value.absent(),
+    this.email = const Value.absent(),
+    this.accessToken = const Value.absent(),
+    this.refreshToken = const Value.absent(),
+    this.expiresAtEpochSeconds = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  AuthSessionsCompanion.insert({
+    required String id,
+    required String email,
+    required String accessToken,
+    required String refreshToken,
+    required int expiresAtEpochSeconds,
+    required String userId,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       email = Value(email),
+       accessToken = Value(accessToken),
+       refreshToken = Value(refreshToken),
+       expiresAtEpochSeconds = Value(expiresAtEpochSeconds),
+       userId = Value(userId);
+  static Insertable<AuthSession> custom({
+    Expression<String>? id,
+    Expression<String>? email,
+    Expression<String>? accessToken,
+    Expression<String>? refreshToken,
+    Expression<int>? expiresAtEpochSeconds,
+    Expression<String>? userId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (email != null) 'email': email,
+      if (accessToken != null) 'access_token': accessToken,
+      if (refreshToken != null) 'refresh_token': refreshToken,
+      if (expiresAtEpochSeconds != null)
+        'expires_at_epoch_seconds': expiresAtEpochSeconds,
+      if (userId != null) 'user_id': userId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  AuthSessionsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? email,
+    Value<String>? accessToken,
+    Value<String>? refreshToken,
+    Value<int>? expiresAtEpochSeconds,
+    Value<String>? userId,
+    Value<int>? rowid,
+  }) {
+    return AuthSessionsCompanion(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      accessToken: accessToken ?? this.accessToken,
+      refreshToken: refreshToken ?? this.refreshToken,
+      expiresAtEpochSeconds:
+          expiresAtEpochSeconds ?? this.expiresAtEpochSeconds,
+      userId: userId ?? this.userId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (accessToken.present) {
+      map['access_token'] = Variable<String>(accessToken.value);
+    }
+    if (refreshToken.present) {
+      map['refresh_token'] = Variable<String>(refreshToken.value);
+    }
+    if (expiresAtEpochSeconds.present) {
+      map['expires_at_epoch_seconds'] = Variable<int>(
+        expiresAtEpochSeconds.value,
+      );
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<String>(userId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AuthSessionsCompanion(')
+          ..write('id: $id, ')
+          ..write('email: $email, ')
+          ..write('accessToken: $accessToken, ')
+          ..write('refreshToken: $refreshToken, ')
+          ..write('expiresAtEpochSeconds: $expiresAtEpochSeconds, ')
+          ..write('userId: $userId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TraceDatabase extends GeneratedDatabase {
   _$TraceDatabase(QueryExecutor e) : super(e);
   $TraceDatabaseManager get managers => $TraceDatabaseManager(this);
@@ -8841,6 +9273,7 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
   late final $AiRunLedgersTable aiRunLedgers = $AiRunLedgersTable(this);
   late final $VisionCacheEntriesTable visionCacheEntries =
       $VisionCacheEntriesTable(this);
+  late final $AuthSessionsTable authSessions = $AuthSessionsTable(this);
   late final Index sourceVersionUnique = Index(
     'source_version_unique',
     'CREATE UNIQUE INDEX source_version_unique ON source_entries (library_id, name, version)',
@@ -8889,6 +9322,7 @@ abstract class _$TraceDatabase extends GeneratedDatabase {
     syncOperations,
     aiRunLedgers,
     visionCacheEntries,
+    authSessions,
     sourceVersionUnique,
     sourcePageDocumentPageVersionProfileUnique,
     sourceBlockPageVersionOrderUnique,
@@ -15242,6 +15676,240 @@ typedef $$VisionCacheEntriesTableProcessedTableManager =
       VisionCacheEntry,
       PrefetchHooks Function()
     >;
+typedef $$AuthSessionsTableCreateCompanionBuilder =
+    AuthSessionsCompanion Function({
+      required String id,
+      required String email,
+      required String accessToken,
+      required String refreshToken,
+      required int expiresAtEpochSeconds,
+      required String userId,
+      Value<int> rowid,
+    });
+typedef $$AuthSessionsTableUpdateCompanionBuilder =
+    AuthSessionsCompanion Function({
+      Value<String> id,
+      Value<String> email,
+      Value<String> accessToken,
+      Value<String> refreshToken,
+      Value<int> expiresAtEpochSeconds,
+      Value<String> userId,
+      Value<int> rowid,
+    });
+
+class $$AuthSessionsTableFilterComposer
+    extends Composer<_$TraceDatabase, $AuthSessionsTable> {
+  $$AuthSessionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get accessToken => $composableBuilder(
+    column: $table.accessToken,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get refreshToken => $composableBuilder(
+    column: $table.refreshToken,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get expiresAtEpochSeconds => $composableBuilder(
+    column: $table.expiresAtEpochSeconds,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$AuthSessionsTableOrderingComposer
+    extends Composer<_$TraceDatabase, $AuthSessionsTable> {
+  $$AuthSessionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get accessToken => $composableBuilder(
+    column: $table.accessToken,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get refreshToken => $composableBuilder(
+    column: $table.refreshToken,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get expiresAtEpochSeconds => $composableBuilder(
+    column: $table.expiresAtEpochSeconds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AuthSessionsTableAnnotationComposer
+    extends Composer<_$TraceDatabase, $AuthSessionsTable> {
+  $$AuthSessionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<String> get accessToken => $composableBuilder(
+    column: $table.accessToken,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get refreshToken => $composableBuilder(
+    column: $table.refreshToken,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get expiresAtEpochSeconds => $composableBuilder(
+    column: $table.expiresAtEpochSeconds,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+}
+
+class $$AuthSessionsTableTableManager
+    extends
+        RootTableManager<
+          _$TraceDatabase,
+          $AuthSessionsTable,
+          AuthSession,
+          $$AuthSessionsTableFilterComposer,
+          $$AuthSessionsTableOrderingComposer,
+          $$AuthSessionsTableAnnotationComposer,
+          $$AuthSessionsTableCreateCompanionBuilder,
+          $$AuthSessionsTableUpdateCompanionBuilder,
+          (
+            AuthSession,
+            BaseReferences<_$TraceDatabase, $AuthSessionsTable, AuthSession>,
+          ),
+          AuthSession,
+          PrefetchHooks Function()
+        > {
+  $$AuthSessionsTableTableManager(_$TraceDatabase db, $AuthSessionsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AuthSessionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AuthSessionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AuthSessionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> email = const Value.absent(),
+                Value<String> accessToken = const Value.absent(),
+                Value<String> refreshToken = const Value.absent(),
+                Value<int> expiresAtEpochSeconds = const Value.absent(),
+                Value<String> userId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => AuthSessionsCompanion(
+                id: id,
+                email: email,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                expiresAtEpochSeconds: expiresAtEpochSeconds,
+                userId: userId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String email,
+                required String accessToken,
+                required String refreshToken,
+                required int expiresAtEpochSeconds,
+                required String userId,
+                Value<int> rowid = const Value.absent(),
+              }) => AuthSessionsCompanion.insert(
+                id: id,
+                email: email,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                expiresAtEpochSeconds: expiresAtEpochSeconds,
+                userId: userId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$AuthSessionsTable, AuthSession>(table),
+                  BaseReferences<
+                    _$TraceDatabase,
+                    $AuthSessionsTable,
+                    AuthSession
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AuthSessionsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$TraceDatabase,
+      $AuthSessionsTable,
+      AuthSession,
+      $$AuthSessionsTableFilterComposer,
+      $$AuthSessionsTableOrderingComposer,
+      $$AuthSessionsTableAnnotationComposer,
+      $$AuthSessionsTableCreateCompanionBuilder,
+      $$AuthSessionsTableUpdateCompanionBuilder,
+      (
+        AuthSession,
+        BaseReferences<_$TraceDatabase, $AuthSessionsTable, AuthSession>,
+      ),
+      AuthSession,
+      PrefetchHooks Function()
+    >;
 
 class $TraceDatabaseManager {
   final _$TraceDatabase _db;
@@ -15276,4 +15944,6 @@ class $TraceDatabaseManager {
       $$AiRunLedgersTableTableManager(_db, _db.aiRunLedgers);
   $$VisionCacheEntriesTableTableManager get visionCacheEntries =>
       $$VisionCacheEntriesTableTableManager(_db, _db.visionCacheEntries);
+  $$AuthSessionsTableTableManager get authSessions =>
+      $$AuthSessionsTableTableManager(_db, _db.authSessions);
 }

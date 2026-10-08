@@ -28,7 +28,7 @@ void main() {
         name: 'chapter.md',
         bytes: utf8.encode('# آغاز\nتوضیح نخست.\n\n## مفهوم بعد\nتوضیح دوم.'),
       );
-      await tester.pumpWidget(MainApp(database: database));
+      await tester.pumpWidget(MainApp(database: database, startSignedOut: true));
       await tester.pumpAndSettle();
       if (width < 700) {
         await tester.tap(find.byTooltip('Open navigation'));

@@ -30,7 +30,7 @@ void main() {
       await LocalLibraryRepository(
         db,
       ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Atlas'));
-      await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+      await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
       await tester.pumpAndSettle();
       expect(
         find.byKey(const Key('signal-console-navigation')),
@@ -61,7 +61,7 @@ void main() {
       });
       final db = TraceDatabase(NativeDatabase.memory());
       addTearDown(db.close);
-      await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+      await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
       await tester.pumpAndSettle();
       expect(
         tester
@@ -95,7 +95,7 @@ void main() {
         });
         final db = TraceDatabase(NativeDatabase.memory());
         addTearDown(db.close);
-        await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+        await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
         await tester.pumpAndSettle();
         expect(find.text('What are we learning today?'), findsOneWidget);
         expect(find.byKey(const Key('chat-composer')), findsOneWidget);
@@ -124,7 +124,7 @@ void main() {
     (tester) async {
       final db = TraceDatabase(NativeDatabase.memory());
       addTearDown(db.close);
-      await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+      await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
       await tester.pumpAndSettle();
       expect(find.text('How learning works'), findsNothing);
       expect(find.text('Import → Read → Ask → Review'), findsOneWidget);
@@ -216,7 +216,7 @@ void main() {
         final db = TraceDatabase(NativeDatabase.memory());
         addTearDown(db.close);
         await tester.pumpWidget(
-          MainApp(database: db, routeProbe: entry.value),
+          MainApp(database: db, startSignedOut: true, routeProbe: entry.value),
         );
         await tester.pumpAndSettle();
         final want = expected[entry.key]!;
@@ -251,7 +251,7 @@ void main() {
     await LocalLibraryRepository(
       db,
     ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Atlas'));
-    await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+    await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Atlas'));
     await tester.pumpAndSettle();
@@ -280,7 +280,7 @@ void main() {
     await LocalLibraryRepository(
       db,
     ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Atlas'));
-    await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+    await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Atlas'));
     await tester.pumpAndSettle();
@@ -293,7 +293,7 @@ void main() {
   testWidgets('New chat asks before discarding a typed draft', (tester) async {
     final db = TraceDatabase(NativeDatabase.memory());
     addTearDown(db.close);
-    await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+    await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
     await tester.pumpAndSettle();
     await tester.enterText(
       find.byKey(const Key('chat-composer')),
@@ -318,7 +318,7 @@ void main() {
     });
     final db = TraceDatabase(NativeDatabase.memory());
     addTearDown(db.close);
-    await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+    await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('chat-composer')), findsOneWidget);
     expect(tester.takeException(), isNull);
@@ -338,7 +338,7 @@ void main() {
       await LocalLibraryRepository(db).putEntry(
         const LibraryEntrySummary(id: 'lib', title: 'My learning book'),
       );
-      await tester.pumpWidget(MainApp(database: db, routeProbe: offlineProbe));
+      await tester.pumpWidget(MainApp(database: db, startSignedOut: true, routeProbe: offlineProbe));
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Open navigation'));
       await tester.pumpAndSettle();

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' show HttpClient;
 
 import 'package:flutter/material.dart';
 import 'package:trace_data/trace_data.dart';
@@ -9,6 +10,8 @@ import 'package:uuid/uuid.dart';
 import 'local_connection.dart';
 import 'review_inbox_page.dart';
 import 'services/ai_route.dart';
+import 'services/trace_auth_client.dart';
+import 'sign_in_page.dart';
 import 'text_picker.dart';
 import 'pdf_picker.dart';
 import 'source_reading_page.dart';
@@ -24,7 +27,16 @@ void main() {
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key, this.database, this.pickText, this.pickPdf, this.routeProbe});
+  const MainApp({
+    super.key,
+    this.database,
+    this.pickText,
+    this.pickPdf,
+    this.routeProbe,
+    this.authClient,
+    this.authSessionRepository,
+    this.startSignedOut = false,
+  });
 
   final AiRouteProbe? routeProbe;
 
@@ -32,6 +44,15 @@ class MainApp extends StatefulWidget {
   final TraceDatabase? database;
   final Future<PickedTextSource?> Function()? pickText;
   final Future<PickedPdfSource?> Function()? pickPdf;
+
+  /// Injected for tests; production builds the Supabase Auth client and
+  /// gateway endpoint from --dart-define TRACE_SUPABASE_URL /
+  /// TRACE_SUPABASE_ANON_KEY / TRACE_GATEWAY_URL.
+  final TraceAuthClient? authClient;
+  final LocalAuthSessionRepository? authSessionRepository;
+
+  /// Test escape hatch: skip restored-session short-circuit.
+  final bool startSignedOut;
 
   @override
   State<MainApp> createState() => _MainAppState();
@@ -44,12 +65,15 @@ class _MainAppState extends State<MainApp> {
   late final LocalLibraryRepository _library;
   late final LocalTextSourceRepository _sources;
   late final LocalPdfSourceRepository _pdfSources;
+  late final LocalAuthSessionRepository _authSessions;
   late Future<List<LibraryEntrySummary>> _entries;
   Future<List<SourceDocument>>? _selectedSources;
   bool _ownsDatabase = false;
   bool _pdfImporting = false;
   StateSetter? _panelRefresh;
   String? _selectedId;
+  TraceAuthSession? _session;
+  bool _sessionChecked = false;
 
   @override
   void initState() {
@@ -59,7 +83,89 @@ class _MainAppState extends State<MainApp> {
     _library = LocalLibraryRepository(_database);
     _sources = LocalTextSourceRepository(_database);
     _pdfSources = LocalPdfSourceRepository(_database);
+    _authSessions =
+        widget.authSessionRepository ??
+        LocalAuthSessionRepository(_database);
     _entries = _library.listEntries();
+    if (!widget.startSignedOut) {
+      _restoreSession();
+    } else {
+      _sessionChecked = true;
+    }
+  }
+
+  Future<void> _restoreSession() async {
+    try {
+      final session = await _authSessions.current();
+      if (!mounted) return;
+      setState(() {
+        if (session != null && !session.isExpired) _session = session;
+        _sessionChecked = true;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _sessionChecked = true);
+    }
+  }
+
+  Future<TraceAuthTokens> _signIn(String email, String password) {
+    final client = widget.authClient ?? _productionAuthClient();
+    return client.signInOrSignUp(email, password);
+  }
+
+  /// Production auth wiring: compile-time endpoint config, runtime http.
+  /// Throws a safe failure when the build has no Supabase config so the
+  /// sign-in screen explains instead of crashing.
+  TraceAuthClient _productionAuthClient() {
+    const url = String.fromEnvironment('TRACE_SUPABASE_URL');
+    const anonKey = String.fromEnvironment('TRACE_SUPABASE_ANON_KEY');
+    if (url.isEmpty || anonKey.isEmpty) {
+      throw const TraceAuthFailure('AUTH_SERVICE_UNAVAILABLE');
+    }
+    return TraceAuthClient(
+      supabaseUrl: Uri.parse(url),
+      anonKey: anonKey,
+      post: _httpPost,
+    );
+  }
+
+  Future<_HttpAuthResponse> _httpPost(
+    Uri uri,
+    Map<String, String> headers,
+    String body,
+  ) async {
+    final client = HttpClient();
+    try {
+      final request = await client.postUrl(uri);
+      headers.forEach(request.headers.set);
+      request.write(body);
+      final response = await request.close().timeout(
+        const Duration(seconds: 30),
+      );
+      final text = await response.transform(utf8.decoder).join();
+      return _HttpAuthResponse(response.statusCode, text);
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<void> _onSignedIn(TraceAuthTokens tokens) async {
+    final session = TraceAuthSession(
+      email: tokens.email,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      expiresAtEpochSeconds: tokens.expiresAtEpochSeconds,
+      userId: tokens.userId,
+    );
+    await _authSessions.save(session);
+    if (!mounted) return;
+    setState(() => _session = session);
+  }
+
+  Future<void> _signOut() async {
+    await _authSessions.clear();
+    if (!mounted) return;
+    setState(() => _session = null);
   }
 
   @override
@@ -460,8 +566,26 @@ class _MainAppState extends State<MainApp> {
       scaffoldMessengerKey: _messenger,
       theme: TraceTheme.dark(),
       darkTheme: TraceTheme.dark(),
-      home: Scaffold(
-        body: FutureBuilder<List<LibraryEntrySummary>>(
+      home: !_sessionChecked
+          ? const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            )
+          : _session == null
+              ? SignInPage(signIn: _signIn, onSignedIn: _onSignedIn)
+              : Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      _session!.email,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: _signOut,
+                        child: const Text('Sign out'),
+                      ),
+                    ],
+                  ),
+                  body: FutureBuilder<List<LibraryEntrySummary>>(
           future: _entries,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -508,4 +632,16 @@ class _MainAppState extends State<MainApp> {
       ),
     );
   }
+}
+
+/// Minimal [TraceAuthHttpResponse] over dart:io. Kept private: only the
+/// status code and body string cross into the auth client.
+final class _HttpAuthResponse implements TraceAuthHttpResponse {
+  const _HttpAuthResponse(this.statusCode, this.body);
+
+  @override
+  final int statusCode;
+
+  @override
+  final String body;
 }

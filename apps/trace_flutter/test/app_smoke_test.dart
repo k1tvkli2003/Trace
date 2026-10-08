@@ -19,7 +19,7 @@ void main() {
     await LocalLibraryRepository(
       database,
     ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Review book'));
-    await tester.pumpWidget(MainApp(database: database));
+    await tester.pumpWidget(MainApp(database: database, startSignedOut: true));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Review book'));
     await tester.pumpAndSettle();
@@ -34,7 +34,7 @@ void main() {
   testWidgets('creates a collection and shows it from SQLite', (tester) async {
     final database = TraceDatabase(NativeDatabase.memory());
     addTearDown(database.close);
-    await tester.pumpWidget(MainApp(database: database));
+    await tester.pumpWidget(MainApp(database: database, startSignedOut: true));
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(
       app.theme?.textTheme.bodyMedium?.fontFamily,
@@ -65,7 +65,7 @@ void main() {
     await LocalLibraryRepository(
       database,
     ).putEntry(const LibraryEntrySummary(id: 'lib', title: 'Teaching book'));
-    await tester.pumpWidget(MainApp(database: database));
+    await tester.pumpWidget(MainApp(database: database, startSignedOut: true));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Teaching book'));
     await tester.pumpAndSettle();
@@ -95,7 +95,7 @@ void main() {
     await LocalLibraryRepository(database).putEntry(
       const LibraryEntrySummary(id: 'lib', title: 'Small screen book'),
     );
-    await tester.pumpWidget(MainApp(database: database));
+    await tester.pumpWidget(MainApp(database: database, startSignedOut: true));
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Open navigation'));
     await tester.pumpAndSettle();
