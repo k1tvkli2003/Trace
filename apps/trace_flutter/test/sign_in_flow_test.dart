@@ -65,22 +65,72 @@ void main() {
     expect(stored!.accessToken, 'access-1');
   });
 
-  testWidgets('restored unexpired session skips sign-in', (tester) async {
+  testWidgets('expired session refreshes silently and skips sign-in', (
+    tester,
+  ) async {
     final database = TraceDatabase(NativeDatabase.memory());
     addTearDown(database.close);
-    final future = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000 + 3600;
+    final past = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000 - 60;
     await LocalAuthSessionRepository(database).save(
       TraceAuthSession(
         email: 'back@example.com',
-        accessToken: 'access-9',
-        refreshToken: 'refresh-9',
-        expiresAtEpochSeconds: future,
+        accessToken: 'access-old',
+        refreshToken: 'refresh-good',
+        expiresAtEpochSeconds: past,
         userId: 'user-9',
       ),
     );
-    await tester.pumpWidget(MainApp(database: database));
+    final authClient = TraceAuthClient(
+      supabaseUrl: Uri.parse('https://example.invalid'),
+      anonKey: 'anon-1',
+      post: (uri, headers, body) async {
+        expect(uri.queryParameters['grant_type'], 'refresh_token');
+        return const _FakeAuthResponse(
+          200,
+          '{"access_token":"access-new","refresh_token":"refresh-new",'
+          '"expires_in":3600,"user":{"id":"user-9"}}',
+        );
+      },
+    );
+    await tester.pumpWidget(
+      MainApp(database: database, authClient: authClient),
+    );
     await tester.pumpAndSettle();
     expect(find.text('back@example.com'), findsOneWidget);
     expect(find.text('Email'), findsNothing);
+    final stored = await LocalAuthSessionRepository(database).current();
+    expect(stored, isNotNull);
+    expect(stored!.accessToken, 'access-new');
+  });
+
+  testWidgets('rejected refresh clears stale session and shows sign-in', (
+    tester,
+  ) async {
+    final database = TraceDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    final past = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000 - 60;
+    await LocalAuthSessionRepository(database).save(
+      TraceAuthSession(
+        email: 'stale@example.com',
+        accessToken: 'access-old',
+        refreshToken: 'refresh-bad',
+        expiresAtEpochSeconds: past,
+        userId: 'user-9',
+      ),
+    );
+    final authClient = TraceAuthClient(
+      supabaseUrl: Uri.parse('https://example.invalid'),
+      anonKey: 'anon-1',
+      post: (uri, headers, body) async => const _FakeAuthResponse(
+        400,
+        '{"msg":"Refresh token is not valid"}',
+      ),
+    );
+    await tester.pumpWidget(
+      MainApp(database: database, authClient: authClient),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Email'), findsOneWidget);
+    expect(await LocalAuthSessionRepository(database).current(), isNull);
   });
 }

@@ -134,7 +134,7 @@ class _SignInPageState extends State<SignInPage> {
                           width: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : Text(_canRetry ? 'Retry' : 'Continue'),
+                      : Text(_canRetry ? 'Try again' : 'Continue'),
                 ),
               ],
             ),
