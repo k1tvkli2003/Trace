@@ -108,6 +108,48 @@ void main() {
     );
   });
 
+  test('refresh success returns rotated tokens', () async {
+    final client = _client(
+      post: (uri, headers, body) async {
+        expect(uri.queryParameters['grant_type'], 'refresh_token');
+        expect(body, contains('refresh_token'));
+        return _FakeResponse(200, _okBody());
+      },
+    );
+    final tokens = await client.refreshSession('refresh-old');
+    expect(tokens.accessToken, 'access-1');
+    expect(tokens.refreshToken, 'refresh-1');
+  });
+
+  test('rejected refresh maps to session-expired', () async {
+    final client = _client(
+      post: (uri, headers, body) async => const _FakeResponse(
+        400,
+        '{"msg":"Refresh token is not valid"}',
+      ),
+    );
+    await expectLater(
+      client.refreshSession('bogus'),
+      throwsA(
+        isA<TraceAuthFailure>().having(
+          (e) => e.code,
+          'code',
+          'AUTH_SESSION_EXPIRED',
+        ),
+      ),
+    );
+    await expectLater(
+      client.refreshSession(''),
+      throwsA(
+        isA<TraceAuthFailure>().having(
+          (e) => e.code,
+          'code',
+          'AUTH_SESSION_EXPIRED',
+        ),
+      ),
+    );
+  });
+
   test('no message leaks raw codes, statuses, or server text', () {
     const banned = ['AUTH_', '400', '429', '500', 'http', 'Invalid login'];
     for (final code in [

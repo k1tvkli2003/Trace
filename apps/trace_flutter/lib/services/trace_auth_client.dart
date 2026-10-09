@@ -79,8 +79,61 @@ final class TraceAuthClient {
     'apikey': anonKey,
   };
 
-  Uri _authUri(String action) => Uri.parse(
-    '${supabaseUrl.toString().replaceAll(RegExp(r'/$'), '')}/auth/v1/$action?grant_type=password',
+  /// Refreshes an expired access token with a stored refresh token.
+  /// Throws AUTH_SESSION_EXPIRED when the refresh token is rejected so the
+  /// caller signs out instead of looping.
+  Future<TraceAuthTokens> refreshSession(String refreshToken) async {
+    if (refreshToken.isEmpty) {
+      throw const TraceAuthFailure('AUTH_SESSION_EXPIRED');
+    }
+    final TraceAuthHttpResponse response;
+    try {
+      response = await post(
+        _tokenUri('token', grantType: 'refresh_token'),
+        _headers,
+        jsonEncode({'refresh_token': refreshToken}),
+      );
+    } catch (_) {
+      throw const TraceAuthFailure('AUTH_NETWORK_UNAVAILABLE');
+    }
+    Map<String, Object?> decoded;
+    try {
+      decoded = jsonDecode(response.body) as Map<String, Object?>;
+    } catch (_) {
+      throw const TraceAuthFailure('AUTH_SERVICE_UNAVAILABLE');
+    }
+    if (response.statusCode == 200) {
+      final access = decoded['access_token'];
+      final refresh = decoded['refresh_token'];
+      final expires = decoded['expires_in'];
+      final user = decoded['user'];
+      final userId = user is Map<String, Object?> ? user['id'] : null;
+      // Email is not returned on refresh; keep the stored one.
+      if (access is! String ||
+          access.isEmpty ||
+          refresh is! String ||
+          refresh.isEmpty ||
+          expires is! num ||
+          userId is! String ||
+          userId.isEmpty) {
+        throw const TraceAuthFailure('AUTH_SERVICE_UNAVAILABLE');
+      }
+      final now = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+      return TraceAuthTokens(
+        email: '',
+        accessToken: access,
+        refreshToken: refresh,
+        expiresAtEpochSeconds: now + expires.toInt(),
+        userId: userId,
+      );
+    }
+    throw TraceAuthFailure(_codeFor(response.statusCode, decoded));
+  }
+
+  Uri _authUri(String action) => _tokenUri(action, grantType: 'password');
+
+  Uri _tokenUri(String action, {required String grantType}) => Uri.parse(
+    '${supabaseUrl.toString().replaceAll(RegExp(r'/$'), '')}/auth/v1/$action?grant_type=$grantType',
   );
 
   /// Unified entry: sign in, else sign up once when no account exists.
@@ -169,6 +222,9 @@ final class TraceAuthClient {
       if (raw.contains('invalid login credentials') ||
           raw.contains('invalid_grant')) {
         return 'AUTH_INVALID_CREDENTIALS';
+      }
+      if (raw.contains('refresh token') && raw.contains('not valid')) {
+        return 'AUTH_SESSION_EXPIRED';
       }
       if (raw.contains('user already registered') ||
           raw.contains('already registered') ||

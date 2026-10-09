@@ -22,6 +22,8 @@ const _unavailable =
     'Sign-in is temporarily unavailable. Please try again later.';
 const _unknown =
     'Sign-in could not be completed. Please try again later.';
+const _sessionExpired =
+    'Your session has expired. Please sign in again.';
 
 /// Returns the safe message plus whether a retry action is allowed.
 ///
@@ -38,6 +40,7 @@ const _unknown =
     'AUTH_NETWORK_UNAVAILABLE' => (message: _network, retryable: true),
     'AUTH_RATE_LIMITED' => (message: _rateLimited, retryable: true),
     'AUTH_SERVICE_UNAVAILABLE' => (message: _unavailable, retryable: true),
+    'AUTH_SESSION_EXPIRED' => (message: _sessionExpired, retryable: false),
     _ => (message: _unknown, retryable: false),
   };
 }

@@ -96,12 +96,42 @@ class _MainAppState extends State<MainApp> {
 
   Future<void> _restoreSession() async {
     try {
-      final session = await _authSessions.current();
-      if (!mounted) return;
-      setState(() {
-        if (session != null && !session.isExpired) _session = session;
-        _sessionChecked = true;
-      });
+      final stored = await _authSessions.current();
+      if (!mounted || stored == null) {
+        if (mounted) setState(() => _sessionChecked = true);
+        return;
+      }
+      if (!stored.isExpired) {
+        if (!mounted) return;
+        setState(() {
+          _session = stored;
+          _sessionChecked = true;
+        });
+        return;
+      }
+      // Access token expired: try one silent refresh before asking sign-in.
+      try {
+        final client = widget.authClient ?? _productionAuthClient();
+        final refreshed = await client.refreshSession(stored.refreshToken);
+        final session = TraceAuthSession(
+          email: stored.email,
+          accessToken: refreshed.accessToken,
+          refreshToken: refreshed.refreshToken,
+          expiresAtEpochSeconds: refreshed.expiresAtEpochSeconds,
+          userId: refreshed.userId,
+        );
+        await _authSessions.save(session);
+        if (!mounted) return;
+        setState(() {
+          _session = session;
+          _sessionChecked = true;
+        });
+      } on TraceAuthFailure {
+        // Refresh rejected (revoked/rotated): stale session must go.
+        await _authSessions.clear();
+        if (!mounted) return;
+        setState(() => _sessionChecked = true);
+      }
     } catch (_) {
       if (!mounted) return;
       setState(() => _sessionChecked = true);
