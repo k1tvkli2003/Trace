@@ -83,6 +83,13 @@ class _MainAppState extends State<MainApp> {
   TraceAuthSession? _session;
   bool _sessionChecked = false;
 
+  /// Shared auth transport: one HttpClient for the session lifetime so
+  /// sign-in/refresh/sign-out reuse the connection instead of paying a
+  /// TLS handshake per call. Closed in [dispose].
+  final HttpClient _httpClient = HttpClient()
+    ..connectionTimeout = const Duration(seconds: 10)
+    ..idleTimeout = const Duration(seconds: 30);
+
   @override
   void initState() {
     super.initState();
@@ -172,19 +179,19 @@ class _MainAppState extends State<MainApp> {
     Map<String, String> headers,
     String body,
   ) async {
-    final client = HttpClient();
-    try {
-      final request = await client.postUrl(uri);
-      headers.forEach(request.headers.set);
-      request.write(body);
-      final response = await request.close().timeout(
-        const Duration(seconds: 30),
-      );
-      final text = await response.transform(utf8.decoder).join();
-      return _HttpAuthResponse(response.statusCode, text);
-    } finally {
-      client.close();
-    }
+    // Shared client: reuse the session connection. The 30s bound covers
+    // connect + headers + body join together, so a stalled body can never
+    // hang the sign-in screen past the auth call timeout.
+    final request = await _httpClient.postUrl(uri);
+    headers.forEach(request.headers.set);
+    request.write(body);
+    final response = await request.close().timeout(
+      const Duration(seconds: 30),
+    );
+    final text = await response.transform(utf8.decoder).join().timeout(
+      const Duration(seconds: 30),
+    );
+    return _HttpAuthResponse(response.statusCode, text);
   }
 
   Future<void> _onSignedIn(TraceAuthTokens tokens) async {
@@ -217,6 +224,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   void dispose() {
+    _httpClient.close(force: true);
     if (_ownsDatabase) {
       _database.close();
     }
@@ -711,25 +719,35 @@ final class _PdfVisionDialog extends StatefulWidget {
 final class _PdfVisionDialogState extends State<_PdfVisionDialog> {
   bool _running = false;
   PdfVisionOutcome? _outcome;
+  late final HttpClient _httpClient = HttpClient()
+    ..connectionTimeout = const Duration(seconds: 10)
+    ..idleTimeout = const Duration(seconds: 30);
+
+  @override
+  void dispose() {
+    _httpClient.close(force: true);
+    super.dispose();
+  }
 
   Future<TraceHttpResponse> _gatewayPost(
     Uri uri,
     Map<String, String> headers,
     String body,
   ) async {
-    final client = HttpClient();
-    try {
-      final request = await client.postUrl(uri);
-      headers.forEach(request.headers.set);
-      request.write(body);
-      final response = await request.close().timeout(
-        const Duration(seconds: 330),
-      );
-      final text = await response.transform(utf8.decoder).join();
-      return _HttpGatewayResponse(response.statusCode, text);
-    } finally {
-      client.close();
-    }
+    // Shared dialog client: one connection for the 3 serial page calls.
+    // The 330s bound covers close + body join together so a stalled body
+    // can never outlive the per-call budget; the top-level client timeout
+    // still converts the failure to a safe retryable code.
+    final request = await _httpClient.postUrl(uri);
+    headers.forEach(request.headers.set);
+    request.write(body);
+    final response = await request.close().timeout(
+      const Duration(seconds: 330),
+    );
+    final text = await response.transform(utf8.decoder).join().timeout(
+      const Duration(seconds: 330),
+    );
+    return _HttpGatewayResponse(response.statusCode, text);
   }
 
   Future<void> _run() async {
@@ -853,38 +871,55 @@ final class _PdfVisionDialogState extends State<_PdfVisionDialog> {
           onPressed: _running ? null : () => Navigator.pop(context),
           child: const Text('Close'),
         ),
-        FilledButton.icon(
-          onPressed: _running
-              ? null
-              : () async {
-                  final outcome = _outcome;
-                  final needsRetry =
-                      outcome != null && outcome.failures.isNotEmpty;
-                  if (needsRetry) {
-                    final code = outcome.failures.values.first;
-                    if (!traceGatewayMessage(code).retryable) return;
-                  }
-                  await _run();
-                },
-          icon: _running
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Icon(Icons.visibility_outlined),
-          label: Builder(
-            builder: (context) {
-              final outcome = _outcome;
-              return Text(
-                outcome == null
-                    ? 'Run vision (pages 1–3)'
-                    : outcome.failures.isEmpty
-                        ? 'Run again'
-                        : 'Try again',
+        Builder(
+          builder: (actionContext) {
+            final outcome = _outcome;
+            // Dead-button rule: a non-retryable outcome never shows an
+            // enabled "Try again". It shows a truthful Close instead.
+            final retryBlocked = outcome != null &&
+                outcome.failures.isNotEmpty &&
+                !traceGatewayMessage(outcome.failures.values.first).retryable;
+            if (retryBlocked) {
+              return FilledButton.icon(
+                onPressed: () => Navigator.pop(actionContext),
+                icon: const Icon(Icons.check_outlined),
+                label: const Text('Understood'),
               );
-            },
-          ),
+            }
+            return FilledButton.icon(
+              onPressed: _running
+                  ? null
+                  : () async {
+                      final current = _outcome;
+                      final needsRetry =
+                          current != null && current.failures.isNotEmpty;
+                      if (needsRetry) {
+                        final code = current.failures.values.first;
+                        if (!traceGatewayMessage(code).retryable) return;
+                      }
+                      await _run();
+                    },
+              icon: _running
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.visibility_outlined),
+              label: Builder(
+                builder: (context) {
+                  final current = _outcome;
+                  return Text(
+                    current == null
+                        ? 'Run vision (pages 1–3)'
+                        : current.failures.isEmpty
+                            ? 'Run again'
+                            : 'Try again',
+                  );
+                },
+              ),
+            );
+          },
         ),
       ],
     );

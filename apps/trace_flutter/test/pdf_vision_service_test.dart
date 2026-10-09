@@ -12,10 +12,6 @@ import 'package:trace_flutter/services/pdf_vision_service.dart';
 import 'package:trace_flutter/services/session_gateway.dart';
 import 'package:trace_flutter/services/trace_gateway_client.dart';
 
-final _pdfBytes = Uint8List.fromList(
-  List<int>.generate(64, (i) => i % 256),
-);
-
 /// Minimal PDF the importer accepts: %PDF- header plus %%EOF tail.
 Uint8List _realPdf() {
   final head = ascii.encode('%PDF-1.4\n');
@@ -144,6 +140,24 @@ void main() {
     );
     expect(hit, isNotNull);
     expect(hit!.payloadJson, contains('Vision text'));
+  });
+
+  test('idempotency keys are stable sha256 across calls, distinct per page', () {
+    const op = 'op-stable';
+    const hash =
+        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+    final first = PdfVisionService.idempotencyKeyFor(op, 1, hash);
+    final again = PdfVisionService.idempotencyKeyFor(op, 1, hash);
+    final page2 = PdfVisionService.idempotencyKeyFor(op, 2, hash);
+    final otherOp = PdfVisionService.idempotencyKeyFor('op-other', 1, hash);
+    // Same inputs replay the same key (restart-safe: no hashCode seed).
+    expect(again, first);
+    expect(first.length, 64);
+    // Distinct inputs never share a key.
+    expect(page2 == first, isFalse);
+    expect(otherOp == first, isFalse);
+    // Key alphabet stays inside the wire charset.
+    expect(RegExp(r'^[A-Za-z0-9\-_.]{1,128}$').hasMatch(first), isTrue);
   });
 }
 

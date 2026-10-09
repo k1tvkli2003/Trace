@@ -89,6 +89,8 @@ abstract final class TraceTheme {
       onSecondary: TraceColors.ink,
       surface: TraceColors.canvas,
       onSurface: TraceColors.onCanvas,
+      error: TraceColors.seaGlass,
+      onError: TraceColors.ink,
       outline: TraceColors.edge,
     ),
     textTheme: const TextTheme(

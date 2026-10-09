@@ -236,10 +236,16 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
               ],
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              'Local workspace\nAI connection not configured',
+              _routeTruth == 'offline'
+                  ? 'Local workspace\nAI offline — library stays on this device'
+                  : _routeTruth == 'nineRouter'
+                      ? 'Local workspace\nAI online via 9Router'
+                      : _routeTruth == 'localRuntime'
+                          ? 'Local workspace\nAI online via local runtime'
+                          : 'Local workspace\nChecking AI route…',
               style: TextStyle(
                 color: TraceColors.seaGlass,
                 height: 1.5,
@@ -651,7 +657,7 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText:
-                            'Ask about a source or describe what to learn…',
+                            'Draft notes on this device… (chat send is unavailable in this build)',
                         counterText: '',
                       ),
                     ),
@@ -669,16 +675,17 @@ class _ChatWorkspaceState extends State<ChatWorkspace> {
                           message: _route == null
                               ? 'Probing AI routes on this device'
                               : _route!.online
-                                  ? '${_route!.detail} Chat send is not wired to a durable thread yet.'
+                                  ? '${_route!.detail} Chat send is unavailable in this build — imports and reading keep working.'
                                   : _route!.detail,
                           child: IconButton(
                             key: const Key('chat-send'),
                             // Truthful dead end: no chat thread/message
-                            // repository exists yet, so send stays disabled
+                            // repository exists yet. The button announces
+                            // itself as unavailable (never "Send message")
                             // instead of pretending an AI reply will arrive.
                             onPressed: null,
                             icon: const Icon(Icons.arrow_upward),
-                            tooltip: 'Send message',
+                            tooltip: 'Send unavailable — chat threads are not in this build',
                           ),
                         ),
                       ],

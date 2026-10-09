@@ -43,6 +43,22 @@ final class PdfVisionService {
   final Future<Uint8List> Function(RenderedPdfPage page) pngEncoder;
   final int renderWidth;
 
+  /// Stable idempotency key: sha256 of (operationBase, page, sourceHash).
+  /// Dart's String.hashCode is VM/seed dependent, so it must never cross
+  /// a restart boundary — same key after failure must replay, not re-spend.
+  static String idempotencyKeyFor(
+    String operationBase,
+    int pageNumber,
+    String sourceHash,
+  ) {
+    final digest =
+        sha256.convert(utf8.encode('$operationBase|p$pageNumber|$sourceHash'));
+    return 'p${pageNumber}_${digest.toString()}'.substring(0, 64);
+  }
+
+  String _idempotencyKey(String operationBase, int pageNumber, String sourceHash) =>
+      idempotencyKeyFor(operationBase, pageNumber, sourceHash);
+
   Future<PdfVisionOutcome> visionFirstPages({
     required String sourceId,
     required String sourceHash,
@@ -97,9 +113,7 @@ final class PdfVisionService {
           reasoningEffort: reasoningEffort,
           maxOutputTokens: 4096,
           maxElapsedSeconds: 300,
-          idempotencyKey:
-              '${operationBase.hashCode.toUnsigned(20)}-p$pageNumber-$sourceHash'
-                  .substring(0, 64),
+          idempotencyKey: _idempotencyKey(operationBase, pageNumber, sourceHash),
         );
         final receipt = await runner.run(request);
         final bound = receipt.boundTo(request);

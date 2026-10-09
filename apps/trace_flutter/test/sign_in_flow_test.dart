@@ -133,4 +133,79 @@ void main() {
     expect(find.text('Email'), findsOneWidget);
     expect(await LocalAuthSessionRepository(database).current(), isNull);
   });
+
+  testWidgets('sign-in fields are keyboard/autofill reachable', (tester) async {
+    final database = TraceDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    await tester.pumpWidget(
+      MainApp(database: database, startSignedOut: true),
+    );
+    await tester.pumpAndSettle();
+    final emailField =
+        find.widgetWithText(TextField, 'Email').evaluate().single.widget
+            as TextField;
+    final passwordField =
+        find.widgetWithText(TextField, 'Password').evaluate().single.widget
+            as TextField;
+    // Desktop keyboards: Enter moves email -> password -> submit.
+    expect(emailField.textInputAction, TextInputAction.next);
+    expect(passwordField.textInputAction, TextInputAction.done);
+    // Password managers must see one autofill unit.
+    expect(find.byType(AutofillGroup), findsOneWidget);
+  });
+
+  testWidgets('password visibility toggle announces its state', (tester) async {
+    final database = TraceDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    await tester.pumpWidget(
+      MainApp(database: database, startSignedOut: true),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Show password'), findsOneWidget);
+    await tester.tap(find.byTooltip('Show password'));
+    await tester.pump();
+    expect(find.byTooltip('Hide password'), findsOneWidget);
+  });
+
+  testWidgets('sign-in errors announce via live region', (tester) async {
+    final database = TraceDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    final authClient = TraceAuthClient(
+      supabaseUrl: Uri.parse('https://example.invalid'),
+      anonKey: 'anon-1',
+      post: (uri, headers, body) async => const _FakeAuthResponse(
+        400,
+        '{"msg":"Invalid login credentials"}',
+      ),
+    );
+    await tester.pumpWidget(
+      MainApp(
+        database: database,
+        startSignedOut: true,
+        authClient: authClient,
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Email').first,
+      'known@example.com',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Password').first,
+      'wrongpw1',
+    );
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Email or password is incorrect. Please check both and try again.'),
+      findsOneWidget,
+    );
+    // Screen readers must announce the failure, not just paint it.
+    final liveRegions = find.byWidgetPredicate(
+      (widget) =>
+          widget is Semantics &&
+          (widget.properties.liveRegion ?? false) == true,
+    );
+    expect(liveRegions, findsWidgets);
+  });
 }

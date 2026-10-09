@@ -83,45 +83,60 @@ class _SignInPageState extends State<SignInPage> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
-                TextField(
-                  controller: _email,
-                  keyboardType: TextInputType.emailAddress,
-                  autofillHints: const [AutofillHints.email],
-                  enabled: !_busy,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'you@example.com',
-                  ),
-                  onSubmitted: (_) => _submit(),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: _password,
-                  obscureText: _obscured,
-                  autofillHints: const [AutofillHints.password],
-                  enabled: !_busy,
-                  onSubmitted: (_) => _submit(),
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    hintText: 'At least 6 characters',
-                    suffixIcon: IconButton(
-                      onPressed: () =>
-                          setState(() => _obscured = !_obscured),
-                      icon: Icon(
-                        _obscured
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
+                AutofillGroup(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextField(
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        autofillHints: const [AutofillHints.email],
+                        enabled: !_busy,
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          hintText: 'you@example.com',
+                        ),
+                        onSubmitted: (_) => _submit(),
                       ),
-                    ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _password,
+                        obscureText: _obscured,
+                        textInputAction: TextInputAction.done,
+                        autofillHints: const [AutofillHints.password],
+                        enabled: !_busy,
+                        onSubmitted: (_) => _submit(),
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          hintText: 'At least 6 characters',
+                          suffixIcon: IconButton(
+                            onPressed: () =>
+                                setState(() => _obscured = !_obscured),
+                            tooltip:
+                                _obscured ? 'Show password' : 'Hide password',
+                            icon: Icon(
+                              _obscured
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 if (_error != null) ...[
                   const SizedBox(height: 12),
-                  Text(
-                    _error!,
-                    style: TextStyle(
-                      color: Color(0xffef9a9a),
-                      fontSize: 13,
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      _error!,
+                      style: TextStyle(
+                        color: TraceColors.seaGlass,
+                        fontSize: 13,
+                      ),
                     ),
                   ),
                 ],
