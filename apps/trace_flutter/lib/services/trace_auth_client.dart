@@ -79,6 +79,23 @@ final class TraceAuthClient {
     'apikey': anonKey,
   };
 
+  /// Server sign-out: revokes the refresh token server-side (best effort —
+  /// local state clears regardless so the user is never stuck signed in).
+  Future<void> signOut(String accessToken) async {
+    if (accessToken.isEmpty) return;
+    try {
+      await post(
+        Uri.parse(
+          '${supabaseUrl.toString().replaceAll(RegExp(r'/$'), '')}/auth/v1/logout',
+        ),
+        {'Content-Type': 'application/json', 'apikey': anonKey, 'Authorization': 'Bearer $accessToken'},
+        '{}',
+      );
+    } catch (_) {
+      // Offline or transient: local session still clears below.
+    }
+  }
+
   /// Refreshes an expired access token with a stored refresh token.
   /// Throws AUTH_SESSION_EXPIRED when the refresh token is rejected so the
   /// caller signs out instead of looping.

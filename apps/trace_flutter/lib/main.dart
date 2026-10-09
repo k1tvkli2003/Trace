@@ -193,6 +193,15 @@ class _MainAppState extends State<MainApp> {
   }
 
   Future<void> _signOut() async {
+    final previous = _session;
+    if (previous != null) {
+      try {
+        final client = widget.authClient ?? _productionAuthClient();
+        await client.signOut(previous.accessToken);
+      } catch (_) {
+        // Best effort: local state clears regardless.
+      }
+    }
     await _authSessions.clear();
     if (!mounted) return;
     setState(() => _session = null);

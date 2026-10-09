@@ -150,6 +150,24 @@ void main() {
     );
   });
 
+  test('signOut posts logout with bearer token and never throws', () async {
+    var sawLogout = false;
+    String seenAuth = '';
+    final client = _client(
+      post: (uri, headers, body) async {
+        expect(uri.path, contains('logout'));
+        sawLogout = true;
+        seenAuth = headers['Authorization'] ?? '';
+        return const _FakeResponse(204, '');
+      },
+    );
+    await client.signOut('access-1');
+    expect(sawLogout, isTrue);
+    expect(seenAuth, 'Bearer access-1');
+    await client.signOut('');
+    await client.signOut('unused');
+  });
+
   test('no message leaks raw codes, statuses, or server text', () {
     const banned = ['AUTH_', '400', '429', '500', 'http', 'Invalid login'];
     for (final code in [
