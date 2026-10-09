@@ -83,8 +83,12 @@ final class TraceAuthClient {
     '${supabaseUrl.toString().replaceAll(RegExp(r'/$'), '')}/auth/v1/$action?grant_type=password',
   );
 
-  /// Unified entry: sign in, else sign up once on invalid credentials.
-  /// Unique email is enforced server-side; existing account signs in.
+  /// Unified entry: sign in, else sign up once when no account exists.
+  /// Unique email is enforced server-side; a wrong password on an existing
+  /// account surfaces AUTH_INVALID_CREDENTIALS (server answers both cases
+  /// identically, so an "already registered" signup answer after a failed
+  /// sign-in means the password was wrong, not that the user should retry
+  /// sign-in blindly).
   Future<TraceAuthTokens> signInOrSignUp(
     String email,
     String password,
@@ -94,7 +98,14 @@ final class TraceAuthClient {
       return await _token('token', credentials);
     } on TraceAuthFailure catch (failure) {
       if (failure.code != 'AUTH_INVALID_CREDENTIALS') rethrow;
-      return _token('signup', credentials);
+      try {
+        return await _token('signup', credentials);
+      } on TraceAuthFailure catch (signupFailure) {
+        if (signupFailure.code == 'AUTH_ACCOUNT_EXISTS_SIGN_IN') {
+          throw const TraceAuthFailure('AUTH_INVALID_CREDENTIALS');
+        }
+        rethrow;
+      }
     }
   }
 

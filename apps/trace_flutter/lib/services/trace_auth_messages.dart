@@ -9,7 +9,7 @@ library;
 const _invalidEmail = 'Please enter a valid email address.';
 const _weakPassword = 'Password must be at least 6 characters.';
 const _invalidCredentials =
-    'No account found with this email and password — creating one for you.';
+    'Email or password is incorrect. Please check both and try again.';
 const _accountExists =
     'This email already has an account. Please sign in with your password.';
 const _invalidRequest =

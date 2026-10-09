@@ -84,7 +84,7 @@ void main() {
     expect(tokens.email, 'new@example.com');
   });
 
-  test('existing account surfaces sign-in code without raw text', () async {
+  test('wrong password on existing account reports invalid credentials', () async {
     final client = _client(
       post: (uri, headers, body) async {
         if (uri.path.contains('token')) {
@@ -97,12 +97,12 @@ void main() {
       },
     );
     await expectLater(
-      client.signInOrSignUp('dup@example.com', 'secret12'),
+      client.signInOrSignUp('user@example.com', 'wrongpassword'),
       throwsA(
         isA<TraceAuthFailure>().having(
           (e) => e.code,
           'code',
-          'AUTH_ACCOUNT_EXISTS_SIGN_IN',
+          'AUTH_INVALID_CREDENTIALS',
         ),
       ),
     );
