@@ -179,7 +179,8 @@ void main() {
       expect(find.text('sample.pdf · v1'), findsOneWidget);
       await tester.tap(find.text('sample.pdf · v1'));
       await tester.pumpAndSettle();
-      expect(find.textContaining('Awaiting page-image Vision'), findsOneWidget);
+      expect(find.text('PDF vision'), findsOneWidget);
+      expect(find.text('Run vision (pages 1–3)'), findsOneWidget);
       expect(find.text('RAW SOURCE'), findsNothing);
       final saved = (await LocalPdfSourceRepository(
         database,

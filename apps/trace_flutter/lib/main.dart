@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io' show HttpClient;
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:trace_data/trace_data.dart';
@@ -8,9 +9,16 @@ import 'package:trace_domain/trace_domain.dart';
 import 'package:uuid/uuid.dart';
 
 import 'local_connection.dart';
+import 'pdf_page_rasterizer.dart';
+import 'pdf_render_batch_worker.dart';
+import 'pdf_single_page_png.dart';
 import 'review_inbox_page.dart';
 import 'services/ai_route.dart';
+import 'services/pdf_vision_service.dart';
+import 'services/session_gateway.dart';
 import 'services/trace_auth_client.dart';
+import 'services/trace_gateway_client.dart';
+import 'services/trace_gateway_messages.dart';
 import 'sign_in_page.dart';
 import 'text_picker.dart';
 import 'pdf_picker.dart';
@@ -343,22 +351,17 @@ class _MainAppState extends State<MainApp> {
   Future<void> _openSource(SourceDocument source) async {
     if (source.format == SourceDocumentFormat.pdf) {
       try {
-        // Verify original before presenting its status; never decode PDF bytes as text.
-        await _pdfSources.readOriginal(source.id);
+        // Verify original before presenting vision actions; never decode
+        // PDF bytes as text.
+        final original = await _pdfSources.readOriginal(source.id);
         if (!mounted) return;
         await showDialog<void>(
           context: _navigator.currentContext!,
-          builder: (context) => AlertDialog(
-            title: const Text('PDF original stored'),
-            content: const Text(
-              'Awaiting page-image Vision. PDF text is not extracted or available for lessons yet.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
+          builder: (dialogContext) => _PdfVisionDialog(
+            source: source,
+            originalBytes: original,
+            authSessions: _authSessions,
+            database: _database,
           ),
         );
       } catch (_) {
@@ -677,6 +680,219 @@ class _MainAppState extends State<MainApp> {
 /// status code and body string cross into the auth client.
 final class _HttpAuthResponse implements TraceAuthHttpResponse {
   const _HttpAuthResponse(this.statusCode, this.body);
+
+  @override
+  final int statusCode;
+
+  @override
+  final String body;
+}
+
+/// PDF vision dialog: runs pages 1–3 through the authorized gateway and
+/// caches validated extracts locally. Progress, safe errors, and retry
+/// surface here; raw codes and provider text never do.
+final class _PdfVisionDialog extends StatefulWidget {
+  const _PdfVisionDialog({
+    required this.source,
+    required this.originalBytes,
+    required this.authSessions,
+    required this.database,
+  });
+
+  final SourceDocument source;
+  final Uint8List originalBytes;
+  final LocalAuthSessionRepository authSessions;
+  final TraceDatabase database;
+
+  @override
+  State<_PdfVisionDialog> createState() => _PdfVisionDialogState();
+}
+
+final class _PdfVisionDialogState extends State<_PdfVisionDialog> {
+  bool _running = false;
+  PdfVisionOutcome? _outcome;
+
+  Future<TraceHttpResponse> _gatewayPost(
+    Uri uri,
+    Map<String, String> headers,
+    String body,
+  ) async {
+    final client = HttpClient();
+    try {
+      final request = await client.postUrl(uri);
+      headers.forEach(request.headers.set);
+      request.write(body);
+      final response = await request.close().timeout(
+        const Duration(seconds: 330),
+      );
+      final text = await response.transform(utf8.decoder).join();
+      return _HttpGatewayResponse(response.statusCode, text);
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<void> _run() async {
+    setState(() {
+      _running = true;
+      _outcome = null;
+    });
+    try {
+      final gateway = productionGatewayClient(post: _gatewayPost);
+      final service = PdfVisionService(
+        database: widget.database,
+        rasterizer: PdfPageRasterizerAdapter(PdfPageRasterizer()),
+        runner: SessionGatewayRunner(
+          sessions: widget.authSessions,
+          client: gateway,
+        ),
+        pngEncoder: encodeSinglePagePng,
+      );
+      final outcome = await service.visionFirstPages(
+        sourceId: widget.source.id,
+        sourceHash: widget.source.sourceHash,
+        sourceBytes: widget.originalBytes,
+        documentVersion: widget.source.version,
+        pageNumbers: const [1, 2, 3],
+        operationBase: widget.source.id,
+      );
+      if (mounted) {
+        setState(() {
+          _running = false;
+          _outcome = outcome;
+        });
+      }
+    } on TraceGatewayFailure catch (error) {
+      if (mounted) {
+        setState(() {
+          _running = false;
+          _outcome = PdfVisionOutcome(
+            completed: 0,
+            failures: {0: error.code},
+          );
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _running = false;
+          _outcome = const PdfVisionOutcome(
+            completed: 0,
+            failures: {0: 'AI_PROVIDER_FAILURE'},
+          );
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final outcome = _outcome;
+    return AlertDialog(
+      title: const Text('PDF vision'),
+      content: SizedBox(
+        width: 460,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${widget.source.relativePath} · v${widget.source.version} · '
+              'SHA-256 ${widget.source.sourceHash.substring(0, 12)}',
+            ),
+            const SizedBox(height: 12),
+            if (_running)
+              const Row(
+                children: [
+                  SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text('Reading pages 1–3 with vision…'),
+                  ),
+                ],
+              )
+            else if (outcome == null)
+              const Text(
+                'Runs page-image vision on pages 1–3 and caches the '
+                'validated extracts on this device. No PDF text layer or '
+                'OCR is used.',
+              )
+            else if (outcome.failures.isEmpty)
+              Text(
+                '${outcome.completed} page${outcome.completed == 1 ? '' : 's'} '
+                'cached. Extracts are ready for lessons.',
+              )
+            else
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (outcome.completed > 0)
+                    Text('${outcome.completed} page(s) cached.'),
+                  for (final entry in outcome.failures.entries)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        entry.key == 0
+                            ? traceGatewayMessage(entry.value).message
+                            : 'Page ${entry.key}: '
+                                '${traceGatewayMessage(entry.value).message}',
+                      ),
+                    ),
+                ],
+              ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _running ? null : () => Navigator.pop(context),
+          child: const Text('Close'),
+        ),
+        FilledButton.icon(
+          onPressed: _running
+              ? null
+              : () async {
+                  final outcome = _outcome;
+                  final needsRetry =
+                      outcome != null && outcome.failures.isNotEmpty;
+                  if (needsRetry) {
+                    final code = outcome.failures.values.first;
+                    if (!traceGatewayMessage(code).retryable) return;
+                  }
+                  await _run();
+                },
+          icon: _running
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.visibility_outlined),
+          label: Builder(
+            builder: (context) {
+              final outcome = _outcome;
+              return Text(
+                outcome == null
+                    ? 'Run vision (pages 1–3)'
+                    : outcome.failures.isEmpty
+                        ? 'Run again'
+                        : 'Try again',
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+final class _HttpGatewayResponse implements TraceHttpResponse {
+  const _HttpGatewayResponse(this.statusCode, this.body);
 
   @override
   final int statusCode;
