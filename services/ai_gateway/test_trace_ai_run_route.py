@@ -54,6 +54,22 @@ def completed_vision(result_holder):
         return {
             'model': 'user-route',
             'reasoning_effort': adapter_request['reasoning_effort'],
+            'extract': {
+                'schemaVersion': 'page-extract-v1',
+                'sourceHash': SOURCE,
+                'pixelHash': PIXEL,
+                'renderProfile': 'test-v1',
+                'pageRef': 'page-1',
+                'extractionVersion': 'page-vision-extract-v1',
+                'coverage': 'complete',
+                'blocks': [
+                    {'id': 'b1', 'order': 0, 'kind': 'paragraph',
+                     'text': 'T.', 'bbox': {'x': 0.1, 'y': 0.2,
+                                            'w': 0.5, 'h': 0.1},
+                     'confidence': 0.9, 'uncertain': False},
+                ],
+                'figures': [],
+            },
             'usage': {'input_tokens': 10, 'output_tokens': 20},
             'elapsed_seconds': 1.0,
             'provider_request_id': 'req_123',
@@ -86,6 +102,9 @@ class RouteTests(unittest.TestCase):
         )
         self.assertEqual(status, 200)
         self.assertEqual(body['receipt']['status'], 'completed')
+        self.assertNotIn('extract', body['receipt'])
+        self.assertEqual(body['extract']['schemaVersion'], 'page-extract-v1')
+        self.assertEqual(body['extract']['pageRef'], 'page-1')
         blob = json.dumps(body).lower()
         for banned in ('page_png', 'service_role', 'api_key', 'bearer good'):
             self.assertNotIn(banned, blob)

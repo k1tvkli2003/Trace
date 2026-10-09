@@ -109,6 +109,8 @@ final class TraceGatewayRequest {
 }
 
 /// Safe receipt subset. No prompt, image, secret, or raw provider data.
+/// The optional [extract] is the validated page-extract bound to the same
+/// request identity; absent only when the server predates the extract wire.
 final class TraceGatewayReceipt {
   const TraceGatewayReceipt({
     required this.requestId,
@@ -118,6 +120,7 @@ final class TraceGatewayReceipt {
     required this.model,
     required this.reasoningEffort,
     required this.elapsedSeconds,
+    this.extract = const {},
   });
 
   final String requestId;
@@ -127,6 +130,7 @@ final class TraceGatewayReceipt {
   final String model;
   final String reasoningEffort;
   final double elapsedSeconds;
+  final Map<String, Object?> extract;
 
   factory TraceGatewayReceipt.fromJson(Map<String, Object?> json) {
     final requestId = json['requestId'];
@@ -158,8 +162,50 @@ final class TraceGatewayReceipt {
       model: model,
       reasoningEffort: effort as String,
       elapsedSeconds: elapsed.toDouble(),
+      extract: _extractShape(json['extract']),
     );
   }
+
+  /// Binds a parsed extract to its originating request. The server already
+  /// validated identity; this re-check stops a mismatched payload from
+  /// reaching the local cache.
+  TraceGatewayReceipt boundTo(TraceGatewayRequest request) {
+    if (extract.isEmpty) return this;
+    if (extract['sourceHash'] != request.sourceHash ||
+        extract['pixelHash'] != request.pixelHash ||
+        extract['renderProfile'] != request.renderProfile ||
+        extract['pageRef'] != request.pageRef) {
+      throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
+    }
+    return this;
+  }
+}
+
+/// Enforces bare extract shape. Identity binding happens in [boundTo]
+/// where the originating request is known. Absent extract yields an empty
+/// map for older servers.
+Map<String, Object?> _extractShape(Object? raw) {
+  if (raw == null) return const {};
+  if (raw is! Map<String, Object?>) {
+    throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
+  }
+  if (raw['schemaVersion'] != 'page-extract-v1' ||
+      raw['coverage'] != 'complete' ||
+      raw['extractionVersion'] != 'page-vision-extract-v1') {
+    throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
+  }
+  for (final key in ['sourceHash', 'pixelHash']) {
+    final value = raw[key];
+    if (value is! String || !_sha.hasMatch(value)) {
+      throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
+    }
+  }
+  final blocks = raw['blocks'];
+  final figures = raw['figures'];
+  if (blocks is! List || blocks.isEmpty || figures is! List) {
+    throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
+  }
+  return Map<String, Object?>.unmodifiable(raw);
 }
 
 /// Minimal HTTP surface injected by caller (keeps client testable, no dep).
@@ -200,10 +246,13 @@ final class TraceGatewayClient {
     }
     if (response.statusCode == 200) {
       final receipt = decoded['receipt'];
-      if (receipt is Map<String, Object?>) {
-        return TraceGatewayReceipt.fromJson(receipt);
+      if (receipt is! Map<String, Object?>) {
+        throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
       }
-      throw const TraceGatewayFailure('AI_SCHEMA_REJECTED');
+      final extract = decoded['extract'];
+      final merged = Map<String, Object?>.from(receipt);
+      if (extract != null) merged['extract'] = extract;
+      return TraceGatewayReceipt.fromJson(merged).boundTo(request);
     }
     final error = decoded['error'];
     final code = error is Map<String, Object?> ? error['code'] : null;

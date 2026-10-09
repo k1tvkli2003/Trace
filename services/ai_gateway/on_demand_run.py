@@ -17,6 +17,9 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from typing import Any
 
+from page_extract import ContractFailure as ExtractFailure
+from page_extract import validate_page_extract
+
 
 _REQUEST_FIELDS = frozenset({
     'operation', 'capability', 'page_ref', 'source_hash', 'pixel_hash',
@@ -219,6 +222,16 @@ class OnDemandGateway:
                 'provider_request_id': _provider_id(
                     result.get('provider_request_id')),
             }
+            try:
+                extract = validate_page_extract(
+                    result.get('extract'),
+                    source_hash=request['source_hash'],
+                    pixel_hash=request['pixel_hash'],
+                    render_profile=request['render_profile'],
+                    page_ref=request['page_ref'])
+            except ExtractFailure:
+                raise OnDemandFailure('AI_SCHEMA_REJECTED') from None
+            receipt['extract'] = extract
             if (not isinstance(receipt['model'], str) or not receipt['model']
                     or receipt['reasoning_effort']
                     not in ('high', 'xhigh')):

@@ -57,6 +57,57 @@ void main() {
     );
   });
 
+  test('receipt with validated extract exposes payload; mismatch rejects',
+      () {
+    Map<String, Object?> extract() => {
+      'schemaVersion': 'page-extract-v1',
+      'sourceHash': 'a' * 64,
+      'pixelHash': 'b' * 64,
+      'renderProfile': 'test-v1',
+      'pageRef': 'page-1',
+      'extractionVersion': 'page-vision-extract-v1',
+      'coverage': 'complete',
+      'blocks': [
+        {
+          'id': 'b1',
+          'order': 0,
+          'kind': 'paragraph',
+          'text': 'T.',
+          'bbox': {'x': 0.1, 'y': 0.2, 'w': 0.5, 'h': 0.1},
+          'confidence': 0.9,
+          'uncertain': false,
+        },
+      ],
+      'figures': <Object?>[],
+    };
+    Map<String, Object?> receiptJson([Map<String, Object?>? override]) => {
+      'requestId': 'a' * 32,
+      'status': 'completed',
+      'operation': 'op-1',
+      'capability': 'page_vision_extract',
+      'model': 'user-route',
+      'reasoningEffort': 'high',
+      'elapsedSeconds': 1.0,
+      'extract': override ?? extract(),
+    };
+    // Direct parse enforces shape; identity binding happens in boundTo.
+    final receipt = TraceGatewayReceipt.fromJson(
+      receiptJson(),
+    ).boundTo(valid());
+    expect(receipt.extract['pageRef'], 'page-1');
+    expect(
+      () => TraceGatewayReceipt.fromJson(
+        receiptJson({...extract(), 'pixelHash': 'c' * 64}),
+      ).boundTo(valid()),
+      throwsA(isA<TraceGatewayFailure>().having(
+          (e) => e.code, 'code', 'AI_SCHEMA_REJECTED')),
+    );
+    expect(
+      () => TraceGatewayReceipt.fromJson(receiptJson()),
+      returnsNormally,
+    );
+  });
+
   test('client posts JWT, never secret; maps transport failure closed', () async {
     String? seenAuth;
     final client = TraceGatewayClient(

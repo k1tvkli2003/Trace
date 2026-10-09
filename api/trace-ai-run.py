@@ -122,7 +122,8 @@ def handle_request(raw: bytes, authorization, *, verify_owner=None,
             error.code, receipt.get('requestId'))
     except Exception:
         return 502, _error('AI_PROVIDER_FAILURE', receipt.get('requestId'))
-    return 200, {'receipt': receipt}
+    extract = receipt.pop('extract', None)
+    return 200, {'receipt': receipt, 'extract': extract}
 
 
 def _framing_length(headers) -> int | None:

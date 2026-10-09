@@ -44,7 +44,22 @@ def completed_vision(calls):
         return {
             'model': 'user-route',
             'reasoning_effort': adapter_request['reasoning_effort'],
-            'extract': {'ok': True},
+            'extract': {
+                'schemaVersion': 'page-extract-v1',
+                'sourceHash': SOURCE,
+                'pixelHash': PIXEL,
+                'renderProfile': 'test-v1',
+                'pageRef': 'page-1',
+                'extractionVersion': 'page-vision-extract-v1',
+                'coverage': 'complete',
+                'blocks': [
+                    {'id': 'b1', 'order': 0, 'kind': 'paragraph',
+                     'text': 'T.', 'bbox': {'x': 0.1, 'y': 0.2,
+                                            'w': 0.5, 'h': 0.1},
+                     'confidence': 0.9, 'uncertain': False},
+                ],
+                'figures': [],
+            },
             'usage': {'input_tokens': 10, 'output_tokens': 20},
             'elapsed_seconds': 1.0,
             'provider_request_id': 'req_123',
@@ -129,6 +144,22 @@ class OnDemandGatewayTests(unittest.TestCase):
                 raise OnDemandFailure('AI_RATE_LIMITED')
             return {
                 'model': 'm', 'reasoning_effort': 'high',
+                'extract': {
+                    'schemaVersion': 'page-extract-v1',
+                    'sourceHash': SOURCE,
+                    'pixelHash': PIXEL,
+                    'renderProfile': 'test-v1',
+                    'pageRef': 'page-1',
+                    'extractionVersion': 'page-vision-extract-v1',
+                    'coverage': 'complete',
+                    'blocks': [
+                        {'id': 'b1', 'order': 0, 'kind': 'paragraph',
+                         'text': 'T.', 'bbox': {'x': 0.1, 'y': 0.2,
+                                                'w': 0.5, 'h': 0.1},
+                         'confidence': 0.9, 'uncertain': False},
+                    ],
+                    'figures': [],
+                },
                 'usage': {}, 'elapsed_seconds': 1.0,
                 'provider_request_id': None,
             }
@@ -213,3 +244,15 @@ class OnDemandGatewayTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+    def test_completed_receipt_carries_validated_extract(self):
+        gateway, _ = self.make()
+        receipt = gateway.handle(
+            valid_request(), authorization='Bearer good')
+        extract = receipt.get('extract')
+        self.assertIsInstance(extract, dict)
+        self.assertEqual(extract.get('schemaVersion'), 'page-extract-v1')
+        self.assertEqual(extract.get('sourceHash'), SOURCE)
+        self.assertEqual(extract.get('pixelHash'), PIXEL)
+        self.assertEqual(extract.get('pageRef'), 'page-1')
+        self.assertNotIn('page_png', receipt)
