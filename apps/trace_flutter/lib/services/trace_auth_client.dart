@@ -7,6 +7,7 @@
 /// service role never enters this bundle. Errors are stable safe codes.
 library;
 
+import 'dart:async';
 import 'dart:convert';
 
 /// Stable, safe code only. Never carries email, password, or server text.
@@ -48,17 +49,38 @@ final class TraceAuthTokens {
 
 final _email = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
+/// Bounded wait for any single auth HTTP call. A dead network must surface
+/// a retryable failure, never hang the sign-in screen.
+const _authCallTimeout = Duration(seconds: 30);
+
+Future<TraceAuthHttpResponse> _boundedPost(
+  TraceAuthClient client,
+  Uri uri,
+  Map<String, String> headers,
+  String body,
+) {
+  try {
+    return client.post(uri, headers, body).timeout(client.callTimeout);
+  } on TimeoutException {
+    throw const TraceAuthFailure('AUTH_NETWORK_UNAVAILABLE');
+  }
+}
+
 /// Thin client: email/password in, tokens out, code-only errors.
 final class TraceAuthClient {
   const TraceAuthClient({
     required this.supabaseUrl,
     required this.anonKey,
     required this.post,
+    this.callTimeout = _authCallTimeout,
   });
 
   final Uri supabaseUrl;
   final String anonKey;
   final TraceAuthPost post;
+
+  /// Bounded wait per auth HTTP call. Tests inject a short value.
+  final Duration callTimeout;
 
   static ({String email, String password}) validateCredentials(
     String email,
@@ -84,7 +106,8 @@ final class TraceAuthClient {
   Future<void> signOut(String accessToken) async {
     if (accessToken.isEmpty) return;
     try {
-      await post(
+      await _boundedPost(
+        this,
         Uri.parse(
           '${supabaseUrl.toString().replaceAll(RegExp(r'/$'), '')}/auth/v1/logout',
         ),
@@ -105,7 +128,8 @@ final class TraceAuthClient {
     }
     final TraceAuthHttpResponse response;
     try {
-      response = await post(
+      response = await _boundedPost(
+        this,
         _tokenUri('token', grantType: 'refresh_token'),
         _headers,
         jsonEncode({'refresh_token': refreshToken}),
@@ -185,7 +209,8 @@ final class TraceAuthClient {
   ) async {
     final TraceAuthHttpResponse response;
     try {
-      response = await post(
+      response = await _boundedPost(
+        this,
         _authUri(action),
         _headers,
         jsonEncode({

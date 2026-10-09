@@ -21,10 +21,12 @@ TraceAuthClient _client({
     String body,
   )
   post,
+  Duration callTimeout = const Duration(seconds: 30),
 }) => TraceAuthClient(
   supabaseUrl: Uri.parse('https://example.invalid'),
   anonKey: 'anon-1',
   post: post,
+  callTimeout: callTimeout,
 );
 
 void main() {
@@ -168,7 +170,28 @@ void main() {
     await client.signOut('unused');
   });
 
-  test('no message leaks raw codes, statuses, or server text', () {
+  test('hung auth call times out instead of hanging', () async {
+    final client = _client(
+      callTimeout: const Duration(milliseconds: 50),
+      post: (uri, headers, body) =>
+          Future<TraceAuthHttpResponse>.delayed(
+            const Duration(minutes: 5),
+            () => const _FakeResponse(200, ''),
+          ),
+    );
+    await expectLater(
+      client.signInOrSignUp('user@example.com', 'secret12'),
+      throwsA(
+        isA<TraceAuthFailure>().having(
+          (e) => e.code,
+          'code',
+          'AUTH_NETWORK_UNAVAILABLE',
+        ),
+      ),
+    );
+  });
+
+  test('no message leaks raw codes, statuses, or server text', () async {
     const banned = ['AUTH_', '400', '429', '500', 'http', 'Invalid login'];
     for (final code in [
       'AUTH_INVALID_EMAIL',
