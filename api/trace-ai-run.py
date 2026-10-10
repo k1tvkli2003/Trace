@@ -17,6 +17,14 @@ from cloud_gateway import MAX_WIRE_BYTES, parse_wire_body
 from on_demand_run import OnDemandFailure, OnDemandGateway
 from supabase_backend import SupabaseReceiptStore
 
+# Platform ceiling: Vercel function maxDuration is 300s (see vercel.json,
+# Hobby max on Fluid). Any vision second above this is killed mid-spend —
+# burned upstream cost, failed receipt, no client answer. Clamp BEFORE
+# verify/spend so doomed requests fail closed without touching auth,
+# provider, or the receipt table. 290s leaves 10s headroom for JSON
+# framing + receipt insert.
+SERVER_MAX_ELAPSED_SECONDS = 290.0
+
 ALLOWED_METHOD = 'POST'
 
 
@@ -67,7 +75,7 @@ _NO_FAILED_STORE = frozenset({
     'AI_PAGE_IMAGE_MISMATCH', 'AI_REQUEST_TOO_LARGE', 'AI_RUN_CONFLICT',
     'AI_RUN_IN_FLIGHT', 'AI_GATEWAY_NOT_CONFIGURED',
     'AI_RATE_LIMITED', 'AI_PROVIDER_UNAVAILABLE', 'AI_PROVIDER_FAILURE',
-    'AI_RETRY_NOT_READY',
+    'AI_RETRY_NOT_READY', 'AI_DEADLINE_EXCEEDED',
 })
 
 
@@ -84,6 +92,10 @@ def handle_request(raw: bytes, authorization, *, verify_owner=None,
         body = parse_wire_body(raw)
     except OnDemandFailure as error:
         return _status_for(error.code), _error(error.code)
+    seconds = body.get('max_elapsed_seconds')
+    if (type(seconds) not in (int, float)
+            or not 0 < float(seconds) <= SERVER_MAX_ELAPSED_SECONDS):
+        return 400, _error('AI_DEADLINE_EXCEEDED')
     gateway = OnDemandGateway(verify_owner=verify_owner, run_vision=run_vision)
     try:
         receipt = gateway.handle(body, authorization=authorization)

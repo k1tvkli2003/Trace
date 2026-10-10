@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/trace-ai-run.py": {
-      "maxDuration": 60
+      "maxDuration": 300
     }
   }
 }

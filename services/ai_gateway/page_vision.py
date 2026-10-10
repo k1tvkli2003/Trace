@@ -158,7 +158,7 @@ class VisionAdapter:
         seconds = request['max_elapsed_seconds']
         if (type(tokens) is not int or tokens < 1
                 or type(seconds) not in (int, float) or not math.isfinite(seconds)
-                or not 0 < seconds <= 600):
+                or not 0 < seconds <= 290):
             raise VisionFailure('AI_VISION_REQUEST_INVALID')
         image = request['page_png']
         if (not isinstance(image, bytes) or not 16 <= len(image) <= 4_194_304

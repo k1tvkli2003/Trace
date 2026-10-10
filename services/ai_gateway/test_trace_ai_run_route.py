@@ -213,6 +213,42 @@ class RouteTests(unittest.TestCase):
         self.assertEqual(status, 503)
         self.assertEqual(body['error']['code'], 'AI_GATEWAY_NOT_CONFIGURED')
 
+    def test_deadline_clamp_rejects_doomed_request_before_spend(self):
+        route = load_route()
+        calls = []
+        inserts = []
+        bad = wire()
+        obj = json.loads(bad)
+        obj['max_elapsed_seconds'] = 600
+        status, body = route.handle_request(
+            json.dumps(obj).encode(), 'Bearer good',
+            verify_owner=good_owner,
+            run_vision=completed_vision(calls),
+            receipt_insert=lambda row: inserts.append(row) or dict(row),
+        )
+        # Wire parse (_check, 290s bound) rejects before the server clamp;
+        # either closed code proves zero spend. No vision, no receipt row.
+        self.assertEqual(status, 400)
+        self.assertIn(body['error']['code'],
+                      ('AI_VISION_REQUEST_INVALID', 'AI_DEADLINE_EXCEEDED'))
+        self.assertEqual(calls, [])
+        self.assertEqual(inserts, [])
+
+    def test_deadline_clamp_accepts_platform_bound(self):
+        route = load_route()
+        calls = []
+        good = wire()
+        obj = json.loads(good)
+        obj['max_elapsed_seconds'] = 290
+        status, body = route.handle_request(
+            json.dumps(obj).encode(), 'Bearer good',
+            verify_owner=good_owner,
+            run_vision=completed_vision(calls),
+            receipt_insert=lambda row: dict(row),
+        )
+        self.assertEqual(status, 200)
+        self.assertEqual(len(calls), 1)
+
     def test_method_guard_rejects_non_post(self):
         route = load_route()
         self.assertEqual(route.ALLOWED_METHOD, 'POST')

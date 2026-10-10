@@ -112,7 +112,7 @@ final class PdfVisionService {
           pagePngBase64: base64.encode(png),
           reasoningEffort: reasoningEffort,
           maxOutputTokens: 4096,
-          maxElapsedSeconds: 300,
+          maxElapsedSeconds: 290,
           idempotencyKey: _idempotencyKey(operationBase, pageNumber, sourceHash),
         );
         final receipt = await runner.run(request);

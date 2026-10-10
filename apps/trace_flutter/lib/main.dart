@@ -735,17 +735,17 @@ final class _PdfVisionDialogState extends State<_PdfVisionDialog> {
     String body,
   ) async {
     // Shared dialog client: one connection for the 3 serial page calls.
-    // The 330s bound covers close + body join together so a stalled body
+    // The 295s bound covers close + body join together so a stalled body
     // can never outlive the per-call budget; the top-level client timeout
     // still converts the failure to a safe retryable code.
     final request = await _httpClient.postUrl(uri);
     headers.forEach(request.headers.set);
     request.write(body);
     final response = await request.close().timeout(
-      const Duration(seconds: 330),
+      const Duration(seconds: 295),
     );
     final text = await response.transform(utf8.decoder).join().timeout(
-      const Duration(seconds: 330),
+      const Duration(seconds: 295),
     );
     return _HttpGatewayResponse(response.statusCode, text);
   }

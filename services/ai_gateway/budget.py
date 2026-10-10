@@ -28,8 +28,10 @@ class RunLimits:
             raise ValueError('Run deadline must be finite and positive')
         # Token/thinking budget is provider-owned. Attempts, input bytes,
         # and the deadline keep fail-closed guards here; output tokens do not.
+        # Hard ceiling must stay <= server pre-spend clamp (290s + headroom):
+        # Vercel maxDuration 300s kills mid-spend above it.
         if (self.max_attempts > 3 or self.max_input_bytes > 4_194_304 or
-                self.max_elapsed_seconds > 600):
+                self.max_elapsed_seconds > 290):
             raise ValueError('Run policy exceeds hard safety ceiling')
 
 

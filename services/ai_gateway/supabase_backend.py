@@ -90,7 +90,7 @@ def to_receipt_row(*, owner: str, idempotency_key: str,
         raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
     elapsed = receipt.get('elapsed_seconds')
     if (type(elapsed) not in (int, float)
-            or not math.isfinite(elapsed) or not 0 <= elapsed <= 600):
+            or not math.isfinite(elapsed) or not 0 <= elapsed <= 290):
         raise OnDemandFailure('AI_VISION_REQUEST_INVALID')
     model = receipt.get('model')
     if not isinstance(model, str) or not model or len(model) > 256:
